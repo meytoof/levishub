@@ -1,0 +1,5 @@
+# Ignorer le code généré et les sorties de build
+src/generated/**
+.next/**
+dist/**
+node_modules/**
