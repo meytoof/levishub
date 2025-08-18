@@ -43,7 +43,7 @@ export default function LoginPage() {
 					<CardContent>
 						<form onSubmit={onSubmit} className="space-y-4">
 							<div>
-								<Label htmlFor="email">Email</Label>
+								<Label htmlFor="email" className="text-white">Email</Label>
 								<Input
 									id="email"
 									type="email"
@@ -53,7 +53,7 @@ export default function LoginPage() {
 								/>
 							</div>
 							<div>
-								<Label htmlFor="password">Mot de passe</Label>
+								<Label htmlFor="password" className="text-white">Mot de passe</Label>
 								<Input
 									id="password"
 									type="password"

@@ -7,8 +7,9 @@ import {
 	useMotionValueEvent,
 	useScroll,
 } from "motion/react";
+import Link from "next/link";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 interface NavbarProps {
 	children: React.ReactNode;
@@ -49,11 +50,7 @@ interface MobileNavMenuProps {
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
-	const ref = useRef<HTMLDivElement>(null);
-	const { scrollY } = useScroll({
-		target: ref,
-		offset: ["start start", "end start"],
-	});
+	const { scrollY } = useScroll();
 	const [visible, setVisible] = useState<boolean>(false);
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
@@ -66,8 +63,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 
 	return (
 		<motion.div
-			ref={ref}
-			className={cn("sticky inset-x-0 top-0 z-40 w-full", className)}
+			className={cn("fixed inset-x-0 top-0 z-[100] w-full", className)}
 		>
 			{React.Children.map(children, (child) =>
 				React.isValidElement(child)
@@ -102,7 +98,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 			}}
 			className={cn(
 				"relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
-				visible && "bg-white/80 dark:bg-neutral-950/80",
+				visible && "bg-neutral-900/80",
 				className
 			)}
 		>
@@ -118,7 +114,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 		<motion.div
 			onMouseLeave={() => setHovered(null)}
 			className={cn(
-				"absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+				"absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2 pointer-events-none",
 				className
 			)}
 		>
@@ -126,17 +122,19 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 				<a
 					onMouseEnter={() => setHovered(idx)}
 					onClick={onItemClick}
-					className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+					className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 pointer-events-auto"
 					key={`link-${idx}`}
 					href={item.link}
 				>
 					{hovered === idx && (
 						<motion.div
 							layoutId="hovered"
-							className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+							className="absolute inset-0 h-full w-full rounded-full bg-gray-500 dark:bg-neutral-800"
 						/>
 					)}
-					<span className="relative z-20">{item.name}</span>
+					<span className="relative z-20 text-white">
+						{item.name}
+					</span>
 				</a>
 			))}
 		</motion.div>
@@ -164,7 +162,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 			}}
 			className={cn(
 				"relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-				visible && "bg-white/80 dark:bg-neutral-950/80",
+				visible && "bg-neutral-900/80",
 				className
 			)}
 		>
@@ -223,25 +221,24 @@ export const MobileNavToggle = ({
 	onClick: () => void;
 }) => {
 	return isOpen ? (
-		<IconX className="text-black dark:text-white" onClick={onClick} />
+		<IconX className="text-white" onClick={onClick} />
 	) : (
-		<IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+		<IconMenu2 className="text-white" onClick={onClick} />
 	);
 };
 
 export const NavbarLogo = () => {
 	return (
-		<a
+		<Link
 			href="/"
-			className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black dark:text-white"
+			className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
 		>
 			<span className="font-bold text-xl bg-gradient-to-r from-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">
 				LevisHub
 			</span>
-		</a>
+		</Link>
 	);
 };
-
 export const NavbarButton = ({
 	href,
 	as: Tag = "a",

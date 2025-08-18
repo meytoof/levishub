@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
-
+@theme inline {
+	--shadow-input:
+	  0px 2px 3px -1px rgba(0, 0, 0, 0.1),
+	  0px 1px 0px 0px rgba(25, 28, 33, 0.02),
+	  0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+  }
+  
 @theme {
 	--font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
 		Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial,
@@ -34,6 +40,11 @@
 	--destructive-foreground: 0 0% 98%;
 
 	--radius: 0.5rem;
+
+	/* From Aceternity Signup Form */
+	--shadow-input: 0px 2px 3px -1px rgba(0, 0, 0, 0.1),
+		0px 1px 0px 0px rgba(25, 28, 33, 0.02),
+		0px 0px 0px 1px rgba(25, 28, 33, 0.08);
 }
 
 @theme dark {
@@ -87,7 +98,11 @@ body {
 }
 
 .container {
-	@apply mx-auto max-w-6xl px-4;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 72rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 @keyframes fade-up {

@@ -1,7 +1,8 @@
+import { AuthButtons } from "@/components/auth/AuthButtons";
+import SessionProvider from "@/components/auth/SessionProvider";
 import {
 	MobileNavigation,
 	Navbar,
-	NavbarButton,
 	NavbarLogo,
 	NavBody,
 	NavItems,
@@ -29,39 +30,24 @@ export default async function RootLayout({
 	const navItems = [
 		{ name: "Tarifs", link: "/pricing" },
 		{ name: "À propos", link: "/about" },
+		{ name: "Contact", link: "/contact" },
 	];
 
 	return (
 		<html lang="fr">
 			<body className={inter.className}>
-				<Navbar>
-					<NavBody>
-						<NavbarLogo />
-						<NavItems items={navItems} />
-						{session ? (
-							<div className="flex items-center gap-2">
-								<NavbarButton
-									href="/dashboard"
-									variant="secondary"
-								>
-									Espace client
-								</NavbarButton>
-								<NavbarButton
-									href="/api/auth/signout"
-									variant="dark"
-								>
-									Déconnexion
-								</NavbarButton>
-							</div>
-						) : (
-							<NavbarButton href="/login" variant="primary">
-								Se connecter
-							</NavbarButton>
-						)}
-					</NavBody>
-					<MobileNavigation />
-				</Navbar>
-				{children}
+				<SessionProvider session={session}>
+					<Navbar>
+						<NavBody className="shadow-none">
+							<NavbarLogo />
+							<NavItems items={navItems} />
+							<AuthButtons />
+						</NavBody>
+						<MobileNavigation />
+					</Navbar>
+					<div className="h-16 lg:h-20" />
+					{children}
+				</SessionProvider>
 			</body>
 		</html>
 	);
