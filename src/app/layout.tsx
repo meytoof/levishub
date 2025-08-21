@@ -1,5 +1,6 @@
 import { AuthButtons } from "@/components/auth/AuthButtons";
 import SessionProvider from "@/components/auth/SessionProvider";
+import { Footer } from "@/components/ui/footer";
 import {
 	MobileNavigation,
 	Navbar,
@@ -47,6 +48,7 @@ export default async function RootLayout({
 					</Navbar>
 					<div className="h-16 lg:h-20" />
 					{children}
+					<Footer />
 				</SessionProvider>
 			</body>
 		</html>
