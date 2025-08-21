@@ -202,7 +202,7 @@ export const MobileNavMenu = ({
 					exit={{ opacity: 0, y: -20 }}
 					transition={{ duration: 0.2 }}
 					className={cn(
-						"absolute top-full left-0 right-0 mt-2 w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+						"absolute top-full left-0 right-0 mt-2 w-full flex-col items-start justify-start gap-4 rounded-lg bg-neutral-900/95 backdrop-blur-xl border border-neutral-500/30 px-4 py-8 shadow-2xl",
 						className
 					)}
 				>
@@ -294,13 +294,22 @@ export const MobileNavigation = () => {
 			</MobileNavHeader>
 			<MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="flex flex-col gap-4">
-					<a href="/pricing" className="text-lg font-medium">
+					<a
+						href="/pricing"
+						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
+					>
 						Tarifs
 					</a>
-					<a href="/about" className="text-lg font-medium">
+					<a
+						href="/about"
+						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
+					>
 						À propos
 					</a>
-					<a href="/login" className="text-lg font-medium">
+					<a
+						href="/login"
+						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
+					>
 						Se connecter
 					</a>
 				</div>

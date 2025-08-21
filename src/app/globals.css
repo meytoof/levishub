@@ -80,20 +80,56 @@
 html,
 body {
 	height: 100%;
+	min-height: 100vh;
 }
 
-/* Fond subtil en dégradés */
-body {
+html {
+	background: linear-gradient(
+		180deg,
+		#0a0a0a 0%,
+		#0f0f0f 25%,
+		#1a1a1a 50%,
+		#0f0f0f 75%,
+		#0a0a0a 100%
+	);
 	background-image: radial-gradient(
 			ellipse at 20% -10%,
-			hsl(258 96% 67% / 0.12),
+			hsl(258 96% 67% / 0.15),
 			transparent 40%
 		),
 		radial-gradient(
 			ellipse at 100% 0%,
-			hsl(333 93% 56% / 0.1),
+			hsl(333 93% 56% / 0.12),
 			transparent 40%
 		);
+	background-attachment: fixed;
+	background-size: 100% 100vh;
+	background-repeat: repeat-y;
+}
+
+/* Fond subtil en dégradés */
+body {
+	background: linear-gradient(
+		180deg,
+		#0a0a0a 0%,
+		#0f0f0f 25%,
+		#1a1a1a 50%,
+		#0f0f0f 75%,
+		#0a0a0a 100%
+	);
+	background-image: radial-gradient(
+			ellipse at 20% -10%,
+			hsl(258 96% 67% / 0.15),
+			transparent 40%
+		),
+		radial-gradient(
+			ellipse at 100% 0%,
+			hsl(333 93% 56% / 0.12),
+			transparent 40%
+		);
+	background-attachment: fixed;
+	background-size: 100% 100vh;
+	background-repeat: repeat-y;
 }
 
 /* Curseur personnalisé pour tous les éléments interactifs */
