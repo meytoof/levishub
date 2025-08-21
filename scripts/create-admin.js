@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require("../src/generated/prisma");
 const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
@@ -13,7 +13,7 @@ async function createAdmin() {
 			create: {
 				name: "Administrateur LevisHub",
 				email: "admin@levishub.com",
-				password: hashedPassword,
+				hashedPassword: hashedPassword,
 				role: "ADMIN",
 				emailVerified: new Date(),
 			},
@@ -29,4 +29,3 @@ async function createAdmin() {
 }
 
 createAdmin();
-

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/generated/prisma";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 			create: {
 				name: "Administrateur LevisHub",
 				email: "admin@levishub.com",
-				password: hashedPassword,
+				hashedPassword: hashedPassword,
 				role: "ADMIN",
 				emailVerified: new Date(),
 			},
@@ -36,4 +36,3 @@ export async function POST(request: NextRequest) {
 		await prisma.$disconnect();
 	}
 }
-
