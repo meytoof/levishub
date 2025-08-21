@@ -8,16 +8,15 @@ export default function Home() {
 		<main className="min-h-svh">
 			<div className="flex justify-center items-center w-full overflow-hidden">
 				<MacbookScroll
-				title="Des sites modernes, rapides et animés"
-				badge={
-					<span className="text-white inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-						En ligne
-					</span>
-				}
-			/>
+					title="Des sites modernes, rapides et animés"
+					badge={
+						<span className="text-white inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+							En ligne
+						</span>
+					}
+				/>
 			</div>
 			<section className="relative mx-auto max-w-6xl px-4 py-24 grid md:grid-cols-2 gap-12 items-center">
-				
 				<div>
 					<h1 className="text-5xl md:text-6xl font-semibold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
 						Des sites modernes, rapides et animés
@@ -37,7 +36,8 @@ export default function Home() {
 								variant="outline"
 								className="border-2 transition-all duration-200 hover:-translate-y-1 dark:hover:bg-neutral-800"
 								style={{
-									borderImage: "linear-gradient(to right, var(--tw-gradient-from, lab(48.295% 38.3129 -81.9673)), var(--color-fuchsia-600)) 1",
+									borderImage:
+										"linear-gradient(to right, var(--tw-gradient-from, lab(48.295% 38.3129 -81.9673)), var(--color-fuchsia-600)) 1",
 									borderImageSlice: 1,
 								}}
 							>
