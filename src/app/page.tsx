@@ -97,6 +97,40 @@ export default function Home() {
 						</CardContainer>
 					</div>
 				</section>
+
+				{/* Section finale pour compléter le Tracing Beam */}
+				<section className="relative mx-auto max-w-7xl px-6 py-24">
+					<div className="text-center">
+						<h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+							Prêt à démarrer votre projet ?
+						</h2>
+						<p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+							Transformez votre vision en réalité avec LevisHub.
+							Des solutions web modernes, performantes et sur
+							mesure.
+						</p>
+						<div className="flex flex-wrap justify-center gap-4">
+							<Link href="/contact">
+								<Button className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-600 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
+									Discutons de votre projet
+								</Button>
+							</Link>
+							<Link href="/pricing">
+								<Button
+									variant="outline"
+									className="border-2 transition-all duration-200 hover:-translate-y-1 dark:hover:bg-neutral-800"
+									style={{
+										borderImage:
+											"linear-gradient(to right, var(--tw-gradient-from, lab(48.295% 38.3129 -81.9673)), var(--color-fuchsia-600)) 1",
+										borderImageSlice: 1,
+									}}
+								>
+									Voir nos tarifs
+								</Button>
+							</Link>
+						</div>
+					</div>
+				</section>
 			</main>
 		</TracingBeam>
 	);
