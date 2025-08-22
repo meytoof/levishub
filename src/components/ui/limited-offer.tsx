@@ -61,28 +61,28 @@ export function LimitedOffer({
 
 	return (
 		<div
-			className={`transition-all duration-1000 relative ${
+			className={`transition-all duration-1000 relative pt-6 ${
 				isVisible
 					? "opacity-100 translate-y-0"
 					: "opacity-0 translate-y-8"
 			}`}
 		>
 			{/* Badge promotionnel - Positionné comme le badge "Populaire" */}
-			<div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-				<span className="pricing-badge-limited text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+			<div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-20">
+				<span className="pricing-badge-limited text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg animate-pulse block text-center whitespace-nowrap">
 					🔥 OFFRE LIMITÉE -20%
 				</span>
 			</div>
 
-			<div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-8 max-w-4xl mx-auto relative overflow-hidden">
+			<div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto relative overflow-visible mx-4 sm:mx-auto">
 				{/* Effet de brillance en arrière-plan */}
 				<div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/5 to-rose-500/5 opacity-0 hover:opacity-100 transition-opacity duration-300" />
-				<div className="text-center mb-8">
-					<Sparkles className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
-					<h2 className="text-3xl font-bold text-foreground mb-4">
+				<div className="text-center mb-6 sm:mb-8 px-2">
+					<Sparkles className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-400 mx-auto mb-3 sm:mb-4" />
+					<h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">
 						🎁 Offre de lancement exclusive
 					</h2>
-					<p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+					<p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
 						Pour célébrer le lancement de LevisHub, nous offrons une
 						réduction de{" "}
 						<strong className="text-cyan-400">20%</strong> sur la
@@ -95,7 +95,7 @@ export function LimitedOffer({
 				</div>
 
 				{/* Compteur des premiers clients */}
-				<div className="grid md:grid-cols-2 gap-8 items-center mb-8">
+				<div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center mb-6 sm:mb-8 px-2">
 					<div className="text-center">
 						<div className="mb-4">
 							<Users className="w-12 h-12 text-cyan-400 mx-auto mb-2" />
@@ -172,11 +172,11 @@ export function LimitedOffer({
 				</div>
 
 				{/* Avantages de l'offre */}
-				<div className="bg-white/5 rounded-xl p-6 mb-8">
-					<h3 className="text-xl font-semibold text-foreground mb-4 text-center">
+				<div className="bg-white/5 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 mx-2">
+					<h3 className="text-lg sm:text-xl font-semibold text-foreground mb-3 sm:mb-4 text-center">
 						✨ Ce que vous obtenez avec cette offre
 					</h3>
-					<div className="grid md:grid-cols-3 gap-4">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 						<div className="text-center">
 							<div className="w-12 h-12 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg flex items-center justify-center mx-auto mb-2">
 								<span className="text-2xl">💰</span>
@@ -214,18 +214,18 @@ export function LimitedOffer({
 				</div>
 
 				{/* CTA principal */}
-				<div className="text-center">
+				<div className="text-center px-2">
 					<PulseCTA
 						href="/contact?offer=limited"
 						variant="primary"
 						size="lg"
-						className="text-lg px-8 py-4 btn-cyan-gradient"
+						className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 btn-cyan-gradient w-full sm:w-auto max-w-xs"
 					>
-						<ArrowRight className="w-5 h-5 mr-2" />
+						<ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
 						Réserver mon créneau -20%
 					</PulseCTA>
 
-					<p className="text-sm text-muted-foreground mt-3">
+					<p className="text-xs sm:text-sm text-muted-foreground mt-3">
 						💡 Offre limitée aux {totalSlots} premiers clients
 						uniquement
 					</p>
