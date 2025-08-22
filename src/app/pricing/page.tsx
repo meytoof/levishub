@@ -1,3 +1,4 @@
+import { FeatureCard3D } from "@/components/ui/enhanced-3d-card";
 import { LimitedOffer } from "@/components/ui/limited-offer";
 import { PricingQuiz } from "@/components/ui/pricing-quiz";
 import { PulseCTA } from "@/components/ui/PulseCTA";
@@ -190,10 +191,12 @@ export default function PricingPage() {
 								className="relative group flex flex-col"
 							>
 								{/* Carte principale */}
-								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-500 ease-out hover:shadow-2xl feature-shadow-1 group-hover:scale-[1.02] group-hover:-translate-y-1">
-									{/* Effet de glow en arrière-plan */}
-									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
-
+								<FeatureCard3D
+									className="flex flex-col h-full p-10"
+									intensity="medium"
+									glowColor="auto"
+									containerClassName="bg-gradient-to-br from-white/10 via-white/5 to-white/10 dark:from-neutral-800/50 dark:via-neutral-900/50 dark:to-neutral-800/50 border border-neutral-400/30 dark:border-neutral-600/30 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
+								>
 									{/* En-tête de la carte */}
 									<div className="text-center mb-8 flex-shrink-0">
 										<h3 className="text-2xl font-bold text-foreground mb-4">
@@ -266,7 +269,7 @@ export default function PricingPage() {
 											{plan.cta}
 										</PulseCTA>
 									</div>
-								</div>
+								</FeatureCard3D>
 							</div>
 						))}
 					</div>
@@ -300,10 +303,12 @@ export default function PricingPage() {
 								)}
 
 								{/* Carte principale */}
-								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-500 ease-out hover:shadow-2xl feature-shadow-2 group-hover:scale-[1.02] group-hover:-translate-y-1">
-									{/* Effet de glow en arrière-plan */}
-									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
-
+								<FeatureCard3D
+									className="flex flex-col h-full p-10"
+									intensity="medium"
+									glowColor="auto"
+									containerClassName="bg-gradient-to-br from-white/10 via-white/5 to-white/10 dark:from-neutral-800/50 dark:via-neutral-900/50 dark:to-neutral-800/50 border border-neutral-400/30 dark:border-neutral-600/30 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
+								>
 									{/* En-tête de la carte */}
 									<div className="text-center mb-8 flex-shrink-0">
 										<h3 className="text-2xl font-bold text-foreground mb-4">
@@ -355,7 +360,7 @@ export default function PricingPage() {
 											{plan.cta}
 										</PulseCTA>
 									</div>
-								</div>
+								</FeatureCard3D>
 							</div>
 						))}
 					</div>
@@ -372,7 +377,8 @@ export default function PricingPage() {
 					<div className="max-w-4xl mx-auto space-y-6">
 						<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6">
 							<h3 className="text-xl font-semibold text-foreground mb-3">
-								❓ Pourquoi l'abonnement est-il obligatoire ?
+								❓ Pourquoi l&apos;abonnement est-il obligatoire
+								?
 							</h3>
 							<p className="text-muted-foreground">
 								Parce qu&apos;un site web a besoin d&apos;être
@@ -384,7 +390,8 @@ export default function PricingPage() {
 
 						<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6">
 							<h3 className="text-xl font-semibold text-foreground mb-3">
-								❓ Puis-je changer de formule d'abonnement ?
+								❓ Puis-je changer de formule d&apos;abonnement
+								?
 							</h3>
 							<p className="text-muted-foreground">
 								Oui, à tout moment ! Vous pouvez passer
@@ -395,7 +402,8 @@ export default function PricingPage() {
 
 						<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6">
 							<h3 className="text-xl font-semibold text-foreground mb-3">
-								❓ Que se passe-t-il si j'arrête l'abonnement ?
+								❓ Que se passe-t-il si j&apos;arrête
+								l&apos;abonnement ?
 							</h3>
 							<p className="text-muted-foreground">
 								Votre site sera mis hors ligne. Nous vous
