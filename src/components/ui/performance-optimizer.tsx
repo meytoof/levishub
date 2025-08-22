@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, lazy, useEffect, useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // Types pour l'optimisation des performances
 interface PerformanceConfig {
@@ -55,7 +55,7 @@ const useIntersectionObserver = (
 const useScrollOptimization = (threshold: number = 16) => {
 	const [scrollY, setScrollY] = useState(0);
 	const [isScrolling, setIsScrolling] = useState(false);
-	const timeoutRef = useRef<NodeJS.Timeout>();
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
 		let ticking = false;
@@ -73,7 +73,7 @@ const useScrollOptimization = (threshold: number = 16) => {
 
 			// Marquer comme en cours de scroll
 			setIsScrolling(true);
-			
+
 			// Clear le timeout précédent
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current);
@@ -85,9 +85,9 @@ const useScrollOptimization = (threshold: number = 16) => {
 			}, threshold);
 		};
 
-		window.addEventListener('scroll', handleScroll, { passive: true });
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => {
-			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener("scroll", handleScroll);
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current);
 			}
@@ -113,7 +113,7 @@ export const PerformanceBuffer = ({
 	useEffect(() => {
 		// Simulation du chargement progressif
 		const timer = setInterval(() => {
-			setLoadProgress(prev => {
+			setLoadProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(timer);
 					setIsReady(true);
@@ -128,7 +128,9 @@ export const PerformanceBuffer = ({
 
 	if (!isReady) {
 		return (
-			<div className={`flex items-center justify-center min-h-[200px] ${className}`}>
+			<div
+				className={`flex items-center justify-center min-h-[200px] ${className}`}
+			>
 				<div className="text-center">
 					<div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
 					<div className="w-48 bg-gray-200 rounded-full h-2">
@@ -137,7 +139,9 @@ export const PerformanceBuffer = ({
 							style={{ width: `${loadProgress}%` }}
 						/>
 					</div>
-					<p className="text-sm text-gray-600 mt-2">Optimisation des performances... {loadProgress}%</p>
+					<p className="text-sm text-gray-600 mt-2">
+						Optimisation des performances... {loadProgress}%
+					</p>
 				</div>
 			</div>
 		);
@@ -177,8 +181,10 @@ export const LazyComponent = ({
 	}
 
 	if (!isLoaded) {
-		return fallback || (
-			<div className="min-h-[200px] bg-gradient-to-r from-cyan-100 to-blue-100 rounded-lg animate-pulse" />
+		return (
+			fallback || (
+				<div className="min-h-[200px] bg-gradient-to-r from-cyan-100 to-blue-100 rounded-lg animate-pulse" />
+			)
 		);
 	}
 
@@ -194,7 +200,12 @@ export const DeferredAnimation = ({
 	className = "",
 }: {
 	children: React.ReactNode;
-	animation?: "fade-up" | "fade-in" | "scale-in" | "slide-left" | "slide-right";
+	animation?:
+		| "fade-up"
+		| "fade-in"
+		| "scale-in"
+		| "slide-left"
+		| "slide-right";
 	delay?: number;
 	threshold?: number;
 	className?: string;
@@ -283,14 +294,16 @@ export const PerformanceManager = ({
 	useEffect(() => {
 		// Désactiver les animations pendant le scroll pour améliorer les performances
 		if (isScrolling) {
-			document.body.style.setProperty('--animation-duration', '0ms');
+			document.body.style.setProperty("--animation-duration", "0ms");
 		} else {
-			document.body.style.setProperty('--animation-duration', '300ms');
+			document.body.style.setProperty("--animation-duration", "300ms");
 		}
 	}, [isScrolling]);
 
 	return (
-		<div className={`performance-manager ${isScrolling ? 'scrolling' : ''}`}>
+		<div
+			className={`performance-manager ${isScrolling ? "scrolling" : ""}`}
+		>
 			{children}
 		</div>
 	);
