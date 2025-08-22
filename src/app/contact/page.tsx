@@ -26,39 +26,39 @@ export default function ContactPage() {
 
 	return (
 		<main className="container py-16">
-			<h1 className="text-3xl font-semibold">Contact</h1>
+			<h1 className="text-3xl font-semibold text-foreground">Contact</h1>
 			<p className="mt-2 text-muted-foreground">
 				Dites-nous en plus sur votre projet, nous revenons vers vous
 				rapidement.
 			</p>
 			<form onSubmit={submit} className="mt-8 grid gap-4 max-w-xl">
 				<div>
-					<Label htmlFor="name" className="text-white">
+					<Label htmlFor="name" className="text-foreground">
 						Votre nom
 					</Label>
 					<Input id="name" name="name" required />
 				</div>
 				<div>
-					<Label htmlFor="email" className="text-white">
+					<Label htmlFor="email" className="text-foreground">
 						Votre email
 					</Label>
 					<Input id="email" name="email" type="email" required />
 				</div>
 				<div>
-					<Label htmlFor="message" className="text-white">
+					<Label htmlFor="message" className="text-foreground">
 						Votre message
 					</Label>
 					<textarea
 						id="message"
 						name="message"
-						className="min-h-32 w-full rounded-md border-none bg-gray-50 p-3 text-sm text-white bg-zinc-800 dark:text-white shadow-input focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-neutral-400"
+						className="min-h-32 w-full rounded-md border border-input bg-background p-3 text-sm text-foreground shadow-input focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-ring"
 						required
 					/>
 				</div>
 				<button className="h-11 rounded-md bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-medium">
 					{loading ? "Envoi..." : "Envoyer"}
 				</button>
-				{ok && <p className="text-sm mt-2">{ok}</p>}
+				{ok && <p className="text-sm mt-2 text-foreground">{ok}</p>}
 			</form>
 		</main>
 	);

@@ -1,17 +1,26 @@
-- erreur 404 sur la page de deconnexion
-- changer le bouton 'se connecter' en 'deconnexion' sur le backoffice
-- mettre un theme de backoffice
-- corriger bouton de connexion pas trés beau
-- mettre en place macbook laptop sur la landing page
-- faire du contenu sur la homepage
-- changer couleur bouton homepage
-- responsive navbar couleur à changer (noir?)
-- footer bien
-- page de contact avec formulaire aceternity ou motion
-- page condition generale
-- crud client avec envoi de mail avec identifiants
-- lien dans le mail pour changer son mdp avant connexion
+-   erreur 404 sur la page de deconnexion
+-   changer le bouton 'se connecter' en 'deconnexion' sur le backoffice
+-   mettre un theme de backoffice
+-   corriger bouton de connexion pas trés beau
+-   mettre en place macbook laptop sur la landing page
+-   faire du contenu sur la homepage
+-   changer couleur bouton homepage
+-   responsive navbar couleur à changer (noir?)
+-   footer bien
+-   page de contact avec formulaire aceternity ou motion
+-   page condition generale
+-   crud client avec envoi de mail avec identifiants
+-   lien dans le mail pour changer son mdp avant connexion
 
-- utilisé une autre DB
-- bravo tu as presque finis
-- arretez de me lire je vous voie.... stop MAINTENANT  !
+-   utilisé une autre DB
+-   bravo tu as presque finis
+-   arretez de me lire je vous voie.... stop MAINTENANT !
+
+ajoute rprix fixe sur page tarifs
+
+✅ SYSTÈME DE THÈME IMPLÉMENTÉ
+
+-   Toggle thème clair/sombre dans la navbar
+-   Détection automatique des préférences navigateur
+-   Contrastes optimisés sur toute l'application
+-   Variables CSS pour cohérence des thèmes

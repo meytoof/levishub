@@ -8,6 +8,7 @@ import {
 	useScroll,
 } from "motion/react";
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 import React, { useState } from "react";
 
@@ -97,8 +98,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 				minWidth: "800px",
 			}}
 			className={cn(
-				"relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
-				visible && "bg-neutral-900/80",
+				"relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-neutral-900/80 px-4 py-2 lg:flex",
 				className
 			)}
 		>
@@ -161,8 +161,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 				damping: 50,
 			}}
 			className={cn(
-				"relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-				visible && "bg-neutral-900/80",
+				"relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-neutral-900/80 px-0 py-2 lg:hidden",
 				className
 			)}
 		>
@@ -287,10 +286,13 @@ export const MobileNavigation = () => {
 		<MobileNav>
 			<MobileNavHeader>
 				<NavbarLogo />
-				<MobileNavToggle
-					isOpen={isOpen}
-					onClick={() => setIsOpen(!isOpen)}
-				/>
+				<div className="flex items-center gap-2">
+					<ThemeToggle />
+					<MobileNavToggle
+						isOpen={isOpen}
+						onClick={() => setIsOpen(!isOpen)}
+					/>
+				</div>
 			</MobileNavHeader>
 			<MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="flex flex-col gap-4">

@@ -8,6 +8,8 @@ import {
 	NavBody,
 	NavItems,
 } from "@/components/ui/resizable-navbar";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { authOptions } from "@/lib/auth";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
@@ -35,21 +37,26 @@ export default async function RootLayout({
 	];
 
 	return (
-		<html lang="fr">
+		<html lang="fr" suppressHydrationWarning>
 			<body className={inter.className}>
-				<SessionProvider session={session}>
-					<Navbar>
-						<NavBody className="shadow-none">
-							<NavbarLogo />
-							<NavItems items={navItems} />
-							<AuthButtons />
-						</NavBody>
-						<MobileNavigation />
-					</Navbar>
-					<div className="h-16 lg:h-20" />
-					{children}
-					<Footer />
-				</SessionProvider>
+				<ThemeProvider>
+					<SessionProvider session={session}>
+						<Navbar>
+							<NavBody className="shadow-none">
+								<NavbarLogo />
+								<NavItems items={navItems} />
+								<div className="flex items-center gap-2">
+									<ThemeToggle />
+									<AuthButtons />
+								</div>
+							</NavBody>
+							<MobileNavigation />
+						</Navbar>
+						<div className="h-16 lg:h-20" />
+						{children}
+						<Footer />
+					</SessionProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

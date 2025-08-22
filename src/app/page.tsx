@@ -107,7 +107,7 @@ export default function Home() {
 						{/* Carte 1 */}
 						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/20">
 							<div className="text-4xl mb-4">🎯</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Vitrine + Backoffice
 							</h3>
 							<p className="text-muted-foreground leading-relaxed">
@@ -120,7 +120,7 @@ export default function Home() {
 						{/* Carte 2 */}
 						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-fuchsia-500/20">
 							<div className="text-4xl mb-4">🔒</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Sécurité & Performance
 							</h3>
 							<p className="text-muted-foreground leading-relaxed">
@@ -132,7 +132,7 @@ export default function Home() {
 						{/* Carte 3 */}
 						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-rose-500/20">
 							<div className="text-4xl mb-4">📈</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Visibilité & Croissance
 							</h3>
 							<p className="text-muted-foreground leading-relaxed">
