@@ -23,7 +23,7 @@ export default function Home() {
 				{/* Hero Section - Plein écran */}
 				<section className="relative mx-auto max-w-7xl px-6 py-24 grid md:grid-cols-2 gap-12 items-center min-h-[80vh]">
 					<div>
-						<h1 className="text-5xl md:text-6xl font-bold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+						<h1 className="text-5xl md:text-6xl font-bold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] text-gradient-cyan">
 							Des sites qui attirent, convertissent et durent
 						</h1>
 						<p className="mt-6 text-lg md:text-xl text-muted-foreground opacity-0 animate-[fade-up_600ms_ease-out_120ms_forwards] leading-relaxed max-w-prose">
@@ -34,7 +34,7 @@ export default function Home() {
 						</p>
 						<div className="mt-10 flex flex-wrap gap-4 opacity-0 animate-[fade-up_600ms_ease-out_200ms_forwards]">
 							<Link href="/contact">
-								<Button className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-600 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 px-8 py-3 text-lg">
+								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 py-3 text-lg">
 									Demander un devis
 								</Button>
 							</Link>
@@ -56,7 +56,7 @@ export default function Home() {
 					<div className="grid place-items-center">
 						<CardContainer className="inter-var">
 							<CardBody className="relative bg-gradient-to-br from-background/70 to-background/20 backdrop-blur-xl border border-neutral-500/50 shadow-xl ring-1 ring-black/5 w-[400px] md:w-[500px] h-[400px] rounded-2xl p-8">
-								<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-fuchsia-500/10" />
+								<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10" />
 								<CardItem
 									translateZ="50"
 									className="text-2xl font-bold tracking-tight text-center"
@@ -71,7 +71,7 @@ export default function Home() {
 									web modernes, performantes et rentables
 								</CardItem>
 								<CardItem translateZ="100" className="mt-8">
-									<div className="h-48 rounded-lg bg-gradient-to-br from-indigo-500/30 to-fuchsia-500/30 flex items-center justify-center">
+									<div className="h-48 rounded-lg bg-gradient-to-br from-cyan-500/30 to-blue-600/30 flex items-center justify-center">
 										<div className="text-6xl">💻</div>
 									</div>
 								</CardItem>
@@ -79,10 +79,10 @@ export default function Home() {
 									translateZ="40"
 									className="mt-6 flex gap-3 justify-center"
 								>
-									<div className="px-4 py-2 bg-indigo-500/20 rounded-full text-xs text-indigo-300">
+									<div className="px-4 py-2 rounded-full text-xs badge-tech-1">
 										React + Next.js
 									</div>
-									<div className="px-4 py-2 bg-fuchsia-500/20 rounded-full text-xs text-fuchsia-300">
+									<div className="px-4 py-2 rounded-full text-xs badge-tech-2">
 										Performance
 									</div>
 								</CardItem>
@@ -94,7 +94,7 @@ export default function Home() {
 				{/* Bloc Features - 3 cartes en grille */}
 				<section className="relative mx-auto max-w-7xl px-6 py-24">
 					<div className="text-center mb-16">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
 							Solutions complètes
 						</h2>
 						<p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -105,7 +105,7 @@ export default function Home() {
 
 					<div className="grid md:grid-cols-3 gap-8">
 						{/* Carte 1 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/20">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1">
 							<div className="text-4xl mb-4">🎯</div>
 							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Vitrine + Backoffice
@@ -118,7 +118,7 @@ export default function Home() {
 						</div>
 
 						{/* Carte 2 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-fuchsia-500/20">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-2">
 							<div className="text-4xl mb-4">🔒</div>
 							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Sécurité & Performance
@@ -130,7 +130,7 @@ export default function Home() {
 						</div>
 
 						{/* Carte 3 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-rose-500/20">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-3">
 							<div className="text-4xl mb-4">📈</div>
 							<h3 className="text-2xl font-bold mb-4 text-foreground">
 								Visibilité & Croissance
@@ -147,7 +147,7 @@ export default function Home() {
 				{/* Process en 3 étapes */}
 				<section className="relative mx-auto max-w-7xl px-6 py-24">
 					<div className="text-center mb-16">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
 							Process simple et efficace
 						</h2>
 						<p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -159,11 +159,11 @@ export default function Home() {
 						{/* Étape 1 */}
 						<div className="text-center group">
 							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+								<div className="w-20 h-20 mx-auto process-circle-1 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									1
 								</div>
 								{/* Ligne de connexion */}
-								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-fuchsia-500 to-transparent"></div>
+								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 process-line-1"></div>
 							</div>
 							<h3 className="text-2xl font-bold mb-4 text-white">
 								Diagnostic gratuit
@@ -177,11 +177,11 @@ export default function Home() {
 						{/* Étape 2 */}
 						<div className="text-center group">
 							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto bg-gradient-to-br from-fuchsia-500 to-rose-500 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+								<div className="w-20 h-20 mx-auto process-circle-2 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									2
 								</div>
 								{/* Ligne de connexion */}
-								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-rose-500 to-transparent"></div>
+								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 process-line-2"></div>
 							</div>
 							<h3 className="text-2xl font-bold mb-4 text-white">
 								Conception agile
@@ -195,7 +195,7 @@ export default function Home() {
 						{/* Étape 3 */}
 						<div className="text-center group">
 							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto bg-gradient-to-br from-rose-500 to-indigo-500 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+								<div className="w-20 h-20 mx-auto process-circle-3 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									3
 								</div>
 							</div>
@@ -213,7 +213,7 @@ export default function Home() {
 				{/* Call to action final - Full width */}
 				<section className="relative mx-auto max-w-7xl px-6 py-24">
 					<div className="text-center">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
 							Prêt à lancer votre projet digital ?
 						</h2>
 						<p className="text-xl text-muted-foreground mb-10 max-w-4xl mx-auto leading-relaxed">
@@ -223,7 +223,7 @@ export default function Home() {
 						</p>
 						<div className="flex justify-center">
 							<Link href="/contact">
-								<Button className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-600 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 px-10 py-4 text-xl">
+								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-10 py-4 text-xl">
 									Parlons de votre projet
 								</Button>
 							</Link>

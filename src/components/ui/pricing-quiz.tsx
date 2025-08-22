@@ -215,7 +215,7 @@ export function PricingQuiz() {
 		return (
 			<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 max-w-2xl mx-auto">
 				<div className="text-center mb-6">
-					<Sparkles className="w-16 h-16 text-fuchsia-400 mx-auto mb-4" />
+					<Sparkles className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
 					<h3 className="text-2xl font-bold text-foreground mb-2">
 						🎯 Plan recommandé pour vous
 					</h3>
@@ -225,7 +225,7 @@ export function PricingQuiz() {
 					</p>
 				</div>
 
-				<div className="bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-xl p-6 mb-6">
+				<div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-xl p-6 mb-6">
 					<h4 className="text-xl font-bold text-foreground mb-2">
 						{result.plan}
 					</h4>
@@ -239,7 +239,7 @@ export function PricingQuiz() {
 								<span className="text-2xl line-through text-muted-foreground">
 									€{result.price}
 								</span>
-								<span className="text-3xl font-bold text-fuchsia-400">
+								<span className="text-3xl font-bold text-cyan-400">
 									€{result.discount}
 								</span>
 							</>
@@ -255,7 +255,7 @@ export function PricingQuiz() {
 								key={index}
 								className="flex items-center gap-3"
 							>
-								<Check className="w-4 h-4 text-fuchsia-400 flex-shrink-0" />
+								<Check className="w-4 h-4 text-cyan-400 flex-shrink-0" />
 								<span className="text-sm text-muted-foreground">
 									{feature}
 								</span>
@@ -302,7 +302,7 @@ export function PricingQuiz() {
 				{/* Barre de progression */}
 				<div className="w-full bg-neutral-700 rounded-full h-2 mb-2">
 					<div
-						className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 h-2 rounded-full transition-all duration-300"
+						className="bg-gradient-to-r from-cyan-500 to-blue-600 h-2 rounded-full transition-all duration-300"
 						style={{ width: `${progress}%` }}
 					/>
 				</div>
@@ -321,16 +321,16 @@ export function PricingQuiz() {
 						<button
 							key={index}
 							onClick={() => handleAnswer(option.score)}
-							className="w-full p-4 border border-neutral-500/30 rounded-lg text-left hover:border-fuchsia-500/50 hover:bg-white/5 transition-all duration-200 group"
+							className="w-full p-4 border border-neutral-500/30 rounded-lg text-left quiz-option-hover hover:bg-white/5 transition-all duration-200 group"
 						>
 							<div className="flex items-center gap-3">
-								<div className="w-10 h-10 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+								<div className="w-10 h-10 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
 									{option.icon}
 								</div>
 								<span className="text-foreground font-medium">
 									{option.text}
 								</span>
-								<ArrowRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-fuchsia-400 transition-colors" />
+								<ArrowRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-cyan-400 transition-colors" />
 							</div>
 						</button>
 					))}

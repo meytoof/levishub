@@ -110,7 +110,7 @@ export default function PricingPage() {
 			<div className="relative mx-auto max-w-7xl px-6 py-24">
 				{/* Header de la page */}
 				<div className="text-center mb-20">
-					<h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+					<h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-gradient-cyan">
 						Tarifs transparents
 					</h1>
 					<p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
@@ -127,15 +127,15 @@ export default function PricingPage() {
 				{/* Section explicative - Pédagogie */}
 				<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 mb-20 max-w-4xl mx-auto">
 					<div className="text-center mb-6">
-						<Shield className="w-12 h-12 text-indigo-400 mx-auto mb-4" />
+						<Shield className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
 						<h2 className="text-2xl font-bold text-foreground mb-4">
 							Comment fonctionnent nos tarifs ?
 						</h2>
 					</div>
 					<div className="grid md:grid-cols-2 gap-8 text-muted-foreground">
 						<div className="text-center">
-							<div className="bg-indigo-500/20 rounded-lg p-4 mb-4">
-								<Zap className="w-8 h-8 text-indigo-400 mx-auto mb-2" />
+							<div className="bg-cyan-500/20 rounded-lg p-4 mb-4">
+								<Zap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
 								<h3 className="font-semibold text-foreground mb-2">
 									Frais de création
 								</h3>
@@ -146,8 +146,8 @@ export default function PricingPage() {
 							</div>
 						</div>
 						<div className="text-center">
-							<div className="bg-fuchsia-500/20 rounded-lg p-4 mb-4">
-								<Lock className="w-8 h-8 text-fuchsia-400 mx-auto mb-2" />
+							<div className="bg-cyan-500/20 rounded-lg p-4 mb-4">
+								<Lock className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
 								<h3 className="font-semibold text-foreground mb-2">
 									Abonnement mensuel
 								</h3>
@@ -158,7 +158,7 @@ export default function PricingPage() {
 							</div>
 						</div>
 					</div>
-					<div className="text-center mt-6 p-4 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-lg">
+					<div className="text-center mt-6 p-4 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg">
 						<p className="text-foreground font-medium">
 							💡 <strong>Résultat :</strong> Vous savez exactement
 							ce que vous payez, sans surprise !
@@ -190,9 +190,9 @@ export default function PricingPage() {
 								className="relative group flex flex-col"
 							>
 								{/* Carte principale */}
-								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/20 group-hover:scale-105">
+								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-500 ease-out hover:shadow-2xl feature-shadow-1 group-hover:scale-[1.02] group-hover:-translate-y-1">
 									{/* Effet de glow en arrière-plan */}
-									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-fuchsia-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
 
 									{/* En-tête de la carte */}
 									<div className="text-center mb-8 flex-shrink-0">
@@ -201,7 +201,7 @@ export default function PricingPage() {
 										</h3>
 										<div className="mb-4">
 											{plan.price === "Sur devis" ? (
-												<span className="text-2xl font-bold text-indigo-400">
+												<span className="text-2xl font-bold text-cyan-400">
 													{plan.price}
 												</span>
 											) : (
@@ -217,14 +217,14 @@ export default function PricingPage() {
 														<span className="text-4xl font-bold text-foreground">
 															€
 														</span>
-														<span className="text-5xl font-bold bg-gradient-to-r from-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">
+														<span className="text-5xl font-bold text-gradient-cyan">
 															{Math.round(
 																parseInt(
 																	plan.price
 																) * 0.8
 															)}
 														</span>
-														<span className="text-lg text-fuchsia-400 font-semibold">
+														<span className="text-lg text-cyan-400 font-semibold">
 															-20%
 														</span>
 													</div>
@@ -244,7 +244,7 @@ export default function PricingPage() {
 													key={featureIndex}
 													className="flex items-start gap-3"
 												>
-													<div className="flex-shrink-0 w-5 h-5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-full flex items-center justify-center mt-0.5">
+													<div className="flex-shrink-0 w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mt-0.5">
 														<Check className="w-3 h-3 text-white" />
 													</div>
 													<span className="text-muted-foreground leading-relaxed">
@@ -261,7 +261,7 @@ export default function PricingPage() {
 											href={plan.href}
 											variant={plan.variant}
 											size="lg"
-											className="w-full"
+											className="w-full btn-cyan-gradient"
 										>
 											{plan.cta}
 										</PulseCTA>
@@ -293,16 +293,16 @@ export default function PricingPage() {
 								{/* Badge "Populaire" */}
 								{plan.popular && (
 									<div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-										<span className="bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+										<span className="pricing-badge-popular text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
 											⭐ Populaire
 										</span>
 									</div>
 								)}
 
 								{/* Carte principale */}
-								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-fuchsia-500/20 group-hover:scale-105">
+								<div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 flex flex-col h-full hover:bg-white/10 transition-all duration-500 ease-out hover:shadow-2xl feature-shadow-2 group-hover:scale-[1.02] group-hover:-translate-y-1">
 									{/* Effet de glow en arrière-plan */}
-									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-fuchsia-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+									<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
 
 									{/* En-tête de la carte */}
 									<div className="text-center mb-8 flex-shrink-0">
@@ -313,7 +313,7 @@ export default function PricingPage() {
 											<span className="text-4xl font-bold text-foreground">
 												€
 											</span>
-											<span className="text-5xl font-bold bg-gradient-to-r from-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">
+											<span className="text-5xl font-bold text-gradient-cyan">
 												{plan.price}
 											</span>
 											<span className="text-xl text-muted-foreground">
@@ -333,7 +333,7 @@ export default function PricingPage() {
 													key={featureIndex}
 													className="flex items-start gap-3"
 												>
-													<div className="flex-shrink-0 w-5 h-5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-full flex items-center justify-center mt-0.5">
+													<div className="flex-shrink-0 w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mt-0.5">
 														<Check className="w-3 h-3 text-white" />
 													</div>
 													<span className="text-muted-foreground leading-relaxed">
@@ -350,7 +350,7 @@ export default function PricingPage() {
 											href={plan.href}
 											variant={plan.variant}
 											size="lg"
-											className="w-full"
+											className="w-full btn-cyan-gradient"
 										>
 											{plan.cta}
 										</PulseCTA>
@@ -383,7 +383,7 @@ export default function PricingPage() {
 						</div>
 
 						<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6">
-							<h3 className="text-xl font-semibold text-white mb-3">
+							<h3 className="text-xl font-semibold text-foreground mb-3">
 								❓ Puis-je changer de formule d'abonnement ?
 							</h3>
 							<p className="text-muted-foreground">
@@ -394,7 +394,7 @@ export default function PricingPage() {
 						</div>
 
 						<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6">
-							<h3 className="text-xl font-semibold text-white mb-3">
+							<h3 className="text-xl font-semibold text-foreground mb-3">
 								❓ Que se passe-t-il si j'arrête l'abonnement ?
 							</h3>
 							<p className="text-muted-foreground">
@@ -410,7 +410,7 @@ export default function PricingPage() {
 				{/* Section CTA finale */}
 				<div className="text-center">
 					<div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-12 max-w-4xl mx-auto">
-						<h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-500 bg-clip-text text-transparent">
+						<h2 className="text-3xl md:text-4xl font-bold mb-6 text-gradient-cyan">
 							Prêt à démarrer votre projet ?
 						</h2>
 						<p className="text-xl text-muted-foreground mb-8 leading-relaxed">
@@ -418,7 +418,12 @@ export default function PricingPage() {
 							obtenir un devis personnalisé. Nous vous
 							accompagnerons à chaque étape de votre projet.
 						</p>
-						<PulseCTA href="/contact" variant="secondary" size="lg">
+						<PulseCTA
+							href="/contact"
+							variant="secondary"
+							size="lg"
+							className="btn-cyan-gradient"
+						>
 							Discuter de mon projet
 						</PulseCTA>
 					</div>

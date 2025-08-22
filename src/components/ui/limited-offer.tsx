@@ -44,7 +44,7 @@ export function LimitedOffer({
 			case "medium":
 				return "from-orange-500 to-red-500";
 			default:
-				return "from-fuchsia-500 to-rose-500";
+				return "from-cyan-500 to-blue-600";
 		}
 	};
 
@@ -69,26 +69,26 @@ export function LimitedOffer({
 		>
 			{/* Badge promotionnel - Positionné comme le badge "Populaire" */}
 			<div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-				<span className="bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+				<span className="pricing-badge-limited text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
 					🔥 OFFRE LIMITÉE -20%
 				</span>
 			</div>
 
-			<div className="bg-gradient-to-r from-fuchsia-500/20 to-rose-500/20 backdrop-blur-xl border border-fuchsia-500/30 rounded-2xl p-8 max-w-4xl mx-auto relative overflow-hidden">
+			<div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-8 max-w-4xl mx-auto relative overflow-hidden">
 				{/* Effet de brillance en arrière-plan */}
 				<div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/5 to-rose-500/5 opacity-0 hover:opacity-100 transition-opacity duration-300" />
 
 				<div className="text-center mb-8">
-					<Sparkles className="w-16 h-16 text-fuchsia-400 mx-auto mb-4" />
+					<Sparkles className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
 					<h2 className="text-3xl font-bold text-foreground mb-4">
 						🎁 Offre de lancement exclusive
 					</h2>
 					<p className="text-xl text-muted-foreground max-w-2xl mx-auto">
 						Pour célébrer le lancement de LevisHub, nous offrons une
 						réduction de{" "}
-						<strong className="text-fuchsia-400">20%</strong> sur la
+						<strong className="text-cyan-400">20%</strong> sur la
 						création de votre site web aux{" "}
-						<strong className="text-fuchsia-400">
+						<strong className="text-cyan-400">
 							10 premiers clients
 						</strong>{" "}
 						!
@@ -99,14 +99,14 @@ export function LimitedOffer({
 				<div className="grid md:grid-cols-2 gap-8 items-center mb-8">
 					<div className="text-center">
 						<div className="mb-4">
-							<Users className="w-12 h-12 text-indigo-400 mx-auto mb-2" />
+							<Users className="w-12 h-12 text-cyan-400 mx-auto mb-2" />
 							<h3 className="text-xl font-semibold text-foreground mb-2">
 								Premiers clients
 							</h3>
 						</div>
 
 						{/* Compteur animé */}
-						<div className="text-6xl font-bold bg-gradient-to-r from-indigo-500 to-fuchsia-500 bg-clip-text text-transparent mb-2">
+						<div className="text-6xl font-bold text-gradient-cyan mb-2">
 							{count}
 						</div>
 
@@ -128,7 +128,7 @@ export function LimitedOffer({
 
 					<div className="text-center">
 						<div className="mb-4">
-							<Clock className="w-12 h-12 text-fuchsia-400 mx-auto mb-2" />
+							<Clock className="w-12 h-12 text-cyan-400 mx-auto mb-2" />
 							<h3 className="text-xl font-semibold text-foreground mb-2">
 								État de l&apos;offre
 							</h3>
@@ -136,11 +136,11 @@ export function LimitedOffer({
 
 						<div
 							className={`text-2xl font-bold mb-2 ${
-								urgencyLevel === "high"
-									? "text-red-400"
-									: urgencyLevel === "medium"
-									? "text-orange-400"
-									: "text-fuchsia-400"
+															urgencyLevel === "high"
+								? "text-red-400"
+								: urgencyLevel === "medium"
+								? "text-orange-400"
+								: "text-cyan-400"
 							}`}
 						>
 							{getUrgencyMessage()}
@@ -179,7 +179,7 @@ export function LimitedOffer({
 					</h3>
 					<div className="grid md:grid-cols-3 gap-4">
 						<div className="text-center">
-							<div className="w-12 h-12 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+							<div className="w-12 h-12 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg flex items-center justify-center mx-auto mb-2">
 								<span className="text-2xl">💰</span>
 							</div>
 							<h4 className="font-semibold text-foreground mb-1">
@@ -190,7 +190,7 @@ export function LimitedOffer({
 							</p>
 						</div>
 						<div className="text-center">
-							<div className="w-12 h-12 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+							<div className="w-12 h-12 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg flex items-center justify-center mx-auto mb-2">
 								<span className="text-2xl">🎯</span>
 							</div>
 							<h4 className="font-semibold text-foreground mb-1">
@@ -201,7 +201,7 @@ export function LimitedOffer({
 							</p>
 						</div>
 						<div className="text-center">
-							<div className="w-12 h-12 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+							<div className="w-12 h-12 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-lg flex items-center justify-center mx-auto mb-2">
 								<span className="text-2xl">🎁</span>
 							</div>
 							<h4 className="font-semibold text-foreground mb-1">
@@ -220,7 +220,7 @@ export function LimitedOffer({
 						href="/contact?offer=limited"
 						variant="primary"
 						size="lg"
-						className="text-lg px-8 py-4"
+						className="text-lg px-8 py-4 btn-cyan-gradient"
 					>
 						<ArrowRight className="w-5 h-5 mr-2" />
 						Réserver mon créneau -20%

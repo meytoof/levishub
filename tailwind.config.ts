@@ -10,42 +10,42 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				// Couleurs standard pour les thèmes
+				// Couleurs optimisées pour le contraste avec le fond cyan
 				background: {
 					DEFAULT: "#ffffff",
-					secondary: "#f8fafc",
+					secondary: "#f0fdfa",
 				},
 				foreground: {
-					DEFAULT: "#0f172a",
-					secondary: "#475569",
+					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
+					secondary: "#1e40af", // Bleu foncé pour contraste élevé
 				},
 				card: {
 					DEFAULT: "#ffffff",
-					secondary: "#f8fafc",
+					secondary: "#f0fdfa",
 				},
 				cardForeground: {
-					DEFAULT: "#0f172a",
-					secondary: "#475569",
+					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
+					secondary: "#1e40af", // Bleu foncé pour contraste élevé
 				},
 				muted: {
-					DEFAULT: "#f1f5f9",
-					secondary: "#e2e8f0",
+					DEFAULT: "#e0f2fe", // Cyan très clair
+					secondary: "#bae6fd", // Cyan clair
 				},
 				mutedForeground: {
-					DEFAULT: "#64748b",
-					secondary: "#94a3b8",
+					DEFAULT: "#0369a1", // Bleu foncé pour contraste élevé
+					secondary: "#0284c7", // Bleu moyen pour contraste bon
 				},
 				accent: {
-					DEFAULT: "#f1f5f9",
-					secondary: "#e2e8f0",
+					DEFAULT: "#e0f2fe", // Cyan très clair
+					secondary: "#bae6fd", // Cyan clair
 				},
 				accentForeground: {
-					DEFAULT: "#0f172a",
-					secondary: "#475569",
+					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
+					secondary: "#1e40af", // Bleu foncé pour contraste élevé
 				},
-				border: "#e2e8f0",
-				input: "#e2e8f0",
-				ring: "#0f172a",
+				border: "#0284c7", // Bleu moyen pour contraste bon
+				input: "#0284c7", // Bleu moyen pour contraste bon
+				ring: "#0c4a6e", // Bleu très foncé pour contraste optimal
 			},
 		},
 	},

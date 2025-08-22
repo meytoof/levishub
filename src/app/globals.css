@@ -12,61 +12,79 @@ body {
 	min-height: 100vh;
 }
 
-/* Fond adaptatif selon le thème */
+/* ===== FONDS ADAPTATIFS ===== */
 html {
-	background: white;
+	background: linear-gradient(
+		180deg,
+		#ffffff 0%,
+		#e0f2fe 25%,
+		#bae6fd 50%,
+		#e0f2fe 75%,
+		#ffffff 100%
+	);
 	background-image: radial-gradient(
 			ellipse at 20% -10%,
-			hsl(258 96% 67% / 0.15),
-			transparent 40%
+			hsl(187 100% 70% / 0.4),
+			transparent 50%
 		),
 		radial-gradient(
 			ellipse at 100% 0%,
-			hsl(333 93% 56% / 0.12),
-			transparent 40%
+			hsl(183 100% 65% / 0.35),
+			transparent 50%
 		);
 	background-attachment: fixed;
 	background-size: 100% 100vh;
 	background-repeat: repeat-y;
 }
 
-/* Fond subtil en dégradés adaptatif */
 body {
-	background: white;
+	background: linear-gradient(
+		180deg,
+		#ffffff 0%,
+		#e0f2fe 25%,
+		#bae6fd 50%,
+		#e0f2fe 75%,
+		#ffffff 100%
+	);
 	background-image: radial-gradient(
 			ellipse at 20% -10%,
-			hsl(258 96% 67% / 0.15),
-			transparent 40%
+			hsl(187 100% 70% / 0.4),
+			transparent 50%
 		),
 		radial-gradient(
 			ellipse at 100% 0%,
-			hsl(333 93% 56% / 0.12),
-			transparent 40%
+			hsl(183 100% 65% / 0.35),
+			transparent 50%
 		);
 	background-attachment: fixed;
 	background-size: 100% 100vh;
 	background-repeat: repeat-y;
 }
 
-/* Thème sombre - Utilisation de sélecteurs CSS standard avec la charte graphique */
+/* Thème sombre - Fond très contrasté avec accents violets/roses vifs */
 html.dark {
 	background: linear-gradient(
 		180deg,
-		#0a0a0a 0%,
-		#0f0f0f 25%,
+		#000000 0%,
+		#0a0a0a 25%,
 		#1a1a1a 50%,
-		#0f0f0f 75%,
-		#0a0a0a 100%
+		#0a0a0a 75%,
+		#000000 100%
 	) !important;
 	background-image: radial-gradient(
 			ellipse at 20% -10%,
-			hsl(258 96% 67% / 0.15),
-			transparent 40%
+			hsl(258 96% 67% / 0.4),
+			transparent 50%
 		),
 		radial-gradient(
 			ellipse at 100% 0%,
-			hsl(333 93% 56% / 0.12),
-			transparent 40%
+			hsl(333 93% 56% / 0.3),
+			transparent 50%
+		),
+		radial-gradient(
+			ellipse at 50% 50%,
+			hsl(280 100% 50% / 0.2),
+			transparent 60%
 		) !important;
 	background-attachment: fixed !important;
 	background-size: 100% 100vh !important;
@@ -76,28 +94,33 @@ html.dark {
 html.dark body {
 	background: linear-gradient(
 		180deg,
-		#0a0a0a 0%,
-		#0f0f0f 25%,
+		#000000 0%,
+		#0a0a0a 25%,
 		#1a1a1a 50%,
-		#0f0f0f 75%,
-		#0a0a0a 100%
+		#0a0a0a 75%,
+		#000000 100%
 	) !important;
 	background-image: radial-gradient(
 			ellipse at 20% -10%,
-			hsl(258 96% 67% / 0.15),
-			transparent 40%
+			hsl(258 96% 67% / 0.4),
+			transparent 50%
 		),
 		radial-gradient(
 			ellipse at 100% 0%,
-			hsl(333 93% 56% / 0.12),
-			transparent 40%
+			hsl(333 93% 56% / 0.3),
+			transparent 50%
+		),
+		radial-gradient(
+			ellipse at 50% 50%,
+			hsl(280 100% 50% / 0.2),
+			transparent 60%
 		) !important;
 	background-attachment: fixed !important;
 	background-size: 100% 100vh !important;
 	background-repeat: repeat-y !important;
 }
 
-/* Curseur personnalisé pour tous les éléments interactifs */
+/* ===== CURSEURS PERSONNALISÉS ===== */
 button,
 [role="button"],
 a,
@@ -112,7 +135,6 @@ label[for],
 	cursor: pointer !important;
 }
 
-/* Curseur spécifique pour les éléments non-interactifs */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -124,14 +146,12 @@ textarea {
 	cursor: text;
 }
 
-/* Curseur pour les éléments de sélection */
 select,
 input[type="range"],
 input[type="file"] {
 	cursor: pointer;
 }
 
-/* Curseur pour les éléments désactivés */
 button:disabled,
 input:disabled,
 select:disabled,
@@ -140,6 +160,7 @@ a[aria-disabled="true"] {
 	cursor: not-allowed !important;
 }
 
+/* ===== LAYOUT ET ANIMATIONS ===== */
 .container {
 	margin-left: auto;
 	margin-right: auto;
@@ -157,4 +178,295 @@ a[aria-disabled="true"] {
 		opacity: 1;
 		transform: translateY(0);
 	}
+}
+
+/* ===== SYSTÈME DE THÈMES UNIFIÉ ===== */
+
+/* Thème Light - Cyan */
+.text-gradient-cyan {
+	background: linear-gradient(135deg, #0c4a6e, #0e7490, #155e75);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+/* Thème Dark - Violet/Rose */
+html.dark .text-gradient-cyan {
+	background: linear-gradient(135deg, #a855f7, #ec4899, #f43f5e);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+/* Gradient violet fixe (pour les deux thèmes) */
+.text-gradient-violet {
+	background: linear-gradient(135deg, #7c3aed, #8b5cf6, #a855f7);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+/* ===== COMPOSANTS NAVBAR ===== */
+.navbar-logo {
+	background: linear-gradient(135deg, #67e8f9, #22d3ee, #06b6d4);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+html.dark .navbar-logo {
+	background: linear-gradient(135deg, #a855f7, #ec4899, #f43f5e);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+/* ===== COMPOSANTS BOUTONS ===== */
+.btn-cyan-gradient {
+	background: linear-gradient(135deg, #06b6d4, #0891b2, #0e7490);
+	color: white;
+	transition: all 0.2s ease;
+}
+
+.btn-cyan-gradient:hover {
+	background: linear-gradient(135deg, #0891b2, #0e7490, #155e75);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+}
+
+html.dark .btn-cyan-gradient {
+	background: linear-gradient(135deg, #a855f7, #ec4899, #f43f5e);
+}
+
+html.dark .btn-cyan-gradient:hover {
+	background: linear-gradient(135deg, #ec4899, #f43f5e, #e11d48);
+	box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+}
+
+/* ===== COMPOSANTS PROCESSUS ===== */
+.process-circle-1 {
+	background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.process-circle-2 {
+	background: linear-gradient(135deg, #0891b2, #06b6d4);
+}
+
+.process-circle-3 {
+	background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+html.dark .process-circle-1 {
+	background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+html.dark .process-circle-2 {
+	background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+html.dark .process-circle-3 {
+	background: linear-gradient(135deg, #f43f5e, #a855f7);
+}
+
+/* Lignes de connexion */
+.process-line-1 {
+	height: 4px;
+	border-radius: 9999px;
+	background: linear-gradient(to right, #06b6d4, transparent);
+}
+
+.process-line-2 {
+	height: 4px;
+	border-radius: 9999px;
+	background: linear-gradient(to right, #0891b2, transparent);
+}
+
+html.dark .process-line-1 {
+	background: linear-gradient(to right, #a855f7, transparent);
+}
+
+html.dark .process-line-2 {
+	background: linear-gradient(to right, #ec4899, transparent);
+}
+
+/* ===== COMPOSANTS CARTES ===== */
+.feature-shadow-1 {
+	box-shadow: 0 25px 50px -12px rgba(6, 182, 212, 0.25);
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-shadow-2 {
+	box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-shadow-3 {
+	box-shadow: 0 25px 50px -12px rgba(34, 211, 238, 0.25);
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.dark .feature-shadow-1 {
+	box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.4);
+}
+
+html.dark .feature-shadow-2 {
+	box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.4);
+}
+
+html.dark .feature-shadow-3 {
+	box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.4);
+}
+
+/* ===== COMPOSANTS BADGES ===== */
+.badge-tech-1 {
+	background-color: rgba(6, 182, 212, 0.2);
+	color: #0c4a6e;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.badge-tech-2 {
+	background-color: rgba(37, 99, 235, 0.2);
+	color: #1e40af;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+html.dark .badge-tech-1 {
+	background-color: rgba(168, 85, 247, 0.3);
+	color: #f3e8ff;
+}
+
+html.dark .badge-tech-2 {
+	background-color: rgba(236, 72, 153, 0.3);
+	color: #fdf2f8;
+}
+
+/* ===== COMPOSANTS TARIFS ===== */
+.pricing-card-basic {
+	background: linear-gradient(135deg, #06b6d4, #0891b2);
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+.pricing-card-pro {
+	background: linear-gradient(135deg, #0891b2, #0e7490);
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+.pricing-card-enterprise {
+	background: linear-gradient(135deg, #0e7490, #155e75);
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+html.dark .pricing-card-basic {
+	background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+html.dark .pricing-card-pro {
+	background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+html.dark .pricing-card-enterprise {
+	background: linear-gradient(135deg, #f43f5e, #e11d48);
+}
+
+/* Badges de tarifs */
+.pricing-badge-popular {
+	background: linear-gradient(135deg, #06b6d4, #0891b2);
+	border-radius: 9999px;
+	color: white;
+	font-weight: 600;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-badge-limited {
+	background: linear-gradient(135deg, #f59e0b, #d97706);
+	border-radius: 9999px;
+	color: white;
+	font-weight: 600;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+html.dark .pricing-badge-popular {
+	background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+html.dark .pricing-badge-limited {
+	background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* ===== COMPOSANTS QUIZ ===== */
+.quiz-option-selected {
+	background: linear-gradient(135deg, #06b6d4, #0891b2);
+	border-color: #06b6d4;
+	border-radius: 0.5rem;
+	transition: all 0.2s ease;
+}
+
+.quiz-option-hover {
+	border-color: #06b6d4;
+	border-radius: 0.5rem;
+	transition: all 0.2s ease;
+}
+
+.quiz-option-hover:hover {
+	background: rgba(6, 182, 212, 0.1);
+}
+
+html.dark .quiz-option-selected {
+	background: linear-gradient(135deg, #a855f7, #ec4899);
+	border-color: #a855f7;
+}
+
+html.dark .quiz-option-hover {
+	border-color: #a855f7;
+}
+
+html.dark .quiz-option-hover:hover {
+	background: rgba(168, 85, 247, 0.1);
+}
+
+/* ===== UTILITAIRES DE COULEUR ===== */
+.text-cyan-400 {
+	color: #06b6d4;
+}
+
+html.dark .text-cyan-400 {
+	color: #a855f7;
+}
+
+.bg-cyan-500\/20 {
+	background-color: rgba(6, 182, 212, 0.2);
+}
+
+html.dark .bg-cyan-500\/20 {
+	background-color: rgba(168, 85, 247, 0.2);
+}
+
+.from-cyan-500 {
+	--tw-gradient-from: #06b6d4;
+}
+
+html.dark .from-cyan-500 {
+	--tw-gradient-from: #a855f7;
+}
+
+.to-blue-600 {
+	--tw-gradient-to: #0891b2;
+}
+
+html.dark .to-blue-600 {
+	--tw-gradient-to: #ec4899;
 }
