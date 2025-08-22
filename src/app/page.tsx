@@ -21,32 +21,27 @@ export default function Home() {
 				</div>
 
 				{/* Hero Section - Plein écran */}
-				<section className="relative mx-auto max-w-7xl px-6 py-24 grid md:grid-cols-2 gap-12 items-center min-h-[80vh]">
+				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 grid md:grid-cols-2 gap-8 sm:gap-12 items-center min-h-[80vh]">
 					<div>
-						<h1 className="text-5xl md:text-6xl font-bold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] text-gradient-cyan">
+						<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] text-gradient-cyan leading-tight px-2">
 							Des sites qui attirent, convertissent et durent
 						</h1>
-						<p className="mt-6 text-lg md:text-xl text-muted-foreground opacity-0 animate-[fade-up_600ms_ease-out_120ms_forwards] leading-relaxed max-w-prose">
+						<p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-muted-foreground opacity-0 animate-[fade-up_600ms_ease-out_120ms_forwards] leading-relaxed max-w-prose px-2">
 							LevisHub — développeur web freelance. Je conçois des
 							sites vitrines, e-commerce et backoffices sur
 							mesure, optimisés pour la performance et la
 							visibilité.
 						</p>
-						<div className="mt-10 flex flex-wrap gap-4 opacity-0 animate-[fade-up_600ms_ease-out_200ms_forwards]">
-							<Link href="/contact">
-								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 py-3 text-lg">
+						<div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 opacity-0 animate-[fade-up_600ms_ease-out_200ms_forwards] px-2">
+							<Link href="/contact" className="w-full sm:w-auto">
+								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-6 sm:px-8 py-3 text-base sm:text-lg w-full sm:w-auto">
 									Demander un devis
 								</Button>
 							</Link>
-							<Link href="/services">
+							<Link href="/services" className="w-full sm:w-auto">
 								<Button
 									variant="outline"
-									className="border-2 transition-all duration-200 hover:-translate-y-1 dark:hover:bg-neutral-800 px-8 py-3 text-lg"
-									style={{
-										borderImage:
-											"linear-gradient(to right, var(--tw-gradient-from, lab(48.295% 38.3129 -81.9673)), var(--color-fuchsia-600)) 1",
-										borderImageSlice: 1,
-									}}
+									className="border-2 transition-all duration-200 hover:-translate-y-1 dark:hover:bg-neutral-800 px-6 sm:px-8 py-3 text-base sm:text-lg border-cyan-500/50 dark:border-violet-500/50 hover:border-cyan-600 dark:hover:border-violet-600 w-full sm:w-auto"
 								>
 									Voir mes services
 								</Button>
@@ -55,7 +50,7 @@ export default function Home() {
 					</div>
 					<div className="grid place-items-center">
 						<CardContainer className="inter-var">
-							<CardBody className="relative bg-gradient-to-br from-background/70 to-background/20 backdrop-blur-xl border border-neutral-500/50 shadow-xl ring-1 ring-black/5 w-[400px] md:w-[500px] h-[400px] rounded-2xl p-8">
+							<CardBody className="relative bg-gradient-to-br from-background/70 to-background/20 backdrop-blur-xl border border-neutral-500/50 shadow-xl ring-1 ring-black/5 w-[90vw] max-w-[400px] md:w-[500px] h-[350px] sm:h-[400px] rounded-2xl p-6 sm:p-8">
 								<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10" />
 								<CardItem
 									translateZ="50"
@@ -92,25 +87,27 @@ export default function Home() {
 				</section>
 
 				{/* Bloc Features - 3 cartes en grille */}
-				<section className="relative mx-auto max-w-7xl px-6 py-24">
-					<div className="text-center mb-16">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
+				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24">
+					<div className="text-center mb-12 sm:mb-16">
+						<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-gradient-cyan">
 							Solutions complètes
 						</h2>
-						<p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+						<p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-6">
 							Des outils web modernes qui transforment votre
 							vision en réalité digitale
 						</p>
 					</div>
 
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 						{/* Carte 1 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1">
-							<div className="text-4xl mb-4">🎯</div>
-							<h3 className="text-2xl font-bold mb-4 text-foreground">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1">
+							<div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
+								🎯
+							</div>
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Vitrine + Backoffice
 							</h3>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
 								Un site moderne + un espace admin simple à
 								gérer. Paiements Stripe, analytics intégrés,
 								rôles Admin/Client.
@@ -118,24 +115,28 @@ export default function Home() {
 						</div>
 
 						{/* Carte 2 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-2">
-							<div className="text-4xl mb-4">🔒</div>
-							<h3 className="text-2xl font-bold mb-4 text-foreground">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-2">
+							<div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
+								🔒
+							</div>
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Sécurité & Performance
 							</h3>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
 								Auth sécurisée, sauvegardes auto, vitesse
 								optimisée. Votre site reste rapide et protégé.
 							</p>
 						</div>
 
 						{/* Carte 3 */}
-						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-3">
-							<div className="text-4xl mb-4">📈</div>
-							<h3 className="text-2xl font-bold mb-4 text-foreground">
+						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-3">
+							<div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
+								📈
+							</div>
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Visibilité & Croissance
 							</h3>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
 								SEO, tracking, et intégration réseaux sociaux
 								pour attirer vos clients et faire croître votre
 								business.
@@ -145,61 +146,61 @@ export default function Home() {
 				</section>
 
 				{/* Process en 3 étapes */}
-				<section className="relative mx-auto max-w-7xl px-6 py-24">
-					<div className="text-center mb-16">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
+				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24">
+					<div className="text-center mb-12 sm:mb-16">
+						<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-gradient-cyan">
 							Process simple et efficace
 						</h2>
-						<p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+						<p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-6">
 							De l&apos;idée au lancement en 3 étapes claires
 						</p>
 					</div>
 
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
 						{/* Étape 1 */}
-						<div className="text-center group">
-							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto process-circle-1 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+						<div className="text-center group px-2">
+							<div className="relative mb-4 sm:mb-6">
+								<div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto process-circle-1 rounded-full flex items-center justify-center text-xl sm:text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									1
 								</div>
 								{/* Ligne de connexion */}
-								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 process-line-1"></div>
+								<div className="hidden lg:block absolute top-8 sm:top-10 left-full w-full h-0.5 process-line-1"></div>
 							</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Diagnostic gratuit
 							</h3>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
 								Audit rapide de vos besoins. Analyse de votre
 								projet et recommandations personnalisées.
 							</p>
 						</div>
 
 						{/* Étape 2 */}
-						<div className="text-center group">
-							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto process-circle-2 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+						<div className="text-center group px-2">
+							<div className="relative mb-4 sm:mb-6">
+								<div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto process-circle-2 rounded-full flex items-center justify-center text-xl sm:text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									2
 								</div>
 								{/* Ligne de connexion */}
-								<div className="hidden md:block absolute top-10 left-full w-full h-0.5 process-line-2"></div>
+								<div className="hidden lg:block absolute top-8 sm:top-10 left-full w-full h-0.5 process-line-1"></div>
 							</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Conception agile
 							</h3>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
 								Maquettes + itérations rapides. Développement en
 								mode agile avec feedback continu.
 							</p>
 						</div>
 
 						{/* Étape 3 */}
-						<div className="text-center group">
-							<div className="relative mb-6">
-								<div className="w-20 h-20 mx-auto process-circle-3 rounded-full flex items-center justify-center text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
+						<div className="text-center group px-2">
+							<div className="relative mb-4 sm:mb-6">
+								<div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto process-circle-3 rounded-full flex items-center justify-center text-xl sm:text-2xl text-white font-bold group-hover:scale-110 transition-transform duration-300">
 									3
 								</div>
 							</div>
-							<h3 className="text-2xl font-bold mb-4 text-white">
+							<h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">
 								Lancement & croissance
 							</h3>
 							<p className="text-muted-foreground leading-relaxed">
@@ -211,19 +212,19 @@ export default function Home() {
 				</section>
 
 				{/* Call to action final - Full width */}
-				<section className="relative mx-auto max-w-7xl px-6 py-24">
-					<div className="text-center">
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-gradient-cyan">
+				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24">
+					<div className="text-center px-6">
+						<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-gradient-cyan">
 							Prêt à lancer votre projet digital ?
 						</h2>
-						<p className="text-xl text-muted-foreground mb-10 max-w-4xl mx-auto leading-relaxed">
+						<p className="text-lg sm:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed">
 							Transformez votre vision en réalité avec LevisHub.
 							Des solutions web rapides, fiables et pensées pour
 							générer des résultats.
 						</p>
 						<div className="flex justify-center">
 							<Link href="/contact">
-								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-10 py-4 text-xl">
+								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 sm:px-10 py-3 sm:py-4 text-lg sm:text-xl w-full sm:w-auto max-w-xs">
 									Parlons de votre projet
 								</Button>
 							</Link>

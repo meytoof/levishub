@@ -161,7 +161,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 				damping: 50,
 			}}
 			className={cn(
-				"relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-neutral-900/80 px-0 py-2 lg:hidden",
+				"relative z-50 mx-auto flex w-full max-w-[calc(100vw-1rem)] flex-col items-center justify-between bg-neutral-900/80 px-6 py-3 lg:hidden",
 				className
 			)}
 		>
@@ -177,7 +177,7 @@ export const MobileNavHeader = ({
 	return (
 		<div
 			className={cn(
-				"flex w-full flex-row items-center justify-between",
+				"flex w-full flex-row items-center justify-between px-2",
 				className
 			)}
 		>
