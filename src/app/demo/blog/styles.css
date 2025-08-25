@@ -1,0 +1,111 @@
+/* Blog Demo - Styles isolés */
+
+/* Variables CSS personnalisées */
+:root {
+	--blog-bg: #fefce8;
+	--blog-text: #451a03;
+	--blog-primary: #d97706;
+	--blog-secondary: #f59e0b;
+	--blog-accent: #fbbf24;
+	--blog-border: #fde68a;
+	--blog-card: #fef3c7;
+}
+
+[data-theme="dark"] {
+	--blog-bg: #1c1917;
+	--blog-text: #fef3c7;
+	--blog-primary: #f59e0b;
+	--blog-secondary: #d97706;
+	--blog-accent: #fbbf24;
+	--blog-border: #92400e;
+	--blog-card: #292524;
+}
+
+/* Styles spécifiques au blog */
+.blog-hero {
+	background: linear-gradient(
+		135deg,
+		var(--blog-primary) 0%,
+		var(--blog-secondary) 100%
+	);
+	color: white;
+}
+
+.blog-nav {
+	background: var(--blog-bg);
+	border-bottom: 1px solid var(--blog-border);
+	color: var(--blog-text);
+}
+
+.blog-card {
+	background: var(--blog-card);
+	border: 1px solid var(--blog-border);
+	color: var(--blog-text);
+}
+
+.blog-card:hover {
+	border-color: var(--blog-primary);
+	box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15);
+}
+
+.blog-button {
+	background: var(--blog-primary);
+	color: white;
+	border: 2px solid var(--blog-primary);
+}
+
+.blog-button:hover {
+	background: transparent;
+	color: var(--blog-primary);
+}
+
+.blog-section {
+	background: var(--blog-bg);
+	color: var(--blog-text);
+}
+
+.blog-article {
+	background: var(--blog-card);
+	border: 1px solid var(--blog-border);
+	color: var(--blog-text);
+}
+
+.blog-subscribe {
+	background: var(--blog-primary);
+	color: white;
+}
+
+.blog-subscribe:hover {
+	background: var(--blog-secondary);
+}
+
+/* Styles des catégories */
+.category-button {
+	transition: all 0.3s ease;
+}
+
+.category-button.active {
+	background: var(--blog-primary);
+	color: white;
+}
+
+.category-button:not(.active):hover {
+	background: var(--blog-gray-light);
+	border-color: var(--blog-primary);
+}
+
+/* Styles de la newsletter */
+.newsletter-section {
+	background: linear-gradient(
+		135deg,
+		var(--blog-primary),
+		var(--blog-secondary)
+	);
+}
+
+/* Responsive design spécifique */
+@media (max-width: 768px) {
+	.blog-hero h2 {
+		font-size: 3rem;
+	}
+}

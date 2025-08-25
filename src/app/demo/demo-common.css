@@ -1,0 +1,67 @@
+/* Styles communs pour toutes les mini-applications */
+
+/* Masquer la navbar et footer LevisHub sur les pages de démo - SÉLECTEURS AGRESSIFS */
+/* Masquer le conteneur Navbar complet */
+body > div > div > div:first-child {
+	display: none !important;
+}
+
+/* Masquer la navbar principale LevisHub */
+nav.levishub-nav {
+	display: none !important;
+}
+
+/* Masquer le div d'espacement */
+div.h-16.lg\:h-20 {
+	display: none !important;
+}
+
+/* Masquer le footer LevisHub */
+footer:not(.demo-footer) {
+	display: none !important;
+}
+
+/* Alternative avec des sélecteurs d'attributs */
+[class*="h-16"] {
+	display: none !important;
+}
+
+/* Masquer le background LevisHub en haut */
+body > div > div > div:first-child {
+	background: transparent !important;
+}
+
+/* Masquer le background LevisHub au-dessus du footer */
+body > div > div > div:last-child {
+	background: transparent !important;
+}
+
+/* S'assurer que les composants des mini-applications restent visibles */
+.demo-nav,
+.demo-footer {
+	display: block !important;
+}
+
+/* Styles de base pour toutes les démos */
+.demo-container {
+	min-height: 100vh;
+}
+
+.demo-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+.demo-footer {
+	border-top: 1px solid currentColor;
+	margin-top: 0 !important;
+}
+
+/* Bouton retour commun */
+.demo-back-button {
+	position: fixed;
+	bottom: 1.5rem;
+	right: 1.5rem;
+	z-index: 40;
+}

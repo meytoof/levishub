@@ -31,8 +31,9 @@ export default async function RootLayout({
 	const session = await getServerSession(authOptions);
 
 	const navItems = [
+		{ name: "Services", link: "/services" },
+		{ name: "Projets Démo", link: "/projets-demo" },
 		{ name: "Tarifs", link: "/pricing" },
-		{ name: "À propos", link: "/about" },
 		{ name: "Contact", link: "/contact" },
 	];
 
@@ -42,7 +43,7 @@ export default async function RootLayout({
 				<ThemeProvider>
 					<SessionProvider session={session}>
 						<Navbar>
-							<NavBody className="shadow-none">
+							<NavBody className="shadow-none levishub-nav">
 								<NavbarLogo />
 								<NavItems items={navItems} />
 								<div className="flex items-center gap-2">

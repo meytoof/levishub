@@ -1,0 +1,117 @@
+/* Styles spécifiques au portfolio */
+
+/* MASQUAGE FORCÉ des composants LevisHub */
+/* Masquer le conteneur Navbar complet */
+body > div > div > div:first-child {
+	display: none !important;
+}
+
+/* Masquer la navbar principale LevisHub */
+nav.levishub-nav {
+	display: none !important;
+}
+
+div.h-16.lg\:h-20 {
+	display: none !important;
+}
+
+footer:not(.demo-footer) {
+	display: none !important;
+}
+
+/* Masquer tous les divs avec h-16 */
+[class*="h-16"] {
+	display: none !important;
+}
+
+/* Masquer le background LevisHub */
+body > div > div > div:first-child {
+	background: transparent !important;
+}
+
+body > div > div > div:last-child {
+	background: transparent !important;
+}
+
+/* Variables CSS pour le portfolio */
+:root {
+	--portfolio-bg: #000000;
+	--portfolio-text: #ffffff;
+	--portfolio-accent: #00ffff;
+	--portfolio-secondary: #1a1a1a;
+	--portfolio-border: #333333;
+}
+
+[data-theme="light"] {
+	--portfolio-bg: #ffffff;
+	--portfolio-text: #000000;
+	--portfolio-accent: #00a0a0;
+	--portfolio-secondary: #f5f5f5;
+	--portfolio-border: #e0e0e0;
+}
+
+/* Styles spécifiques au portfolio */
+.portfolio-section {
+	background: var(--portfolio-bg);
+	color: var(--portfolio-text);
+}
+
+.portfolio-hero {
+	background: var(--portfolio-bg);
+	color: var(--portfolio-text);
+}
+
+.portfolio-nav {
+	background: var(--portfolio-secondary);
+	border-bottom: 1px solid var(--portfolio-border);
+}
+
+.portfolio-card {
+	background: var(--portfolio-secondary);
+	border: 1px solid var(--portfolio-border);
+	color: var(--portfolio-text);
+	transition: all 0.3s ease;
+}
+
+.portfolio-card:hover {
+	border-color: var(--portfolio-accent);
+	box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.portfolio-button {
+	background: var(--portfolio-accent);
+	color: var(--portfolio-bg);
+	border: 2px solid var(--portfolio-accent);
+	transition: all 0.3s ease;
+}
+
+.portfolio-button:hover {
+	background: transparent;
+	color: var(--portfolio-accent);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+}
+
+/* Animation néon pour les éléments interactifs */
+.neon-glow {
+	text-shadow: 0 0 10px var(--portfolio-accent),
+		0 0 20px var(--portfolio-accent);
+}
+
+.neon-border {
+	box-shadow: 0 0 20px currentColor;
+}
+
+.portfolio-footer {
+	background: var(--portfolio-secondary);
+	border-top: 1px solid var(--portfolio-border);
+	color: var(--portfolio-text);
+	margin-top: 0 !important;
+}
+
+/* Responsive design spécifique */
+@media (max-width: 768px) {
+	.portfolio-hero h2 {
+		font-size: 3rem;
+	}
+}

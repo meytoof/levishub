@@ -1,0 +1,133 @@
+/* Styles spécifiques à l'e-commerce */
+
+/* MASQUAGE FORCÉ des composants LevisHub */
+/* Masquer le conteneur Navbar complet */
+body > div > div > div:first-child {
+	display: none !important;
+}
+
+/* Masquer la navbar principale LevisHub */
+nav.levishub-nav {
+	display: none !important;
+}
+
+div.h-16.lg\:h-20 {
+	display: none !important;
+}
+
+footer:not(.demo-footer) {
+	display: none !important;
+}
+
+/* Masquer tous les divs avec h-16 */
+[class*="h-16"] {
+	display: none !important;
+}
+
+/* Masquer le background LevisHub */
+body > div > div > div:first-child {
+	background: transparent !important;
+}
+
+body > div > div > div:last-child {
+	background: transparent !important;
+}
+
+/* Variables CSS pour l'e-commerce */
+:root {
+	--ecommerce-bg: #ffffff;
+	--ecommerce-text: #1f2937;
+	--ecommerce-primary: #3b82f6;
+	--ecommerce-secondary: #8b5cf6;
+	--ecommerce-accent: #06b6d4;
+	--ecommerce-border: #e5e7eb;
+	--ecommerce-card: #f9fafb;
+}
+
+[data-theme="dark"] {
+	--ecommerce-bg: #0f172a;
+	--ecommerce-text: #f1f5f9;
+	--ecommerce-primary: #60a5fa;
+	--ecommerce-secondary: #a78bfa;
+	--ecommerce-accent: #22d3ee;
+	--ecommerce-border: #334155;
+	--ecommerce-card: #1e293b;
+}
+
+/* Styles spécifiques à l'e-commerce */
+.ecommerce-section {
+	background: var(--ecommerce-bg);
+	color: var(--ecommerce-text);
+}
+
+.ecommerce-hero {
+	background: linear-gradient(
+		135deg,
+		var(--ecommerce-primary) 0%,
+		var(--ecommerce-secondary) 100%
+	);
+	color: white;
+}
+
+.ecommerce-nav {
+	background: var(--ecommerce-bg);
+	border-bottom: 1px solid var(--ecommerce-border);
+	color: var(--ecommerce-text);
+}
+
+.ecommerce-card {
+	background: var(--ecommerce-card);
+	border: 1px solid var(--ecommerce-border);
+	color: var(--ecommerce-text);
+	transition: all 0.3s ease;
+}
+
+.ecommerce-card:hover {
+	border-color: var(--ecommerce-primary);
+	box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+}
+
+.ecommerce-button {
+	background: var(--ecommerce-primary);
+	color: white;
+	border: 2px solid var(--ecommerce-primary);
+	transition: all 0.3s ease;
+}
+
+.ecommerce-button:hover {
+	background: transparent;
+	color: var(--ecommerce-primary);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.cart-icon {
+	color: var(--ecommerce-text);
+}
+
+.cart-badge {
+	background: var(--ecommerce-accent);
+	color: white;
+}
+
+/* Styles du panier */
+.cart-sidebar {
+	backdrop-filter: blur(10px);
+	background: rgba(255, 255, 255, 0.95);
+}
+
+.cart-item {
+	background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+	border: 1px solid var(--ecommerce-border);
+}
+
+/* Responsive design spécifique */
+@media (max-width: 768px) {
+	.ecommerce-hero h2 {
+		font-size: 3rem;
+	}
+
+	.cart-sidebar {
+		width: 100%;
+	}
+}

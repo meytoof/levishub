@@ -1,0 +1,149 @@
+/* Styles spécifiques au blog */
+
+/* MASQUAGE FORCÉ des composants LevisHub */
+/* Masquer le conteneur Navbar complet */
+body > div > div > div:first-child {
+	display: none !important;
+}
+
+/* Masquer la navbar principale LevisHub */
+nav.levishub-nav {
+	display: none !important;
+}
+
+div.h-16.lg\:h-20 {
+	display: none !important;
+}
+
+footer:not(.demo-footer) {
+	display: none !important;
+}
+
+/* Masquer tous les divs avec h-16 */
+[class*="h-16"] {
+	display: none !important;
+}
+
+/* Masquer le background LevisHub */
+body > div > div > div:first-child {
+	background: transparent !important;
+}
+
+body > div > div > div:last-child {
+	background: transparent !important;
+}
+
+/* Variables CSS pour le blog */
+:root {
+	--blog-bg: #fefce8;
+	--blog-text: #451a03;
+	--blog-primary: #d97706;
+	--blog-secondary: #f59e0b;
+	--blog-accent: #fbbf24;
+	--blog-border: #fde68a;
+	--blog-card: #fef3c7;
+}
+
+[data-theme="dark"] {
+	--blog-bg: #1c1917;
+	--blog-text: #fef3c7;
+	--blog-primary: #f59e0b;
+	--blog-secondary: #d97706;
+	--blog-accent: #fbbf24;
+	--blog-border: #92400e;
+	--blog-card: #292524;
+}
+
+/* Styles spécifiques au blog */
+.blog-section {
+	background: var(--blog-bg);
+	color: var(--blog-text);
+}
+
+.blog-hero {
+	background: linear-gradient(
+		135deg,
+		var(--blog-primary) 0%,
+		var(--blog-secondary) 100%
+	);
+	color: white;
+}
+
+.blog-nav {
+	background: var(--blog-bg);
+	border-bottom: 1px solid var(--blog-border);
+	color: var(--blog-text);
+}
+
+.blog-card {
+	background: var(--blog-card);
+	border: 1px solid var(--blog-border);
+	color: var(--blog-text);
+	transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+	border-color: var(--blog-primary);
+	box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15);
+}
+
+.blog-button {
+	background: var(--blog-primary);
+	color: white;
+	border: 2px solid var(--blog-primary);
+	transition: all 0.3s ease;
+}
+
+.blog-button:hover {
+	background: transparent;
+	color: var(--blog-primary);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(217, 119, 6, 0.3);
+}
+
+.blog-article {
+	background: var(--blog-card);
+	border: 1px solid var(--blog-border);
+	color: var(--blog-text);
+}
+
+.blog-subscribe {
+	background: var(--blog-primary);
+	color: white;
+	transition: all 0.3s ease;
+}
+
+.blog-subscribe:hover {
+	background: var(--blog-secondary);
+}
+
+/* Styles des catégories */
+.category-button {
+	transition: all 0.3s ease;
+}
+
+.category-button.active {
+	background: var(--blog-primary);
+	color: white;
+}
+
+.category-button:not(.active):hover {
+	background: var(--blog-card);
+	border-color: var(--blog-primary);
+}
+
+/* Styles de la newsletter */
+.newsletter-section {
+	background: linear-gradient(
+		135deg,
+		var(--blog-primary),
+		var(--blog-secondary)
+	);
+}
+
+/* Responsive design spécifique */
+@media (max-width: 768px) {
+	.blog-hero h2 {
+		font-size: 3rem;
+	}
+}

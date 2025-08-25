@@ -1,0 +1,84 @@
+/* Vitrine Demo - Styles isolés */
+
+/* Variables CSS personnalisées */
+:root {
+	--vitrine-bg: #ffffff;
+	--vitrine-text: #1f2937;
+	--vitrine-primary: #2563eb;
+	--vitrine-secondary: #475569;
+	--vitrine-accent: #0ea5e9;
+	--vitrine-border: #e2e8f0;
+	--vitrine-card: #f8fafc;
+}
+
+[data-theme="dark"] {
+	--vitrine-bg: #0f172a;
+	--vitrine-text: #f1f5f9;
+	--vitrine-primary: #3b82f6;
+	--vitrine-secondary: #64748b;
+	--vitrine-accent: #38bdf8;
+	--vitrine-border: #334155;
+	--vitrine-card: #1e293b;
+}
+
+/* Styles spécifiques à la vitrine */
+.vitrine-hero {
+	background: linear-gradient(
+		135deg,
+		var(--vitrine-primary) 0%,
+		var(--vitrine-secondary) 100%
+	);
+	color: white;
+}
+
+.vitrine-nav {
+	background: var(--vitrine-bg);
+	border-bottom: 1px solid var(--vitrine-border);
+	color: var(--vitrine-text);
+}
+
+.vitrine-card {
+	background: var(--vitrine-card);
+	border: 1px solid var(--vitrine-border);
+	color: var(--vitrine-text);
+}
+
+.vitrine-button {
+	background: var(--vitrine-primary);
+	color: white;
+	border: 2px solid var(--vitrine-primary);
+}
+
+.vitrine-button:hover {
+	background: transparent;
+	color: var(--vitrine-primary);
+}
+
+.vitrine-section {
+	background: var(--vitrine-bg);
+	color: var(--vitrine-text);
+}
+
+.vitrine-service {
+	background: var(--vitrine-card);
+	border: 1px solid var(--vitrine-border);
+	color: var(--vitrine-text);
+}
+
+.vitrine-card:hover {
+	border-color: var(--vitrine-primary);
+	box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+}
+
+/* Styles des témoignages */
+.testimonial-card {
+	background: linear-gradient(135deg, #ffffff, #f8fafc);
+	border: 1px solid var(--vitrine-gray-light);
+}
+
+/* Responsive design spécifique */
+@media (max-width: 768px) {
+	.vitrine-hero h2 {
+		font-size: 3rem;
+	}
+}

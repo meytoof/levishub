@@ -46,6 +46,17 @@ export default function Home() {
 									Voir mes services
 								</Button>
 							</Link>
+							<Link
+								href="/projets-demo"
+								className="w-full sm:w-auto"
+							>
+								<Button
+									variant="outline"
+									className="border-2 transition-all duration-200 hover:-translate-y-1 dark:hover:bg-neutral-800 px-6 sm:px-8 py-3 text-base sm:text-lg border-violet-500/50 dark:border-cyan-500/50 hover:border-violet-600 dark:hover:border-cyan-600 w-full sm:w-auto"
+								>
+									Voir mes projets démo
+								</Button>
+							</Link>
 						</div>
 					</div>
 					<div className="grid place-items-center">

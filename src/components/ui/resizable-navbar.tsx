@@ -80,7 +80,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 	return (
-		<motion.div
+		<motion.nav
 			animate={{
 				backdropFilter: visible ? "blur(10px)" : "none",
 				boxShadow: visible
@@ -103,7 +103,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 			)}
 		>
 			{children}
-		</motion.div>
+		</motion.nav>
 	);
 };
 
@@ -143,7 +143,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 	return (
-		<motion.div
+		<motion.nav
 			animate={{
 				backdropFilter: visible ? "blur(10px)" : "none",
 				boxShadow: visible
@@ -166,7 +166,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 			)}
 		>
 			{children}
-		</motion.div>
+		</motion.nav>
 	);
 };
 
@@ -295,16 +295,22 @@ export const MobileNavigation = () => {
 			<MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="flex flex-col gap-4">
 					<a
+						href="/services"
+						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
+					>
+						Services
+					</a>
+					<a
+						href="/projets-demo"
+						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
+					>
+						Projets Démo
+					</a>
+					<a
 						href="/pricing"
 						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
 					>
 						Tarifs
-					</a>
-					<a
-						href="/about"
-						className="text-lg font-medium text-white hover:text-indigo-300 transition-colors"
-					>
-						À propos
 					</a>
 					<a
 						href="/login"
