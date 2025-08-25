@@ -50,10 +50,6 @@ const itemVariants = {
 	visible: {
 		opacity: 1,
 		y: 0,
-		transition: {
-			duration: 0.6,
-			ease: [0.25, 0.46, 0.45, 0.94],
-		},
 	},
 };
 
@@ -108,12 +104,14 @@ export default function DemoComDigital() {
 					>
 						<motion.h2
 							variants={itemVariants}
+							transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
 							className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-gradient-cyan"
 						>
 							Exemples de Contenus
 						</motion.h2>
 						<motion.p
 							variants={itemVariants}
+							transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
 							className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto"
 						>
 							Création sur-mesure adaptée à votre audience
