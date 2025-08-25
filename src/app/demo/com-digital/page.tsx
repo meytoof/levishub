@@ -52,7 +52,7 @@ const itemVariants = {
 		y: 0,
 		transition: {
 			duration: 0.6,
-			ease: "easeOut",
+			ease: [0.25, 0.46, 0.45, 0.94],
 		},
 	},
 };
@@ -66,7 +66,7 @@ export default function DemoComDigital() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: "easeOut" }}
+						transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
 						className="max-w-4xl mx-auto"
 					>
 						<motion.h1
@@ -75,7 +75,7 @@ export default function DemoComDigital() {
 							transition={{
 								duration: 0.8,
 								delay: 0.2,
-								ease: "easeOut",
+								ease: [0.25, 0.46, 0.45, 0.94],
 							}}
 							className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 sm:mb-8 text-gradient-cyan leading-tight"
 						>
@@ -87,7 +87,7 @@ export default function DemoComDigital() {
 							transition={{
 								duration: 0.8,
 								delay: 0.4,
-								ease: "easeOut",
+								ease: [0.25, 0.46, 0.45, 0.94],
 							}}
 							className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed mb-8 sm:mb-12 max-w-3xl mx-auto"
 						>
@@ -138,7 +138,7 @@ export default function DemoComDigital() {
 									whileHover={{ scale: 1.02, y: -5 }}
 									transition={{
 										duration: 0.3,
-										ease: "easeInOut",
+										ease: [0.4, 0, 0.2, 1],
 									}}
 									className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 hover:shadow-2xl group-hover:shadow-cyan-500/20"
 								>
@@ -310,7 +310,7 @@ export default function DemoComDigital() {
 									whileHover={{ scale: 1.02, y: -5 }}
 									transition={{
 										duration: 0.3,
-										ease: "easeInOut",
+										ease: [0.4, 0, 0.2, 1],
 									}}
 									className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl group-hover:shadow-violet-500/20"
 								>
@@ -334,7 +334,7 @@ export default function DemoComDigital() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: "easeOut" }}
+						transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
 						viewport={{ once: true }}
 						className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-500/20 via-purple-600/20 to-cyan-500/20 border border-violet-500/30 backdrop-blur-xl"
 					>
@@ -347,7 +347,7 @@ export default function DemoComDigital() {
 								transition={{
 									duration: 0.8,
 									delay: 0.2,
-									ease: "easeOut",
+									ease: [0.25, 0.46, 0.45, 0.94],
 								}}
 								viewport={{ once: true }}
 								className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 sm:mb-8 text-gradient-cyan"
@@ -362,7 +362,7 @@ export default function DemoComDigital() {
 								transition={{
 									duration: 0.8,
 									delay: 0.4,
-									ease: "easeOut",
+									ease: [0.25, 0.46, 0.45, 0.94],
 								}}
 								viewport={{ once: true }}
 								className="text-lg sm:text-xl text-muted-foreground mb-10 sm:mb-12 max-w-3xl mx-auto leading-relaxed"
@@ -378,7 +378,7 @@ export default function DemoComDigital() {
 								transition={{
 									duration: 0.8,
 									delay: 0.6,
-									ease: "easeOut",
+									ease: [0.25, 0.46, 0.45, 0.94],
 								}}
 								viewport={{ once: true }}
 							>
@@ -387,7 +387,7 @@ export default function DemoComDigital() {
 										whileHover={{ scale: 1.05, rotate: 1 }}
 										transition={{
 											duration: 0.2,
-											ease: "easeInOut",
+											ease: [0.4, 0, 0.2, 1],
 										}}
 									>
 										<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-10 sm:px-12 py-4 sm:py-5 text-lg sm:text-xl text-white border-0">
