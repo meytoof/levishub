@@ -39,7 +39,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang="fr" suppressHydrationWarning>
-			<body className={inter.className}>
+			<body className={`${inter.className} flex flex-col min-h-screen`}>
 				<ThemeProvider>
 					<SessionProvider session={session}>
 						<Navbar>
@@ -54,7 +54,7 @@ export default async function RootLayout({
 							<MobileNavigation />
 						</Navbar>
 						<div className="h-16 lg:h-20" />
-						{children}
+						<main className="flex-1">{children}</main>
 						<Footer />
 					</SessionProvider>
 				</ThemeProvider>

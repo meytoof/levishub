@@ -10,42 +10,44 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				// Couleurs optimisées pour le contraste avec le fond cyan
-				background: {
-					DEFAULT: "#ffffff",
-					secondary: "#f0fdfa",
+				border: "hsl(var(--border))",
+				input: "hsl(var(--input))",
+				ring: "hsl(var(--ring))",
+				background: "hsl(var(--background))",
+				foreground: "hsl(var(--foreground))",
+				primary: {
+					DEFAULT: "hsl(var(--primary))",
+					foreground: "hsl(var(--primary-foreground))",
 				},
-				foreground: {
-					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
-					secondary: "#1e40af", // Bleu foncé pour contraste élevé
+				secondary: {
+					DEFAULT: "hsl(var(--secondary))",
+					foreground: "hsl(var(--secondary-foreground))",
 				},
-				card: {
-					DEFAULT: "#ffffff",
-					secondary: "#f0fdfa",
-				},
-				cardForeground: {
-					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
-					secondary: "#1e40af", // Bleu foncé pour contraste élevé
+				destructive: {
+					DEFAULT: "hsl(var(--destructive))",
+					foreground: "hsl(var(--destructive-foreground))",
 				},
 				muted: {
-					DEFAULT: "#e0f2fe", // Cyan très clair
-					secondary: "#bae6fd", // Cyan clair
-				},
-				mutedForeground: {
-					DEFAULT: "#0369a1", // Bleu foncé pour contraste élevé
-					secondary: "#0284c7", // Bleu moyen pour contraste bon
+					DEFAULT: "hsl(var(--muted))",
+					foreground: "hsl(var(--muted-foreground))",
 				},
 				accent: {
-					DEFAULT: "#e0f2fe", // Cyan très clair
-					secondary: "#bae6fd", // Cyan clair
+					DEFAULT: "hsl(var(--accent))",
+					foreground: "hsl(var(--accent-foreground))",
 				},
-				accentForeground: {
-					DEFAULT: "#0c4a6e", // Bleu très foncé pour contraste optimal
-					secondary: "#1e40af", // Bleu foncé pour contraste élevé
+				popover: {
+					DEFAULT: "hsl(var(--popover))",
+					foreground: "hsl(var(--popover-foreground))",
 				},
-				border: "#0284c7", // Bleu moyen pour contraste bon
-				input: "#0284c7", // Bleu moyen pour contraste bon
-				ring: "#0c4a6e", // Bleu très foncé pour contraste optimal
+				card: {
+					DEFAULT: "hsl(var(--card))",
+					foreground: "hsl(var(--card-foreground))",
+				},
+			},
+			borderRadius: {
+				lg: "var(--radius)",
+				md: "calc(var(--radius) - 2px)",
+				sm: "calc(var(--radius) - 4px)",
 			},
 		},
 	},

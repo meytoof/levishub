@@ -3,8 +3,9 @@ import { NavbarButton } from "@/components/ui/resizable-navbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export function AuthButtons() {
-	const { status } = useSession();
+	const { data: session, status } = useSession();
 	const isAuthenticated = status === "authenticated";
+	const isAdmin = session?.user?.role === "ADMIN";
 
 	if (isAuthenticated) {
 		return (
@@ -13,9 +14,15 @@ export function AuthButtons() {
 					<span className="inline-block h-2 w-2 rounded-full bg-green-500" />
 					Connecté
 				</span>
-				<NavbarButton href="/dashboard" variant="primary">
-					Espace client
-				</NavbarButton>
+				{isAdmin ? (
+					<NavbarButton href="/dashboard/admin" variant="primary">
+						Dashboard Admin
+					</NavbarButton>
+				) : (
+					<NavbarButton href="/dashboard" variant="primary">
+						Espace client
+					</NavbarButton>
+				)}
 				<button
 					onClick={() => signOut({ callbackUrl: "/" })}
 					className="px-4 py-2 rounded-md bg-black text-white text-sm font-bold hover:-translate-y-0.5 transition duration-200 cursor-pointer"

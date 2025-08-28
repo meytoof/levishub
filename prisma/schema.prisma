@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -21,12 +21,18 @@ model User {
   hashedPassword     String?
   // Rôles
   role               Role      @default(CLIENT)
+  // Multi-tenant (nullable pour compatibilité)
+  clientId           String?
 
   accounts           Account[]
   sessions           Session[]
   subscriptions      Subscription[]
   sites              Site[]
   events             AnalyticsEvent[]
+  // Relations multi-tenant
+  client             Client?   @relation(fields: [clientId], references: [id])
+  createdInvitations Invitation[] @relation("InvitationCreator")
+  tickets            Ticket[]
 
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -95,8 +101,11 @@ model Site {
   name        String
   domain      String   @unique
   isActive    Boolean  @default(true)
+  // Multi-tenant (nullable pour compatibilité)
+  clientId    String?
 
   owner       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client      Client?  @relation(fields: [clientId], references: [id])
   events      AnalyticsEvent[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -122,4 +131,117 @@ enum EventType {
   VISIT
   PAGEVIEW
   UPTIME_PING
+}
+
+// ===== MODÈLES MULTI-TENANT =====
+
+model Client {
+  id                String   @id @default(cuid())
+  name              String
+  companyName       String
+  primaryEmail      String   @unique
+  stripeCustomerId  String?  @unique
+  isActive          Boolean  @default(true)
+  
+  // Relations
+  users             User[]
+  sites             Site[]
+  invitations       Invitation[]
+  tickets           Ticket[]
+  invoices          Invoice[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Invitation {
+  id              String    @id @default(cuid())
+  clientId        String
+  email           String
+  token           String    @unique
+  status          InvitationStatus @default(PENDING)
+  expiresAt       DateTime
+  acceptedAt      DateTime?
+  createdByUserId String
+  
+  // Relations
+  client          Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  createdBy       User      @relation("InvitationCreator", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([token])
+  @@index([email])
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+model Ticket {
+  id              String        @id @default(cuid())
+  clientId        String
+  createdByUserId String
+  title           String
+  description     String?
+  status          TicketStatus  @default(OPEN)
+  priority        TicketPriority @default(MEDIUM)
+  
+  // Relations
+  client          Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  createdBy       User          @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([clientId, status])
+  @@index([createdByUserId])
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Invoice {
+  id                 String    @id @default(cuid())
+  clientId           String
+  stripeInvoiceId    String?   @unique
+  status             InvoiceStatus
+  amountDue          Int       // en centimes
+  amountPaid         Int       // en centimes
+  currency           String    @default("eur")
+  periodStart        DateTime?
+  periodEnd          DateTime?
+  hostedInvoiceUrl   String?
+  
+  // Relations
+  client             Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  
+  @@index([clientId, status])
+  @@index([stripeInvoiceId])
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
 }
