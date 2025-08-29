@@ -1,0 +1,226 @@
+# 🚀 LevisHub - Application Multi-Tenant avec Backoffice
+
+## 📋 **VUE D'ENSEMBLE DU PROJET**
+
+**LevisHub** est une plateforme de développement web freelance offrant des sites modernes, rapides et animés avec des backoffices sur mesure. L'application est conçue avec une architecture multi-tenant permettant aux clients d'avoir leur propre espace dédié.
+
+## 🏗️ **ARCHITECTURE TECHNIQUE**
+
+### **Stack Principal**
+- **Frontend**: Next.js 14 avec App Router
+- **Styling**: Tailwind CSS (site marketing) + CSS personnalisé (backoffice)
+- **Base de données**: Prisma ORM + SQLite (dev) → PostgreSQL (production)
+- **Authentification**: NextAuth.js avec rôles ADMIN/CLIENT
+- **Email**: Nodemailer pour les notifications
+- **Paiements**: Stripe (préparé, pas encore actif)
+
+### **Structure des Dossiers**
+```
+src/
+├── app/
+│   ├── (marketing)/          # Site marketing principal (CTAs, pricing, landing)
+│   ├── (client)/            # Backoffice des clients
+│   ├── admin/               # Backoffice administrateur
+│   └── api/                 # Routes API
+├── components/
+│   ├── ui/                  # Composants UI réutilisables
+│   └── auth/                # Composants d'authentification
+└── lib/                     # Utilitaires et configurations
+```
+
+## 🎯 **FONCTIONNALITÉS PRINCIPALES**
+
+### **1. Site Marketing (/(marketing))**
+- Landing pages avec animations
+- Système de pricing
+- Pages de services et portfolio
+- Design moderne avec Tailwind CSS
+- **IMPORTANT**: Ne jamais casser ce design existant
+
+### **2. Backoffice Administrateur (/admin)**
+- Gestion des clients et invitations
+- Tableau de bord avec statistiques
+- Gestion des tickets de support
+- Profil, paramètres et aide
+- **Switch Mode Client**: Permet de tester l'interface client
+
+### **3. Backoffice Client (/dashboard)**
+- Tableau de bord personnalisé
+- Création et suivi des tickets
+- Analytics et trafic du site
+- Gestion des paiements et factures
+- Profil et paramètres
+
+## 🔐 **SYSTÈME D'AUTHENTIFICATION**
+
+### **Rôles Utilisateurs**
+- **ADMIN**: Accès complet à tous les backoffices
+- **CLIENT**: Accès uniquement à son propre espace
+
+### **Sécurité**
+- Sessions gérées par NextAuth.js
+- Protection des routes par rôle
+- Multi-tenancy stricte (chaque client voit seulement ses données)
+
+## 📊 **SYSTÈME DE TICKETS**
+
+### **Fonctionnalités**
+- Création de tickets par les clients
+- 4 niveaux de priorité (Faible, Moyenne, Élevée, Urgente)
+- 4 statuts (Ouvert, En cours, Résolu, Fermé)
+- Notifications email automatiques
+- Gestion complète côté admin
+
+### **Workflow**
+1. Client crée un ticket → Email automatique à l'admin
+2. Admin met à jour le statut → Email automatique au client
+3. Suivi complet de l'historique
+
+## 🎨 **SYSTÈME DE DESIGN**
+
+### **Marketing Site**
+- **Tailwind CSS** uniquement
+- Design existant à préserver
+- Animations et composants modernes
+
+### **Backoffice**
+- **CSS personnalisé** dans `src/components/ui/backoffice/backoffice-dark.css`
+- Thème sombre moderne et professionnel
+- **COMPLÈTEMENT SÉPARÉ** du site marketing
+- Composants dans `BackofficeLayoutDark.tsx`
+
+## 🗄️ **BASE DE DONNÉES**
+
+### **Modèles Principaux**
+```prisma
+User (ADMIN/CLIENT + clientId pour multi-tenancy)
+Client (informations entreprise)
+Ticket (support avec statuts et priorités)
+Subscription (abonnements Stripe)
+Invoice (factures)
+AnalyticsEvent (suivi du trafic)
+```
+
+### **Migration**
+- **Actuel**: SQLite (développement)
+- **Futur**: PostgreSQL sur Vercel
+- **Préparer**: Scripts de migration
+
+## 🚧 **FONCTIONNALITÉS EN DÉVELOPPEMENT**
+
+### **Immédiat (Priorité 1)**
+- ✅ Système de tickets (TERMINÉ)
+- 🔄 Configuration SMTP Gmail
+- 🔄 Tests des notifications email
+
+### **Court terme (Priorité 2)**
+- 📊 Dashboard analytics pour clients
+- 💳 Intégration Stripe complète
+- 📧 Système d'invitations par email
+- 🔍 Recherche globale
+
+### **Moyen terme (Priorité 3)**
+- 📱 Application mobile
+- 🔔 Notifications push
+- 📈 Rapports avancés
+- 🌐 Multi-langues
+
+## ⚠️ **RÈGLES IMPORTANTES À RESPECTER**
+
+### **1. Séparation des Designs**
+- **JAMAIS** mélanger Tailwind (marketing) et CSS personnalisé (backoffice)
+- Le backoffice doit rester complètement externe
+- Utiliser `BackofficeLayoutDark` pour tous les backoffices
+
+### **2. Multi-Tenancy**
+- **TOUJOURS** vérifier les permissions par rôle
+- Un client ne doit **JAMAIS** voir les données d'un autre
+- Utiliser `session.user.role` et `session.user.clientId`
+
+### **3. Composants**
+- **Server Components** par défaut
+- **"use client"** seulement si nécessaire (useState, useEffect, etc.)
+- Extraire la logique client dans des composants séparés
+
+### **4. API Routes**
+- **TOUJOURS** vérifier l'authentification
+- Validation des données côté serveur
+- Gestion d'erreurs appropriée
+
+## 🔧 **CONFIGURATION ENVIRONNEMENT**
+
+### **Variables Requises**
+```env
+# SMTP (Gmail)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=quentinlevis@gmail.com
+SMTP_PASS=mot_de_passe_application
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=secret_unique
+
+# Base de données
+DATABASE_URL="file:./dev.db"
+```
+
+### **Gmail Setup**
+1. Activer l'authentification à 2 facteurs
+2. Créer un mot de passe d'application
+3. Utiliser ce mot de passe dans SMTP_PASS
+
+## 📱 **WORKFLOW UTILISATEUR**
+
+### **Administrateur**
+1. Se connecte → `/admin`
+2. Gère les clients et invitations
+3. Traite les tickets de support
+4. Accède aux statistiques globales
+
+### **Client**
+1. Reçoit une invitation par email
+2. Crée son compte et mot de passe
+3. Accède à son dashboard → `/dashboard`
+4. Crée des tickets et suit ses projets
+
+## 🎯 **OBJECTIFS FUTURS**
+
+### **Phase 1: Consolidation**
+- Finaliser le système de tickets
+- Implémenter les analytics de base
+- Tester et optimiser les performances
+
+### **Phase 2: Expansion**
+- Intégration Stripe complète
+- Système de facturation automatique
+- API publique pour les développeurs
+
+### **Phase 3: Évolution**
+- Application mobile native
+- Intelligence artificielle pour le support
+- Marketplace de composants
+
+## 🐛 **DÉPANNAGE COMMUN**
+
+### **Erreurs Fréquentes**
+1. **"React Context unavailable"** → Utiliser `SessionWrapper` dans le layout racine
+2. **"useState in Server Component"** → Extraire dans un composant client séparé
+3. **"Module not found"** → Vérifier les imports et la structure des dossiers
+
+### **Bonnes Pratiques**
+- Toujours tester les deux rôles (ADMIN/CLIENT)
+- Vérifier la multi-tenancy sur chaque nouvelle fonctionnalité
+- Maintenir la séparation des designs
+- Documenter les nouvelles API
+
+## 📚 **RESSOURCES UTILES**
+
+- **Prisma**: https://prisma.io/docs
+- **NextAuth**: https://next-auth.js.org
+- **Stripe**: https://stripe.com/docs
+- **Tailwind**: https://tailwindcss.com/docs
+
+---
+
+**💡 Conseil**: Avant de commencer une nouvelle fonctionnalité, lire ce fichier et comprendre le contexte global de l'application. Le système est conçu pour être robuste et scalable, respectez l'architecture existante.

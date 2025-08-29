@@ -1,60 +1,87 @@
 "use client";
 
 import {
-	BarChart3,
+	BarChart,
+	Bell,
+	CreditCard,
 	FileText,
 	Home,
-	Mail,
+	LifeBuoy,
+	LogOut,
 	Menu,
+	Search,
 	Settings,
-	Ticket,
+	User,
 	Users,
 	X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-interface BackofficeLayoutProps {
-	children: React.ReactNode;
-	userRole?: "ADMIN" | "CLIENT";
-}
-
-const adminNavItems = [
-	{ name: "Dashboard", href: "/dashboard/admin", icon: Home },
-	{ name: "Clients", href: "/admin/clients", icon: Users },
-	{ name: "Invitations", href: "/admin/invitations", icon: Mail },
-	{ name: "Tickets", href: "/admin/tickets", icon: Ticket },
-	{ name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-	{ name: "Factures", href: "/admin/invoices", icon: FileText },
-	{ name: "Paramètres", href: "/admin/settings", icon: Settings },
-];
-
-const clientNavItems = [
-	{ name: "Dashboard", href: "/dashboard", icon: Home },
-	{ name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-	{ name: "Factures", href: "/dashboard/invoices", icon: FileText },
-	{ name: "Tickets", href: "/dashboard/tickets", icon: Ticket },
-	{ name: "Paramètres", href: "/dashboard/settings", icon: Settings },
-];
+import { useMemo, useState } from "react";
 
 export function BackofficeLayout({
 	children,
-	userRole = "ADMIN",
-}: BackofficeLayoutProps) {
+	userRole,
+}: {
+	children: React.ReactNode;
+	userRole: "ADMIN" | "CLIENT";
+}) {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
 	const pathname = usePathname();
-	const navItems = userRole === "ADMIN" ? adminNavItems : clientNavItems;
+
+	const navItems = useMemo(() => {
+		if (userRole === "ADMIN") {
+			return [
+				{ name: "Dashboard", href: "/dashboard/admin", icon: Home },
+				{ name: "Clients", href: "/admin/clients", icon: Users },
+				{
+					name: "Paiements",
+					href: "/admin/payments",
+					icon: CreditCard,
+				},
+				{ name: "Tickets", href: "/admin/tickets", icon: LifeBuoy },
+				{ name: "Analytics", href: "/admin/analytics", icon: BarChart },
+				{ name: "Factures", href: "/admin/invoices", icon: FileText },
+			];
+		} else {
+			return [
+				{ name: "Dashboard", href: "/dashboard", icon: Home },
+				{
+					name: "Analytics",
+					href: "/dashboard/analytics",
+					icon: BarChart,
+				},
+				{
+					name: "Factures",
+					href: "/dashboard/invoices",
+					icon: FileText,
+				},
+				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
+				{
+					name: "Projets",
+					href: "/dashboard/projects",
+					icon: FileText,
+				},
+			];
+		}
+	}, [userRole]);
+
+	const handleLogout = () => {
+		// Logique de déconnexion
+		console.log("Déconnexion...");
+	};
 
 	return (
 		<div className="backoffice-layout">
 			{/* Header mobile */}
 			<header className="backoffice-header lg:hidden">
 				<div className="backoffice-container">
-					<div className="flex h-16 items-center justify-between">
+					<div className="backoffice-flex backoffice-items-center backoffice-justify-between">
 						<button
 							onClick={() => setSidebarOpen(!sidebarOpen)}
-							className="backoffice-btn-ghost p-2"
+							className="backoffice-btn backoffice-btn-ghost p-2"
+							aria-label="Toggle sidebar"
 						>
 							{sidebarOpen ? (
 								<X className="h-5 w-5" />
@@ -62,10 +89,19 @@ export function BackofficeLayout({
 								<Menu className="h-5 w-5" />
 							)}
 						</button>
-						<div className="text-lg font-semibold">
+
+						<div className="backoffice-text-lg backoffice-font-semibold backoffice-text-primary">
 							LevisHub Backoffice
 						</div>
-						<div className="w-10" /> {/* Spacer */}
+
+						<div className="backoffice-flex backoffice-items-center backoffice-gap-2">
+							<button className="backoffice-btn backoffice-btn-ghost p-2">
+								<Bell className="h-5 w-5" />
+							</button>
+							<div className="backoffice-w-8 backoffice-h-8 backoffice-rounded-full backoffice-bg-primary-500 backoffice-flex backoffice-items-center backoffice-justify-center">
+								<User className="h-4 w-4 text-white" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</header>
@@ -76,22 +112,40 @@ export function BackofficeLayout({
 					sidebarOpen ? "open" : ""
 				} lg:translate-x-0`}
 			>
-				<div className="flex h-full flex-col">
-					{/* Logo */}
-					<div className="flex h-16 items-center border-b border-border px-6">
+				<div className="backoffice-flex backoffice-h-full backoffice-flex-col">
+					{/* Logo et titre */}
+					<div className="backoffice-flex backoffice-h-16 backoffice-items-center backoffice-border-b backoffice-border-light backoffice-px-6">
 						<Link
 							href="/dashboard"
-							className="flex items-center gap-2"
+							className="backoffice-flex backoffice-items-center backoffice-gap-3"
 						>
-							<div className="h-8 w-8 rounded-lg bg-primary"></div>
-							<span className="text-lg font-semibold">
+							<div className="backoffice-w-8 backoffice-h-8 backoffice-rounded-lg backoffice-bg-primary-500 backoffice-flex backoffice-items-center backoffice-justify-center">
+								<span className="backoffice-text-white backoffice-font-bold backoffice-text-sm">
+									LH
+								</span>
+							</div>
+							<span className="backoffice-text-lg backoffice-font-semibold backoffice-text-primary">
 								LevisHub
 							</span>
 						</Link>
 					</div>
 
+					{/* Barre de recherche */}
+					<div className="backoffice-px-4 backoffice-py-3">
+						<div className="backoffice-relative">
+							<Search className="backoffice-absolute backoffice-left-3 backoffice-top-1/2 backoffice-transform -backoffice-translate-y-1/2 backoffice-h-4 backoffice-w-4 backoffice-text-neutral-400" />
+							<input
+								type="text"
+								placeholder="Rechercher..."
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="backoffice-input backoffice-pl-10 backoffice-text-sm"
+							/>
+						</div>
+					</div>
+
 					{/* Navigation */}
-					<nav className="backoffice-sidebar-nav flex-1">
+					<nav className="backoffice-sidebar-nav backoffice-flex-1">
 						{navItems.map((item) => {
 							const Icon = item.icon;
 							const isActive = pathname === item.href;
@@ -105,26 +159,48 @@ export function BackofficeLayout({
 									}`}
 									onClick={() => setSidebarOpen(false)}
 								>
-									<Icon className="h-4 w-4" />
+									<Icon className="backoffice-h-5 backoffice-w-5" />
 									{item.name}
 								</Link>
 							);
 						})}
 					</nav>
 
-					{/* User info */}
-					<div className="border-t border-border p-4">
-						<div className="flex items-center gap-3">
-							<div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-								<span className="text-sm font-medium">U</span>
-							</div>
-							<div className="flex-1 min-w-0">
-								<p className="text-sm font-medium truncate">
-									Utilisateur
-								</p>
-								<p className="text-xs text-muted-foreground truncate">
-									{userRole}
-								</p>
+					{/* Actions utilisateur */}
+					<div className="backoffice-border-t backoffice-border-light backoffice-p-4">
+						<div className="backoffice-space-y-2">
+							<Link
+								href="/dashboard/settings"
+								className="backoffice-sidebar-item"
+							>
+								<Settings className="backoffice-h-5 backoffice-w-5" />
+								Paramètres
+							</Link>
+							<button
+								onClick={handleLogout}
+								className="backoffice-sidebar-item backoffice-w-full backoffice-text-left"
+							>
+								<LogOut className="backoffice-h-5 backoffice-w-5" />
+								Déconnexion
+							</button>
+						</div>
+
+						{/* Info utilisateur */}
+						<div className="backoffice-mt-4 backoffice-pt-4 backoffice-border-t backoffice-border-light">
+							<div className="backoffice-flex backoffice-items-center backoffice-gap-3">
+								<div className="backoffice-w-8 backoffice-h-8 backoffice-rounded-full backoffice-bg-primary-100 backoffice-flex backoffice-items-center backoffice-justify-center">
+									<User className="backoffice-h-4 backoffice-w-4 backoffice-text-primary-600" />
+								</div>
+								<div className="backoffice-flex-1 backoffice-min-w-0">
+									<p className="backoffice-text-sm backoffice-font-medium backoffice-text-primary backoffice-truncate">
+										{userRole === "ADMIN"
+											? "Administrateur"
+											: "Client"}
+									</p>
+									<p className="backoffice-text-xs backoffice-text-neutral-500 backoffice-truncate">
+										{userRole}
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -145,8 +221,34 @@ export function BackofficeLayout({
 					/>
 				)}
 
+				{/* Header desktop */}
+				<header className="backoffice-header lg:block backoffice-hidden">
+					<div className="backoffice-container">
+						<div className="backoffice-flex backoffice-items-center backoffice-justify-between">
+							<div className="backoffice-flex backoffice-items-center backoffice-gap-4">
+								<h1 className="backoffice-text-xl backoffice-font-semibold backoffice-text-primary">
+									{userRole === "ADMIN"
+										? "Administration"
+										: "Espace Client"}
+								</h1>
+							</div>
+
+							<div className="backoffice-flex backoffice-items-center backoffice-gap-3">
+								<button className="backoffice-btn backoffice-btn-ghost backoffice-p-2">
+									<Bell className="backoffice-h-5 backoffice-w-5" />
+								</button>
+								<div className="backoffice-w-8 backoffice-h-8 backoffice-rounded-full backoffice-bg-primary-500 backoffice-flex backoffice-items-center backoffice-justify-center">
+									<User className="backoffice-h-4 backoffice-w-4 text-white" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</header>
+
 				{/* Content */}
-				<div className="min-h-screen bg-muted/30">{children}</div>
+				<div className="backoffice-min-h-screen backoffice-bg-secondary backoffice-pt-16 lg:pt-0">
+					{children}
+				</div>
 			</main>
 		</div>
 	);

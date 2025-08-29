@@ -1,18 +1,5 @@
-import { AuthButtons } from "@/components/auth/AuthButtons";
-import SessionProvider from "@/components/auth/SessionProvider";
-import { Footer } from "@/components/ui/footer";
-import {
-	MobileNavigation,
-	Navbar,
-	NavbarLogo,
-	NavBody,
-	NavItems,
-} from "@/components/ui/resizable-navbar";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { authOptions } from "@/lib/auth";
+import SessionWrapper from "@/components/auth/SessionWrapper";
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -23,41 +10,15 @@ export const metadata: Metadata = {
 	description: "Sites modernes, rapides et animés avec backoffice sur mesure",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const session = await getServerSession(authOptions);
-
-	const navItems = [
-		{ name: "Services", link: "/services" },
-		{ name: "Projets Démo", link: "/projets-demo" },
-		{ name: "Tarifs", link: "/pricing" },
-		{ name: "Contact", link: "/contact" },
-	];
-
 	return (
 		<html lang="fr" suppressHydrationWarning>
-			<body className={`${inter.className} flex flex-col min-h-screen`}>
-				<ThemeProvider>
-					<SessionProvider session={session}>
-						<Navbar>
-							<NavBody className="shadow-none levishub-nav">
-								<NavbarLogo />
-								<NavItems items={navItems} />
-								<div className="flex items-center gap-2">
-									<ThemeToggle />
-									<AuthButtons />
-								</div>
-							</NavBody>
-							<MobileNavigation />
-						</Navbar>
-						<div className="h-16 lg:h-20" />
-						<main className="flex-1">{children}</main>
-						<Footer />
-					</SessionProvider>
-				</ThemeProvider>
+			<body className={inter.className}>
+				<SessionWrapper>{children}</SessionWrapper>
 			</body>
 		</html>
 	);
