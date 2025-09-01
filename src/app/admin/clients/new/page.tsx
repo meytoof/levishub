@@ -1,13 +1,111 @@
-import { authOptions } from "@/lib/auth";
-import { ArrowLeft, Building2, CheckCircle, Mail } from "lucide-react";
-import { getServerSession } from "next-auth";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function NewClientPage() {
-	const session = await getServerSession(authOptions);
-	if (!session) redirect("/login");
-	if (session.user.role !== "ADMIN") redirect("/");
+import { StatefulButton } from "@/components/ui/stateful-button";
+import { ArrowLeft, Building2, Loader2, Mail } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+export default function NewClientPage() {
+	const router = useRouter();
+	const { data: session, status } = useSession();
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+
+	// Protection d'authentification
+	useEffect(() => {
+		if (status === "loading") return; // En cours de chargement
+
+		if (!session) {
+			router.push("/login");
+			return;
+		}
+
+		if (session.user.role !== "ADMIN") {
+			router.push("/");
+			return;
+		}
+	}, [session, status, router]);
+
+	// Afficher un loader pendant la vérification
+	if (status === "loading") {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<Loader2 className="w-8 h-8 animate-spin text-white" />
+			</div>
+		);
+	}
+
+	// Ne pas afficher la page si pas authentifié
+	if (!session || session.user.role !== "ADMIN") {
+		return null;
+	}
+
+	const handleCreateClient = async () => {
+		setError("");
+		setSuccess("");
+
+		// Récupérer les données du formulaire
+		const form = document.querySelector("form") as HTMLFormElement;
+		if (!form) {
+			toast.error("Formulaire non trouvé");
+			return;
+		}
+
+		const formData = new FormData(form);
+		const clientData = {
+			name: formData.get("name") as string,
+			companyName: formData.get("companyName") as string,
+			primaryEmail: formData.get("primaryEmail") as string,
+		};
+
+		// Validation côté client
+		if (
+			!clientData.name ||
+			!clientData.companyName ||
+			!clientData.primaryEmail
+		) {
+			toast.error("Tous les champs obligatoires doivent être remplis");
+			return;
+		}
+
+		try {
+			// Créer le client (l'invitation est créée automatiquement)
+			const clientResponse = await fetch("/api/admin/clients", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(clientData),
+			});
+
+			if (!clientResponse.ok) {
+				const errorData = await clientResponse.json();
+				throw new Error(
+					errorData.error || "Erreur lors de la création du client"
+				);
+			}
+
+			const client = await clientResponse.json();
+
+			toast.success(
+				"Client créé avec succès ! L'invitation a été envoyée par email."
+			);
+
+			// Rediriger vers la liste des clients après 2 secondes
+			setTimeout(() => {
+				router.push("/admin/clients");
+			}, 2000);
+		} catch (err) {
+			const errorMessage =
+				err instanceof Error ? err.message : "Une erreur est survenue";
+			toast.error(errorMessage);
+			setError(errorMessage);
+			throw err; // Re-throw pour que le StatefulButton reste en état d'erreur
+		}
+	};
 
 	return (
 		<>
@@ -29,6 +127,19 @@ export default async function NewClientPage() {
 					</div>
 				</div>
 			</div>
+
+			{/* Messages d'erreur/succès */}
+			{error && (
+				<div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
+					<p className="text-red-300">{error}</p>
+				</div>
+			)}
+
+			{success && (
+				<div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg">
+					<p className="text-green-300">{success}</p>
+				</div>
+			)}
 
 			{/* Formulaire de création client */}
 			<div className="max-w-2xl mx-auto">
@@ -52,6 +163,7 @@ export default async function NewClientPage() {
 											Nom de l'entreprise *
 										</label>
 										<input
+											name="companyName"
 											type="text"
 											className="form-input"
 											placeholder="Ex: Ma Startup SAS"
@@ -82,6 +194,7 @@ export default async function NewClientPage() {
 											Nom du contact *
 										</label>
 										<input
+											name="name"
 											type="text"
 											className="form-input"
 											placeholder="Prénom Nom"
@@ -93,6 +206,7 @@ export default async function NewClientPage() {
 											Email principal *
 										</label>
 										<input
+											name="primaryEmail"
 											type="email"
 											className="form-input"
 											placeholder="contact@mastartup.com"
@@ -151,13 +265,14 @@ export default async function NewClientPage() {
 
 							{/* Actions */}
 							<div className="flex items-center justify-center gap-4 pt-4">
-								<button
-									type="submit"
+								<StatefulButton
+									onClick={handleCreateClient}
+									variant="backoffice"
 									className="btn btn-primary btn-lg"
 								>
-									<CheckCircle className="w-5 h-5" />
+									<Mail className="w-5 h-5" />
 									Créer le Client & Envoyer l'Invitation
-								</button>
+								</StatefulButton>
 							</div>
 						</form>
 					</div>

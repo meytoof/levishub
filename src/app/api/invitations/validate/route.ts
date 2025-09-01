@@ -1,25 +1,28 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-// GET /api/invitations/validate?token=... - Valider une invitation
 export async function GET(request: NextRequest) {
+	const { searchParams } = new URL(request.url);
+	const token = searchParams.get("token");
+
+	if (!token) {
+		return NextResponse.json(
+			{ error: "Token d'invitation requis" },
+			{ status: 400 }
+		);
+	}
+
 	try {
-		const token = request.nextUrl.searchParams.get("token");
-
-		if (!token) {
-			return NextResponse.json(
-				{ error: "Token manquant" },
-				{ status: 400 }
-			);
-		}
-
+		// Rechercher l'invitation par token
 		const invitation = await prisma.invitation.findUnique({
 			where: { token },
 			include: {
 				client: {
 					select: {
+						id: true,
 						name: true,
 						companyName: true,
+						primaryEmail: true,
 					},
 				},
 			},
@@ -32,27 +35,32 @@ export async function GET(request: NextRequest) {
 			);
 		}
 
-		if (invitation.status !== "PENDING") {
+		// Vérifier si l'invitation a expiré
+		if (invitation.expiresAt < new Date()) {
 			return NextResponse.json(
-				{ error: "Cette invitation a déjà été utilisée" },
-				{ status: 400 }
+				{ error: "Invitation expirée" },
+				{ status: 410 }
 			);
 		}
 
-		if (invitation.expiresAt < new Date()) {
+		// Vérifier si l'invitation a déjà été utilisée
+		if (invitation.status === "ACCEPTED") {
 			return NextResponse.json(
-				{ error: "Cette invitation a expiré" },
-				{ status: 400 }
+				{ error: "Invitation déjà utilisée" },
+				{ status: 409 }
 			);
 		}
 
 		return NextResponse.json({
-			client: invitation.client,
-			email: invitation.email,
-			expiresAt: invitation.expiresAt,
+			invitation: {
+				id: invitation.id,
+				email: invitation.email,
+				expiresAt: invitation.expiresAt,
+				client: invitation.client,
+			},
 		});
 	} catch (error) {
-		console.error("Erreur lors de la validation de l'invitation:", error);
+		console.error("Erreur validation invitation:", error);
 		return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
 	}
 }

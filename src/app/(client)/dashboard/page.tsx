@@ -63,7 +63,7 @@ export default async function ClientDashboardPage() {
 				take: 5,
 			}),
 			prisma.subscription.findFirst({
-				where: { clientId },
+				where: { userId: session.user.id },
 				orderBy: { createdAt: "desc" },
 			}),
 		]);
@@ -271,7 +271,8 @@ export default async function ClientDashboardPage() {
 										Plan actuel
 									</span>
 									<span className="font-medium text-white">
-										{subscription.planName}
+										{subscription.priceId ||
+											"Plan personnalisé"}
 									</span>
 								</div>
 								<div className="flex items-center justify-between">
@@ -280,30 +281,32 @@ export default async function ClientDashboardPage() {
 									</span>
 									<span
 										className={`badge ${
-											subscription.status === "ACTIVE"
+											subscription.status === "active"
 												? "badge-success"
 												: subscription.status ===
-												  "PENDING"
+												  "trialing"
 												? "badge-warning"
 												: subscription.status ===
-												  "CANCELLED"
+												  "canceled"
 												? "badge-danger"
 												: "badge-neutral"
 										}`}
 									>
-										{subscription.status}
+										{subscription.status || "Inconnu"}
 									</span>
 								</div>
-								<div className="flex items-center justify-between">
-									<span className="text-[#a0a0a0]">
-										Prochaine facturation
-									</span>
-									<span className="text-white">
-										{new Date(
-											subscription.nextBillingDate
-										).toLocaleDateString("fr-FR")}
-									</span>
-								</div>
+								{subscription.currentPeriodEnd && (
+									<div className="flex items-center justify-between">
+										<span className="text-[#a0a0a0]">
+											Prochaine facturation
+										</span>
+										<span className="text-white">
+											{new Date(
+												subscription.currentPeriodEnd
+											).toLocaleDateString("fr-FR")}
+										</span>
+									</div>
+								)}
 							</div>
 						) : (
 							<div className="text-center py-8">

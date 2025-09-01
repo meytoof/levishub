@@ -1,168 +1,85 @@
 "use client";
-import { cn } from "@/lib/utils";
-import React from "react";
-import { motion, AnimatePresence, useAnimate } from "motion/react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-  children: React.ReactNode;
+import { cn } from "@/lib/utils";
+import { Check, Loader2 } from "lucide-react";
+import { useState } from "react";
+
+interface StatefulButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	children: React.ReactNode;
+	onClick?: (
+		event: React.MouseEvent<HTMLButtonElement>
+	) => void | Promise<void>;
+	className?: string;
+	variant?: "default" | "backoffice";
 }
 
-export const Button = ({ className, children, ...props }: ButtonProps) => {
-  const [scope, animate] = useAnimate();
+export function StatefulButton({
+	children,
+	onClick,
+	className,
+	disabled,
+	type = "button",
+	variant = "default",
+	...props
+}: StatefulButtonProps) {
+	const [state, setState] = useState<"idle" | "loading" | "success">("idle");
 
-  const animateLoading = async () => {
-    await animate(
-      ".loader",
-      {
-        width: "20px",
-        scale: 1,
-        display: "block",
-      },
-      {
-        duration: 0.2,
-      },
-    );
-  };
+	const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+		if (state !== "idle" || disabled) return;
 
-  const animateSuccess = async () => {
-    await animate(
-      ".loader",
-      {
-        width: "0px",
-        scale: 0,
-        display: "none",
-      },
-      {
-        duration: 0.2,
-      },
-    );
-    await animate(
-      ".check",
-      {
-        width: "20px",
-        scale: 1,
-        display: "block",
-      },
-      {
-        duration: 0.2,
-      },
-    );
+		setState("loading");
 
-    await animate(
-      ".check",
-      {
-        width: "0px",
-        scale: 0,
-        display: "none",
-      },
-      {
-        delay: 2,
-        duration: 0.2,
-      },
-    );
-  };
+		try {
+			if (onClick) {
+				await onClick(event);
+			}
+			setState("success");
 
-  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    await animateLoading();
-    await props.onClick?.(event);
-    await animateSuccess();
-  };
+			// Reset to idle after 2 seconds
+			setTimeout(() => {
+				setState("idle");
+			}, 2000);
+		} catch (error) {
+			// Reset to idle on error
+			setState("idle");
+			throw error; // Re-throw to let parent handle the error
+		}
+	};
 
-  const {
-    onClick,
-    onDrag,
-    onDragStart,
-    onDragEnd,
-    onAnimationStart,
-    onAnimationEnd,
-    ...buttonProps
-  } = props;
+	const baseStyles =
+		"relative inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50";
 
-  return (
-    <motion.button
-      layout
-      layoutId="button"
-      ref={scope}
-      className={cn(
-        "flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full bg-green-500 px-4 py-2 font-medium text-white ring-offset-2 transition duration-200 hover:ring-2 hover:ring-green-500 dark:ring-offset-black",
-        className,
-      )}
-      {...buttonProps}
-      onClick={handleClick}
-    >
-      <motion.div layout className="flex items-center gap-2">
-        <Loader />
-        <CheckIcon />
-        <motion.span layout>{children}</motion.span>
-      </motion.div>
-    </motion.button>
-  );
-};
+	const variantStyles = {
+		default:
+			"bg-slate-900 text-white hover:bg-slate-700 focus-visible:ring-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 dark:focus-visible:ring-slate-300",
+		backoffice:
+			"bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 focus-visible:ring-blue-500 shadow-lg",
+	};
 
-const Loader = () => {
-  return (
-    <motion.svg
-      animate={{
-        rotate: [0, 360],
-      }}
-      initial={{
-        scale: 0,
-        width: 0,
-        display: "none",
-      }}
-      style={{
-        scale: 0.5,
-        display: "none",
-      }}
-      transition={{
-        duration: 0.3,
-        repeat: Infinity,
-        ease: "linear",
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="loader text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 3a9 9 0 1 0 9 9" />
-    </motion.svg>
-  );
-};
+	return (
+		<button
+			type={type}
+			onClick={handleClick}
+			disabled={disabled || state !== "idle"}
+			className={cn(baseStyles, variantStyles[variant], className)}
+			{...props}
+		>
+			<span
+				className={cn(
+					"transition-all duration-200",
+					state === "loading" && "opacity-0",
+					state === "success" && "opacity-0"
+				)}
+			>
+				{children}
+			</span>
 
-const CheckIcon = () => {
-  return (
-    <motion.svg
-      initial={{
-        scale: 0,
-        width: 0,
-        display: "none",
-      }}
-      style={{
-        scale: 0.5,
-        display: "none",
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="check text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-      <path d="M9 12l2 2l4 -4" />
-    </motion.svg>
-  );
-};
+			{state === "loading" && (
+				<Loader2 className="absolute h-4 w-4 animate-spin" />
+			)}
+
+			{state === "success" && <Check className="absolute h-4 w-4" />}
+		</button>
+	);
+}

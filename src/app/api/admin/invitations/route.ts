@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { sendInvitationEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { randomBytes } from "crypto";
 import { getServerSession } from "next-auth";
@@ -96,14 +97,36 @@ export async function POST(req: Request) {
 			},
 		});
 
-		// TODO: Envoyer l'email d'invitation avec Resend
-		// Pour l'instant, on retourne le token dans la réponse
+		// Envoyer l'email d'invitation
+		const invitationUrl = `${
+			process.env.NEXTAUTH_URL || "http://localhost:3000"
+		}/invite/${token}`;
+
+		const emailResult = await sendInvitationEmail({
+			to: email,
+			companyName: client.companyName,
+			inviterName: session.user.name || "Administrateur",
+			invitationUrl,
+			expiresAt,
+		});
+
+		if (!emailResult.success) {
+			console.error("Erreur envoi email:", emailResult.error);
+			// On supprime l'invitation si l'email n'a pas pu être envoyé
+			await prisma.invitation.delete({
+				where: { id: invitation.id },
+			});
+			return NextResponse.json(
+				{ error: "Erreur lors de l'envoi de l'email" },
+				{ status: 500 }
+			);
+		}
+
 		return NextResponse.json(
 			{
 				...invitation,
-				inviteUrl: `${
-					process.env.NEXTAUTH_URL || "http://localhost:3000"
-				}/invite/${token}`,
+				inviteUrl: invitationUrl,
+				emailSent: true,
 			},
 			{ status: 201 }
 		);

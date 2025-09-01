@@ -1,9 +1,13 @@
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+"use client";
+
+import { StatefulButton } from "@/components/ui/stateful-button";
 import {
+	AlertCircle,
 	ArrowLeft,
 	Building2,
 	Calendar,
+	CheckCircle,
+	Copy,
 	CreditCard,
 	Edit,
 	Eye,
@@ -15,28 +19,135 @@ import {
 	Trash2,
 	Users,
 } from "lucide-react";
-import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-export default async function ClientsPage() {
-	const session = await getServerSession(authOptions);
-	if (!session) redirect("/login");
-	if (session.user.role !== "ADMIN") redirect("/");
+interface Client {
+	id: string;
+	name: string;
+	companyName: string;
+	primaryEmail: string;
+	isActive: boolean;
+	createdAt: string;
+	users: { id: string; name: string; email: string }[];
+	invitations: { id: string; email: string; token: string; status: string }[];
+}
 
-	const clients = await prisma.client.findMany({
-		orderBy: { createdAt: "desc" },
-		include: {
-			_count: {
-				select: {
-					users: true,
-					sites: true,
-					tickets: true,
-					invoices: true,
+export default function ClientsPage() {
+	const router = useRouter();
+	const { data: session, status } = useSession();
+	const [clients, setClients] = useState<Client[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [editingClient, setEditingClient] = useState<Client | null>(null);
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(
+		null
+	);
+	const [copiedToken, setCopiedToken] = useState<string | null>(null);
+
+	// Vérifier l'authentification et les permissions
+	useEffect(() => {
+		if (status === "loading") return;
+
+		if (status === "unauthenticated" || session?.user?.role !== "ADMIN") {
+			router.push("/login");
+			return;
+		}
+
+		fetchClients();
+	}, [status, session, router]);
+
+	const fetchClients = async () => {
+		try {
+			const response = await fetch("/api/admin/clients");
+			if (response.ok) {
+				const data = await response.json();
+				setClients(data);
+			} else {
+				toast.error("Erreur lors du chargement des clients");
+			}
+		} catch (error) {
+			toast.error("Erreur de connexion");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleDeleteClient = async (clientId: string) => {
+		try {
+			const response = await fetch(`/api/admin/clients/${clientId}`, {
+				method: "DELETE",
+			});
+
+			if (response.ok) {
+				toast.success("Client supprimé avec succès");
+				fetchClients();
+			} else {
+				const error = await response.json();
+				toast.error(error.error || "Erreur lors de la suppression");
+			}
+		} catch (error) {
+			toast.error("Erreur de connexion");
+		}
+		setShowDeleteConfirm(null);
+	};
+
+	const handleUpdateClient = async (clientId: string, data: any) => {
+		try {
+			const response = await fetch(`/api/admin/clients/${clientId}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			},
-		},
-	});
+				body: JSON.stringify(data),
+			});
+
+			if (response.ok) {
+				toast.success("Client mis à jour avec succès");
+				setEditingClient(null);
+				fetchClients();
+			} else {
+				const error = await response.json();
+				toast.error(error.error || "Erreur lors de la mise à jour");
+			}
+		} catch (error) {
+			toast.error("Erreur de connexion");
+		}
+	};
+
+	const copyInvitationLink = async (token: string) => {
+		const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3001";
+		const invitationUrl = `${baseUrl}/invite/${token}`;
+
+		try {
+			await navigator.clipboard.writeText(invitationUrl);
+			setCopiedToken(token);
+			toast.success("Lien d'invitation copié !");
+			setTimeout(() => setCopiedToken(null), 2000);
+		} catch (error) {
+			toast.error("Erreur lors de la copie");
+		}
+	};
+
+	const filteredClients = clients.filter(
+		(client) =>
+			client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			client.companyName
+				.toLowerCase()
+				.includes(searchTerm.toLowerCase()) ||
+			client.primaryEmail.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
+	if (status === "loading" || loading) {
+		return (
+			<div className="loading">
+				<div className="spinner"></div>
+			</div>
+		);
+	}
 
 	return (
 		<>
@@ -74,6 +185,10 @@ export default async function ClientsPage() {
 								<input
 									type="text"
 									placeholder="Rechercher un client..."
+									value={searchTerm}
+									onChange={(e) =>
+										setSearchTerm(e.target.value)
+									}
 									className="form-input pl-10"
 								/>
 							</div>
@@ -100,14 +215,18 @@ export default async function ClientsPage() {
 					<h3 className="card-title">Clients</h3>
 				</div>
 				<div className="card-content p-0">
-					{clients.length === 0 ? (
+					{filteredClients.length === 0 ? (
 						<div className="text-center py-12">
 							<Building2 className="w-16 h-16 mx-auto mb-4 text-[#666]" />
 							<p className="text-[#a0a0a0] text-lg mb-2">
-								Aucun client pour le moment
+								{searchTerm
+									? "Aucun client trouvé"
+									: "Aucun client pour le moment"}
 							</p>
 							<p className="text-[#666] mb-4">
-								Commencez par créer votre premier client
+								{searchTerm
+									? "Aucun client ne correspond à votre recherche."
+									: "Commencez par créer votre premier client"}
 							</p>
 							<Link
 								href="/admin/clients/new"
@@ -130,7 +249,7 @@ export default async function ClientsPage() {
 									</tr>
 								</thead>
 								<tbody>
-									{clients.map((client) => (
+									{filteredClients.map((client) => (
 										<tr key={client.id}>
 											<td>
 												<div className="flex items-center gap-3">
@@ -168,8 +287,8 @@ export default async function ClientsPage() {
 														<Users className="w-3 h-3 text-[#3b82f6]" />
 														<span className="text-white">
 															{
-																client._count
-																	.users
+																client.users
+																	.length
 															}
 														</span>
 														<span className="text-[#a0a0a0]">
@@ -177,27 +296,24 @@ export default async function ClientsPage() {
 														</span>
 													</div>
 													<div className="flex items-center gap-1">
-														<Globe className="w-3 h-3 text-[#10b981]" />
+														<Mail className="w-3 h-3 text-[#10b981]" />
 														<span className="text-white">
 															{
-																client._count
-																	.sites
+																client
+																	.invitations
+																	.length
 															}
 														</span>
 														<span className="text-[#a0a0a0]">
-															sites
+															invitations
 														</span>
 													</div>
 													<div className="flex items-center gap-1">
-														<CreditCard className="w-3 h-3 text-[#f59e0b]" />
+														<Globe className="w-3 h-3 text-[#f59e0b]" />
 														<span className="text-white">
-															{
-																client._count
-																	.invoices
-															}
-														</span>
-														<span className="text-[#a0a0a0]">
-															factures
+															{client.isActive
+																? "Actif"
+																: "Inactif"}
 														</span>
 													</div>
 												</div>
@@ -221,20 +337,49 @@ export default async function ClientsPage() {
 													>
 														<Eye className="w-3 h-3" />
 													</Link>
-													<Link
-														href={`/admin/clients/${client.id}/edit`}
+													<button
+														onClick={() =>
+															setEditingClient(
+																client
+															)
+														}
 														className="btn btn-sm btn-primary"
 														title="Modifier le client"
 													>
 														<Edit className="w-3 h-3" />
-													</Link>
-													<button
-														className="btn btn-sm btn-secondary"
-														title="Envoyer un email"
-													>
-														<Mail className="w-3 h-3" />
 													</button>
+													{/* Lien d'invitation pour admin uniquement */}
+													{client.invitations.length >
+														0 &&
+														session?.user?.role ===
+															"ADMIN" && (
+															<button
+																onClick={() =>
+																	copyInvitationLink(
+																		client
+																			.invitations[0]
+																			.token
+																	)
+																}
+																className="btn btn-sm btn-secondary"
+																title="Copier le lien d'invitation"
+															>
+																{copiedToken ===
+																client
+																	.invitations[0]
+																	.token ? (
+																	<CheckCircle className="w-3 h-3 text-[#10b981]" />
+																) : (
+																	<Copy className="w-3 h-3" />
+																)}
+															</button>
+														)}
 													<button
+														onClick={() =>
+															setShowDeleteConfirm(
+																client.id
+															)
+														}
 														className="btn btn-sm btn-danger"
 														title="Supprimer le client"
 													>
@@ -266,7 +411,7 @@ export default async function ClientsPage() {
 					</div>
 					<div className="stat-value">
 						{clients.reduce(
-							(sum, client) => sum + client._count.users,
+							(sum, client) => sum + client.users.length,
 							0
 						)}
 					</div>
@@ -274,29 +419,194 @@ export default async function ClientsPage() {
 				</div>
 				<div className="stat-card">
 					<div className="stat-icon warning">
-						<Globe />
+						<Mail />
 					</div>
 					<div className="stat-value">
 						{clients.reduce(
-							(sum, client) => sum + client._count.sites,
+							(sum, client) => sum + client.invitations.length,
 							0
 						)}
 					</div>
-					<div className="stat-label">Sites Totaux</div>
+					<div className="stat-label">Invitations Totales</div>
 				</div>
 				<div className="stat-card">
 					<div className="stat-icon danger">
 						<CreditCard />
 					</div>
 					<div className="stat-value">
-						{clients.reduce(
-							(sum, client) => sum + client._count.invoices,
-							0
-						)}
+						{clients.filter((c) => c.isActive).length}
 					</div>
-					<div className="stat-label">Factures Totales</div>
+					<div className="stat-label">Clients Actifs</div>
 				</div>
 			</div>
+
+			{/* Modal d'édition */}
+			{editingClient && (
+				<div className="modal-overlay">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h2 className="modal-title">Modifier le client</h2>
+							<p className="modal-subtitle">
+								{editingClient.companyName}
+							</p>
+						</div>
+						<div className="modal-body">
+							<EditClientForm
+								client={editingClient}
+								onSave={(data) =>
+									handleUpdateClient(editingClient.id, data)
+								}
+								onCancel={() => setEditingClient(null)}
+							/>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Modal de confirmation de suppression */}
+			{showDeleteConfirm && (
+				<div className="modal-overlay">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h2 className="modal-title flex items-center gap-2">
+								<AlertCircle className="w-5 h-5 text-[#ef4444]" />
+								Confirmer la suppression
+							</h2>
+							<p className="modal-subtitle">
+								Cette action est irréversible
+							</p>
+						</div>
+						<div className="modal-body">
+							<div className="alert alert-danger">
+								Êtes-vous sûr de vouloir supprimer ce client ?
+								Toutes les données associées seront également
+								supprimées.
+							</div>
+							<div className="modal-actions">
+								<button
+									onClick={() => setShowDeleteConfirm(null)}
+									className="btn btn-secondary"
+								>
+									Annuler
+								</button>
+								<StatefulButton
+									onClick={() =>
+										handleDeleteClient(showDeleteConfirm)
+									}
+									className="btn btn-danger"
+								>
+									Supprimer définitivement
+								</StatefulButton>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
+	);
+}
+
+// Composant de formulaire d'édition
+function EditClientForm({
+	client,
+	onSave,
+	onCancel,
+}: {
+	client: Client;
+	onSave: (data: any) => void;
+	onCancel: () => void;
+}) {
+	const [formData, setFormData] = useState({
+		name: client.name,
+		companyName: client.companyName,
+		primaryEmail: client.primaryEmail,
+		isActive: client.isActive,
+	});
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		onSave(formData);
+	};
+
+	return (
+		<form onSubmit={handleSubmit}>
+			<div className="modal-section">
+				<h3 className="modal-section-title">Informations générales</h3>
+				<div className="form-group">
+					<label className="form-label">Nom de l'entreprise</label>
+					<input
+						type="text"
+						value={formData.companyName}
+						onChange={(e) =>
+							setFormData({
+								...formData,
+								companyName: e.target.value,
+							})
+						}
+						className="form-input"
+						required
+					/>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Nom du contact</label>
+					<input
+						type="text"
+						value={formData.name}
+						onChange={(e) =>
+							setFormData({ ...formData, name: e.target.value })
+						}
+						className="form-input"
+						required
+					/>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Email principal</label>
+					<input
+						type="email"
+						value={formData.primaryEmail}
+						onChange={(e) =>
+							setFormData({
+								...formData,
+								primaryEmail: e.target.value,
+							})
+						}
+						className="form-input"
+						required
+					/>
+				</div>
+				<div className="form-group">
+					<label className="form-label">
+						<input
+							type="checkbox"
+							checked={formData.isActive}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									isActive: e.target.checked,
+								})
+							}
+							className="form-checkbox"
+						/>
+						<span className="ml-2">Client actif</span>
+					</label>
+				</div>
+			</div>
+			<div className="modal-actions">
+				<button
+					type="button"
+					onClick={onCancel}
+					className="btn btn-secondary"
+				>
+					Annuler
+				</button>
+				<StatefulButton
+					type="submit"
+					onClick={handleSubmit}
+					className="btn btn-primary"
+				>
+					Enregistrer les modifications
+				</StatefulButton>
+			</div>
+		</form>
 	);
 }

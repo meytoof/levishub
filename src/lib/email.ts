@@ -1,133 +1,135 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-// Configuration du transporteur email
-const transporter = nodemailer.createTransporter({
-	host: process.env.SMTP_HOST || "smtp.gmail.com",
-	port: parseInt(process.env.SMTP_PORT || "587"),
-	secure: false, // true pour 465, false pour autres ports
-	auth: {
-		user: process.env.SMTP_USER || "quentinlevis@gmail.com",
-		pass: process.env.SMTP_PASS || "",
-	},
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Types pour les emails
-interface TicketNotificationData {
-	ticketId: string;
-	title: string;
-	description: string;
-	priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
-	clientName: string;
-	clientEmail: string;
-	createdAt: Date;
+export interface EmailData {
+	to: string;
+	subject: string;
+	html: string;
 }
 
-interface TicketUpdateData {
-	ticketId: string;
-	title: string;
-	status: "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
-	priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
-	clientName: string;
-	clientEmail: string;
-	updatedAt: Date;
-	adminMessage?: string;
+export interface InvitationEmailData {
+	to: string;
+	companyName: string;
+	inviterName: string;
+	invitationUrl: string;
+	expiresAt: Date;
 }
 
-// Fonction pour envoyer une notification de nouveau ticket
-export async function sendNewTicketNotification(data: TicketNotificationData) {
-	const priorityColors = {
-		LOW: "#10b981", // Vert
-		MEDIUM: "#f59e0b", // Jaune
-		HIGH: "#f97316", // Orange
-		URGENT: "#ef4444", // Rouge
-	};
+export interface TicketNotificationData {
+	to: string;
+	ticketTitle: string;
+	ticketStatus: string;
+	companyName: string;
+	ticketUrl: string;
+}
 
-	const priorityLabels = {
-		LOW: "Faible",
-		MEDIUM: "Moyenne",
-		HIGH: "Élevée",
-		URGENT: "Urgente",
-	};
+export interface PasswordResetEmailData {
+	to: string;
+	resetUrl: string;
+	expiresAt: Date;
+}
 
-	const mailOptions = {
-		from: `"LevisHub Support" <${
-			process.env.SMTP_USER || "quentinlevis@gmail.com"
-		}>`,
-		to: "quentinlevis@gmail.com",
-		subject: `🎫 Nouveau ticket ${priorityLabels[data.priority]} - ${
-			data.title
-		}`,
-		html: `
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<meta charset="utf-8">
-				<style>
-					body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-					.container { max-width: 600px; margin: 0 auto; padding: 20px; }
-					.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-					.content { background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-					.priority-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; color: white; font-weight: bold; font-size: 12px; }
-					.ticket-info { background: white; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid ${
-						priorityColors[data.priority]
-					}; }
-					.button { display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; margin-top: 15px; }
-					.footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
-				</style>
-			</head>
-			<body>
-				<div class="container">
-					<div class="header">
-						<h1>🎫 Nouveau Ticket Support</h1>
-						<p>Un nouveau ticket a été créé par un client</p>
-					</div>
-					
-					<div class="content">
-						<div class="ticket-info">
-							<h2>${data.title}</h2>
-							<p><strong>Client:</strong> ${data.clientName} (${data.clientEmail})</p>
-							<p><strong>Priorité:</strong> <span class="priority-badge" style="background-color: ${
-								priorityColors[data.priority]
-							}">${priorityLabels[data.priority]}</span></p>
-							<p><strong>Date:</strong> ${data.createdAt.toLocaleDateString("fr-FR", {
-								year: "numeric",
-								month: "long",
-								day: "numeric",
-								hour: "2-digit",
-								minute: "2-digit",
-							})}</p>
-							<p><strong>Description:</strong></p>
-							<p style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">${
-								data.description || "Aucune description fournie"
-							}</p>
-						</div>
-						
-						<a href="${
-							process.env.NEXTAUTH_URL || "http://localhost:3000"
-						}/admin/tickets" class="button">Voir le ticket</a>
-					</div>
-					
-					<div class="footer">
-						<p>Ceci est une notification automatique de LevisHub</p>
-					</div>
+/**
+ * Envoie un email d'invitation à un nouveau client
+ */
+export async function sendInvitationEmail(data: InvitationEmailData) {
+	const { to, companyName, inviterName, invitationUrl, expiresAt } = data;
+
+	const expiresIn = Math.ceil(
+		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
+	); // heures
+
+	const html = `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Invitation LevisHub</title>
+			<style>
+				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+				.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+				.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+				.button { display: inline-block; background: #2563eb; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+				.button:hover { background: #1d4ed8; }
+				.footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+				.warning { background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 5px; margin: 20px 0; color: #92400e; }
+				.link { color: #2563eb; word-break: break-all; }
+			</style>
+		</head>
+		<body>
+			<div class="container">
+				<div class="header">
+					<h1>🚀 Invitation LevisHub</h1>
+					<p>Bienvenue dans votre espace client</p>
 				</div>
-			</body>
-			</html>
-		`,
-	};
+
+				<div class="content">
+					<h2>Bonjour !</h2>
+
+					<p><strong>${inviterName}</strong> vous invite à rejoindre votre espace client LevisHub pour <strong>${companyName}</strong>.</p>
+
+					<p>LevisHub est votre plateforme de gestion pour :</p>
+					<ul>
+						<li>📊 Suivre vos projets web</li>
+						<li>🎫 Créer des tickets de support</li>
+						<li>📈 Consulter vos analytics</li>
+						<li>💳 Gérer vos factures</li>
+					</ul>
+
+					<div style="text-align: center;">
+						<a href="${invitationUrl}" class="button">Créer mon compte</a>
+					</div>
+
+					<div class="warning">
+						<strong>⚠️ Important :</strong> Cette invitation expire dans ${expiresIn} heures.
+						Cliquez sur le bouton ci-dessus pour créer votre compte.
+					</div>
+
+					<p>Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :</p>
+					<p class="link">${invitationUrl}</p>
+				</div>
+
+				<div class="footer">
+					<p>LevisHub - Développement Web Freelance</p>
+					<p>Cette invitation a été envoyée automatiquement. Ne répondez pas à cet email.</p>
+				</div>
+			</div>
+		</body>
+		</html>
+	`;
 
 	try {
-		await transporter.sendMail(mailOptions);
-		console.log("✅ Notification de nouveau ticket envoyée");
-		return true;
+		const result = await resend.emails.send({
+			from: "LevisHub <onboarding@resend.dev>",
+			to: [to],
+			subject: `Invitation LevisHub - ${companyName}`,
+			html: html,
+		});
+
+		console.log("Email d'invitation envoyé:", result);
+		return { success: true, data: result };
 	} catch (error) {
-		console.error("❌ Erreur envoi email:", error);
-		return false;
+		console.error("Erreur envoi email d'invitation:", error);
+		return { success: false, error };
 	}
 }
 
-// Fonction pour envoyer une notification de mise à jour de ticket
-export async function sendTicketUpdateNotification(data: TicketUpdateData) {
+/**
+ * Envoie une notification de mise à jour de ticket
+ */
+export async function sendTicketNotification(data: TicketNotificationData) {
+	const { to, ticketTitle, ticketStatus, companyName, ticketUrl } = data;
+
+	const statusColors = {
+		OPEN: "#dc2626",
+		IN_PROGRESS: "#ea580c",
+		RESOLVED: "#059669",
+		CLOSED: "#6b7280",
+	};
+
 	const statusLabels = {
 		OPEN: "Ouvert",
 		IN_PROGRESS: "En cours",
@@ -135,90 +137,179 @@ export async function sendTicketUpdateNotification(data: TicketUpdateData) {
 		CLOSED: "Fermé",
 	};
 
-	const mailOptions = {
-		from: `"LevisHub Support" <${
-			process.env.SMTP_USER || "quentinlevis@gmail.com"
-		}>`,
-		to: data.clientEmail,
-		subject: `📝 Mise à jour de votre ticket - ${data.title}`,
-		html: `
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<meta charset="utf-8">
-				<style>
-					body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-					.container { max-width: 600px; margin: 0 auto; padding: 20px; }
-					.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-					.content { background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-					.status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; color: white; font-weight: bold; font-size: 12px; background-color: #667eea; }
-					.ticket-info { background: white; padding: 15px; border-radius: 6px; margin: 15px 0; }
-					.button { display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; margin-top: 15px; }
-					.footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
-				</style>
-			</head>
-			<body>
-				<div class="container">
-					<div class="header">
-						<h1>📝 Mise à jour de votre ticket</h1>
-						<p>Le statut de votre ticket a été modifié</p>
-					</div>
-					
-					<div class="content">
-						<div class="ticket-info">
-							<h2>${data.title}</h2>
-							<p><strong>Nouveau statut:</strong> <span class="status-badge">${
-								statusLabels[data.status]
-							}</span></p>
-							<p><strong>Date de mise à jour:</strong> ${data.updatedAt.toLocaleDateString(
-								"fr-FR",
-								{
-									year: "numeric",
-									month: "long",
-									day: "numeric",
-									hour: "2-digit",
-									minute: "2-digit",
-								}
-							)}</p>
-							${
-								data.adminMessage
-									? `<p><strong>Message de l'équipe:</strong></p><p style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">${data.adminMessage}</p>`
-									: ""
-							}
-						</div>
-						
-						<a href="${
-							process.env.NEXTAUTH_URL || "http://localhost:3000"
-						}/dashboard/tickets" class="button">Voir le ticket</a>
-					</div>
-					
-					<div class="footer">
-						<p>Ceci est une notification automatique de LevisHub</p>
-					</div>
+	const html = `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Mise à jour ticket - LevisHub</title>
+			<style>
+				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+				.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+				.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+				.status { display: inline-block; padding: 8px 16px; border-radius: 20px; color: white; font-weight: bold; }
+				.button { display: inline-block; background: #2563eb; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+				.button:hover { background: #1d4ed8; }
+				.footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+				.ticket-info { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid ${
+					statusColors[ticketStatus as keyof typeof statusColors]
+				}; }
+			</style>
+		</head>
+		<body>
+			<div class="container">
+				<div class="header">
+					<h1>🎫 Mise à jour ticket</h1>
+					<p>${companyName}</p>
 				</div>
-			</body>
-			</html>
-		`,
-	};
+
+				<div class="content">
+					<h2>Bonjour !</h2>
+
+					<p>Le statut de votre ticket a été mis à jour :</p>
+
+					<div class="ticket-info">
+						<h3 style="margin: 0 0 10px 0;">${ticketTitle}</h3>
+						<span class="status" style="background: ${
+							statusColors[
+								ticketStatus as keyof typeof statusColors
+							]
+						};">
+							${statusLabels[ticketStatus as keyof typeof statusLabels]}
+						</span>
+					</div>
+
+					<div style="text-align: center;">
+						<a href="${ticketUrl}" class="button">Voir le ticket</a>
+					</div>
+
+					<p>Connectez-vous à votre espace client pour plus de détails.</p>
+				</div>
+
+				<div class="footer">
+					<p>LevisHub - Support client</p>
+					<p>Cette notification a été envoyée automatiquement. Ne répondez pas à cet email.</p>
+				</div>
+			</div>
+		</body>
+		</html>
+	`;
 
 	try {
-		await transporter.sendMail(mailOptions);
-		console.log("✅ Notification de mise à jour de ticket envoyée");
-		return true;
+		const result = await resend.emails.send({
+			from: "LevisHub Support <onboarding@resend.dev>",
+			to: [to],
+			subject: `Ticket mis à jour - ${ticketTitle}`,
+			html: html,
+		});
+
+		console.log("Notification ticket envoyée:", result);
+		return { success: true, data: result };
 	} catch (error) {
-		console.error("❌ Erreur envoi email:", error);
-		return false;
+		console.error("Erreur envoi notification ticket:", error);
+		return { success: false, error };
 	}
 }
 
-// Fonction de test pour vérifier la configuration SMTP
-export async function testSMTPConnection() {
+/**
+ * Envoie un email de reset de mot de passe
+ */
+export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
+	const { to, resetUrl, expiresAt } = data;
+
+	const expiresIn = Math.ceil(
+		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
+	); // heures
+
+	const html = `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Reset mot de passe - LevisHub</title>
+			<style>
+				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+				.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+				.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+				.button { display: inline-block; background: #dc2626; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+				.button:hover { background: #b91c1c; }
+				.footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+				.warning { background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 5px; margin: 20px 0; color: #92400e; }
+				.link { color: #dc2626; word-break: break-all; }
+			</style>
+		</head>
+		<body>
+			<div class="container">
+				<div class="header">
+					<h1>🔐 Reset mot de passe</h1>
+					<p>LevisHub - Sécurité</p>
+				</div>
+
+				<div class="content">
+					<h2>Bonjour !</h2>
+
+					<p>Vous avez demandé la réinitialisation de votre mot de passe LevisHub.</p>
+
+					<div style="text-align: center;">
+						<a href="${resetUrl}" class="button">Réinitialiser mon mot de passe</a>
+					</div>
+
+					<div class="warning">
+						<strong>⚠️ Important :</strong> Ce lien expire dans ${expiresIn} heures.
+						Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.
+					</div>
+
+					<p>Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :</p>
+					<p class="link">${resetUrl}</p>
+
+					<p><strong>Sécurité :</strong> Ne partagez jamais ce lien avec quelqu'un d'autre.</p>
+				</div>
+
+				<div class="footer">
+					<p>LevisHub - Développement Web Freelance</p>
+					<p>Cet email a été envoyé pour des raisons de sécurité. Ne répondez pas à cet email.</p>
+				</div>
+			</div>
+		</body>
+		</html>
+	`;
+
 	try {
-		await transporter.verify();
-		console.log("✅ Connexion SMTP réussie");
-		return true;
+		const result = await resend.emails.send({
+			from: "LevisHub Sécurité <onboarding@resend.dev>",
+			to: [to],
+			subject: "Reset mot de passe - LevisHub",
+			html: html,
+		});
+
+		console.log("Email reset mot de passe envoyé:", result);
+		return { success: true, data: result };
 	} catch (error) {
-		console.error("❌ Erreur connexion SMTP:", error);
-		return false;
+		console.error("Erreur envoi email reset mot de passe:", error);
+		return { success: false, error };
+	}
+}
+
+/**
+ * Test de connexion Resend
+ */
+export async function testResendConnection() {
+	try {
+		const result = await resend.emails.send({
+			from: "LevisHub <onboarding@resend.dev>",
+			to: ["quentinlevis@gmail.com"], // Remplace par ton email si tu veux
+			subject: "Test connexion Resend",
+			html: "<p>Test de connexion réussi !</p>",
+		});
+
+		console.log("Test Resend réussi:", result);
+		return { success: true, data: result };
+	} catch (error) {
+		console.error("Test Resend échoué:", error);
+		return { success: false, error };
 	}
 }

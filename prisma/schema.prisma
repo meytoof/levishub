@@ -33,6 +33,7 @@ model User {
   client             Client?   @relation(fields: [clientId], references: [id])
   createdInvitations Invitation[] @relation("InvitationCreator")
   tickets            Ticket[]
+  passwordResets     PasswordReset[]
 
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -73,6 +74,21 @@ model VerificationToken {
   expires    DateTime
 
   @@index([identifier])
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@index([token])
+  @@index([userId])
 }
 
 enum Role {

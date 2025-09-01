@@ -1,10 +1,11 @@
 "use client";
 
-import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./button";
+import { toast } from "sonner";
 import { Input } from "./input";
 import { Label } from "./label";
+import { StatefulButton } from "./stateful-button";
 import { Textarea } from "./textarea";
 
 interface TicketFormProps {
@@ -51,16 +52,19 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 	const [priority, setPriority] = useState<
 		"LOW" | "MEDIUM" | "HIGH" | "URGENT"
 	>("MEDIUM");
-	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState<{
 		type: "success" | "error";
 		text: string;
 	} | null>(null);
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setLoading(true);
+	const handleSubmit = async () => {
 		setMessage(null);
+
+		// Validation côté client
+		if (!title.trim() || !description.trim()) {
+			toast.error("Veuillez remplir tous les champs obligatoires");
+			return;
+		}
 
 		try {
 			const response = await fetch("/api/tickets", {
@@ -76,28 +80,30 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 			});
 
 			if (response.ok) {
-				setMessage({
-					type: "success",
-					text: "Ticket créé avec succès ! Vous recevrez une notification par email.",
-				});
+				toast.success(
+					"Ticket créé avec succès ! Vous recevrez une notification par email."
+				);
 				setTitle("");
 				setDescription("");
 				setPriority("MEDIUM");
 				onTicketCreated?.();
 			} else {
 				const error = await response.json();
-				setMessage({
-					type: "error",
-					text: error.error || "Erreur lors de la création du ticket",
-				});
+				throw new Error(
+					error.error || "Erreur lors de la création du ticket"
+				);
 			}
 		} catch (error) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: "Erreur de connexion. Veuillez réessayer.";
+			toast.error(errorMessage);
 			setMessage({
 				type: "error",
-				text: "Erreur de connexion. Veuillez réessayer.",
+				text: errorMessage,
 			});
-		} finally {
-			setLoading(false);
+			throw error; // Re-throw pour que le StatefulButton reste en état d'erreur
 		}
 	};
 
@@ -125,7 +131,7 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 					</div>
 				)}
 
-				<form onSubmit={handleSubmit} className="space-y-6">
+				<form className="space-y-6">
 					<div>
 						<Label
 							htmlFor="title"
@@ -192,22 +198,13 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 					</div>
 
 					<div className="pt-4">
-						<Button
-							type="submit"
-							disabled={
-								loading || !title.trim() || !description.trim()
-							}
-							className="w-full"
+						<StatefulButton
+							onClick={handleSubmit}
+							disabled={!title.trim() || !description.trim()}
+							className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
 						>
-							{loading ? (
-								<>
-									<Loader2 className="w-4 h-4 mr-2 animate-spin" />
-									Crée le ticket...
-								</>
-							) : (
-								"🎫 Créer le ticket"
-							)}
-						</Button>
+							🎫 Créer le ticket
+						</StatefulButton>
 					</div>
 				</form>
 

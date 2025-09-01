@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { sendNewTicketNotification } from "@/lib/email";
+import { sendTicketNotification } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -145,14 +145,14 @@ export async function POST(request: NextRequest) {
 
 		// Envoyer la notification email à l'admin
 		try {
-			await sendNewTicketNotification({
-				ticketId: ticket.id,
-				title: ticket.title,
-				description: ticket.description || "",
-				priority: ticket.priority as any,
-				clientName: ticket.client.companyName,
-				clientEmail: ticket.client.primaryEmail,
-				createdAt: ticket.createdAt,
+			await sendTicketNotification({
+				to: "quentinlevis@gmail.com", // Email de l'admin
+				ticketTitle: ticket.title,
+				ticketStatus: "OPEN",
+				companyName: ticket.client.companyName,
+				ticketUrl: `${
+					process.env.NEXTAUTH_URL || "http://localhost:3000"
+				}/admin/tickets`,
 			});
 		} catch (emailError) {
 			console.error("Erreur envoi notification email:", emailError);

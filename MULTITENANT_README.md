@@ -126,6 +126,48 @@ model Invoice {
 }
 ```
 
+## 📧 Système d'Emails
+
+### Configuration Resend
+
+LevisHub utilise **Resend** pour l'envoi d'emails professionnels :
+
+1. **Créer un compte** : https://resend.com
+2. **Récupérer la clé API** dans les paramètres
+3. **Ajouter dans `.env.local`** : `RESEND_API_KEY=re_...`
+
+### Types d'Emails
+
+#### 📧 Emails d'Invitation
+
+-   **Déclencheur** : Création d'invitation par l'admin
+-   **Destinataire** : Nouveau client
+-   **Contenu** : Lien d'invitation, informations entreprise
+-   **Expiration** : 7 jours
+
+#### 🎫 Notifications de Tickets
+
+-   **Déclencheur** : Création ou mise à jour de ticket
+-   **Destinataire** : Admin (nouveaux tickets) / Client (mises à jour)
+-   **Contenu** : Statut, priorité, lien vers le ticket
+
+### Templates d'Emails
+
+-   **Design moderne** avec gradients et animations
+-   **Responsive** pour tous les appareils
+-   **Branding LevisHub** cohérent
+-   **Liens directs** vers l'application
+
+### Test et Validation
+
+```bash
+# Test complet des emails
+node scripts/test-email-workflow.js
+
+# Interface web de test
+http://localhost:3000/test-email
+```
+
 ## 🔐 Workflow d'Authentification
 
 ### 1. Création d'un Client (ADMIN)
@@ -177,11 +219,23 @@ POST /api/invitations/accept
 node scripts/test-multitenant-workflow.js
 ```
 
+### Script de Test Email
+
+```bash
+node scripts/test-email-workflow.js
+```
+
 ### Script de Test Complet (avec Stripe)
 
 ```bash
 node scripts/test-stripe-workflow.js
 ```
+
+### Test via Interface Web
+
+-   URL : http://localhost:3000/test-email
+-   Interface graphique pour tester les emails
+-   Vérification de la configuration Resend
 
 ### Données de Test Créées
 
@@ -214,11 +268,12 @@ node scripts/test-stripe-workflow.js
 -   [ ] Implémentation des webhooks Stripe
 -   [ ] Synchronisation des abonnements et factures
 
-### Phase 3 : Emails
+### Phase 3 : Emails ✅
 
--   [ ] Intégration Resend pour les invitations
--   [ ] Templates d'emails personnalisés
--   [ ] Notifications automatiques
+-   [x] Intégration Resend pour les invitations
+-   [x] Templates d'emails personnalisés
+-   [x] Notifications automatiques
+-   [x] Système de test d'emails
 
 ### Phase 4 : Production
 
@@ -343,22 +398,38 @@ src/
     node scripts/create-admin.js
     ```
 
-5. **Tester le workflow**
+5. **Configurer Resend**
+
+    - Créer un compte sur https://resend.com
+    - Récupérer la clé API
+    - Ajouter `RESEND_API_KEY=re_...` dans `.env.local`
+
+6. **Tester les emails**
+
+    ```bash
+    node scripts/test-email-workflow.js
+    ```
+
+7. **Tester le workflow complet**
 
     ```bash
     node scripts/test-multitenant-workflow.js
     ```
 
-6. **Démarrer l'application**
+8. **Démarrer l'application**
 
     ```bash
     npm run dev
     ```
 
-7. **Se connecter en admin**
+9. **Se connecter en admin**
+
     - URL : http://localhost:3000/login
     - Email : admin@levishub.com
     - Mot de passe : admin123
+
+10. **Tester les emails via l'interface**
+    - URL : http://localhost:3000/test-email
 
 ---
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,17 +9,29 @@ import {
 	NavBody,
 	NavItems,
 } from "@/components/ui/resizable-navbar";
+import { StatefulButton } from "@/components/ui/stateful-button";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
 	const router = useRouter();
+	const searchParams = useSearchParams();
 	const { data: session, status } = useSession();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [showForgotPassword, setShowForgotPassword] = useState(false);
+	const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+
+	// Afficher le message de succès si présent dans l'URL
+	useEffect(() => {
+		const message = searchParams.get("message");
+		if (message) {
+			toast.success(message);
+		}
+	}, [searchParams]);
 
 	// Redirection automatique si déjà connecté
 	useEffect(() => {
@@ -31,24 +42,72 @@ export default function LoginPage() {
 		}
 	}, [session, status, router]);
 
-	async function onSubmit(e: FormEvent) {
-		e.preventDefault();
-		setLoading(true);
+	async function handleLogin() {
 		setError(null);
 
-		const res = await signIn("credentials", {
-			email,
-			password,
-			redirect: false,
-		});
+		// Validation côté client
+		if (!email.trim() || !password.trim()) {
+			toast.error("Veuillez remplir tous les champs");
+			return;
+		}
 
-		setLoading(false);
+		try {
+			const res = await signIn("credentials", {
+				email,
+				password,
+				redirect: false,
+			});
 
-		if (res?.ok) {
-			// La redirection se fera automatiquement via useEffect
-			// car la session sera mise à jour
-		} else {
-			setError("Identifiants invalides");
+			if (res?.ok) {
+				toast.success("Connexion réussie !");
+				// La redirection se fera automatiquement via useEffect
+				// car la session sera mise à jour
+			} else {
+				throw new Error("Identifiants invalides");
+			}
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error ? error.message : "Erreur de connexion";
+			toast.error(errorMessage);
+			setError(errorMessage);
+			throw error; // Re-throw pour que le StatefulButton reste en état d'erreur
+		}
+	}
+
+	async function handleForgotPassword() {
+		if (!forgotPasswordEmail.trim()) {
+			toast.error("Veuillez entrer votre email");
+			return;
+		}
+
+		try {
+			const response = await fetch("/api/auth/forgot-password", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email: forgotPasswordEmail,
+				}),
+			});
+
+			if (response.ok) {
+				toast.success(
+					"Si cet email existe, un lien de réinitialisation a été envoyé."
+				);
+				setShowForgotPassword(false);
+				setForgotPasswordEmail("");
+			} else {
+				const errorData = await response.json();
+				throw new Error(errorData.error || "Erreur lors de l'envoi");
+			}
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: "Erreur lors de l'envoi";
+			toast.error(errorMessage);
+			throw error;
 		}
 	}
 
@@ -110,55 +169,109 @@ export default function LoginPage() {
 					>
 						<CardHeader>
 							<CardTitle className="text-2xl">
-								Connexion
+								{showForgotPassword
+									? "Mot de passe oublié"
+									: "Connexion"}
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<form onSubmit={onSubmit} className="space-y-4">
-								<div>
-									<Label htmlFor="email">Email</Label>
-									<Input
-										id="email"
-										type="email"
-										value={email}
-										onChange={(e) =>
-											setEmail(e.target.value)
-										}
-										required
-									/>
-								</div>
-								<div>
-									<Label htmlFor="password">
-										Mot de passe
-									</Label>
-									<Input
-										id="password"
-										type="password"
-										value={password}
-										onChange={(e) =>
-											setPassword(e.target.value)
-										}
-										required
-									/>
-								</div>
-								<Button
-									type="submit"
-									disabled={loading}
-									className="w-full"
-								>
-									{loading ? "Connexion..." : "Se connecter"}
-								</Button>
-							</form>
-							{error && (
-								<p className="text-sm text-red-500 mt-2">
-									{error}
-								</p>
+							{!showForgotPassword ? (
+								<>
+									<form className="space-y-4">
+										<div>
+											<Label htmlFor="email">Email</Label>
+											<Input
+												id="email"
+												type="email"
+												value={email}
+												onChange={(e) =>
+													setEmail(e.target.value)
+												}
+												required
+											/>
+										</div>
+										<div>
+											<Label htmlFor="password">
+												Mot de passe
+											</Label>
+											<Input
+												id="password"
+												type="password"
+												value={password}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
+												required
+											/>
+										</div>
+										<StatefulButton
+											onClick={handleLogin}
+											className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+										>
+											Se connecter
+										</StatefulButton>
+									</form>
+									{error && (
+										<p className="text-sm text-red-500 mt-2">
+											{error}
+										</p>
+									)}
+									<div className="mt-4 text-center space-y-2">
+										<p className="text-sm text-muted-foreground">
+											Accès réservé aux utilisateurs
+											autorisés
+										</p>
+										<button
+											type="button"
+											onClick={() =>
+												setShowForgotPassword(true)
+											}
+											className="text-sm text-blue-600 hover:text-blue-700 underline"
+										>
+											Mot de passe oublié ?
+										</button>
+									</div>
+								</>
+							) : (
+								<>
+									<div className="space-y-4">
+										<div>
+											<Label htmlFor="forgotEmail">
+												Email
+											</Label>
+											<Input
+												id="forgotEmail"
+												type="email"
+												value={forgotPasswordEmail}
+												onChange={(e) =>
+													setForgotPasswordEmail(
+														e.target.value
+													)
+												}
+												placeholder="Entrez votre email"
+												required
+											/>
+										</div>
+										<StatefulButton
+											onClick={handleForgotPassword}
+											className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-medium"
+										>
+											Envoyer le lien de réinitialisation
+										</StatefulButton>
+									</div>
+									<div className="mt-4 text-center">
+										<button
+											type="button"
+											onClick={() =>
+												setShowForgotPassword(false)
+											}
+											className="text-sm text-blue-600 hover:text-blue-700 underline"
+										>
+											Retour à la connexion
+										</button>
+									</div>
+								</>
 							)}
-							<div className="mt-4 text-center">
-								<p className="text-sm text-muted-foreground">
-									Accès réservé aux utilisateurs autorisés
-								</p>
-							</div>
 						</CardContent>
 					</Card>
 				</div>
