@@ -407,7 +407,8 @@ export default async function AdminDashboardPage() {
 									>
 										<div>
 											<span className="font-medium text-white">
-												{invoice.invoiceNumber}
+												{invoice.stripeInvoiceId ??
+													invoice.id}
 											</span>
 											<p className="text-sm text-[#a0a0a0]">
 												{invoice.client.companyName}
@@ -415,9 +416,9 @@ export default async function AdminDashboardPage() {
 										</div>
 										<div className="flex items-center gap-2">
 											<span className="text-sm text-white font-medium">
-												{(invoice.amount / 100).toFixed(
-													2
-												)}
+												{(
+													invoice.amountPaid / 100
+												).toFixed(2)}
 												€
 											</span>
 											<span
@@ -425,10 +426,14 @@ export default async function AdminDashboardPage() {
 													invoice.status === "PAID"
 														? "badge-success"
 														: invoice.status ===
-														  "PENDING"
+																"OPEN" ||
+														  invoice.status ===
+																"DRAFT"
 														? "badge-warning"
 														: invoice.status ===
-														  "OVERDUE"
+																"VOID" ||
+														  invoice.status ===
+																"UNCOLLECTIBLE"
 														? "badge-danger"
 														: "badge-neutral"
 												}`}

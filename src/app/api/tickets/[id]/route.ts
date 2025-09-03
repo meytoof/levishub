@@ -5,11 +5,8 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET - Récupérer un ticket spécifique
-export async function GET(
-	request: NextRequest,
-	{ params }: { params: Promise<{ id: string }> }
-) {
-	const { id } = await params;
+export async function GET(request: NextRequest, context: any) {
+	const { id } = context.params as { id: string };
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {
@@ -68,11 +65,8 @@ export async function GET(
 }
 
 // PATCH - Mettre à jour un ticket
-export async function PATCH(
-	request: NextRequest,
-	{ params }: { params: Promise<{ id: string }> }
-) {
-	const { id } = await params;
+export async function PATCH(request: NextRequest, context: any) {
+	const { id } = context.params as { id: string };
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {
@@ -186,10 +180,7 @@ export async function PATCH(
 }
 
 // DELETE - Supprimer un ticket (admin seulement)
-export async function DELETE(
-	request: NextRequest,
-	{ params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: any) {
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session || session.user.role !== "ADMIN") {
@@ -200,7 +191,7 @@ export async function DELETE(
 		}
 
 		await prisma.ticket.delete({
-			where: { id: params.id },
+			where: { id: (context.params as { id: string }).id },
 		});
 
 		return NextResponse.json({ message: "Ticket supprimé" });

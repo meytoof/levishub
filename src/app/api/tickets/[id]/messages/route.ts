@@ -5,11 +5,8 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET - Liste des messages d'un ticket
-export async function GET(
-	request: NextRequest,
-	{ params }: { params: Promise<{ id: string }> }
-) {
-	const { id } = await params;
+export async function GET(request: NextRequest, context: any) {
+	const { id } = context.params as { id: string };
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {
@@ -59,11 +56,8 @@ export async function GET(
 }
 
 // POST - Ajouter un message à un ticket
-export async function POST(
-	request: NextRequest,
-	{ params }: { params: Promise<{ id: string }> }
-) {
-	const { id } = await params;
+export async function POST(request: NextRequest, context: any) {
+	const { id } = context.params as { id: string };
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {

@@ -76,11 +76,9 @@ export default async function ClientDashboardPage() {
 	const totalInvoices = client._count.invoices;
 
 	// Calculer les statistiques d'analytics
-	const totalVisits = analytics.filter(
-		(e) => e.eventType === "PAGEVIEW"
-	).length;
+	const totalVisits = analytics.filter((e) => e.type === "PAGEVIEW").length;
 	const uniqueVisitors = new Set(
-		analytics.filter((e) => e.eventType === "PAGEVIEW").map((e) => e.userId)
+		analytics.filter((e) => e.type === "PAGEVIEW").map((e) => e.userId)
 	).size;
 
 	return (
@@ -226,7 +224,7 @@ export default async function ClientDashboardPage() {
 												{site.name}
 											</span>
 											<p className="text-sm text-[#a0a0a0]">
-												{site.url}
+												{site.domain}
 											</p>
 										</div>
 										<div className="flex gap-2">
@@ -430,7 +428,8 @@ export default async function ClientDashboardPage() {
 									>
 										<div>
 											<span className="font-medium text-white">
-												{invoice.invoiceNumber}
+												{invoice.stripeInvoiceId ??
+													invoice.id}
 											</span>
 											<p className="text-sm text-[#a0a0a0]">
 												{new Date(
@@ -440,9 +439,9 @@ export default async function ClientDashboardPage() {
 										</div>
 										<div className="flex items-center gap-2">
 											<span className="text-sm text-white font-medium">
-												{(invoice.amount / 100).toFixed(
-													2
-												)}
+												{(
+													invoice.amountPaid / 100
+												).toFixed(2)}
 												€
 											</span>
 											<span
@@ -450,10 +449,14 @@ export default async function ClientDashboardPage() {
 													invoice.status === "PAID"
 														? "badge-success"
 														: invoice.status ===
-														  "PENDING"
+																"OPEN" ||
+														  invoice.status ===
+																"DRAFT"
 														? "badge-warning"
 														: invoice.status ===
-														  "OVERDUE"
+																"VOID" ||
+														  invoice.status ===
+																"UNCOLLECTIBLE"
 														? "badge-danger"
 														: "badge-neutral"
 												}`}
