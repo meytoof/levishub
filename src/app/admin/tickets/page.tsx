@@ -13,7 +13,8 @@ import {
 	Trash2,
 	XCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface Ticket {
 	id: string;
@@ -36,29 +37,29 @@ interface Ticket {
 }
 
 const statusConfig = {
-	OPEN: { label: "Ouvert", icon: Clock, color: "bg-blue-100 text-blue-800" },
+	OPEN: { label: "Ouvert", icon: Clock, color: "bg-blue-200 text-blue-900" },
 	IN_PROGRESS: {
 		label: "En cours",
 		icon: MessageSquare,
-		color: "bg-yellow-100 text-yellow-800",
+		color: "bg-yellow-200 text-yellow-900",
 	},
 	RESOLVED: {
 		label: "Résolu",
 		icon: CheckCircle,
-		color: "bg-green-100 text-green-800",
+		color: "bg-green-200 text-green-900",
 	},
 	CLOSED: {
 		label: "Fermé",
 		icon: XCircle,
-		color: "bg-gray-100 text-gray-800",
+		color: "bg-gray-200 text-gray-900",
 	},
 };
 
 const priorityConfig = {
-	LOW: { label: "Faible", color: "bg-green-100 text-green-800" },
-	MEDIUM: { label: "Moyenne", color: "bg-yellow-100 text-yellow-800" },
-	HIGH: { label: "Élevée", color: "bg-orange-100 text-orange-800" },
-	URGENT: { label: "Urgente", color: "bg-red-100 text-red-800" },
+	LOW: { label: "Faible", color: "bg-green-200 text-green-900" },
+	MEDIUM: { label: "Moyenne", color: "bg-yellow-200 text-yellow-900" },
+	HIGH: { label: "Élevée", color: "bg-orange-200 text-orange-900" },
+	URGENT: { label: "Urgente", color: "bg-red-200 text-red-900" },
 };
 
 export default function AdminTicketsPage() {
@@ -68,6 +69,45 @@ export default function AdminTicketsPage() {
 	const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 	const [adminReply, setAdminReply] = useState("");
 	const [updating, setUpdating] = useState(false);
+	const [conversation, setConversation] = useState<
+		Array<{
+			id: string;
+			body: string;
+			createdAt: string;
+			sender: {
+				id: string;
+				name: string | null;
+				email: string | null;
+				role: "ADMIN" | "CLIENT";
+			};
+		}>
+	>([]);
+
+	// Animation modale
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalClosing, setModalClosing] = useState(false);
+	useEffect(() => {
+		if (selectedTicket) {
+			setModalVisible(true);
+			setModalClosing(false);
+		}
+	}, [selectedTicket]);
+
+	const closeModal = () => {
+		setModalClosing(true);
+		setTimeout(() => {
+			setSelectedTicket(null);
+			setModalVisible(false);
+		}, 200);
+	};
+
+	// Scroll automatique en bas de la liste de messages
+	const messagesEndRef = useRef<HTMLDivElement | null>(null);
+	useEffect(() => {
+		if (selectedTicket && messagesEndRef.current) {
+			messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [selectedTicket, conversation]);
 
 	// Charger les tickets
 	const loadTickets = async () => {
@@ -136,15 +176,27 @@ export default function AdminTicketsPage() {
 
 			if (response.ok) {
 				await loadTickets();
-				setSelectedTicket(null);
+				await loadConversation(ticketId);
 				setAdminReply("");
-				alert("Réponse envoyée avec succès !");
+				toast.success("Réponse envoyée avec succès");
 			}
 		} catch (error) {
 			console.error("Erreur mise à jour ticket:", error);
-			alert("Erreur lors de l'envoi de la réponse.");
+			toast.error("Erreur lors de l'envoi de la réponse");
 		} finally {
 			setUpdating(false);
+		}
+	};
+
+	const loadConversation = async (ticketId: string) => {
+		try {
+			const res = await fetch(`/api/tickets/${ticketId}/messages`);
+			if (res.ok) {
+				const data = await res.json();
+				setConversation(data.messages);
+			}
+		} catch (e) {
+			console.error("Erreur chargement conversation:", e);
 		}
 	};
 
@@ -159,9 +211,11 @@ export default function AdminTicketsPage() {
 
 			if (response.ok) {
 				await loadTickets();
+				toast.success("Ticket supprimé");
 			}
 		} catch (error) {
 			console.error("Erreur suppression ticket:", error);
+			toast.error("Erreur lors de la suppression du ticket");
 		}
 	};
 
@@ -249,7 +303,7 @@ export default function AdminTicketsPage() {
 					placeholder="Rechercher par titre, description ou client..."
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
-					className="w-full py-3 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 text-base"
+					className="w-full py-3 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 text-base p5"
 				/>
 			</div>
 
@@ -288,7 +342,7 @@ export default function AdminTicketsPage() {
 													{ticket.title}
 												</h3>
 												<Badge className={status.color}>
-													<StatusIcon className="w-3 h-3 mr-1" />
+													<StatusIcon className="w-3 h-3 mr-1 status-icon" />
 													{status.label}
 												</Badge>
 												<Badge
@@ -345,10 +399,11 @@ export default function AdminTicketsPage() {
 											<Button
 												variant="outline"
 												size="sm"
-												onClick={() =>
-													setSelectedTicket(ticket)
-												}
-												className="flex items-center gap-2 border-gray-600 text-white hover:bg-gray-700 px-4 py-2"
+												onClick={() => {
+													setSelectedTicket(ticket);
+													loadConversation(ticket.id);
+												}}
+												className="flex items-center gap-2 border-gray-600 text-white hover:bg-gray-700 p-btn"
 											>
 												<Reply className="w-3 h-3" />
 												Répondre
@@ -359,7 +414,7 @@ export default function AdminTicketsPage() {
 												onClick={() =>
 													deleteTicket(ticket.id)
 												}
-												className="flex items-center gap-2 border-red-600 text-red-400 hover:bg-red-900/20 px-4 py-2"
+												className="flex items-center gap-2 border-red-600 text-red-400 hover:bg-red-900/20 p-btn"
 											>
 												<Trash2 className="w-3 h-3" />
 												Supprimer
@@ -375,8 +430,22 @@ export default function AdminTicketsPage() {
 
 			{/* Modal de réponse simplifié */}
 			{selectedTicket && (
-				<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-					<div className="bg-gray-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+				<div
+					className={`fixed inset-0 flex items-start justify-center p-4 pt-24 z-[9999] transition-opacity duration-200 ${
+						modalClosing
+							? "bg-black/0"
+							: "bg-black/60 backdrop-blur-sm"
+					}`}
+					onClick={closeModal}
+				>
+					<div
+						className={`bg-gray-900 rounded-xl max-w-5xl w-[92vw] max-h-[90vh] overflow-hidden border border-gray-700 transition-all duration-200 ease-out transform ${
+							modalVisible && !modalClosing
+								? "opacity-100 translate-y-0 scale-100"
+								: "opacity-0 translate-y-4 scale-95"
+						}`}
+						onClick={(e) => e.stopPropagation()}
+					>
 						<div className="p-8">
 							{/* Header du modal */}
 							<div className="flex items-center justify-between mb-8">
@@ -391,8 +460,8 @@ export default function AdminTicketsPage() {
 								</div>
 								<Button
 									variant="outline"
-									onClick={() => setSelectedTicket(null)}
-									className="border-gray-600 text-white hover:bg-gray-800"
+									onClick={closeModal}
+									className="border-gray-600 text-white hover:bg-gray-800 p-btn"
 								>
 									✕ Fermer
 								</Button>
@@ -409,19 +478,97 @@ export default function AdminTicketsPage() {
 									</p>
 								</div>
 
+								{/* Conversation */}
+								<div className="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+									<h3 className="font-semibold mb-4 text-white">
+										💬 Conversation
+									</h3>
+									{conversation.length === 0 ? (
+										<p className="text-gray-400 text-sm">
+											Aucun message pour l’instant.
+										</p>
+									) : (
+										<div className="space-y-3 max-h-[36vh] overflow-y-auto pr-2">
+											{conversation.map((m) => {
+												const isAdmin =
+													m.sender.role === "ADMIN";
+												return (
+													<div
+														key={m.id}
+														className={`flex ${
+															isAdmin
+																? "justify-end"
+																: "justify-start"
+														}`}
+													>
+														<div
+															className={`max-w-[80%] px-4 py-2 rounded-2xl border text-sm whitespace-pre-wrap ${
+																isAdmin
+																	? "bg-blue-600 text-white border-blue-500 rounded-br-none"
+																	: "bg-gray-900/60 text-gray-100 border-gray-700 rounded-bl-none"
+															}`}
+															style={{
+																padding: 10,
+															}}
+														>
+															{m.body}
+															<div
+																className={`mt-1 text-[11px] opacity-80 ${
+																	isAdmin
+																		? "text-white/80 text-right"
+																		: "text-gray-400"
+																}`}
+															>
+																{isAdmin
+																	? "Admin"
+																	: "Client"}{" "}
+																•{" "}
+																{new Date(
+																	m.createdAt
+																).toLocaleString(
+																	"fr-FR"
+																)}
+															</div>
+														</div>
+													</div>
+												);
+											})}
+											<div ref={messagesEndRef} />
+										</div>
+									)}
+								</div>
+
 								{/* Zone de réponse */}
 								<div>
-									<h3 className="font-semibold mb-3 text-white">
-										✍️ Votre réponse *
-									</h3>
 									<Textarea
 										placeholder="Tapez votre réponse au client..."
 										value={adminReply}
 										onChange={(e) =>
 											setAdminReply(e.target.value)
 										}
+										onKeyDown={(e) => {
+											if (
+												e.key === "Enter" &&
+												!e.shiftKey
+											) {
+												e.preventDefault();
+												if (
+													selectedTicket &&
+													adminReply.trim()
+												) {
+													replyToTicket(
+														selectedTicket.id,
+														"IN_PROGRESS"
+													);
+												}
+											}
+										}}
 										rows={4}
 										className="bg-gray-800 border-gray-600 text-white placeholder:text-gray-400"
+										style={{
+											marginBottom: 20,
+											padding: 10,
+										}}
 										required
 									/>
 								</div>
@@ -489,10 +636,7 @@ export default function AdminTicketsPage() {
 										) : (
 											<>
 												<XCircle className="w-4 h-4 mr-2" />
-												<>
-													<XCircle className="w-4 h-4 mr-2" />
-													Fermer
-												</>
+												Fermer
 											</>
 										)}
 									</Button>

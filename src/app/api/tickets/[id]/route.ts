@@ -7,8 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 // GET - Récupérer un ticket spécifique
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await params;
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {
@@ -19,7 +20,7 @@ export async function GET(
 		}
 
 		const ticket = await prisma.ticket.findUnique({
-			where: { id: params.id },
+			where: { id },
 			include: {
 				client: {
 					select: {
@@ -69,8 +70,9 @@ export async function GET(
 // PATCH - Mettre à jour un ticket
 export async function PATCH(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await params;
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session) {
@@ -85,7 +87,7 @@ export async function PATCH(
 
 		// Récupérer le ticket actuel
 		const currentTicket = await prisma.ticket.findUnique({
-			where: { id: params.id },
+			where: { id },
 			include: {
 				client: {
 					select: {
@@ -119,7 +121,7 @@ export async function PATCH(
 
 		// Mettre à jour le ticket
 		const updatedTicket = await prisma.ticket.update({
-			where: { id: params.id },
+			where: { id },
 			data: updateData,
 			include: {
 				client: {
@@ -138,6 +140,25 @@ export async function PATCH(
 				},
 			},
 		});
+
+		// Enregistrer le message admin dans l’historique de conversation
+		if (
+			adminMessage &&
+			typeof adminMessage === "string" &&
+			adminMessage.trim()
+		) {
+			try {
+				await prisma.ticketMessage.create({
+					data: {
+						ticketId: id,
+						senderId: session.user.id,
+						body: adminMessage.trim(),
+					},
+				});
+			} catch (createMsgError) {
+				console.error("Erreur création message admin:", createMsgError);
+			}
+		}
 
 		// Envoyer la notification email au client si le statut a changé
 		if (status && status !== currentTicket.status) {

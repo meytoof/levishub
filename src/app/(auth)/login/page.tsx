@@ -177,16 +177,32 @@ export default function LoginPage() {
 						<CardContent>
 							{!showForgotPassword ? (
 								<>
-									<form className="space-y-4">
+									<form
+										className="space-y-4"
+										onSubmit={(e) => {
+											e.preventDefault();
+											// Utiliser handleLogin quand l'utilisateur presse Entrée
+											handleLogin();
+										}}
+									>
 										<div>
 											<Label htmlFor="email">Email</Label>
 											<Input
 												id="email"
 												type="email"
+												name="email"
+												autoComplete="email"
+												autoFocus
 												value={email}
 												onChange={(e) =>
 													setEmail(e.target.value)
 												}
+												onKeyDown={(e) => {
+													if (e.key === "Enter") {
+														e.preventDefault();
+														handleLogin();
+													}
+												}}
 												required
 											/>
 										</div>
@@ -197,10 +213,18 @@ export default function LoginPage() {
 											<Input
 												id="password"
 												type="password"
+												name="password"
+												autoComplete="current-password"
 												value={password}
 												onChange={(e) =>
 													setPassword(e.target.value)
 												}
+												onKeyDown={(e) => {
+													if (e.key === "Enter") {
+														e.preventDefault();
+														handleLogin();
+													}
+												}}
 												required
 											/>
 										</div>
@@ -242,6 +266,8 @@ export default function LoginPage() {
 											<Input
 												id="forgotEmail"
 												type="email"
+												name="forgotEmail"
+												autoComplete="email"
 												value={forgotPasswordEmail}
 												onChange={(e) =>
 													setForgotPasswordEmail(
@@ -249,6 +275,12 @@ export default function LoginPage() {
 													)
 												}
 												placeholder="Entrez votre email"
+												onKeyDown={(e) => {
+													if (e.key === "Enter") {
+														e.preventDefault();
+														handleForgotPassword();
+													}
+												}}
 												required
 											/>
 										</div>

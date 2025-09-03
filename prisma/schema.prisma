@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -34,6 +33,7 @@ model User {
   createdInvitations Invitation[] @relation("InvitationCreator")
   tickets            Ticket[]
   passwordResets     PasswordReset[]
+  sentMessages       TicketMessage[] @relation("MessageSender")
 
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -210,12 +210,28 @@ model Ticket {
   // Relations
   client          Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   createdBy       User          @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
+  messages        TicketMessage[]
   
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   
   @@index([clientId, status])
   @@index([createdByUserId])
+}
+
+model TicketMessage {
+  id         String   @id @default(cuid())
+  ticketId   String
+  senderId   String
+  body       String
+
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+
+  @@index([ticketId, createdAt])
+  @@index([senderId])
 }
 
 enum TicketStatus {

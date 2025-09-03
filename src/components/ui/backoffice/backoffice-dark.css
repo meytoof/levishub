@@ -1156,6 +1156,7 @@ body {
 	font-size: 0.875rem;
 	resize: vertical;
 	transition: all 0.3s ease;
+	margin-bottom: 1rem;
 }
 
 .modal-textarea:focus {
@@ -1221,4 +1222,14 @@ body {
 /* Classe personnalisée pour le padding */
 .truc {
 	padding-left: 20px;
+}
+.p-btn {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.status-icon {
+	padding: 5px 10px 5px 10px;
+}
+.p5 {
+	padding: 5px;
 }

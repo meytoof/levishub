@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { TicketForm } from "@/components/ui/ticket-form";
 import {
 	CheckCircle,
@@ -11,9 +12,11 @@ import {
 	Clock,
 	MessageSquare,
 	Plus,
+	Reply,
 	XCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface Ticket {
 	id: string;
@@ -63,6 +66,50 @@ export default function ClientTicketsPage() {
 	const [expandedTickets, setExpandedTickets] = useState<Set<string>>(
 		new Set()
 	);
+	const [messageDrafts, setMessageDrafts] = useState<Record<string, string>>(
+		{}
+	);
+	const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+	const [conversation, setConversation] = useState<
+		Array<{
+			id: string;
+			body: string;
+			createdAt: string;
+			sender: {
+				id: string;
+				name: string | null;
+				email: string | null;
+				role: "ADMIN" | "CLIENT";
+			};
+		}>
+	>([]);
+	const [sending, setSending] = useState(false);
+
+	// Animation modale (ouverture/fermeture)
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalClosing, setModalClosing] = useState(false);
+	useEffect(() => {
+		if (selectedTicket) {
+			setModalVisible(true);
+			setModalClosing(false);
+		}
+	}, [selectedTicket]);
+
+	const closeModal = () => {
+		setModalClosing(true);
+		setTimeout(() => {
+			setSelectedTicket(null);
+			setModalVisible(false);
+		}, 200);
+	};
+
+	// Scroll automatique en bas (modale)
+	const messagesEndRef = useRef<HTMLDivElement | null>(null);
+	useEffect(() => {
+		if (selectedTicket && messagesEndRef.current) {
+			messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [selectedTicket, conversation]);
 
 	// Charger les tickets
 	const loadTickets = async () => {
@@ -113,6 +160,43 @@ export default function ClientTicketsPage() {
 		setExpandedTickets(newExpanded);
 	};
 
+	const loadConversation = async (ticketId: string) => {
+		try {
+			const res = await fetch(`/api/tickets/${ticketId}/messages`);
+			if (res.ok) {
+				const data = await res.json();
+				setConversation(data.messages);
+			}
+		} catch (e) {
+			console.error("Erreur chargement conversation:", e);
+		}
+	};
+
+	const sendMessage = async (ticketId: string) => {
+		const body = (messageDrafts[ticketId] || "").trim();
+		if (!body || sending) return;
+		setSending(true);
+		try {
+			const res = await fetch(`/api/tickets/${ticketId}/messages`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ body }),
+			});
+			if (res.ok) {
+				setMessageDrafts((prev) => ({ ...prev, [ticketId]: "" }));
+				await loadConversation(ticketId);
+				toast.success("Message envoyé");
+			} else {
+				toast.error("Envoi échoué");
+			}
+		} catch (e) {
+			console.error("Erreur envoi message:", e);
+			toast.error("Erreur lors de l'envoi du message");
+		} finally {
+			setSending(false);
+		}
+	};
+
 	if (loading) {
 		return (
 			<div className="space-y-6">
@@ -140,7 +224,7 @@ export default function ClientTicketsPage() {
 				</h1>
 				<Button
 					onClick={() => setShowForm(!showForm)}
-					className="flex items-center gap-2"
+					className="flex items-center gap-2 btn-primary p-btn"
 				>
 					<Plus className="w-4 h-4" />
 					{showForm ? "Masquer le formulaire" : "Nouveau ticket"}
@@ -320,20 +404,35 @@ export default function ClientTicketsPage() {
 												)}
 											</div>
 										</div>
-										<Button
-											variant="ghost"
-											size="sm"
-											onClick={() =>
-												toggleTicketExpansion(ticket.id)
-											}
-											className="ml-4"
-										>
-											{isExpanded ? (
-												<ChevronDown className="w-4 h-4" />
-											) : (
-												<ChevronRight className="w-4 h-4" />
-											)}
-										</Button>
+										<div className="flex items-center gap-2 ml-4">
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													setSelectedTicket(ticket);
+													loadConversation(ticket.id);
+												}}
+												className="flex items-center gap-2 border-gray-600 text-white hover:bg-gray-700 p-btn"
+											>
+												<Reply className="w-3 h-3" />
+												Répondre
+											</Button>
+											<Button
+												variant="ghost"
+												size="sm"
+												onClick={() =>
+													toggleTicketExpansion(
+														ticket.id
+													)
+												}
+											>
+												{isExpanded ? (
+													<ChevronDown className="w-4 h-4" />
+												) : (
+													<ChevronRight className="w-4 h-4" />
+												)}
+											</Button>
+										</div>
 									</div>
 
 									{/* Contenu détaillé (expandable) */}
@@ -364,7 +463,7 @@ export default function ClientTicketsPage() {
 														"En attente de réponse de l'équipe"}
 													{status.label ===
 														"IN_PROGRESS" &&
-														"L'équipe travaille sur votre demande"}
+														"L&apos;équipe travaille sur votre demande"}
 													{status.label ===
 														"RESOLVED" &&
 														"Votre demande a été résolue"}
@@ -397,8 +496,9 @@ export default function ClientTicketsPage() {
 														sur votre demande.
 														<br />
 														Vous recevrez une
-														notification dès qu'il y
-														aura une mise à jour.
+														notification dès
+														qu&apos;il y aura une
+														mise à jour.
 													</p>
 												</div>
 											)}
@@ -409,19 +509,236 @@ export default function ClientTicketsPage() {
 														✅ Votre demande a été
 														résolue !
 														<br />
-														Si vous avez d'autres
-														questions, n'hésitez pas
-														à créer un nouveau
-														ticket.
+														Si vous avez
+														d&apos;autres questions,
+														n&apos;hésitez pas à
+														créer un nouveau ticket.
 													</p>
 												</div>
 											)}
+
+											{/* Composer de message */}
+											<div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+												<h4 className="font-semibold mb-2 text-sm text-gray-700 dark:text-gray-300">
+													Envoyer un message
+													complémentaire
+												</h4>
+												<Textarea
+													placeholder="Décrivez votre mise à jour..."
+													value={
+														messageDrafts[
+															ticket.id
+														] || ""
+													}
+													onChange={(e) =>
+														setMessageDrafts(
+															(prev) => ({
+																...prev,
+																[ticket.id]:
+																	e.target
+																		.value,
+															})
+														)
+													}
+													rows={3}
+													className="mb-2"
+													style={{ padding: 10 }}
+												/>
+												<div className="flex justify-end">
+													<Button
+														size="sm"
+														className="btn-primary p-btn"
+														onClick={() =>
+															sendMessage(
+																ticket.id
+															)
+														}
+													>
+														Envoyer
+													</Button>
+												</div>
+											</div>
 										</div>
 									)}
 								</CardContent>
 							</Card>
 						);
 					})
+				)}
+
+				{/* Modale de conversation (client) */}
+				{selectedTicket && (
+					<div
+						className={`fixed inset-0 flex items-start justify-center p-4 pt-24 z-[9999] transition-opacity duration-200 ${
+							modalClosing
+								? "bg-black/0"
+								: "bg-black/60 backdrop-blur-sm"
+						}`}
+						onClick={closeModal}
+					>
+						<div
+							className={`bg-gray-900 rounded-xl max-w-5xl w-[92vw] max-h-[90vh] overflow-hidden border border-gray-700 transition-all duration-200 ease-out transform ${
+								modalVisible && !modalClosing
+									? "opacity-100 translate-y-0 scale-100"
+									: "opacity-0 translate-y-4 scale-95"
+							}`}
+							onClick={(e) => e.stopPropagation()}
+						>
+							<div className="p-8">
+								<div className="flex items-center justify-between mb-8">
+									<div>
+										<h2 className="text-xl font-bold text-white mb-2">
+											💬 Conversation du ticket
+										</h2>
+										<p className="text-gray-400 text-sm">
+											Ticket: {selectedTicket.title}
+										</p>
+									</div>
+									<Button
+										variant="outline"
+										onClick={closeModal}
+										className="border-gray-600 text-white hover:bg-gray-800 p-btn"
+									>
+										✕ Fermer
+									</Button>
+								</div>
+
+								<div className="space-y-6">
+									<div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+										<h3 className="font-semibold mb-3 text-white">
+											📋 Détails
+										</h3>
+										<p className="text-gray-300 text-sm whitespace-pre-wrap">
+											{selectedTicket.description}
+										</p>
+									</div>
+
+									<div className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6">
+										<h3 className="font-semibold mb-4 text-white">
+											💬 Messages
+										</h3>
+										{conversation.length === 0 ? (
+											<p className="text-gray-400 text-sm">
+												Aucun message pour l’instant.
+											</p>
+										) : (
+											<div className="space-y-3 max-h-[36vh] overflow-y-auto pr-2">
+												{conversation.map((m) => {
+													const isAdmin =
+														m.sender.role ===
+														"ADMIN";
+													return (
+														<div
+															key={m.id}
+															className={`flex ${
+																isAdmin
+																	? "justify-end"
+																	: "justify-start"
+															}`}
+														>
+															<div
+																className={`max-w-[80%] px-4 py-2 rounded-2xl border text-sm whitespace-pre-wrap ${
+																	isAdmin
+																		? "bg-blue-600 text-white border-blue-500 rounded-br-none"
+																		: "bg-gray-900/60 text-gray-100 border-gray-700 rounded-bl-none"
+																}`}
+																style={{
+																	padding: 10,
+																}}
+															>
+																{m.body}
+																<div
+																	className={`mt-1 text-[11px] opacity-80 ${
+																		isAdmin
+																			? "text-white/80 text-right"
+																			: "text-gray-400"
+																	}`}
+																>
+																	{isAdmin
+																		? "Admin"
+																		: "Client"}{" "}
+																	•{" "}
+																	{new Date(
+																		m.createdAt
+																	).toLocaleString(
+																		"fr-FR"
+																	)}
+																</div>
+															</div>
+														</div>
+													);
+												})}
+												<div ref={messagesEndRef} />
+											</div>
+										)}
+									</div>
+
+									<div>
+										<Textarea
+											placeholder="Écrire un message..."
+											value={
+												messageDrafts[
+													selectedTicket.id
+												] || ""
+											}
+											onChange={(e) =>
+												setMessageDrafts((prev) => ({
+													...prev,
+													[selectedTicket.id]:
+														e.target.value,
+												}))
+											}
+											onKeyDown={(e) => {
+												if (
+													e.key === "Enter" &&
+													!e.shiftKey
+												) {
+													e.preventDefault();
+													if (
+														selectedTicket &&
+														!sending
+													) {
+														sendMessage(
+															selectedTicket.id
+														);
+													}
+												}
+											}}
+											rows={3}
+											className="mb-5"
+											style={{
+												padding: 10,
+												marginBottom: 20,
+											}}
+										/>
+										<div className="flex justify-end">
+											<Button
+												size="sm"
+												className="bg-blue-600 hover:bg-blue-700 text-white py-3 p-btn"
+												onClick={() =>
+													sendMessage(
+														selectedTicket.id
+													)
+												}
+												disabled={
+													sending ||
+													!(
+														messageDrafts[
+															selectedTicket.id
+														] || ""
+													).trim()
+												}
+											>
+												{sending
+													? "Envoi..."
+													: "Envoyer"}
+											</Button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				)}
 			</div>
 		</div>

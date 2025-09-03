@@ -247,7 +247,13 @@ export default function RegisterPage() {
 							)}
 						</CardHeader>
 						<CardContent>
-							<form className="space-y-4">
+							<form
+								className="space-y-4"
+								onSubmit={(e) => {
+									e.preventDefault();
+									handleRegister();
+								}}
+							>
 								<div>
 									<Label htmlFor="password">
 										Mot de passe
@@ -255,10 +261,19 @@ export default function RegisterPage() {
 									<Input
 										id="password"
 										type="password"
+										name="new-password"
+										autoComplete="new-password"
+										autoFocus
 										value={password}
 										onChange={(e) =>
 											setPassword(e.target.value)
 										}
+										onKeyDown={(e) => {
+											if (e.key === "Enter") {
+												e.preventDefault();
+												handleRegister();
+											}
+										}}
 										placeholder="Minimum 8 caractères, majuscule, chiffre et caractère spécial"
 										required
 									/>
@@ -276,17 +291,25 @@ export default function RegisterPage() {
 									<Input
 										id="confirmPassword"
 										type="password"
+										name="confirm-password"
+										autoComplete="new-password"
 										value={confirmPassword}
 										onChange={(e) =>
 											setConfirmPassword(e.target.value)
 										}
+										onKeyDown={(e) => {
+											if (e.key === "Enter") {
+												e.preventDefault();
+												handleRegister();
+											}
+										}}
 										placeholder="Répétez votre mot de passe"
 										required
 									/>
 								</div>
 								<StatefulButton
 									onClick={handleRegister}
-									className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+									className="w-full bg-gradient-to-r from-blue-600 to purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
 								>
 									Créer mon compte
 								</StatefulButton>

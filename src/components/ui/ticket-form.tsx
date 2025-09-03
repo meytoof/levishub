@@ -109,8 +109,8 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 
 	return (
 		<div className="w-full max-w-2xl mx-auto">
-			<div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-				<h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+			<div className="rounded-lg border border-[#333] bg-[#1a1a1a] p-6">
+				<h2 className="text-2xl font-bold text-white mb-6">
 					🎫 Créer un ticket de support
 				</h2>
 
@@ -118,8 +118,8 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 					<div
 						className={`p-4 rounded-lg mb-6 flex items-center gap-3 ${
 							message.type === "success"
-								? "bg-green-50 border border-green-200 text-green-800"
-								: "bg-red-50 border border-red-200 text-red-800"
+								? "bg-[#0f2e25] border border-[#166a57] text-[#86efac]"
+								: "bg-[#2a0f12] border border-[#7f1d1d] text-[#fca5a5]"
 						}`}
 					>
 						{message.type === "success" ? (
@@ -135,7 +135,7 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 					<div>
 						<Label
 							htmlFor="title"
-							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+							className="text-sm font-medium text-white"
 						>
 							Titre du ticket *
 						</Label>
@@ -146,14 +146,14 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 							onChange={(e) => setTitle(e.target.value)}
 							placeholder="Décrivez brièvement votre demande"
 							required
-							className="mt-1"
+							className="mt-1 p5"
 						/>
 					</div>
 
 					<div>
 						<Label
 							htmlFor="description"
-							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+							className="text-sm font-medium text-white"
 						>
 							Description détaillée *
 						</Label>
@@ -164,12 +164,12 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 							placeholder="Décrivez en détail votre problème ou votre demande..."
 							required
 							rows={5}
-							className="mt-1"
+							className="mt-1 p5"
 						/>
 					</div>
 
 					<div>
-						<Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 block">
+						<Label className="text-sm font-medium text-white mb-3 block">
 							Niveau de priorité
 						</Label>
 						<div className="grid grid-cols-2 gap-3">
@@ -181,7 +181,7 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 									className={`p-4 rounded-lg border-2 transition-all ${
 										priority === option.value
 											? `${option.color} border-current ring-2 ring-offset-2 ring-current`
-											: "bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+											: "bg-[#121212] border-[#333] hover:bg-[#1a1a1a]"
 									}`}
 								>
 									<div className="text-left">
@@ -201,18 +201,18 @@ export function TicketForm({ onTicketCreated }: TicketFormProps) {
 						<StatefulButton
 							onClick={handleSubmit}
 							disabled={!title.trim() || !description.trim()}
-							className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+							className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md mt-4"
 						>
 							🎫 Créer le ticket
 						</StatefulButton>
 					</div>
 				</form>
 
-				<div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-					<h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+				<div className="mt-6 p-4 bg-[#0f1b2e] border border-[#1f3a5f] rounded-lg">
+					<h3 className="font-medium text-[#93c5fd] mb-2">
 						💡 Conseils pour un ticket efficace
 					</h3>
-					<ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+					<ul className="text-sm text-[#bfdbfe] space-y-1">
 						<li>• Soyez précis dans le titre et la description</li>
 						<li>
 							• Incluez les étapes pour reproduire le problème

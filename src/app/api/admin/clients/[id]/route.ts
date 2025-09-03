@@ -6,8 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 // GET /api/admin/clients/[id] - Récupérer un client spécifique
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await params;
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session || session.user.role !== "ADMIN") {
@@ -18,7 +19,7 @@ export async function GET(
 		}
 
 		const client = await prisma.client.findUnique({
-			where: { id: params.id },
+			where: { id },
 			include: {
 				users: {
 					select: {
@@ -90,8 +91,9 @@ export async function GET(
 // PUT /api/admin/clients/[id] - Mettre à jour un client
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await params;
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session || session.user.role !== "ADMIN") {
@@ -116,7 +118,7 @@ export async function PUT(
 		const existingClient = await prisma.client.findFirst({
 			where: {
 				primaryEmail,
-				id: { not: params.id },
+				id: { not: id },
 			},
 		});
 
@@ -128,7 +130,7 @@ export async function PUT(
 		}
 
 		const updatedClient = await prisma.client.update({
-			where: { id: params.id },
+			where: { id },
 			data: {
 				name,
 				companyName,
@@ -147,8 +149,9 @@ export async function PUT(
 // DELETE /api/admin/clients/[id] - Supprimer un client
 export async function DELETE(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await params;
 	try {
 		const session = await getServerSession(authOptions);
 		if (!session || session.user.role !== "ADMIN") {
@@ -160,7 +163,7 @@ export async function DELETE(
 
 		// Vérifier si le client existe
 		const client = await prisma.client.findUnique({
-			where: { id: params.id },
+			where: { id },
 			include: {
 				_count: {
 					select: {
@@ -198,7 +201,7 @@ export async function DELETE(
 
 		// Supprimer le client et toutes ses données associées
 		await prisma.client.delete({
-			where: { id: params.id },
+			where: { id },
 		});
 
 		return NextResponse.json(

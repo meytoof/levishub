@@ -888,3 +888,7 @@
 .backoffice-justify-end {
 	justify-content: flex-end;
 }
+.p-btn{
+	padding-left: 10px;
+	padding-right: 10px;
+}

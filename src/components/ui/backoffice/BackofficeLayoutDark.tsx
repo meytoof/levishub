@@ -18,7 +18,7 @@ import {
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface BackofficeLayoutDarkProps {
 	children: React.ReactNode;
@@ -33,6 +33,7 @@ export default function BackofficeLayoutDark({
 	const [notificationsOpen, setNotificationsOpen] = useState(false);
 	const [userMenuOpen, setUserMenuOpen] = useState(false);
 	const [isClientMode, setIsClientMode] = useState(false);
+	const [ticketsBadge, setTicketsBadge] = useState<number>(0);
 
 	const pathname = usePathname();
 
@@ -181,6 +182,43 @@ export default function BackofficeLayoutDark({
 
 	const unreadCount = notifications.filter((n) => n.unread).length;
 
+	// Charger le nombre de tickets à traiter (OPEN + IN_PROGRESS)
+	useEffect(() => {
+		let isMounted = true;
+
+		async function fetchTicketCounts() {
+			try {
+				const baseUrl = "/api/tickets";
+				const [openRes, inProgressRes] = await Promise.all([
+					fetch(`${baseUrl}?status=OPEN&limit=1`),
+					fetch(`${baseUrl}?status=IN_PROGRESS&limit=1`),
+				]);
+
+				let openTotal = 0;
+				let inProgressTotal = 0;
+				if (openRes.ok) {
+					const d = await openRes.json();
+					openTotal = d?.pagination?.total || 0;
+				}
+				if (inProgressRes.ok) {
+					const d = await inProgressRes.json();
+					inProgressTotal = d?.pagination?.total || 0;
+				}
+
+				if (isMounted) setTicketsBadge(openTotal + inProgressTotal);
+			} catch (e) {
+				// silencieux
+			}
+		}
+
+		fetchTicketCounts();
+		const id = setInterval(fetchTicketCounts, 60000);
+		return () => {
+			isMounted = false;
+			clearInterval(id);
+		};
+	}, [userRole, isClientMode]);
+
 	const toggleClientMode = () => {
 		setIsClientMode(!isClientMode);
 	};
@@ -218,6 +256,14 @@ export default function BackofficeLayoutDark({
 							>
 								<Icon className="nav-item-icon" />
 								{item.name}
+								{item.name === "Tickets" &&
+									ticketsBadge > 0 && (
+										<span className="ml-auto bg-[#ef4444] text-white text-xs rounded-full h-5 min-w-5 px-1 flex items-center justify-center">
+											{ticketsBadge > 99
+												? "99+"
+												: ticketsBadge}
+										</span>
+									)}
 							</Link>
 						);
 					})}
