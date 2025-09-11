@@ -30,7 +30,8 @@ export default async function MarketingLayout({
 }) {
 	const session = await getServerSession(authOptions);
 
-	const userAgent = headers().get("user-agent")?.toLowerCase() || "";
+	const headerList = await headers();
+	const userAgent = headerList.get("user-agent")?.toLowerCase() || "";
 	const isFacebookInApp =
 		/fb|messenger|fban|fbav|fb_iab|fbbv|fbios|fb4a/.test(userAgent);
 
