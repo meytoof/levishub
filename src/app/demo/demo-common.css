@@ -2,7 +2,7 @@
 
 /* Masquer la navbar et footer LevisWeb sur les pages de démo - SÉLECTEURS AGRESSIFS */
 /* Masquer le conteneur Navbar complet */
-.demo-scope body > div > div > div:first-child {
+.demo-scope > div > div > div:first-child {
 	display: none !important;
 }
 
@@ -27,12 +27,12 @@
 }
 
 /* Masquer le background LevisWeb en haut */
-.demo-scope body > div > div > div:first-child {
+.demo-scope > div > div > div:first-child {
 	background: transparent !important;
 }
 
 /* Masquer le background LevisWeb au-dessus du footer */
-.demo-scope body > div > div > div:last-child {
+.demo-scope > div > div > div:last-child {
 	background: transparent !important;
 }
 

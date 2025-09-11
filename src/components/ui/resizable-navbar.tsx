@@ -217,7 +217,7 @@ export const MobileNavMenu = ({
 					)}
 					id="mobile-menu"
 					role="menu"
-					aria-hidden={(!isOpen).toString()}
+					aria-hidden={isOpen ? "false" : "true"}
 				>
 					{children}
 				</motion.div>
