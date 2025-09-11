@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 export async function POST(request: Request) {
 	try {
@@ -11,22 +11,27 @@ export async function POST(request: Request) {
 			);
 		}
 
-		const transporter = nodemailer.createTransport({
-			host: process.env.SMTP_HOST,
-			port: Number(process.env.SMTP_PORT || 587),
-			secure: false,
-			auth: {
-				user: process.env.SMTP_USER,
-				pass: process.env.SMTP_PASS,
-			},
-		});
+		if (!process.env.RESEND_API_KEY) {
+			console.error(
+				"RESEND_API_KEY manquante - configure-la dans Vercel (Production)"
+			);
+			return NextResponse.json(
+				{ error: "Email non configuré (RESEND_API_KEY manquante)" },
+				{ status: 500 }
+			);
+		}
 
-		await transporter.sendMail({
-			from: `LevisWeb <${
-				process.env.SMTP_FROM || process.env.SMTP_USER
-			}>`,
-			to: process.env.CONTACT_TO || process.env.SMTP_USER,
+		const resend = new Resend(process.env.RESEND_API_KEY);
+		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+		const defaultFrom = `LevisWeb <noreply@${domain}>`;
+		const from = process.env.RESEND_FROM || defaultFrom;
+		const to = process.env.CONTACT_TO || `contact@${domain}`;
+
+		const { error } = await resend.emails.send({
+			from,
+			to,
 			subject: `Nouveau message de contact — ${name}`,
+			reply_to: email,
 			html: `
 				<h2>Nouveau message de contact</h2>
 				<p><strong>Nom:</strong> ${name}</p>
@@ -35,6 +40,14 @@ export async function POST(request: Request) {
 				<p>${message.replace(/\n/g, "<br/>")}</p>
 			`,
 		});
+
+		if (error) {
+			console.error("Erreur Resend contact:", error);
+			return NextResponse.json(
+				{ error: "Erreur d'envoi" },
+				{ status: 500 }
+			);
+		}
 
 		return NextResponse.json({ ok: true });
 	} catch (err) {
