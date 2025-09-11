@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 			from,
 			to,
 			subject: `Nouveau message de contact — ${name}`,
-			reply_to: email,
+			replyTo: email,
 			html: `
 				<h2>Nouveau message de contact</h2>
 				<p><strong>Nom:</strong> ${name}</p>
