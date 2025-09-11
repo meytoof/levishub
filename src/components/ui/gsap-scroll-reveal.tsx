@@ -12,15 +12,11 @@ if (typeof window !== "undefined") {
 interface GSAPScrollRevealProps {
 	children: React.ReactNode;
 	className?: string;
-	staggerDelay?: number;
-	duration?: number;
 }
 
 export const GSAPScrollReveal = ({
 	children,
 	className = "",
-	staggerDelay = 0.2,
-	duration = 1.0,
 }: GSAPScrollRevealProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +36,6 @@ export const GSAPScrollReveal = ({
 
 			const variation = variations[index % variations.length];
 
-			// Définir les points de déclenchement identiques pour tous les éléments
-			const startPoint = "top 90%"; // Tous commencent en même temps
-			const endPoint = "bottom 20%"; // Tous se terminent en même temps
-
 			// État initial
 			gsap.set(child, {
 				opacity: 0,
@@ -51,22 +43,21 @@ export const GSAPScrollReveal = ({
 				y: variation.y,
 				scale: variation.scale,
 			});
+		});
 
-			// Animation avec ScrollTrigger - tous les éléments en même temps
-			gsap.to(child, {
-				opacity: 1,
-				x: 0,
-				y: 0,
-				scale: 1,
-				ease: "power2.out",
-				scrollTrigger: {
-					trigger: child,
-					start: startPoint,
-					end: endPoint,
-					scrub: 1, // Animation smooth liée au scroll
-					// Pas de délai ici, le déclenchement se fait par les start/end points
-				},
-			});
+		// Animation avec ScrollTrigger - UN SEUL TRIGGER pour tout le conteneur
+		gsap.to(childrenArray, {
+			opacity: 1,
+			x: 0,
+			y: 0,
+			scale: 1,
+			ease: "none", // Pas d'easing pour une réactivité maximale
+			scrollTrigger: {
+				trigger: containerRef.current,
+				start: "top 90%",
+				end: "top 45%",
+				scrub: 0, // Animation instantanée liée au scroll
+			},
 		});
 
 		// Cleanup
@@ -80,7 +71,7 @@ export const GSAPScrollReveal = ({
 				}
 			});
 		};
-	}, [staggerDelay, duration]);
+	}, []);
 
 	return (
 		<div ref={containerRef} className={className}>

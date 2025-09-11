@@ -77,11 +77,7 @@ export default function Home() {
 						</p>
 					</div>
 
-					<GSAPScrollReveal
-						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-						staggerDelay={0.3}
-						duration={1.0}
-					>
+					<GSAPScrollReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 						{/* Carte 1 */}
 						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1">
 							<div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
