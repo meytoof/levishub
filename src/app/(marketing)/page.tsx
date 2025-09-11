@@ -1,6 +1,4 @@
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { Button } from "@/components/ui/button";
-import { MacbookScroll } from "@/components/ui/macbook-scroll";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import Link from "next/link";
 
@@ -8,31 +6,20 @@ export default function Home() {
 	return (
 		<TracingBeam className="w-full">
 			<main className="min-h-svh">
-				{/* Section MacbookScroll en haut */}
-				<div className="flex justify-center items-center w-full overflow-hidden">
-					<MacbookScroll
-						title="Des sites qui attirent, convertissent et durent"
-						badge={
-							<span className="text-white inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-								En ligne
-							</span>
-						}
-					/>
-				</div>
-
 				{/* Hero Section - Plein écran */}
-				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 grid md:grid-cols-2 gap-8 sm:gap-12 items-center min-h-[80vh]">
-					<div>
+				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 flex items-center justify-center min-h-[80vh]">
+					<div className="max-w-3xl mx-auto text-center">
 						<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight opacity-0 animate-[fade-up_600ms_ease-out_forwards] text-gradient-cyan leading-tight px-2">
-							Des sites qui attirent, convertissent et durent
+							Des sites modernes qui convertissent et font grandir
+							votre business
 						</h1>
 						<p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-muted-foreground opacity-0 animate-[fade-up_600ms_ease-out_120ms_forwards] leading-relaxed max-w-prose px-2">
 							LevisWeb — développeur web freelance. Je conçois des
-							sites vitrines, e-commerce et backoffices sur
-							mesure, optimisés pour la performance et la
-							visibilité.
+							sites vitrines, e‑commerce et backoffices sur
+							mesure, optimisés pour la performance, le
+							référencement et la conversion.
 						</p>
-						<div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 opacity-0 animate-[fade-up_600ms_ease-out_200ms_forwards] px-2">
+						<div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:justify-center items-center opacity-0 animate-[fade-up_600ms_ease-out_200ms_forwards] px-2">
 							<Link href="/contact" className="w-full sm:w-auto">
 								<Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-6 sm:px-8 py-3 text-base sm:text-lg w-full sm:w-auto">
 									Demander un devis
@@ -58,42 +45,21 @@ export default function Home() {
 								</Button>
 							</Link>
 						</div>
-					</div>
-					<div className="grid place-items-center">
-						<CardContainer className="inter-var">
-							<CardBody className="relative bg-gradient-to-br from-background/70 to-background/20 backdrop-blur-xl border border-neutral-500/50 shadow-xl ring-1 ring-black/5 w-[90vw] max-w-[400px] md:w-[500px] h-[350px] sm:h-[400px] rounded-2xl p-6 sm:p-8">
-								<div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-600/10" />
-								<CardItem
-									translateZ="50"
-									className="text-2xl font-bold tracking-tight text-center"
-								>
-									🚀 LevisWeb
-								</CardItem>
-								<CardItem
-									translateZ="60"
-									className="text-sm text-muted-foreground mt-4 max-w-sm text-center"
-								>
-									Votre partenaire digital pour des solutions
-									web modernes, performantes et rentables
-								</CardItem>
-								<CardItem translateZ="100" className="mt-8">
-									<div className="h-48 rounded-lg bg-gradient-to-br from-cyan-500/30 to-blue-600/30 flex items-center justify-center">
-										<div className="text-6xl">💻</div>
-									</div>
-								</CardItem>
-								<CardItem
-									translateZ="40"
-									className="mt-6 flex gap-3 justify-center"
-								>
-									<div className="px-4 py-2 rounded-full text-xs badge-tech-1">
-										React + Next.js
-									</div>
-									<div className="px-4 py-2 rounded-full text-xs badge-tech-2">
-										Performance
-									</div>
-								</CardItem>
-							</CardBody>
-						</CardContainer>
+						{/* Éléments de confiance */}
+						<div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 px-2">
+							<div className="flex items-center gap-2 text-sm text-muted-foreground">
+								<span className="inline-flex h-2.5 w-2.5 rounded-full bg-green-500"></span>
+								<span>Performance 95+ (Lighthouse)</span>
+							</div>
+							<div className="flex items-center gap-2 text-sm text-muted-foreground">
+								<span className="inline-flex h-2.5 w-2.5 rounded-full bg-cyan-500"></span>
+								<span>SEO prêt pour Google</span>
+							</div>
+							<div className="flex items-center gap-2 text-sm text-muted-foreground">
+								<span className="inline-flex h-2.5 w-2.5 rounded-full bg-violet-500"></span>
+								<span>Backoffice simple & sécurisé</span>
+							</div>
+						</div>
 					</div>
 				</section>
 
