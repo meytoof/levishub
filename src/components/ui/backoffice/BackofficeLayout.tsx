@@ -91,7 +91,7 @@ export function BackofficeLayout({
 						</button>
 
 						<div className="bo-text-lg bo-font-semibold bo-text-primary">
-							LevisHub Backoffice
+							LevisWeb Backoffice
 						</div>
 
 						<div className="bo-flex bo-items-center bo-gap-2">
@@ -127,7 +127,7 @@ export function BackofficeLayout({
 								</span>
 							</div>
 							<span className="bo-text-lg bo-font-semibold bo-text-primary">
-								LevisHub
+								LevisWeb
 							</span>
 						</Link>
 					</div>

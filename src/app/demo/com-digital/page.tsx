@@ -62,7 +62,10 @@ export default function DemoComDigital() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+						transition={{
+							duration: 0.8,
+							ease: [0.25, 0.46, 0.45, 0.94],
+						}}
 						className="max-w-4xl mx-auto"
 					>
 						<motion.h1
@@ -104,14 +107,20 @@ export default function DemoComDigital() {
 					>
 						<motion.h2
 							variants={itemVariants}
-							transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+							transition={{
+								duration: 0.6,
+								ease: [0.25, 0.46, 0.45, 0.94],
+							}}
 							className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-gradient-cyan"
 						>
 							Exemples de Contenus
 						</motion.h2>
 						<motion.p
 							variants={itemVariants}
-							transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+							transition={{
+								duration: 0.6,
+								ease: [0.25, 0.46, 0.45, 0.94],
+							}}
 							className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto"
 						>
 							Création sur-mesure adaptée à votre audience
@@ -164,7 +173,7 @@ export default function DemoComDigital() {
 													<div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full"></div>
 													<div>
 														<div className="font-semibold text-foreground">
-															LevisHub
+															LevisWeb
 														</div>
 														<div className="text-xs text-muted-foreground">
 															Il y a 2h • 🌐
@@ -332,7 +341,10 @@ export default function DemoComDigital() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+						transition={{
+							duration: 0.8,
+							ease: [0.25, 0.46, 0.45, 0.94],
+						}}
 						viewport={{ once: true }}
 						className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-500/20 via-purple-600/20 to-cyan-500/20 border border-violet-500/30 backdrop-blur-xl"
 					>

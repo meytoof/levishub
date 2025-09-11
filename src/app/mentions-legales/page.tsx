@@ -12,7 +12,7 @@ export default function MentionsLegalesPage() {
 					</h2>
 					<div className="text-muted-foreground mb-4 space-y-2">
 						<p>
-							<strong>Raison sociale :</strong> LevisHub
+							<strong>Raison sociale :</strong> LevisWeb
 						</p>
 						<p>
 							<strong>Adresse :</strong> 30 place centrale, 38380
@@ -22,7 +22,7 @@ export default function MentionsLegalesPage() {
 							<strong>Téléphone :</strong> 07 83 42 26 76
 						</p>
 						<p>
-							<strong>Email :</strong> contact@levishub.fr
+							<strong>Email :</strong> contact@levisweb.fr
 						</p>
 						<p>
 							<strong>Activité :</strong> Développement web
@@ -57,7 +57,7 @@ export default function MentionsLegalesPage() {
 						4. Responsabilité
 					</h2>
 					<p className="text-muted-foreground mb-4">
-						LevisHub s'efforce d'assurer l'exactitude des
+						LevisWeb s'efforce d'assurer l'exactitude des
 						informations diffusées sur ce site mais ne peut garantir
 						qu'elles soient exemptes d'erreurs.
 					</p>

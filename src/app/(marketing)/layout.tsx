@@ -18,7 +18,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "LevisHub - Développement Web Freelance",
+	title: "LevisWeb - Développement Web Freelance",
 	description: "Sites modernes, rapides et animés avec backoffice sur mesure",
 };
 
@@ -41,7 +41,7 @@ export default async function MarketingLayout({
 			<ThemeProvider>
 				<SessionProvider session={session}>
 					<Navbar>
-						<NavBody className="shadow-none levishub-nav">
+						<NavBody className="shadow-none levisweb-nav">
 							<NavbarLogo />
 							<NavItems items={navItems} />
 							<div className="flex items-center gap-2">

@@ -3,7 +3,7 @@ const { PrismaClient } = require("../src/generated/prisma");
 const prisma = new PrismaClient();
 
 async function testMultitenantWorkflow() {
-	console.log("🧪 Test du workflow multi-tenant LevisHub\n");
+	console.log("🧪 Test du workflow multi-tenant LevisWeb\n");
 
 	try {
 		// 1. Nettoyer les données de test existantes
@@ -41,7 +41,7 @@ async function testMultitenantWorkflow() {
 		// 3. Créer un utilisateur ADMIN pour les tests
 		console.log("3️⃣ Vérification de l'utilisateur ADMIN...");
 		let adminUser = await prisma.user.findUnique({
-			where: { email: "admin@levishub.com" },
+			where: { email: "admin@levisweb.com" },
 		});
 
 		if (!adminUser) {
@@ -52,7 +52,7 @@ async function testMultitenantWorkflow() {
 			adminUser = await prisma.user.create({
 				data: {
 					name: "Admin Test",
-					email: "admin@levishub.com",
+					email: "admin@levisweb.com",
 					hashedPassword,
 					role: "ADMIN",
 				},

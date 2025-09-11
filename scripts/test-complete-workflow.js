@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function testCompleteWorkflow() {
-	console.log("🧪 Test du workflow complet LevisHub\n");
+	console.log("🧪 Test du workflow complet LevisWeb\n");
 
 	try {
 		// 1. Vérifier la base de données

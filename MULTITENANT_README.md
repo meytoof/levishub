@@ -1,4 +1,4 @@
-# 🏢 Système Multi-Tenant LevisHub
+# 🏢 Système Multi-Tenant LevisWeb
 
 Ce document décrit l'implémentation du système multi-tenant avec gestion des clients, invitations et préparation pour l'intégration Stripe.
 
@@ -130,7 +130,7 @@ model Invoice {
 
 ### Configuration Resend
 
-LevisHub utilise **Resend** pour l'envoi d'emails professionnels :
+LevisWeb utilise **Resend** pour l'envoi d'emails professionnels :
 
 1. **Créer un compte** : https://resend.com
 2. **Récupérer la clé API** dans les paramètres
@@ -155,7 +155,7 @@ LevisHub utilise **Resend** pour l'envoi d'emails professionnels :
 
 -   **Design moderne** avec gradients et animations
 -   **Responsive** pour tous les appareils
--   **Branding LevisHub** cohérent
+-   **Branding LevisWeb** cohérent
 -   **Liens directs** vers l'application
 
 ### Test et Validation
@@ -425,7 +425,7 @@ src/
 9. **Se connecter en admin**
 
     - URL : http://localhost:3000/login
-    - Email : admin@levishub.com
+    - Email : admin@levisweb.com
     - Mot de passe : admin123
 
 10. **Tester les emails via l'interface**
@@ -433,5 +433,5 @@ src/
 
 ---
 
-**LevisHub Multi-Tenant** - Système de gestion client professionnel  
+**LevisWeb Multi-Tenant** - Système de gestion client professionnel  
 _Développé avec Next.js, Prisma, NextAuth et Tailwind CSS_

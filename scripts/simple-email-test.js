@@ -20,11 +20,11 @@ async function testResend() {
 		console.log("📧 Envoi d'un email de test...");
 
 		const result = await resend.emails.send({
-			from: "LevisHub <noreply@levishub.com>",
+			from: "LevisWeb <noreply@levisweb.com>",
 			to: ["test@example.com"],
-			subject: "Test LevisHub - Resend",
+			subject: "Test LevisWeb - Resend",
 			html: `
-        <h1>🚀 Test LevisHub</h1>
+        <h1>🚀 Test LevisWeb</h1>
         <p>Félicitations ! Votre configuration Resend fonctionne parfaitement.</p>
         <p>Date : ${new Date().toLocaleString("fr-FR")}</p>
       `,
@@ -45,4 +45,3 @@ async function testResend() {
 }
 
 testResend();
-

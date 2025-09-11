@@ -26,7 +26,8 @@ export default function TestStyles() {
 						Titre en Violet fixe (text-gradient-violet)
 					</h3>
 					<p className="text-lg text-foreground">
-						Ce texte devrait être en couleur normale (text-foreground)
+						Ce texte devrait être en couleur normale
+						(text-foreground)
 					</p>
 				</div>
 			</section>
@@ -38,10 +39,11 @@ export default function TestStyles() {
 				</h2>
 				<div className="bg-neutral-900 p-6 rounded-lg">
 					<span className="font-bold text-xl navbar-logo">
-						LevisHub
+						LevisWeb
 					</span>
 					<p className="text-white mt-2">
-						Le logo "LevisHub" devrait avoir un gradient adaptatif au thème
+						Le logo "LevisWeb" devrait avoir un gradient adaptatif
+						au thème
 					</p>
 				</div>
 			</section>
@@ -66,7 +68,7 @@ export default function TestStyles() {
 				<div className="space-y-2 text-muted-foreground">
 					<p>• Utilisez le toggle de thème en haut à droite</p>
 					<p>• Vérifiez que "Test des Styles" change de couleur</p>
-					<p>• Vérifiez que "LevisHub" a un gradient adaptatif</p>
+					<p>• Vérifiez que "LevisWeb" a un gradient adaptatif</p>
 					<p>• Vérifiez que le bouton s'adapte au thème</p>
 				</div>
 			</section>
@@ -77,11 +79,25 @@ export default function TestStyles() {
 					État des Classes CSS
 				</h2>
 				<div className="space-y-2 text-sm text-muted-foreground">
-					<p>✅ <code>text-gradient-cyan</code> - Définie dans globals.css</p>
-					<p>✅ <code>text-gradient-violet</code> - Définie dans globals.css</p>
-					<p>✅ <code>navbar-logo</code> - Définie dans globals.css</p>
-					<p>✅ <code>btn-cyan-gradient</code> - Définie dans globals.css</p>
-					<p>✅ <code>text-foreground</code> - Classe Tailwind par défaut</p>
+					<p>
+						✅ <code>text-gradient-cyan</code> - Définie dans
+						globals.css
+					</p>
+					<p>
+						✅ <code>text-gradient-violet</code> - Définie dans
+						globals.css
+					</p>
+					<p>
+						✅ <code>navbar-logo</code> - Définie dans globals.css
+					</p>
+					<p>
+						✅ <code>btn-cyan-gradient</code> - Définie dans
+						globals.css
+					</p>
+					<p>
+						✅ <code>text-foreground</code> - Classe Tailwind par
+						défaut
+					</p>
 				</div>
 			</section>
 		</div>

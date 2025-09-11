@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 		});
 
 		await transporter.sendMail({
-			from: `LevisHub <${
+			from: `LevisWeb <${
 				process.env.SMTP_FROM || process.env.SMTP_USER
 			}>`,
 			to: process.env.CONTACT_TO || process.env.SMTP_USER,
@@ -42,4 +42,3 @@ export async function POST(request: Request) {
 		return NextResponse.json({ error: "Erreur d'envoi" }, { status: 500 });
 	}
 }
-

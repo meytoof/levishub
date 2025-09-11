@@ -37,7 +37,7 @@ export default function ProfileForm() {
 				<input
 					type="email"
 					className="form-input"
-					defaultValue="admin@levishub.com"
+					defaultValue="admin@levisweb.com"
 					disabled={!isEditing}
 				/>
 			</div>

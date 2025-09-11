@@ -8,7 +8,7 @@ export function Footer() {
 					{/* Informations de l'entreprise */}
 					<div className="space-y-4">
 						<h3 className="text-xl font-semibold text-blue-400">
-							LevisHub
+							LevisWeb
 						</h3>
 						<p className="text-gray-300 text-sm">
 							Développement web freelance - Sites modernes,
@@ -79,7 +79,7 @@ export function Footer() {
 				<div className="border-t border-gray-700 mt-8 pt-8">
 					<div className="flex flex-col md:flex-row justify-between items-center">
 						<p className="text-gray-400 text-sm">
-							© {new Date().getFullYear()} LevisHub. Tous droits
+							© {new Date().getFullYear()} LevisWeb. Tous droits
 							réservés.
 						</p>
 						<div className="flex space-x-6 mt-4 md:mt-0">

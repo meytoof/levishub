@@ -23,7 +23,7 @@ export default function TermsPage() {
 						2. Description des services
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
-						LevisHub propose des services de développement web
+						LevisWeb propose des services de développement web
 						freelance incluant la création de sites web,
 						applications web, solutions sur mesure et services de
 						maintenance technique.
@@ -70,7 +70,7 @@ export default function TermsPage() {
 					<p className="text-muted-foreground mb-4 leading-relaxed">
 						Tout le contenu de ce site (textes, images, code source,
 						design) est protégé par le droit d'auteur et appartient
-						à LevisHub. Toute reproduction, distribution ou
+						à LevisWeb. Toute reproduction, distribution ou
 						modification sans autorisation écrite préalable est
 						strictement interdite.
 					</p>
@@ -94,7 +94,7 @@ export default function TermsPage() {
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
 						Ce site peut contenir des liens vers des sites web
-						tiers. LevisHub n'exerce aucun contrôle sur ces sites et
+						tiers. LevisWeb n'exerce aucun contrôle sur ces sites et
 						décline toute responsabilité quant à leur contenu ou à
 						leurs pratiques.
 					</p>
@@ -105,7 +105,7 @@ export default function TermsPage() {
 						7. Limitation de responsabilité
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
-						LevisHub s'efforce de maintenir ce site à jour et
+						LevisWeb s'efforce de maintenir ce site à jour et
 						fonctionnel, mais ne peut garantir qu'il soit exempt
 						d'erreurs ou de dysfonctionnements. L'utilisation de ce
 						site se fait à vos propres risques.

@@ -11,7 +11,7 @@ export default function CGVPage() {
 						1. Présentation du service
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
-						LevisHub propose des services de développement web
+						LevisWeb propose des services de développement web
 						freelance incluant la création de sites web,
 						applications web et solutions sur mesure.
 					</p>
@@ -44,7 +44,7 @@ export default function CGVPage() {
 						4. Garanties
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
-						LevisHub s'engage à fournir un service de qualité et à
+						LevisWeb s'engage à fournir un service de qualité et à
 						corriger gratuitement les dysfonctionnements techniques
 						pendant 30 jours après la livraison.
 					</p>

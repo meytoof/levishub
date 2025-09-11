@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 async function testResendConnection() {
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub <noreply@levishub.com>",
+			from: "LevisWeb <noreply@levisweb.com>",
 			to: ["test@example.com"],
 			subject: "Test connexion Resend",
 			html: "<p>Test de connexion réussi !</p>",
@@ -34,11 +34,11 @@ async function sendInvitationEmail(data) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Invitation LevisHub</title>
+      <title>Invitation LevisWeb</title>
     </head>
     <body>
-      <h1>🚀 Invitation LevisHub</h1>
-      <p><strong>${inviterName}</strong> vous invite à rejoindre votre espace client LevisHub pour <strong>${companyName}</strong>.</p>
+      <h1>🚀 Invitation LevisWeb</h1>
+      <p><strong>${inviterName}</strong> vous invite à rejoindre votre espace client LevisWeb pour <strong>${companyName}</strong>.</p>
       <p>Lien d'invitation : ${invitationUrl}</p>
       <p>Expire dans ${expiresIn} heures.</p>
     </body>
@@ -47,9 +47,9 @@ async function sendInvitationEmail(data) {
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub <noreply@levishub.com>",
+			from: "LevisWeb <noreply@levisweb.com>",
 			to: [to],
-			subject: `Invitation LevisHub - ${companyName}`,
+			subject: `Invitation LevisWeb - ${companyName}`,
 			html: html,
 		});
 
@@ -69,7 +69,7 @@ async function sendTicketNotification(data) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Mise à jour ticket - LevisHub</title>
+      <title>Mise à jour ticket - LevisWeb</title>
     </head>
     <body>
       <h1>🎫 Mise à jour ticket</h1>
@@ -84,7 +84,7 @@ async function sendTicketNotification(data) {
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub Support <support@levishub.com>",
+			from: "LevisWeb Support <support@levisweb.com>",
 			to: [to],
 			subject: `Ticket mis à jour - ${ticketTitle}`,
 			html: html,
@@ -101,7 +101,7 @@ async function sendTicketNotification(data) {
 const prisma = new PrismaClient();
 
 async function testEmailWorkflow() {
-	console.log("🧪 Test du workflow d'emails LevisHub\n");
+	console.log("🧪 Test du workflow d'emails LevisWeb\n");
 
 	try {
 		// 1. Test de connexion Resend
@@ -182,7 +182,7 @@ async function testEmailWorkflow() {
 			const realInvitationTest = await sendInvitationEmail({
 				to: realClient.primaryEmail,
 				companyName: realClient.companyName,
-				inviterName: "Administrateur LevisHub",
+				inviterName: "Administrateur LevisWeb",
 				invitationUrl: "http://localhost:3000/invite/real-test-token",
 				expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
 			});

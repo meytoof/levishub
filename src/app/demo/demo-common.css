@@ -1,13 +1,13 @@
 /* Styles communs pour toutes les mini-applications */
 
-/* Masquer la navbar et footer LevisHub sur les pages de démo - SÉLECTEURS AGRESSIFS */
+/* Masquer la navbar et footer LevisWeb sur les pages de démo - SÉLECTEURS AGRESSIFS */
 /* Masquer le conteneur Navbar complet */
 body > div > div > div:first-child {
 	display: none !important;
 }
 
-/* Masquer la navbar principale LevisHub */
-nav.levishub-nav {
+/* Masquer la navbar principale LevisWeb */
+nav.levisweb-nav {
 	display: none !important;
 }
 
@@ -16,7 +16,7 @@ div.h-16.lg\:h-20 {
 	display: none !important;
 }
 
-/* Masquer le footer LevisHub */
+/* Masquer le footer LevisWeb */
 footer:not(.demo-footer) {
 	display: none !important;
 }
@@ -26,12 +26,12 @@ footer:not(.demo-footer) {
 	display: none !important;
 }
 
-/* Masquer le background LevisHub en haut */
+/* Masquer le background LevisWeb en haut */
 body > div > div > div:first-child {
 	background: transparent !important;
 }
 
-/* Masquer le background LevisHub au-dessus du footer */
+/* Masquer le background LevisWeb au-dessus du footer */
 body > div > div > div:last-child {
 	background: transparent !important;
 }

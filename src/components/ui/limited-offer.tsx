@@ -83,7 +83,7 @@ export function LimitedOffer({
 						🎁 Offre de lancement exclusive
 					</h2>
 					<p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
-						Pour célébrer le lancement de LevisHub, nous offrons une
+						Pour célébrer le lancement de LevisWeb, nous offrons une
 						réduction de{" "}
 						<strong className="text-cyan-400">20%</strong> sur la
 						création de votre site web aux{" "}

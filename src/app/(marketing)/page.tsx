@@ -27,7 +27,7 @@ export default function Home() {
 							Des sites qui attirent, convertissent et durent
 						</h1>
 						<p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-muted-foreground opacity-0 animate-[fade-up_600ms_ease-out_120ms_forwards] leading-relaxed max-w-prose px-2">
-							LevisHub — développeur web freelance. Je conçois des
+							LevisWeb — développeur web freelance. Je conçois des
 							sites vitrines, e-commerce et backoffices sur
 							mesure, optimisés pour la performance et la
 							visibilité.
@@ -67,7 +67,7 @@ export default function Home() {
 									translateZ="50"
 									className="text-2xl font-bold tracking-tight text-center"
 								>
-									🚀 LevisHub
+									🚀 LevisWeb
 								</CardItem>
 								<CardItem
 									translateZ="60"
@@ -229,7 +229,7 @@ export default function Home() {
 							Prêt à lancer votre projet digital ?
 						</h2>
 						<p className="text-lg sm:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed">
-							Transformez votre vision en réalité avec LevisHub.
+							Transformez votre vision en réalité avec LevisWeb.
 							Des solutions web rapides, fiables et pensées pour
 							générer des résultats.
 						</p>

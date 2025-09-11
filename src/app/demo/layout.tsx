@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./demo-common.css";
 
 export const metadata: Metadata = {
-	title: "Démo - LevisHub",
+	title: "Démo - LevisWeb",
 	description: "Démonstrations de projets web",
 };
 

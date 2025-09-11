@@ -66,7 +66,7 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 		<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Invitation LevisHub</title>
+			<title>Invitation LevisWeb</title>
 			<style>
 				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
 				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -82,16 +82,16 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 		<body>
 			<div class="container">
 				<div class="header">
-					<h1>🚀 Invitation LevisHub</h1>
+					<h1>🚀 Invitation LevisWeb</h1>
 					<p>Bienvenue dans votre espace client</p>
 				</div>
 
 				<div class="content">
 					<h2>Bonjour !</h2>
 
-					<p><strong>${inviterName}</strong> vous invite à rejoindre votre espace client LevisHub pour <strong>${companyName}</strong>.</p>
+					<p><strong>${inviterName}</strong> vous invite à rejoindre votre espace client LevisWeb pour <strong>${companyName}</strong>.</p>
 
-					<p>LevisHub est votre plateforme de gestion pour :</p>
+					<p>LevisWeb est votre plateforme de gestion pour :</p>
 					<ul>
 						<li>📊 Suivre vos projets web</li>
 						<li>🎫 Créer des tickets de support</li>
@@ -113,7 +113,7 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 				</div>
 
 				<div class="footer">
-					<p>LevisHub - Développement Web Freelance</p>
+					<p>LevisWeb - Développement Web Freelance</p>
 					<p>Cette invitation a été envoyée automatiquement. Ne répondez pas à cet email.</p>
 				</div>
 			</div>
@@ -123,9 +123,9 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub <onboarding@resend.dev>",
+			from: "LevisWeb <onboarding@resend.dev>",
 			to: [to],
-			subject: `Invitation LevisHub - ${companyName}`,
+			subject: `Invitation LevisWeb - ${companyName}`,
 			html: html,
 			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
 		});
@@ -164,7 +164,7 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 		<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Mise à jour ticket - LevisHub</title>
+			<title>Mise à jour ticket - LevisWeb</title>
 			<style>
 				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
 				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -210,7 +210,7 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 				</div>
 
 				<div class="footer">
-					<p>LevisHub - Support client</p>
+					<p>LevisWeb - Support client</p>
 					<p>Cette notification a été envoyée automatiquement. Ne répondez pas à cet email.</p>
 				</div>
 			</div>
@@ -220,7 +220,7 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub Support <onboarding@resend.dev>",
+			from: "LevisWeb Support <onboarding@resend.dev>",
 			to: [to],
 			subject: `Ticket mis à jour - ${ticketTitle}`,
 			html: html,
@@ -246,7 +246,7 @@ export async function sendTicketMessageNotification(
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Nouveau message - LevisHub</title>
+            <title>Nouveau message - LevisWeb</title>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                 .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -270,7 +270,7 @@ export async function sendTicketMessageNotification(
                         <a href="${ticketUrl}" class="button">Ouvrir la conversation</a>
                     </div>
                 </div>
-                <div class="footer">LevisHub - Support</div>
+                <div class="footer">LevisWeb - Support</div>
             </div>
         </body>
         </html>
@@ -278,7 +278,7 @@ export async function sendTicketMessageNotification(
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub Support <onboarding@resend.dev>",
+			from: "LevisWeb Support <onboarding@resend.dev>",
 			to: [to],
 			subject: `Nouveau message - ${ticketTitle}`,
 			html,
@@ -350,7 +350,7 @@ export async function sendTicketUpdateNotification(
 							: ""
 					}
                 </div>
-                <div class="footer">LevisHub - Support</div>
+                <div class="footer">LevisWeb - Support</div>
             </div>
         </body>
         </html>
@@ -358,7 +358,7 @@ export async function sendTicketUpdateNotification(
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub Support <onboarding@resend.dev>",
+			from: "LevisWeb Support <onboarding@resend.dev>",
 			to: [clientEmail],
 			subject: `Mise à jour du ticket - ${title}`,
 			html,
@@ -388,7 +388,7 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 		<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Reset mot de passe - LevisHub</title>
+			<title>Reset mot de passe - LevisWeb</title>
 			<style>
 				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
 				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -405,13 +405,13 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 			<div class="container">
 				<div class="header">
 					<h1>🔐 Reset mot de passe</h1>
-					<p>LevisHub - Sécurité</p>
+					<p>LevisWeb - Sécurité</p>
 				</div>
 
 				<div class="content">
 					<h2>Bonjour !</h2>
 
-					<p>Vous avez demandé la réinitialisation de votre mot de passe LevisHub.</p>
+					<p>Vous avez demandé la réinitialisation de votre mot de passe LevisWeb.</p>
 
 					<div style="text-align: center;">
 						<a href="${resetUrl}" class="button">Réinitialiser mon mot de passe</a>
@@ -429,7 +429,7 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 				</div>
 
 				<div class="footer">
-					<p>LevisHub - Développement Web Freelance</p>
+					<p>LevisWeb - Développement Web Freelance</p>
 					<p>Cet email a été envoyé pour des raisons de sécurité. Ne répondez pas à cet email.</p>
 				</div>
 			</div>
@@ -439,9 +439,9 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub Sécurité <onboarding@resend.dev>",
+			from: "LevisWeb Sécurité <onboarding@resend.dev>",
 			to: [to],
-			subject: "Reset mot de passe - LevisHub",
+			subject: "Reset mot de passe - LevisWeb",
 			html: html,
 			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
 		});
@@ -460,7 +460,7 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 export async function testResendConnection() {
 	try {
 		const result = await resend.emails.send({
-			from: "LevisHub <onboarding@resend.dev>",
+			from: "LevisWeb <onboarding@resend.dev>",
 			to: ["quentinlevis@gmail.com"], // Remplace par ton email si tu veux
 			subject: "Test connexion Resend",
 			html: "<p>Test de connexion réussi !</p>",

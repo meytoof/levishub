@@ -238,8 +238,8 @@ export default function BackofficeLayoutDark({
 							{userRole === "ADMIN" && isClientMode
 								? "Client Mode"
 								: userRole === "ADMIN"
-								? "LevisHub Admin"
-								: "LevisHub Client"}
+								? "LevisWeb Admin"
+								: "LevisWeb Client"}
 						</span>
 					</Link>
 				</div>
@@ -282,7 +282,7 @@ export default function BackofficeLayoutDark({
 						<h1 className="header-title">
 							{userRole === "ADMIN" && isClientMode
 								? "Mode Test Client"
-								: "LevisHub"}
+								: "LevisWeb"}
 						</h1>
 
 						{userRole === "ADMIN" && (

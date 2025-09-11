@@ -354,7 +354,7 @@ export default function BlogDemo() {
 				</div>
 			</footer>
 
-			{/* Back to LevisHub */}
+			{/* Back to LevisWeb */}
 			<div className="demo-back-button">
 				<Link href="/projets-demo">
 					<button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-all duration-200 shadow-lg">

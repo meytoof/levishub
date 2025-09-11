@@ -1,25 +1,24 @@
 import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { 
-	ArrowLeft, 
-	Search, 
-	BookOpen, 
-	MessageCircle, 
-	Play, 
+import {
+	ArrowLeft,
+	BarChart,
+	BookOpen,
+	Clock,
+	CreditCard,
+	ExternalLink,
+	FileText,
 	HelpCircle,
 	Mail,
-	Phone,
+	MessageCircle,
 	MessageSquare,
-	FileText,
+	Phone,
+	Play,
+	Search,
 	Users,
-	CreditCard,
-	BarChart,
-	Settings,
-	ExternalLink,
-	Clock
 } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function AdminHelpPage() {
 	const session = await getServerSession(authOptions);
@@ -62,35 +61,61 @@ export default async function AdminHelpPage() {
 
 			{/* Actions rapides */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-				<Link href="#documentation" className="card hover:border-[#3b82f6] transition-all cursor-pointer">
+				<Link
+					href="#documentation"
+					className="card hover:border-[#3b82f6] transition-all cursor-pointer"
+				>
 					<div className="card-content text-center">
 						<BookOpen className="w-12 h-12 mx-auto mb-4 text-[#3b82f6]" />
-						<h3 className="font-medium text-white mb-2">Documentation</h3>
-						<p className="text-sm text-[#a0a0a0]">Guides détaillés et tutoriels</p>
+						<h3 className="font-medium text-white mb-2">
+							Documentation
+						</h3>
+						<p className="text-sm text-[#a0a0a0]">
+							Guides détaillés et tutoriels
+						</p>
 					</div>
 				</Link>
 
-				<Link href="#chat" className="card hover:border-[#10b981] transition-all cursor-pointer">
+				<Link
+					href="#chat"
+					className="card hover:border-[#10b981] transition-all cursor-pointer"
+				>
 					<div className="card-content text-center">
 						<MessageCircle className="w-12 h-12 mx-auto mb-4 text-[#10b981]" />
-						<h3 className="font-medium text-white mb-2">Chat Support</h3>
-						<p className="text-sm text-[#a0a0a0]">Assistance en temps réel</p>
+						<h3 className="font-medium text-white mb-2">
+							Chat Support
+						</h3>
+						<p className="text-sm text-[#a0a0a0]">
+							Assistance en temps réel
+						</p>
 					</div>
 				</Link>
 
-				<Link href="#tutorials" className="card hover:border-[#f59e0b] transition-all cursor-pointer">
+				<Link
+					href="#tutorials"
+					className="card hover:border-[#f59e0b] transition-all cursor-pointer"
+				>
 					<div className="card-content text-center">
 						<Play className="w-12 h-12 mx-auto mb-4 text-[#f59e0b]" />
-						<h3 className="font-medium text-white mb-2">Tutoriels Vidéo</h3>
-						<p className="text-sm text-[#a0a0a0]">Apprendre par l'exemple</p>
+						<h3 className="font-medium text-white mb-2">
+							Tutoriels Vidéo
+						</h3>
+						<p className="text-sm text-[#a0a0a0]">
+							Apprendre par l'exemple
+						</p>
 					</div>
 				</Link>
 
-				<Link href="#faq" className="card hover:border-[#ef4444] transition-all cursor-pointer">
+				<Link
+					href="#faq"
+					className="card hover:border-[#ef4444] transition-all cursor-pointer"
+				>
 					<div className="card-content text-center">
 						<HelpCircle className="w-12 h-12 mx-auto mb-4 text-[#ef4444]" />
 						<h3 className="font-medium text-white mb-2">FAQ</h3>
-						<p className="text-sm text-[#a0a0a0]">Questions fréquentes</p>
+						<p className="text-sm text-[#a0a0a0]">
+							Questions fréquentes
+						</p>
 					</div>
 				</Link>
 			</div>
@@ -108,23 +133,27 @@ export default async function AdminHelpPage() {
 						</div>
 						<div className="card-content">
 							<div className="space-y-4">
-								<HelpArticle 
+								<HelpArticle
 									title="Comment créer un nouveau client ?"
 									description="Guide étape par étape pour ajouter un nouveau client au système"
 									link="#"
 									tags={["clients", "création", "débutant"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Gérer les invitations clients"
 									description="Processus d'invitation et suivi des réponses"
 									link="#"
 									tags={["invitations", "workflow", "suivi"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Voir les statistiques clients"
 									description="Analyser les performances et l'activité des clients"
 									link="#"
-									tags={["statistiques", "analytics", "performance"]}
+									tags={[
+										"statistiques",
+										"analytics",
+										"performance",
+									]}
 								/>
 							</div>
 						</div>
@@ -140,23 +169,31 @@ export default async function AdminHelpPage() {
 						</div>
 						<div className="card-content">
 							<div className="space-y-4">
-								<HelpArticle 
+								<HelpArticle
 									title="Configurer Stripe"
 									description="Intégration et configuration des paiements"
 									link="#"
-									tags={["stripe", "paiements", "configuration"]}
+									tags={[
+										"stripe",
+										"paiements",
+										"configuration",
+									]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Gérer les factures"
 									description="Création, édition et suivi des factures"
 									link="#"
 									tags={["factures", "billing", "suivi"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Remboursements et ajustements"
 									description="Gérer les remboursements et ajustements de facturation"
 									link="#"
-									tags={["remboursements", "ajustements", "billing"]}
+									tags={[
+										"remboursements",
+										"ajustements",
+										"billing",
+									]}
 								/>
 							</div>
 						</div>
@@ -172,23 +209,27 @@ export default async function AdminHelpPage() {
 						</div>
 						<div className="card-content">
 							<div className="space-y-4">
-								<HelpArticle 
+								<HelpArticle
 									title="Traiter un ticket client"
 									description="Workflow de résolution des tickets de support"
 									link="#"
 									tags={["tickets", "support", "workflow"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Prioriser les demandes"
 									description="Système de priorité et gestion des urgences"
 									link="#"
 									tags={["priorité", "urgences", "gestion"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Templates de réponses"
 									description="Réponses standardisées pour les questions fréquentes"
 									link="#"
-									tags={["templates", "réponses", "standardisation"]}
+									tags={[
+										"templates",
+										"réponses",
+										"standardisation",
+									]}
 								/>
 							</div>
 						</div>
@@ -204,23 +245,27 @@ export default async function AdminHelpPage() {
 						</div>
 						<div className="card-content">
 							<div className="space-y-4">
-								<HelpArticle 
+								<HelpArticle
 									title="Tableau de bord principal"
 									description="Comprendre les métriques clés et KPIs"
 									link="#"
 									tags={["dashboard", "métriques", "KPIs"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Exporter les données"
 									description="Générer et télécharger des rapports personnalisés"
 									link="#"
 									tags={["export", "rapports", "données"]}
 								/>
-								<HelpArticle 
+								<HelpArticle
 									title="Configurer les alertes"
 									description="Paramétrer les notifications automatiques"
 									link="#"
-									tags={["alertes", "notifications", "automatisation"]}
+									tags={[
+										"alertes",
+										"notifications",
+										"automatisation",
+									]}
 								/>
 							</div>
 						</div>
@@ -242,17 +287,27 @@ export default async function AdminHelpPage() {
 								<div className="flex items-center gap-3">
 									<Mail className="w-4 h-4 text-[#3b82f6]" />
 									<div>
-										<p className="text-sm text-[#a0a0a0]">Email</p>
-										<a href="mailto:support@levishub.com" className="text-white hover:text-[#3b82f6]">
-											support@levishub.com
+										<p className="text-sm text-[#a0a0a0]">
+											Email
+										</p>
+										<a
+											href="mailto:support@levisweb.com"
+											className="text-white hover:text-[#3b82f6]"
+										>
+											support@levisweb.com
 										</a>
 									</div>
 								</div>
 								<div className="flex items-center gap-3">
 									<Phone className="w-4 h-4 text-[#10b981]" />
 									<div>
-										<p className="text-sm text-[#a0a0a0]">Téléphone</p>
-										<a href="tel:+33123456789" className="text-white hover:text-[#10b981]">
+										<p className="text-sm text-[#a0a0a0]">
+											Téléphone
+										</p>
+										<a
+											href="tel:+33123456789"
+											className="text-white hover:text-[#10b981]"
+										>
 											+33 1 23 45 67 89
 										</a>
 									</div>
@@ -260,7 +315,9 @@ export default async function AdminHelpPage() {
 								<div className="flex items-center gap-3">
 									<MessageSquare className="w-4 h-4 text-[#f59e0b]" />
 									<div>
-										<p className="text-sm text-[#a0a0a0]">Chat en direct</p>
+										<p className="text-sm text-[#a0a0a0]">
+											Chat en direct
+										</p>
 										<button className="text-white hover:text-[#f59e0b]">
 											Ouvrir le chat
 										</button>
@@ -281,20 +338,29 @@ export default async function AdminHelpPage() {
 						<div className="card-content">
 							<div className="space-y-3 text-sm">
 								<div className="flex justify-between">
-									<span className="text-[#a0a0a0]">Lundi - Vendredi</span>
+									<span className="text-[#a0a0a0]">
+										Lundi - Vendredi
+									</span>
 									<span className="text-white">9h - 18h</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-[#a0a0a0]">Samedi</span>
-									<span className="text-white">10h - 16h</span>
+									<span className="text-[#a0a0a0]">
+										Samedi
+									</span>
+									<span className="text-white">
+										10h - 16h
+									</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-[#a0a0a0]">Dimanche</span>
+									<span className="text-[#a0a0a0]">
+										Dimanche
+									</span>
 									<span className="text-white">Fermé</span>
 								</div>
 								<div className="pt-2 border-t border-[#333]">
 									<p className="text-[#666] text-xs">
-										Support d'urgence disponible 24h/24 pour les clients premium
+										Support d'urgence disponible 24h/24 pour
+										les clients premium
 									</p>
 								</div>
 							</div>
@@ -311,19 +377,31 @@ export default async function AdminHelpPage() {
 						</div>
 						<div className="card-content">
 							<div className="space-y-3">
-								<a href="#" className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors">
+								<a
+									href="#"
+									className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors"
+								>
 									<ExternalLink className="w-3 h-3" />
 									Guide de démarrage rapide
 								</a>
-								<a href="#" className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors">
+								<a
+									href="#"
+									className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors"
+								>
 									<ExternalLink className="w-3 h-3" />
 									Vidéos de formation
 								</a>
-								<a href="#" className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors">
+								<a
+									href="#"
+									className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors"
+								>
 									<ExternalLink className="w-3 h-3" />
 									Base de connaissances
 								</a>
-								<a href="#" className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors">
+								<a
+									href="#"
+									className="flex items-center gap-2 text-sm text-[#a0a0a0] hover:text-white transition-colors"
+								>
 									<ExternalLink className="w-3 h-3" />
 									Communauté utilisateurs
 								</a>
@@ -337,7 +415,12 @@ export default async function AdminHelpPage() {
 }
 
 // Composant pour un article d'aide
-function HelpArticle({ title, description, link, tags }: {
+function HelpArticle({
+	title,
+	description,
+	link,
+	tags,
+}: {
 	title: string;
 	description: string;
 	link: string;
@@ -358,7 +441,10 @@ function HelpArticle({ title, description, link, tags }: {
 						</span>
 					))}
 				</div>
-				<Link href={link} className="text-[#3b82f6] hover:text-[#2563eb] text-sm">
+				<Link
+					href={link}
+					className="text-[#3b82f6] hover:text-[#2563eb] text-sm"
+				>
 					Lire plus →
 				</Link>
 			</div>

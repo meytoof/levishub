@@ -1,4 +1,4 @@
-# 🔧 Configuration LevisHub
+# 🔧 Configuration LevisWeb
 
 ## Variables d'environnement requises
 

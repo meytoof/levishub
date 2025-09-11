@@ -1,13 +1,13 @@
 /* Styles spécifiques au blog */
 
-/* MASQUAGE FORCÉ des composants LevisHub */
+/* MASQUAGE FORCÉ des composants LevisWeb */
 /* Masquer le conteneur Navbar complet */
 body > div > div > div:first-child {
 	display: none !important;
 }
 
-/* Masquer la navbar principale LevisHub */
-nav.levishub-nav {
+/* Masquer la navbar principale LevisWeb */
+nav.levisweb-nav {
 	display: none !important;
 }
 
@@ -24,7 +24,7 @@ footer:not(.demo-footer) {
 	display: none !important;
 }
 
-/* Masquer le background LevisHub */
+/* Masquer le background LevisWeb */
 body > div > div > div:first-child {
 	background: transparent !important;
 }

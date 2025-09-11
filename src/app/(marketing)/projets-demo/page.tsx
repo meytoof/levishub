@@ -105,7 +105,7 @@ export default function ProjetsDemo() {
 											{demo.description}
 										</p>
 
-										{/* Bouton avec gradient LevisHub */}
+										{/* Bouton avec gradient LevisWeb */}
 										<Link href={demo.link}>
 											<Button
 												className="btn-cyan-gradient shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 hover:rotate-1"
@@ -139,7 +139,7 @@ export default function ProjetsDemo() {
 								</h2>
 								<p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
 									Transformez votre vision en réalité avec
-									LevisHub. Des solutions web rapides, fiables
+									LevisWeb. Des solutions web rapides, fiables
 									et pensées pour générer des résultats.
 								</p>
 								<Link href="/contact">

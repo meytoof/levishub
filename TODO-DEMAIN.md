@@ -1,4 +1,4 @@
-# 📋 TODO POUR DEMAIN - LevisHub
+# 📋 TODO POUR DEMAIN - LevisWeb
 
 ## 🚨 PROBLÈME IMMÉDIAT IDENTIFIÉ
 
@@ -133,4 +133,3 @@ npm run type-check
 **📅 Date** : Demain  
 **🎯 Objectif** : Finaliser le système de tickets et commencer analytics/facturation  
 **🚀 Priorité** : Build fonctionnel → Tickets → Analytics → Paiements
-

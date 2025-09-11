@@ -116,7 +116,7 @@ export default function AcceptInvitationPage({
 							</h3>
 							<p className="text-sm text-blue-800 dark:text-blue-200">
 								Cet email sera utilisé pour votre compte
-								LevisHub
+								LevisWeb
 							</p>
 						</div>
 

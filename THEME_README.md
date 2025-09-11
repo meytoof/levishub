@@ -1,8 +1,8 @@
-# 🎨 Système de Thème - LevisHub
+# 🎨 Système de Thème - LevisWeb
 
 ## Vue d'ensemble
 
-LevisHub dispose maintenant d'un système de thème complet qui permet de basculer entre un thème clair et un thème sombre, avec détection automatique des préférences du navigateur.
+LevisWeb dispose maintenant d'un système de thème complet qui permet de basculer entre un thème clair et un thème sombre, avec détection automatique des préférences du navigateur.
 
 ## ✨ Fonctionnalités
 

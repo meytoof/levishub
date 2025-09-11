@@ -4,7 +4,7 @@ const Stripe = require("stripe");
 const prisma = new PrismaClient();
 
 async function testStripeWorkflow() {
-	console.log("🚀 Test du workflow complet LevisHub + Stripe\n");
+	console.log("🚀 Test du workflow complet LevisWeb + Stripe\n");
 
 	try {
 		// Vérifier la configuration Stripe
@@ -141,7 +141,7 @@ async function createTestClient() {
 
 async function ensureAdminUser() {
 	let adminUser = await prisma.user.findUnique({
-		where: { email: "admin@levishub.com" },
+		where: { email: "admin@levisweb.com" },
 	});
 
 	if (!adminUser) {
@@ -151,7 +151,7 @@ async function ensureAdminUser() {
 		adminUser = await prisma.user.create({
 			data: {
 				name: "Admin Test",
-				email: "admin@levishub.com",
+				email: "admin@levisweb.com",
 				hashedPassword,
 				role: "ADMIN",
 			},
