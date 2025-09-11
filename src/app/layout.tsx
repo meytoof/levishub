@@ -18,6 +18,29 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="fr" suppressHydrationWarning>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							// Détection automatique du thème sombre pour les WebViews (Messenger, etc.)
+							(function() {
+								// Vérifier si on est dans un WebView mobile
+								const isMobileWebView = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) && 
+									(window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches);
+								
+								// Vérifier les préférences système
+								const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+								
+								// Forcer le thème sombre si nécessaire
+								if (prefersDark || isMobileWebView) {
+									document.documentElement.classList.add('dark');
+									document.documentElement.setAttribute('data-theme', 'dark');
+								}
+							})();
+						`,
+					}}
+				/>
+			</head>
 			<body className={inter.className} suppressHydrationWarning>
 				<SessionWrapper>{children}</SessionWrapper>
 				<Toaster
