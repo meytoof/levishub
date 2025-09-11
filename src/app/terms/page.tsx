@@ -152,13 +152,7 @@ export default function TermsPage() {
 					</h2>
 					<p className="text-muted-foreground mb-4 leading-relaxed">
 						Ces conditions générales d'utilisation ont été mises à
-						jour pour la dernière fois le
-						{new Date().toLocaleDateString("fr-FR", {
-							year: "numeric",
-							month: "long",
-							day: "numeric",
-						})}
-						.
+						jour pour la dernière fois le 11 septembre 2025.
 					</p>
 				</section>
 			</div>
