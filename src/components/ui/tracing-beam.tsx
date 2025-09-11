@@ -46,7 +46,7 @@ export const TracingBeam = ({
 			<div className="absolute top-0 right-0 w-20 h-full pointer-events-none z-50">
 				<motion.div className="relative w-full h-full">
 					{/* Point de départ du faisceau */}
-					<div className="absolute top-3 right-4 ">
+					<div className="absolute top-3 right-4 hidden">
 						<motion.div
 							transition={{
 								duration: 0.2,

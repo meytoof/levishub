@@ -40,7 +40,10 @@ export default async function TermsLayout({
 			<ThemeProvider>
 				<SessionProvider session={session}>
 					<Navbar>
-						<NavBody className="shadow-none levisweb-nav">
+						<NavBody
+							className="shadow-none levisweb-nav"
+							shrinkOnScroll={!session}
+						>
 							<NavbarLogo />
 							<NavItems items={navItems} />
 							<div className="flex items-center gap-2">

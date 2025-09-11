@@ -14,7 +14,6 @@ import { authOptions } from "@/lib/auth";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,11 +29,6 @@ export default async function MarketingLayout({
 }) {
 	const session = await getServerSession(authOptions);
 
-	const headerList = await headers();
-	const userAgent = headerList.get("user-agent")?.toLowerCase() || "";
-	const isFacebookInApp =
-		/fb|messenger|fban|fbav|fb_iab|fbbv|fbios|fb4a/.test(userAgent);
-
 	const navItems = [
 		{ name: "Services", link: "/services" },
 		{ name: "Projets Démo", link: "/projets-demo" },
@@ -44,10 +38,13 @@ export default async function MarketingLayout({
 
 	return (
 		<div className={`${inter.className} flex flex-col min-h-screen`}>
-			<ThemeProvider forcedTheme={isFacebookInApp ? "light" : undefined}>
+			<ThemeProvider>
 				<SessionProvider session={session}>
 					<Navbar>
-						<NavBody className="shadow-none levisweb-nav">
+						<NavBody
+							className="shadow-none levisweb-nav"
+							shrinkOnScroll={!session}
+						>
 							<NavbarLogo />
 							<NavItems items={navItems} />
 							<div className="flex items-center gap-2">

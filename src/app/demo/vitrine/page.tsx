@@ -104,12 +104,7 @@ export default function VitrineDemo() {
 						<button className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 hover:scale-105">
 							Nos services
 						</button>
-						<button
-							className="px-8 py-3 border rounded-lg transition-all duration-200 
-							border-black text-black hover:border-blue-600 hover:text-blue-600 
-							dark:border-black dark:text-black dark:hover:border-blue-400 dark:hover:text-blue-300 
-							focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-						>
+						<button className="px-8 py-3 border border-gray-600 rounded-lg bg-transparent text-gray-800 hover:border-blue-600 hover:text-blue-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
 							Nous contacter
 						</button>
 					</div>
