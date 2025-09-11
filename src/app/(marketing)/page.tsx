@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { GSAPProcessReveal } from "@/components/ui/gsap-process-reveal";
+import { GSAPScrollReveal } from "@/components/ui/gsap-scroll-reveal";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import Link from "next/link";
 
@@ -75,7 +77,11 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+					<GSAPScrollReveal
+						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+						staggerDelay={0.3}
+						duration={1.0}
+					>
 						{/* Carte 1 */}
 						<div className="group relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1">
 							<div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
@@ -119,7 +125,7 @@ export default function Home() {
 								business.
 							</p>
 						</div>
-					</div>
+					</GSAPScrollReveal>
 				</section>
 
 				{/* Process en 3 étapes */}
@@ -133,7 +139,11 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
+					<GSAPProcessReveal
+						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12"
+						staggerDelay={0.8}
+						duration={1.5}
+					>
 						{/* Étape 1 */}
 						<div className="text-center group px-2">
 							<div className="relative mb-4 sm:mb-6">
@@ -185,7 +195,7 @@ export default function Home() {
 								post-lancement pour maximiser vos résultats.
 							</p>
 						</div>
-					</div>
+					</GSAPProcessReveal>
 				</section>
 
 				{/* Call to action final - Full width */}
