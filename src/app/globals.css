@@ -241,8 +241,14 @@ html[data-theme="dark"] body {
 }
 
 /* Force le thème sombre sur tous les éléments */
-html.dark,
-html[data-theme="dark"],
+html.dark * {
+	background-color: transparent !important;
+}
+
+html[data-theme="dark"] * {
+	background-color: transparent !important;
+}
+
 @media (prefers-color-scheme: dark) {
 	* {
 		background-color: transparent !important;
