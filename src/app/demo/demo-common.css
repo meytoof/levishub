@@ -1,67 +1,79 @@
 /* Styles communs pour toutes les mini-applications */
 
 /* Masquer la navbar et footer LevisWeb sur les pages de démo - SÉLECTEURS AGRESSIFS */
+/* Limiter la portée aux pages de démo uniquement */
+.demo-scope {
+}
+
 /* Masquer le conteneur Navbar complet */
-body > div > div > div:first-child {
+.demo-scope body > div > div > div:first-child {
 	display: none !important;
 }
 
 /* Masquer la navbar principale LevisWeb */
-nav.levisweb-nav {
+.demo-scope nav.levisweb-nav {
 	display: none !important;
 }
 
 /* Masquer le div d'espacement */
-div.h-16.lg\:h-20 {
+.demo-scope div.h-16.lg\:h-20 {
 	display: none !important;
 }
 
 /* Masquer le footer LevisWeb */
-footer:not(.demo-footer) {
+.demo-scope footer:not(.demo-footer) {
 	display: none !important;
 }
 
 /* Alternative avec des sélecteurs d'attributs */
-[class*="h-16"] {
+.demo-scope [class*="h-16"] {
 	display: none !important;
 }
 
 /* Masquer le background LevisWeb en haut */
-body > div > div > div:first-child {
+.demo-scope body > div > div > div:first-child {
 	background: transparent !important;
 }
 
 /* Masquer le background LevisWeb au-dessus du footer */
-body > div > div > div:last-child {
+.demo-scope body > div > div > div:last-child {
 	background: transparent !important;
 }
 
 /* S'assurer que les composants des mini-applications restent visibles */
-.demo-nav,
-.demo-footer {
+.demo-scope .demo-nav,
+.demo-scope .demo-footer {
 	display: block !important;
 }
 
 /* Styles de base pour toutes les démos */
-.demo-container {
+.demo-scope .demo-container {
 	min-height: 100vh;
 }
 
-.demo-header {
+.demo-scope .demo-header {
 	position: sticky;
 	top: 0;
 	z-index: 50;
 }
 
-.demo-footer {
+.demo-scope .demo-footer {
 	border-top: 1px solid currentColor;
 	margin-top: 0 !important;
 }
 
 /* Bouton retour commun */
-.demo-back-button {
+.demo-scope .demo-back-button {
 	position: fixed;
 	bottom: 1.5rem;
 	right: 1.5rem;
 	z-index: 40;
+}
+
+/* Masquer le conteneur vert latéral à droite (voisin de la Neon Scroll) */
+.demo-scope
+	.absolute.top-0.right-0.w-20.h-full.pointer-events-none.z-50
+	> div
+	> div {
+	display: none !important;
 }

@@ -81,6 +81,8 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 	return (
 		<motion.nav
+			role="navigation"
+			aria-label="Navigation principale"
 			animate={{
 				backdropFilter: visible ? "blur(10px)" : "none",
 				boxShadow: visible
@@ -125,6 +127,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 					className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 pointer-events-auto"
 					key={`link-${idx}`}
 					href={item.link}
+					aria-label={item.name}
 				>
 					{hovered === idx && (
 						<motion.div
@@ -144,6 +147,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
 	return (
 		<motion.nav
+			role="navigation"
+			aria-label="Navigation mobile"
 			animate={{
 				backdropFilter: visible ? "blur(10px)" : "none",
 				boxShadow: visible
@@ -204,6 +209,9 @@ export const MobileNavMenu = ({
 						"absolute top-full left-0 right-0 mt-2 w-full flex-col items-start justify-start gap-4 rounded-lg bg-neutral-900/95 backdrop-blur-xl border border-neutral-500/30 px-4 py-8 shadow-2xl",
 						className
 					)}
+					id="mobile-menu"
+					role="menu"
+					aria-hidden={(!isOpen).toString()}
 				>
 					{children}
 				</motion.div>
@@ -219,10 +227,21 @@ export const MobileNavToggle = ({
 	isOpen: boolean;
 	onClick: () => void;
 }) => {
-	return isOpen ? (
-		<IconX className="text-white" onClick={onClick} />
-	) : (
-		<IconMenu2 className="text-white" onClick={onClick} />
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+			aria-expanded={isOpen}
+			aria-controls="mobile-menu"
+			className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+		>
+			{isOpen ? (
+				<IconX className="text-white" aria-hidden="true" />
+			) : (
+				<IconMenu2 className="text-white" aria-hidden="true" />
+			)}
+		</button>
 	);
 };
 
@@ -231,6 +250,7 @@ export const NavbarLogo = () => {
 		<Link
 			href="/"
 			className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
+			aria-label="Aller à l'accueil"
 		>
 			<span className="font-bold text-xl navbar-logo">LevisWeb</span>
 		</Link>

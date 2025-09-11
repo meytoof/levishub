@@ -12,5 +12,9 @@ export default function DemoLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <ThemeProvider>{children}</ThemeProvider>;
+	return (
+		<ThemeProvider>
+			<div className="demo-scope">{children}</div>
+		</ThemeProvider>
+	);
 }
