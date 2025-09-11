@@ -240,51 +240,6 @@ html[data-theme="dark"] body {
 	}
 }
 
-/* Force le thème sombre sur tous les éléments */
-html.dark * {
-	background-color: transparent !important;
-}
-
-html[data-theme="dark"] * {
-	background-color: transparent !important;
-}
-
-@media (prefers-color-scheme: dark) {
-	* {
-		background-color: transparent !important;
-	}
-
-	body,
-	html {
-		background: linear-gradient(
-			180deg,
-			#000000 0%,
-			#0a0a0a 25%,
-			#1a1a1a 50%,
-			#0a0a0a 75%,
-			#000000 100%
-		) !important;
-		background-image: radial-gradient(
-				ellipse at 20% -10%,
-				hsl(258 96% 67% / 0.4),
-				transparent 50%
-			),
-			radial-gradient(
-				ellipse at 100% 0%,
-				hsl(333 93% 56% / 0.3),
-				transparent 50%
-			),
-			radial-gradient(
-				ellipse at 50% 50%,
-				hsl(280 100% 50% / 0.2),
-				transparent 60%
-			) !important;
-		background-attachment: fixed !important;
-		background-size: 100% 100vh !important;
-		background-repeat: repeat-y !important;
-	}
-}
-
 /* ===== CURSEURS PERSONNALISÉS ===== */
 button,
 [role="button"],
