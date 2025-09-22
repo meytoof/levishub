@@ -19,7 +19,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "LevisWeb - Développement Web Freelance",
-	description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+	description: "Sites modernes, rapides et optimisés SEO, avec backoffice sur mesure",
 };
 
 export default async function MarketingLayout({

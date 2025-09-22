@@ -3,11 +3,21 @@ import { GSAPProcessReveal } from "@/components/ui/gsap-process-reveal";
 import { GSAPScrollReveal } from "@/components/ui/gsap-scroll-reveal";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function Home() {
 	return (
 		<TracingBeam className="w-full">
 			<main className="min-h-svh">
+				<Script id="ld-json-org" type="application/ld+json">
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "Organization",
+						name: "LevisWeb",
+						url: "https://levisweb.net",
+						logo: "/favicon.ico",
+					})}
+				</Script>
 				{/* Hero Section - Plein écran */}
 				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 flex items-center justify-center min-h-[80vh]">
 					<div className="max-w-3xl mx-auto text-center">

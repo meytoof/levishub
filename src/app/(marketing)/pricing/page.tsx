@@ -3,6 +3,7 @@ import { LimitedOffer } from "@/components/ui/limited-offer";
 import { PricingQuiz } from "@/components/ui/pricing-quiz";
 import { PulseCTA } from "@/components/ui/PulseCTA";
 import { Check, Lock, Shield, Zap } from "lucide-react";
+import Script from "next/script";
 
 export default function PricingPage() {
 	// Frais de création (paiement unique)
@@ -108,6 +109,16 @@ export default function PricingPage() {
 
 	return (
 		<div className="min-h-screen">
+			<Script id="ld-json-breadcrumb" type="application/ld+json">
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					itemListElement: [
+						{ "@type": "ListItem", position: 1, name: "Accueil", item: "https://levisweb.net/" },
+						{ "@type": "ListItem", position: 2, name: "Tarifs", item: "https://levisweb.net/pricing" },
+					],
+				})}
+			</Script>
 			<div className="relative mx-auto max-w-7xl px-6 py-24">
 				{/* Header de la page */}
 				<div className="text-center mb-20">

@@ -10,10 +10,10 @@ export function Footer() {
 						<h3 className="text-xl font-semibold text-blue-400">
 							LevisWeb
 						</h3>
-						<p className="text-gray-300 text-sm">
-							Développement web freelance - Sites modernes,
-							rapides et animés
-						</p>
+					<p className="text-gray-300 text-sm">
+						Développement web freelance – Sites modernes, rapides et
+						optimisés SEO.
+					</p>
 					</div>
 
 					{/* Adresse */}
