@@ -143,7 +143,7 @@ export default function PricingPage() {
 
 				{/* Offre limitée -20% */}
 				<div className="mb-20">
-					<LimitedOffer remainingSlots={10} totalSlots={10} />
+					<LimitedOffer remainingSlots={8} totalSlots={10} />
 				</div>
 
 				{/* Section explicative - Pédagogie */}

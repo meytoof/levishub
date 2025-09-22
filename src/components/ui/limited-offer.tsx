@@ -19,18 +19,8 @@ export function LimitedOffer({
 	useEffect(() => {
 		// Animation d'entrée
 		setTimeout(() => setIsVisible(true), 500);
-
-		// Animation du compteur
-		const timer = setInterval(() => {
-			setCount((prev) => {
-				if (prev > 0) {
-					return prev - 1;
-				}
-				return prev;
-			});
-		}, 100);
-
-		return () => clearInterval(timer);
+		// Affiche directement le nombre réel de places restantes
+		setCount(remainingSlots);
 	}, [remainingSlots]);
 
 	const percentage = ((totalSlots - remainingSlots) / totalSlots) * 100;
