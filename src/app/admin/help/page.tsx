@@ -25,6 +25,9 @@ export default async function AdminHelpPage() {
 	if (!session) redirect("/login");
 	if (session.user.role !== "ADMIN") redirect("/");
 
+	// Page désactivée temporairement
+	redirect("/admin");
+
 	return (
 		<>
 			{/* Header avec navigation */}

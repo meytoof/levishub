@@ -46,17 +46,7 @@ export default async function AdminNotificationsPage() {
 			link: "/admin/invitations",
 			client: "Système",
 		},
-		{
-			id: 3,
-			title: "Paiement reçu",
-			message: "Facture #1234 payée par TechCorp",
-			time: "Il y a 2h",
-			unread: false,
-			type: "payment",
-			priority: "low",
-			link: "/admin/payments",
-			client: "TechCorp",
-		},
+		// Paiements/Factures en pause pour l'instant
 		{
 			id: 4,
 			title: "Nouveau projet",

@@ -2,14 +2,52 @@
 
 import { Eye, EyeOff, Save } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function SecuritySettings() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [currentPassword, setCurrentPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+	const [submitting, setSubmitting] = useState(false);
+
+	async function handleSubmit(e: React.FormEvent) {
+		e.preventDefault();
+		if (!currentPassword || !newPassword || !confirmPassword) {
+			toast.error("Veuillez remplir tous les champs");
+			return;
+		}
+		if (newPassword !== confirmPassword) {
+			toast.error("La confirmation ne correspond pas");
+			return;
+		}
+		try {
+			setSubmitting(true);
+			const res = await fetch("/api/admin/change-password", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ currentPassword, newPassword }),
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => ({} as any));
+				throw new Error(data.error || "Échec de la mise à jour");
+			}
+			toast.success("Mot de passe mis à jour");
+			setCurrentPassword("");
+			setNewPassword("");
+			setConfirmPassword("");
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : "Erreur inconnue";
+			toast.error(msg);
+		} finally {
+			setSubmitting(false);
+		}
+	}
 
 	return (
-		<div className="space-y-6">
+		<form className="space-y-6" onSubmit={handleSubmit}>
 			{/* Changement de mot de passe */}
 			<div className="form-group">
 				<label className="form-label">Mot de passe actuel</label>
@@ -18,6 +56,9 @@ export default function SecuritySettings() {
 						type={showCurrentPassword ? "text" : "password"}
 						className="form-input pr-10"
 						placeholder="Entrez votre mot de passe actuel"
+						value={currentPassword}
+						onChange={(e) => setCurrentPassword(e.target.value)}
+						required
 					/>
 					<button
 						type="button"
@@ -42,6 +83,10 @@ export default function SecuritySettings() {
 						type={showNewPassword ? "text" : "password"}
 						className="form-input pr-10"
 						placeholder="Entrez votre nouveau mot de passe"
+						value={newPassword}
+						onChange={(e) => setNewPassword(e.target.value)}
+						minLength={6}
+						required
 					/>
 					<button
 						type="button"
@@ -66,6 +111,10 @@ export default function SecuritySettings() {
 						type={showConfirmPassword ? "text" : "password"}
 						className="form-input pr-10"
 						placeholder="Confirmez votre nouveau mot de passe"
+						value={confirmPassword}
+						onChange={(e) => setConfirmPassword(e.target.value)}
+						minLength={6}
+						required
 					/>
 					<button
 						type="button"
@@ -116,10 +165,16 @@ export default function SecuritySettings() {
 				</select>
 			</div>
 
-			<button type="submit" className="btn btn-primary w-full">
+			<button
+				type="submit"
+				className="btn btn-primary w-full"
+				disabled={submitting}
+			>
 				<Save className="w-4 h-4" />
-				Sauvegarder les paramètres de sécurité
+				{submitting
+					? "Enregistrement..."
+					: "Sauvegarder les paramètres de sécurité"}
 			</button>
-		</div>
+		</form>
 	);
 }

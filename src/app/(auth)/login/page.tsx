@@ -9,8 +9,8 @@ import {
 	NavBody,
 	NavItems,
 } from "@/components/ui/resizable-navbar";
-import { StatefulButton } from "@/components/ui/stateful-button";
-import { signIn, useSession } from "next-auth/react";
+// import { StatefulButton } from "@/components/ui/stateful-button";
+import { getSession, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -54,6 +54,13 @@ function LoginForm() {
 			});
 			if (res?.ok) {
 				toast.success("Connexion réussie !");
+				// Récupère la session pour connaître le rôle et rediriger immédiatement
+				const newSession = await getSession();
+				const redirectPath =
+					newSession?.user?.role === "ADMIN"
+						? "/admin"
+						: "/dashboard";
+				router.push(redirectPath);
 			} else {
 				throw new Error("Identifiants invalides");
 			}
@@ -166,12 +173,12 @@ function LoginForm() {
 											required
 										/>
 									</div>
-									<StatefulButton
-										onClick={handleLogin}
-										className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+									<button
+										type="submit"
+										className="w-full relative inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 focus-visible:ring-blue-500 shadow-lg"
 									>
 										Se connecter
-									</StatefulButton>
+									</button>
 								</form>
 								{error && (
 									<p className="text-sm text-red-500 mt-2">
@@ -215,12 +222,13 @@ function LoginForm() {
 											required
 										/>
 									</div>
-									<StatefulButton
+									<button
+										type="button"
 										onClick={handleForgotPassword}
-										className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-medium"
+										className="w-full relative inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-red-600 to-orange-600 text-white hover:from-red-700 hover:to-orange-700 focus-visible:ring-red-500 shadow-lg"
 									>
 										Envoyer le lien de réinitialisation
-									</StatefulButton>
+									</button>
 								</div>
 								<div className="mt-4 text-center">
 									<button

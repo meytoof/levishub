@@ -179,20 +179,17 @@ export default async function AdminDashboardPage() {
 					</div>
 				</Link>
 
-				<Link
-					href="/admin/analytics"
-					className="card hover:transform hover:-translate-y-1 transition-all"
-				>
+				<div className="card hover:transform hover:-translate-y-1 transition-all opacity-60 cursor-not-allowed">
 					<div className="card-content text-center">
 						<BarChart className="w-12 h-12 mx-auto mb-4 text-[#f59e0b]" />
 						<h3 className="text-xl font-semibold text-white mb-2">
-							Analytics
+							Analytics (bientôt)
 						</h3>
 						<p className="text-[#a0a0a0]">
-							Suivez vos performances
+							Suivi des performances à venir
 						</p>
 					</div>
-				</Link>
+				</div>
 			</div>
 
 			{/* Contenu principal en grille */}

@@ -3,7 +3,7 @@ import { ArrowLeft, Bell, Globe, Palette, Shield } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import AppearanceSettings from "./AppearanceSettings";
+// import AppearanceSettings from "./AppearanceSettings";
 import NotificationSettings from "./NotificationSettings";
 import RegionalSettings from "./RegionalSettings";
 import SecuritySettings from "./SecuritySettings";
@@ -65,16 +65,19 @@ export default async function AdminSettingsPage() {
 
 				{/* Apparence et Régional */}
 				<div className="space-y-6">
-					{/* Apparence */}
-					<div className="card">
+					{/* Apparence désactivée temporairement */}
+					<div className="card opacity-60">
 						<div className="card-header">
 							<h3 className="card-title flex items-center gap-2">
 								<Palette className="w-5 h-5 text-[#10b981]" />
-								Apparence
+								Apparence (désactivé temporairement)
 							</h3>
 						</div>
 						<div className="card-content">
-							<AppearanceSettings />
+							<p className="text-sm text-[#a0a0a0]">
+								Les réglages de thème sont désactivés pour le
+								backoffice pour le moment.
+							</p>
 						</div>
 					</div>
 

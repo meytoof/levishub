@@ -1,10 +1,8 @@
 "use client";
 
 import {
-	BarChart,
 	Bell,
 	ChevronDown,
-	CreditCard,
 	FileText,
 	HelpCircle,
 	Home,
@@ -92,16 +90,7 @@ export default function BackofficeLayoutDark({
 		if (userRole === "ADMIN" && isClientMode) {
 			return [
 				{ name: "Dashboard", href: "/dashboard", icon: Home },
-				{
-					name: "Analytics",
-					href: "/dashboard/analytics",
-					icon: BarChart,
-				},
-				{
-					name: "Factures",
-					href: "/dashboard/invoices",
-					icon: FileText,
-				},
+				// Analytics/Factures masqués temporairement côté client
 				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
 				{
 					name: "Projets",
@@ -115,28 +104,15 @@ export default function BackofficeLayoutDark({
 			return [
 				{ name: "Dashboard", href: "/admin", icon: Home },
 				{ name: "Clients", href: "/admin/clients", icon: Users },
-				{
-					name: "Paiements",
-					href: "/admin/payments",
-					icon: CreditCard,
-				},
+				// Paiements masqué temporairement
 				{ name: "Tickets", href: "/admin/tickets", icon: LifeBuoy },
-				{ name: "Analytics", href: "/admin/analytics", icon: BarChart },
-				{ name: "Factures", href: "/admin/invoices", icon: FileText },
+				// Analytics masqué temporairement
+				// Factures masqué temporairement
 			];
 		} else {
 			return [
 				{ name: "Dashboard", href: "/dashboard", icon: Home },
-				{
-					name: "Analytics",
-					href: "/dashboard/analytics",
-					icon: BarChart,
-				},
-				{
-					name: "Factures",
-					href: "/dashboard/invoices",
-					icon: FileText,
-				},
+				// Analytics/Factures masqués temporairement côté client
 				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
 				{
 					name: "Projets",

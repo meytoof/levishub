@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
-export default function AdminTestPage() {
-	// Page désactivée temporairement
+export default function AdminAnalyticsRedirectPage() {
 	redirect("/admin");
 	return null;
 }
