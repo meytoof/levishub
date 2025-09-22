@@ -118,8 +118,8 @@ export async function POST(request: NextRequest, context: any) {
 
 		// Notifications email
 		try {
-			const messagePreview = body.trim().slice(0, 200);
-			const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+            const messagePreview = body.trim().slice(0, 200);
+            const baseUrl = process.env.NEXTAUTH_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 			if (session.user.role === "CLIENT") {
 				const adminEmail =
 					process.env.ADMIN_EMAIL || "quentinlevis@gmail.com";

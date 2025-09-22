@@ -145,14 +145,13 @@ export async function POST(request: NextRequest) {
 
 		// Envoyer la notification email à l'admin
 		try {
-			await sendTicketNotification({
+            const baseUrl = process.env.NEXTAUTH_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+            await sendTicketNotification({
 				to: "quentinlevis@gmail.com", // Email de l'admin
 				ticketTitle: ticket.title,
 				ticketStatus: "OPEN",
 				companyName: ticket.client.companyName,
-				ticketUrl: `${
-					process.env.NEXTAUTH_URL || "http://localhost:3000"
-				}/admin/tickets`,
+                ticketUrl: `${baseUrl}/admin/tickets`,
 			});
 		} catch (emailError) {
 			console.error("Erreur envoi notification email:", emailError);
