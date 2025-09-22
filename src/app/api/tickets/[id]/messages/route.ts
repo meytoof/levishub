@@ -131,10 +131,10 @@ export async function POST(request: NextRequest, context: any) {
 					ticketUrl: `${baseUrl}/admin/tickets`,
 				});
 			} else if (session.user.role === "ADMIN") {
-				const fullTicket = await prisma.ticket.findUnique({
-					where: { id },
-					include: { client: true },
-				});
+                const fullTicket = await prisma.ticket.findUnique({
+                    where: { id },
+                    include: { client: true },
+                });
 				if (fullTicket?.client?.primaryEmail) {
 					await sendTicketMessageNotification({
 						to: fullTicket.client.primaryEmail,
