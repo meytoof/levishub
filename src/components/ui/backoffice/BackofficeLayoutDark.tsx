@@ -3,7 +3,6 @@
 import {
 	Bell,
 	ChevronDown,
-	FileText,
 	HelpCircle,
 	Home,
 	LifeBuoy,
@@ -171,17 +170,26 @@ export default function BackofficeLayoutDark({
 					inProgressTotal = d?.pagination?.total || 0;
 				}
 
-				if (isMounted) setTicketsBadge(openTotal + inProgressTotal);
+			if (isMounted) setTicketsBadge(openTotal + inProgressTotal);
 			} catch (e) {
 				// silencieux
 			}
 		}
 
 		fetchTicketCounts();
-		const id = setInterval(fetchTicketCounts, 60000);
+		// Rafraîchissement plus fréquent pour un badge quasi temps réel
+		const id = setInterval(fetchTicketCounts, 10000);
+		// Rafraîchir lors du retour de focus/onglet actif
+		const onFocus = () => fetchTicketCounts();
+		window.addEventListener("focus", onFocus);
+		document.addEventListener("visibilitychange", () => {
+			if (document.visibilityState === "visible") fetchTicketCounts();
+		});
+
 		return () => {
 			isMounted = false;
 			clearInterval(id);
+			window.removeEventListener("focus", onFocus);
 		};
 	}, [userRole, isClientMode]);
 
