@@ -18,6 +18,19 @@ export default function Home() {
 						logo: "/favicon.ico",
 					})}
 				</Script>
+				<Script id="ld-json-website" type="application/ld+json">
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "WebSite",
+						url: "https://levisweb.net",
+						name: "LevisWeb",
+						potentialAction: {
+							"@type": "SearchAction",
+							target: "https://levisweb.net/search?q={search_term_string}",
+							query: "required name=search_term_string",
+						},
+					})}
+				</Script>
 				{/* Hero Section - Plein écran */}
 				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 flex items-center justify-center min-h-[80vh]">
 					<div className="max-w-3xl mx-auto text-center">

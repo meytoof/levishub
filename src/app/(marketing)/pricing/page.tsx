@@ -114,8 +114,18 @@ export default function PricingPage() {
 					"@context": "https://schema.org",
 					"@type": "BreadcrumbList",
 					itemListElement: [
-						{ "@type": "ListItem", position: 1, name: "Accueil", item: "https://levisweb.net/" },
-						{ "@type": "ListItem", position: 2, name: "Tarifs", item: "https://levisweb.net/pricing" },
+						{
+							"@type": "ListItem",
+							position: 1,
+							name: "Accueil",
+							item: "https://levisweb.net/",
+						},
+						{
+							"@type": "ListItem",
+							position: 2,
+							name: "Tarifs",
+							item: "https://levisweb.net/pricing",
+						},
 					],
 				})}
 			</Script>
