@@ -153,13 +153,11 @@ export default function AdminTicketsPage() {
 	};
 
 	// Répondre à un ticket
-	const replyToTicket = async (ticketId: string, newStatus: string) => {
-		if (!adminReply.trim()) {
-			alert(
-				"Veuillez saisir une réponse avant de mettre à jour le statut."
-			);
-			return;
-		}
+    const replyToTicket = async (ticketId: string, newStatus: string) => {
+        if (!adminReply.trim()) {
+            alert("Veuillez saisir une réponse avant de mettre à jour le statut.");
+            return;
+        }
 
 		setUpdating(true);
 		try {
@@ -575,18 +573,11 @@ export default function AdminTicketsPage() {
 
 								{/* Actions */}
 								<div className="flex gap-3 pt-6">
-									<Button
-										onClick={() =>
-											replyToTicket(
-												selectedTicket.id,
-												"IN_PROGRESS"
-											)
-										}
-										disabled={
-											updating || !adminReply.trim()
-										}
-										className="flex-1 bg-blue-600 hover:bg-blue-700 py-3"
-									>
+                            <Button
+                                onClick={() => replyToTicket(selectedTicket.id, "IN_PROGRESS")}
+                                disabled={updating || !adminReply.trim()}
+                                className="flex-1 bg-blue-600 hover:bg-blue-700 py-3"
+                            >
 										{updating ? (
 											"⏳ Envoi..."
 										) : (
@@ -597,18 +588,11 @@ export default function AdminTicketsPage() {
 										)}
 									</Button>
 
-									<Button
-										onClick={() =>
-											replyToTicket(
-												selectedTicket.id,
-												"RESOLVED"
-											)
-										}
-										disabled={
-											updating || !adminReply.trim()
-										}
-										className="flex-1 bg-green-600 hover:bg-green-700 py-3"
-									>
+                            <Button
+                                onClick={() => replyToTicket(selectedTicket.id, "RESOLVED")}
+                                disabled={updating || !adminReply.trim()}
+                                className="flex-1 bg-green-600 hover:bg-green-700 py-3"
+                            >
 										{updating ? (
 											"⏳ Envoi..."
 										) : (
@@ -619,27 +603,17 @@ export default function AdminTicketsPage() {
 										)}
 									</Button>
 
-									<Button
-										onClick={() =>
-											replyToTicket(
-												selectedTicket.id,
-												"CLOSED"
-											)
-										}
-										disabled={
-											updating || !adminReply.trim()
-										}
-										className="flex-1 bg-gray-600 hover:bg-gray-700 py-3"
-									>
-										{updating ? (
-											"⏳ Envoi..."
-										) : (
-											<>
-												<XCircle className="w-4 h-4 mr-2" />
-												Fermer
-											</>
-										)}
-									</Button>
+                            <Button
+                                onClick={closeModal}
+                                disabled={updating}
+                                className="flex-1 bg-gray-700 hover:bg-gray-800 py-3"
+                                type="button"
+                            >
+                                <>
+                                    <XCircle className="w-4 h-4 mr-2" />
+                                    Fermer
+                                </>
+                            </Button>
 								</div>
 							</div>
 						</div>

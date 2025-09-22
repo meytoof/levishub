@@ -281,10 +281,11 @@ export async function sendTicketMessageNotification(
         </html>
     `;
 
-	try {
-		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-		const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-		const from = process.env.RESEND_FROM || defaultFrom;
+    try {
+        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+        // Fallback vers domaine Resend si domaine non vérifié
+        const from = process.env.RESEND_FROM || defaultFrom || "LevisWeb Support <onboarding@resend.dev>";
 		const result = await resend.emails.send({
 			from,
 			to: [to],
@@ -364,10 +365,10 @@ export async function sendTicketUpdateNotification(
         </html>
     `;
 
-	try {
-		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-		const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-		const from = process.env.RESEND_FROM || defaultFrom;
+    try {
+        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+        const from = process.env.RESEND_FROM || defaultFrom || "LevisWeb Support <onboarding@resend.dev>";
 		const result = await resend.emails.send({
 			from,
 			to: [clientEmail],
