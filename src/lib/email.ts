@@ -122,8 +122,13 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 	`;
 
 	try {
+		// Utilise un expéditeur basé sur le domaine (meilleure délivrabilité)
+		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+		const defaultFrom = `LevisWeb <noreply@${domain}>`;
+		const from = process.env.RESEND_FROM || defaultFrom;
+
 		const result = await resend.emails.send({
-			from: "LevisWeb <onboarding@resend.dev>",
+			from,
 			to: [to],
 			subject: `Invitation LevisWeb - ${companyName}`,
 			html: html,
