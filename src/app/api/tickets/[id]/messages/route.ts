@@ -121,11 +121,11 @@ export async function POST(request: NextRequest, context: any) {
             const messagePreview = body.trim().slice(0, 200);
             const baseUrl = process.env.NEXTAUTH_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 			if (session.user.role === "CLIENT") {
-				const adminEmail =
-					process.env.ADMIN_EMAIL || "quentinlevis@gmail.com";
+                const adminEmail =
+                    process.env.ADMIN_EMAIL || "quentinlevis@gmail.com";
 				await sendTicketMessageNotification({
 					to: adminEmail,
-					ticketTitle: `Nouveau message client`,
+                    ticketTitle: `Nouveau message client`,
 					messagePreview,
 					companyName: String(ticket.clientId),
 					ticketUrl: `${baseUrl}/admin/tickets`,
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest, context: any) {
 				if (fullTicket?.client?.primaryEmail) {
 					await sendTicketMessageNotification({
 						to: fullTicket.client.primaryEmail,
-						ticketTitle: `Message sur votre ticket`,
+                        ticketTitle: `Réponse de l'admin sur votre ticket`,
 						messagePreview,
 						companyName: fullTicket.client.companyName,
 						ticketUrl: `${baseUrl}/dashboard/tickets/${id}`,

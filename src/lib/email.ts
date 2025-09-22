@@ -60,7 +60,7 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
 	); // heures
 
-	const html = `
+		const html = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -100,7 +100,7 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 					</ul>
 
 					<div style="text-align: center;">
-						<a href="${invitationUrl}" class="button">Créer mon compte</a>
+						<a href="${invitationUrl}" class="button" style="color:#ffffff !important;">Créer mon compte</a>
 					</div>
 
 					<div class="warning">

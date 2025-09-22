@@ -94,12 +94,12 @@ export default async function ClientDashboardPage() {
 					</p>
 				</div>
 				<div className="flex gap-3">
-					<Link
-						href="/dashboard/tickets/new"
-						className="btn btn-primary"
-					>
+                    <Link
+                        href="/dashboard/tickets"
+                        className="btn btn-primary"
+                    >
 						<Plus className="w-4 h-4" />
-						Nouveau Ticket
+                        Nouveau Ticket
 					</Link>
 					<Link
 						href="/dashboard/sites/new"

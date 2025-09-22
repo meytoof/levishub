@@ -90,13 +90,8 @@ export default function BackofficeLayoutDark({
 		if (userRole === "ADMIN" && isClientMode) {
 			return [
 				{ name: "Dashboard", href: "/dashboard", icon: Home },
-				// Analytics/Factures masqués temporairement côté client
+				// Analytics/Factures/Projets masqués temporairement côté client
 				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
-				{
-					name: "Projets",
-					href: "/dashboard/projects",
-					icon: FileText,
-				},
 			];
 		}
 
@@ -112,13 +107,8 @@ export default function BackofficeLayoutDark({
 		} else {
 			return [
 				{ name: "Dashboard", href: "/dashboard", icon: Home },
-				// Analytics/Factures masqués temporairement côté client
+				// Analytics/Factures/Projets masqués temporairement côté client
 				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
-				{
-					name: "Projets",
-					href: "/dashboard/projects",
-					icon: FileText,
-				},
 			];
 		}
 	}, [userRole, isClientMode]);
@@ -476,16 +466,7 @@ export default function BackofficeLayoutDark({
 													<Settings className="w-4 h-4" />
 													Paramètres
 												</Link>
-												<Link
-													href="/dashboard/help"
-													className="flex items-center gap-2 p-2 text-[#a0a0a0] hover:text-white hover:bg-[#222] rounded transition-colors"
-													onClick={() =>
-														setUserMenuOpen(false)
-													}
-												>
-													<HelpCircle className="w-4 h-4" />
-													Aide
-												</Link>
+												{/* Aide retiré côté client */}
 											</>
 										)}
 										<hr className="border-[#333] my-2" />
