@@ -170,7 +170,7 @@ export default function BackofficeLayoutDark({
 					inProgressTotal = d?.pagination?.total || 0;
 				}
 
-			if (isMounted) setTicketsBadge(openTotal + inProgressTotal);
+				if (isMounted) setTicketsBadge(openTotal + inProgressTotal);
 			} catch (e) {
 				// silencieux
 			}

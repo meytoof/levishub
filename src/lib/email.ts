@@ -60,7 +60,7 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
 	); // heures
 
-		const html = `
+	const html = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -281,17 +281,17 @@ export async function sendTicketMessageNotification(
         </html>
     `;
 
-    try {
-        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-        const from = process.env.RESEND_FROM || defaultFrom;
-        const result = await resend.emails.send({
-            from,
-            to: [to],
-            subject: `Nouveau message - ${ticketTitle}`,
-            html,
-            bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-        });
+	try {
+		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+		const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+		const from = process.env.RESEND_FROM || defaultFrom;
+		const result = await resend.emails.send({
+			from,
+			to: [to],
+			subject: `Nouveau message - ${ticketTitle}`,
+			html,
+			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+		});
 
 		console.log("Notification message envoyée:", result);
 		return { success: true, data: result };
@@ -364,17 +364,17 @@ export async function sendTicketUpdateNotification(
         </html>
     `;
 
-    try {
-        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-        const from = process.env.RESEND_FROM || defaultFrom;
-        const result = await resend.emails.send({
-            from,
-            to: [clientEmail],
-            subject: `Mise à jour du ticket - ${title}`,
-            html,
-            bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-        });
+	try {
+		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+		const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+		const from = process.env.RESEND_FROM || defaultFrom;
+		const result = await resend.emails.send({
+			from,
+			to: [clientEmail],
+			subject: `Mise à jour du ticket - ${title}`,
+			html,
+			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+		});
 		console.log("Notification mise à jour envoyée:", result);
 		return { success: true, data: result };
 	} catch (error) {
