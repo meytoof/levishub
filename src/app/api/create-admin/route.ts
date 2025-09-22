@@ -1,12 +1,10 @@
-import { PrismaClient } from "@/generated/prisma";
-import bcrypt from "bcrypt";
+import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
 	try {
-		const hashedPassword = await bcrypt.hash("admin123", 10);
+        const hashedPassword = await hash("admin123", 12);
 
 		const admin = await prisma.user.upsert({
 			where: { email: "admin@levisweb.com" },
@@ -26,13 +24,11 @@ export async function POST(request: NextRequest) {
 			email: admin.email,
 			password: "admin123",
 		});
-	} catch (error) {
+    } catch (error) {
 		console.error("Erreur lors de la création:", error);
 		return NextResponse.json(
 			{ success: false, error: "Erreur lors de la création" },
 			{ status: 500 }
 		);
-	} finally {
-		await prisma.$disconnect();
-	}
+    }
 }
