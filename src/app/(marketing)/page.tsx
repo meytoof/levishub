@@ -16,6 +16,73 @@ export default function Home() {
 						name: "LevisWeb",
 						url: "https://levisweb.net",
 						logo: "/favicon.ico",
+						contactPoint: {
+							"@type": "ContactPoint",
+							contactType: "customer service",
+							email: "quentinlevis@gmail.com",
+							availableLanguage: "French"
+						},
+						sameAs: [
+							"https://www.instagram.com/levisweb",
+							"https://twitter.com/levisweb"
+						]
+					})}
+				</Script>
+				<Script id="ld-json-localbusiness" type="application/ld+json">
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "LocalBusiness",
+						name: "LevisWeb",
+						image: "https://levisweb.net/favicon.ico",
+						url: "https://levisweb.net",
+						telephone: "+33XXXXXXXXX", // À remplacer par ton vrai numéro
+						email: "quentinlevis@gmail.com",
+						address: {
+							"@type": "PostalAddress",
+							addressCountry: "FR",
+							addressLocality: "France" // À remplacer par ta ville
+						},
+						openingHoursSpecification: [
+							{
+								"@type": "OpeningHoursSpecification",
+								dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+								opens: "09:00",
+								closes: "18:00"
+							}
+						],
+						priceRange: "€€€",
+						description: "Développement web freelance - Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+						serviceArea: {
+							"@type": "Country",
+							name: "France"
+						},
+						hasOfferCatalog: {
+							"@type": "OfferCatalog",
+							name: "Services LevisWeb",
+							itemListElement: [
+								{
+									"@type": "Offer",
+									itemOffered: {
+										"@type": "Service",
+										name: "Développement de sites web"
+									}
+								},
+								{
+									"@type": "Offer",
+									itemOffered: {
+										"@type": "Service",
+										name: "E-commerce"
+									}
+								},
+								{
+									"@type": "Offer",
+									itemOffered: {
+										"@type": "Service",
+										name: "Backoffice sur mesure"
+									}
+								}
+							]
+						}
 					})}
 				</Script>
 				<Script id="ld-json-website" type="application/ld+json">
