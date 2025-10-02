@@ -35,12 +35,14 @@ export default function Home() {
 						name: "LevisWeb",
 						image: "https://levisweb.net/favicon.ico",
 						url: "https://levisweb.net",
-						telephone: "+33XXXXXXXXX", // À remplacer par ton vrai numéro
+						telephone: "+33783422676",
 						email: "quentinlevis@gmail.com",
 						address: {
 							"@type": "PostalAddress",
-							addressCountry: "FR",
-							addressLocality: "France" // À remplacer par ta ville
+							streetAddress: "30 Place Centrale",
+							postalCode: "38380",
+							addressLocality: "Entre-Deux-Guiers",
+							addressCountry: "FR"
 						},
 						openingHoursSpecification: [
 							{
@@ -50,12 +52,9 @@ export default function Home() {
 								closes: "18:00"
 							}
 						],
+						areaServed: [{ "@type": "Country", name: "France" }],
 						priceRange: "€€€",
 						description: "Développement web freelance - Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
-						serviceArea: {
-							"@type": "Country",
-							name: "France"
-						},
 						hasOfferCatalog: {
 							"@type": "OfferCatalog",
 							name: "Services LevisWeb",
