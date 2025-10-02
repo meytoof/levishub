@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Script from "next/script";
 
 const demos = [
 	{
@@ -44,6 +45,44 @@ export default function ProjetsDemo() {
 	return (
 		<TracingBeam className="w-full">
 			<main className="min-h-svh">
+				<Script id="ld-json-projets-demo" type="application/ld+json">
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "ItemList",
+						name: "Projets Démo LevisWeb",
+						description: "Découvrez différents exemples concrets de sites web réalisés par LevisWeb",
+						itemListElement: [
+							{
+								"@type": "ListItem",
+								position: 1,
+								name: "E-commerce",
+								url: "https://levisweb.net/demo/ecommerce",
+								description: "Un e-commerce moderne avec panier d'achat et gestion des produits"
+							},
+							{
+								"@type": "ListItem",
+								position: 2,
+								name: "Portfolio",
+								url: "https://levisweb.net/demo/portfolio",
+								description: "Un portfolio créatif avec des animations néon et un design moderne"
+							},
+							{
+								"@type": "ListItem",
+								position: 3,
+								name: "Site Vitrine",
+								url: "https://levisweb.net/demo/vitrine",
+								description: "Un site vitrine professionnel et sobre pour PME et artisans"
+							},
+							{
+								"@type": "ListItem",
+								position: 4,
+								name: "Blog Magazine",
+								url: "https://levisweb.net/demo/blog",
+								description: "Un blog éditorial avec une inspiration magazine et un design chaleureux"
+							}
+						]
+					})}
+				</Script>
 				{/* Hero Section */}
 				<section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 text-center">
 					<motion.div

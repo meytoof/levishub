@@ -3,6 +3,19 @@ import { Button } from "@/components/ui/button";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import Link from "next/link";
 import Script from "next/script";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Services - Développement Web Freelance | LevisWeb",
+	description: "Services de développement web : sites vitrine, e-commerce, backoffice sur mesure. Solutions modernes et optimisées SEO pour votre entreprise.",
+	keywords: "développement web, site vitrine, e-commerce, backoffice, freelance, LevisWeb",
+	openGraph: {
+		title: "Services - Développement Web Freelance | LevisWeb",
+		description: "Services de développement web : sites vitrine, e-commerce, backoffice sur mesure. Solutions modernes et optimisées SEO.",
+		url: "https://levisweb.net/services",
+		type: "website",
+	},
+};
 
 export default function Services() {
 	return (

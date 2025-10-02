@@ -29,6 +29,41 @@ export default function Home() {
 							target: "https://levisweb.net/search?q={search_term_string}",
 							query: "required name=search_term_string",
 						},
+						// Sitelinks pour enrichir la position 0
+						mainEntity: {
+							"@type": "ItemList",
+							name: "Navigation principale",
+							itemListElement: [
+								{
+									"@type": "ListItem",
+									position: 1,
+									name: "Services",
+									url: "https://levisweb.net/services",
+									description: "Développement web, e-commerce et backoffice sur mesure"
+								},
+								{
+									"@type": "ListItem",
+									position: 2,
+									name: "Projets Démo",
+									url: "https://levisweb.net/projets-demo",
+									description: "Découvrez nos réalisations et exemples concrets"
+								},
+								{
+									"@type": "ListItem",
+									position: 3,
+									name: "Tarifs",
+									url: "https://levisweb.net/pricing",
+									description: "Tarifs transparents pour sites web et services"
+								},
+								{
+									"@type": "ListItem",
+									position: 4,
+									name: "Contact",
+									url: "https://levisweb.net/contact",
+									description: "Contactez-nous pour votre projet web"
+								}
+							]
+						}
 					})}
 				</Script>
 				{/* Hero Section - Plein écran */}

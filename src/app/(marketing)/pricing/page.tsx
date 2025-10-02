@@ -4,6 +4,19 @@ import { PricingQuiz } from "@/components/ui/pricing-quiz";
 import { PulseCTA } from "@/components/ui/PulseCTA";
 import { Check, Lock, Shield, Zap } from "lucide-react";
 import Script from "next/script";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Tarifs - Développement Web Freelance | LevisWeb",
+	description: "Tarifs transparents pour sites web, e-commerce et backoffice sur mesure. Solutions web professionnelles à des prix compétitifs.",
+	keywords: "tarifs développement web, prix site web, freelance web, LevisWeb",
+	openGraph: {
+		title: "Tarifs - Développement Web Freelance | LevisWeb",
+		description: "Tarifs transparents pour sites web, e-commerce et backoffice sur mesure. Solutions web professionnelles à des prix compétitifs.",
+		url: "https://levisweb.net/pricing",
+		type: "website",
+	},
+};
 
 export default function PricingPage() {
 	// Frais de création (paiement unique)

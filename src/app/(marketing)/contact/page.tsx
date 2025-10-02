@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { StatefulButton } from "@/components/ui/stateful-button";
 import { useState } from "react";
 import { toast } from "sonner";
+import Script from "next/script";
 
 export default function ContactPage() {
 	const [ok, setOk] = useState<string | null>(null);
@@ -50,6 +51,26 @@ export default function ContactPage() {
 
 	return (
 		<main className="container py-16">
+			<Script id="ld-json-contact" type="application/ld+json">
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "ContactPage",
+					name: "Contact - LevisWeb",
+					description: "Contactez LevisWeb pour votre projet de développement web",
+					url: "https://levisweb.net/contact",
+					mainEntity: {
+						"@type": "Organization",
+						name: "LevisWeb",
+						url: "https://levisweb.net",
+						contactPoint: {
+							"@type": "ContactPoint",
+							contactType: "customer service",
+							email: "quentinlevis@gmail.com",
+							availableLanguage: "French"
+						}
+					}
+				})}
+			</Script>
 			<h1 className="text-3xl font-semibold text-foreground">Contact</h1>
 			<p className="mt-2 text-muted-foreground">
 				Dites-nous en plus sur votre projet, nous revenons vers vous
