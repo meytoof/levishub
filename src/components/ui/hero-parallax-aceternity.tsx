@@ -18,6 +18,7 @@ import {
 	useTransform,
 } from "motion/react";
 import React, { useEffect, useRef } from "react";
+import SmokeEffect from "./smoke-effect";
 
 // Enregistrer le plugin SplitText
 if (typeof window !== "undefined") {
@@ -97,10 +98,10 @@ export const HeroParallax = ({
 	];
 
 	return (
-		<div className="bg-black">
+		<div className="bg-black relative">
 			<Navbar>
 				<NavBody
-					className="shadow-none levisweb-nav"
+					className="shadow-none levisweb-nav z-20"
 					shrinkOnScroll={false}
 				>
 					<NavbarLogo />
@@ -116,8 +117,10 @@ export const HeroParallax = ({
 
 			<div
 				ref={ref}
-				className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-black"
+				className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
 			>
+				{/* Effet de fumée qui couvre toute la section hero */}
+				<SmokeEffect />
 				<Header />
 				<motion.div
 					style={{

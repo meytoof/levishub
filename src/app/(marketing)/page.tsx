@@ -20,12 +20,12 @@ export default function Home() {
 							"@type": "ContactPoint",
 							contactType: "customer service",
 							email: "quentinlevis@gmail.com",
-							availableLanguage: "French"
+							availableLanguage: "French",
 						},
 						sameAs: [
 							"https://www.instagram.com/levisweb",
-							"https://twitter.com/levisweb"
-						]
+							"https://twitter.com/levisweb",
+						],
 					})}
 				</Script>
 				<Script id="ld-json-localbusiness" type="application/ld+json">
@@ -42,19 +42,26 @@ export default function Home() {
 							streetAddress: "30 Place Centrale",
 							postalCode: "38380",
 							addressLocality: "Entre-Deux-Guiers",
-							addressCountry: "FR"
+							addressCountry: "FR",
 						},
 						openingHoursSpecification: [
 							{
 								"@type": "OpeningHoursSpecification",
-								dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+								dayOfWeek: [
+									"Monday",
+									"Tuesday",
+									"Wednesday",
+									"Thursday",
+									"Friday",
+								],
 								opens: "09:00",
-								closes: "18:00"
-							}
+								closes: "18:00",
+							},
 						],
 						areaServed: [{ "@type": "Country", name: "France" }],
 						priceRange: "€€€",
-						description: "Développement web freelance - Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+						description:
+							"Développement web freelance - Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
 						hasOfferCatalog: {
 							"@type": "OfferCatalog",
 							name: "Services LevisWeb",
@@ -63,25 +70,25 @@ export default function Home() {
 									"@type": "Offer",
 									itemOffered: {
 										"@type": "Service",
-										name: "Développement de sites web"
-									}
+										name: "Développement de sites web",
+									},
 								},
 								{
 									"@type": "Offer",
 									itemOffered: {
 										"@type": "Service",
-										name: "E-commerce"
-									}
+										name: "E-commerce",
+									},
 								},
 								{
 									"@type": "Offer",
 									itemOffered: {
 										"@type": "Service",
-										name: "Backoffice sur mesure"
-									}
-								}
-							]
-						}
+										name: "Backoffice sur mesure",
+									},
+								},
+							],
+						},
 					})}
 				</Script>
 				<Script id="ld-json-website" type="application/ld+json">
@@ -105,31 +112,35 @@ export default function Home() {
 									position: 1,
 									name: "Services",
 									url: "https://levisweb.net/services",
-									description: "Développement web, e-commerce et backoffice sur mesure"
+									description:
+										"Développement web, e-commerce et backoffice sur mesure",
 								},
 								{
 									"@type": "ListItem",
 									position: 2,
 									name: "Projets Démo",
 									url: "https://levisweb.net/projets-demo",
-									description: "Découvrez nos réalisations et exemples concrets"
+									description:
+										"Découvrez nos réalisations et exemples concrets",
 								},
 								{
 									"@type": "ListItem",
 									position: 3,
 									name: "Tarifs",
 									url: "https://levisweb.net/pricing",
-									description: "Tarifs transparents pour sites web et services"
+									description:
+										"Tarifs transparents pour sites web et services",
 								},
 								{
 									"@type": "ListItem",
 									position: 4,
 									name: "Contact",
 									url: "https://levisweb.net/contact",
-									description: "Contactez-nous pour votre projet web"
-								}
-							]
-						}
+									description:
+										"Contactez-nous pour votre projet web",
+								},
+							],
+						},
 					})}
 				</Script>
 				{/* Hero Section - Plein écran */}

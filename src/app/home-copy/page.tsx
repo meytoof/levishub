@@ -1,4 +1,5 @@
 "use client";
+import { AboutSection } from "@/components/sections/about-section";
 import { HeroParallax } from "@/components/ui/hero-parallax-aceternity";
 import React from "react";
 
@@ -99,6 +100,9 @@ export default function HomeCopy() {
 		<main className="min-h-screen bg-black">
 			{/* Composant HeroParallax d'Aceternity avec notre contenu LevisWeb */}
 			<HeroParallax products={products} />
+
+			{/* Section À propos - Nouvelle direction artistique */}
+			<AboutSection />
 
 			<section style={section2}>
 				<h2 style={h2Style}>Contenu de démonstration</h2>
