@@ -302,9 +302,81 @@ export const Header = () => {
 					<div className="flex flex-col sm:flex-row gap-4">
 						<a
 							href="/contact"
-							className="bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-600 hover:to-violet-600 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105 text-center"
+							className="relative block overflow-hidden rounded-full p-px group"
+							style={{
+								borderRadius: "3.40282e+38px",
+							}}
 						>
-							Demander un devis
+							{/* Bouton principal */}
+							<div className="relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold no-underline cursor-pointer outline-offset-4 transition-all duration-500 transform group-hover:scale-105  hover:from-cyan-500 hover:to-violet-500 text-white shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl">
+								Commencer mon projet
+							</div>
+
+							{/* Effet de bordure animée avec point lumineux */}
+							<div className="absolute inset-0 -z-10 rounded-full">
+								{/* SVG pour le contour parfaitement rond */}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									preserveAspectRatio="none"
+									className="absolute h-full w-full"
+									width="100%"
+									height="100%"
+								>
+									<rect
+										fill="none"
+										width="100%"
+										height="100%"
+										rx="50%"
+										ry="50%"
+									></rect>
+								</svg>
+
+								{/* Point lumineux qui orbite */}
+								<div
+									ref={(el) => {
+										if (el) {
+											const tl = gsap.timeline({
+												repeat: -1,
+											});
+											// Côté haut (plus long)
+											tl.to(el, {
+												top: "8px",
+												left: "calc(100% - 8px)",
+												duration: 1.4,
+												ease: "none",
+											})
+												// Coin haut-droite (court)
+												.to(el, {
+													top: "calc(100% - 8px)",
+													left: "calc(100% - 8px)",
+													duration: 0.6,
+													ease: "none",
+												})
+												// Côté droite (plus long)
+												.to(el, {
+													top: "calc(100% - 8px)",
+													left: "8px",
+													duration: 1.4,
+													ease: "none",
+												})
+												// Coin bas-gauche (court)
+												.to(el, {
+													top: "8px",
+													left: "8px",
+													duration: 0.6,
+													ease: "none",
+												});
+										}
+									}}
+									className="absolute w-12 h-12 bg-cyan-400 rounded-full"
+									style={{
+										top: "8px",
+										left: "8px",
+										transform: "translate(-50%, -50%)",
+										filter: "blur(2px) drop-shadow(0 0 16px rgba(34, 211, 238, 0.9))",
+									}}
+								></div>
+							</div>
 						</a>
 						<a
 							href="/services"

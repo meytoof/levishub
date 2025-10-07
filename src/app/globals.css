@@ -300,6 +300,51 @@ a[aria-disabled="true"] {
 	}
 }
 
+@keyframes spin-slow {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes simple-orbit {
+	0% {
+		top: 8px;
+		left: 8px;
+		transform: translate(-50%, -50%);
+	}
+	25% {
+		top: 8px;
+		left: calc(100% - 8px);
+		transform: translate(-50%, -50%);
+	}
+	50% {
+		top: calc(100% - 8px);
+		left: calc(100% - 8px);
+		transform: translate(-50%, -50%);
+	}
+	75% {
+		top: calc(100% - 8px);
+		left: 8px;
+		transform: translate(-50%, -50%);
+	}
+	100% {
+		top: 8px;
+		left: 8px;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.animate-spin-slow {
+	animation: spin-slow 3s linear infinite;
+}
+
+.bg-gradient-radial {
+	background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
 /* ===== SYSTÈME DE THÈMES UNIFIÉ ===== */
 
 /* Thème Light - Cyan */
