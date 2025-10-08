@@ -1,0 +1,275 @@
+/* Import de la police Spline Sans Mono */
+@import url("https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@300;400;500;600;700&display=swap");
+
+/* Services Section - Layout complet comme Olha Lazarieva */
+
+.services {
+	background: #f4f4f4;
+	color: #000;
+	width: 100%;
+	position: relative;
+	overflow: visible; /* Permet au contenu de déborder */
+}
+
+.container {
+	max-width: 1600px;
+	margin: 0 auto;
+	padding: 0 2rem;
+}
+
+/* Titre principal */
+.services__title {
+	position: relative;
+	z-index: 3;
+	padding: 8vh 0 4vh 0; /* Padding normal maintenant */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	min-height: 50vh;
+}
+
+.animation-title {
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-weight: 900;
+	font-size: clamp(8rem, 15vw, 18rem);
+	line-height: 0.8;
+	margin: 0;
+	text-transform: lowercase;
+	letter-spacing: -0.02em;
+	overflow: hidden;
+}
+
+.animation-title .letter {
+	display: inline-block;
+	transform: translate3d(0px, -120%, 0px);
+}
+
+.services__title-span {
+	margin-top: 2rem;
+}
+
+.services__title-span span {
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	color: #666;
+	letter-spacing: 0.05em;
+}
+
+/* Wrapper des services */
+.services__wrapper {
+	display: flex;
+	width: 100%;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	position: relative;
+	z-index: 1;
+}
+
+/* Services blocks */
+.services-block {
+	display: flex;
+	flex-direction: column;
+	width: 20%; /* Largeur normale comme sur le site d'exemple */
+	height: 700px; /* Hauteur fixe de 700px */
+	border-right: 2px solid #000;
+	padding: 3rem 2rem 2rem 2rem;
+	transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transition smooth comme sur le site d'exemple */
+	will-change: width; /* Optimise le rendu */
+	overflow: visible; /* Permet au texte de déborder */
+	position: relative;
+	cursor: pointer;
+	background: #f4f4f4;
+	justify-content: flex-start;
+}
+
+.services-block:last-child {
+	border-right: none;
+}
+
+.services-block__number {
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #000;
+	margin: 0 0 1.5rem 0;
+	letter-spacing: 0.05em;
+	transform-origin: top left;
+	text-transform: uppercase;
+	/* Transition désactivée - gérée par GSAP */
+	will-change: transform;
+}
+
+.services-block__title {
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: clamp(1.8rem, 3vw, 2.5rem);
+	font-weight: 700; /* Réduit de 900 à 700 pour moins d'épaisseur */
+	color: #000;
+	margin: 0;
+	text-transform: uppercase;
+	letter-spacing: -0.05em; /* Espacement très serré comme sur l'image */
+	line-height: 1.1;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile pour l'effet 3D */
+}
+
+.services-block__second-title {
+	display: none !important; /* Caché par défaut - test de performance */
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #000;
+	margin: 0 0 2rem 0;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	text-align: right;
+}
+
+.services-block__second-title span span:first-child {
+	color: #000;
+	font-weight: 700;
+}
+
+.services-block__second-middle {
+	display: none !important; /* Caché par défaut - test de performance */
+	gap: 2rem;
+	margin-bottom: 2rem;
+}
+
+/* Hover states - DÉSACTIVÉS pour test de performance */
+.services-block:hover .services-block__second-title {
+	display: none !important;
+}
+
+.services-block:hover .services-block__second-middle {
+	display: none !important;
+}
+
+.services-block:hover .services-block__text {
+	display: none !important;
+}
+
+.services-block__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	flex: 1;
+}
+
+.services-block__list li {
+	margin-bottom: 1rem;
+}
+
+.services-block__list span {
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 1rem;
+	font-weight: 700;
+	color: #000;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+}
+
+.services-block__img {
+	width: 300px;
+	height: 200px;
+	overflow: hidden;
+	border-radius: 4px;
+	position: relative;
+	border: 1px solid #ddd;
+}
+
+.services-block__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transform: scale(1.05);
+	/* Transition désactivée - gérée par GSAP */
+	will-change: transform;
+}
+
+.services-block:hover .services-block__img img {
+	transform: scale(1);
+}
+
+.services-block__img-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	z-index: 2;
+}
+
+.services-block__img-text-1 {
+	display: block;
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: #000;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	margin-bottom: 0.5rem;
+}
+
+.services-block__img-text-2 {
+	display: block;
+	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: #0066cc;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.services-block__text {
+	display: none !important; /* Caché par défaut - test de performance */
+	font-family: "Spline Sans Mono", monospace;
+	font-size: 20px; /* Taille fixe de 20px */
+	font-weight: 300;
+	letter-spacing: -0.1rem;
+	line-height: 1.3;
+	margin-top: 2rem;
+	opacity: 0;
+	text-transform: uppercase;
+	transition: opacity 0.1s ease;
+	color: #000;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+	.services__wrapper {
+		flex-direction: column;
+	}
+
+	.services-block {
+		border-right: none;
+		border-bottom: 1px solid #000;
+		flex: none; /* Pas de flex sur mobile */
+		width: 100%;
+	}
+
+	.services-block:last-child {
+		border-bottom: none;
+	}
+
+	.services-block__second-middle,
+	.services-block__text {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: 0 1rem;
+	}
+
+	.animation-title {
+		font-size: clamp(4rem, 12vw, 8rem);
+	}
+
+	.services-block {
+		padding: 1.5rem 1rem;
+	}
+}

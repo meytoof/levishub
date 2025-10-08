@@ -183,7 +183,7 @@ export const Header = () => {
 
 			textNodes.forEach((textNode) => {
 				const words = textNode.textContent?.split(" ") || [];
-				words.forEach((word, wordIndex) => {
+				words.forEach((word) => {
 					if (word.trim()) {
 						const span = document.createElement("span");
 						span.textContent = word + " ";
