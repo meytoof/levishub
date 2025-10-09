@@ -150,9 +150,6 @@ export const ServicesSection: React.FC = () => {
 
 			blocks.forEach((block, index) => {
 				const number = block.querySelector(".services-block__number");
-				const img = block.querySelector(
-					".services-block__img img"
-				) as HTMLElement | null;
 
 				// Position initiale comme sur le site d'exemple
 				gsap.set(block, {
@@ -160,46 +157,106 @@ export const ServicesSection: React.FC = () => {
 					clearProps: "all", // Nettoie les anciennes props GSAP
 				});
 
-				if (img) {
-					gsap.set(img, {
+				// Récupérer tous les éléments pour l'initialisation
+				const title = block.querySelector(
+					".services-block__title"
+				) as HTMLElement;
+				const secondTitle = block.querySelector(
+					".services-block__second-title"
+				) as HTMLElement;
+				const secondMiddle = block.querySelector(
+					".services-block__second-middle"
+				) as HTMLElement;
+				const listItems = block.querySelectorAll(
+					".services-block__list li"
+				) as NodeListOf<HTMLElement>;
+				const blockImg = block.querySelector(
+					".services-block__img img"
+				) as HTMLElement;
+				const blockText = block.querySelector(
+					".services-block__text"
+				) as HTMLElement;
+
+				// Initialiser tous les éléments à leur état par défaut
+				if (title) gsap.set(title, { opacity: 1, y: 0 }); // Position normale
+				if (number)
+					gsap.set(number, { scale: 1, transformOrigin: "top left" });
+				if (secondTitle) gsap.set(secondTitle, { opacity: 0, y: -20 });
+				if (secondMiddle)
+					gsap.set(secondMiddle, { opacity: 0.1, y: 30 }); // Légèrement visible
+				if (listItems.length > 0)
+					gsap.set(listItems, { opacity: 0.1, y: 20 }); // Légèrement visible
+				if (blockImg)
+					gsap.set(blockImg, {
+						opacity: 0.1, // Légèrement visible
+						y: 30,
 						scale: 1.05,
 						transformOrigin: "center center",
 					});
-				}
-
-				if (number) {
-					gsap.set(number, {
-						scale: 1,
-						transformOrigin: "top left",
-					});
-				}
+				if (blockText) gsap.set(blockText, { opacity: 0 });
 
 				// Variables pour tracker l'état de la section
 				let isHovered = false;
-				let expandTimeout: NodeJS.Timeout | null = null;
+				const expandTimeout: NodeJS.Timeout | null = null;
 				let contentTimeline: gsap.core.Timeline | null = null;
 
-				// Fonction pour réinitialiser toutes les autres sections
+				// Compresser toutes les autres sections lorsque l'une est active
 				const resetOtherSections = (currentIndex: number) => {
 					blocks.forEach((otherBlock, otherIndex) => {
 						if (otherIndex !== currentIndex) {
-							// Réinitialiser immédiatement la largeur
-							otherBlock.style.width = "20%";
+							// Compresser les autres cartes
+							otherBlock.style.width = "15%";
 
-							// Réinitialiser les animations du contenu
+							// Réinitialiser tous les éléments à leur état initial
 							const otherNumber = otherBlock.querySelector(
 								".services-block__number"
-							);
+							) as HTMLElement;
+							const otherTitle = otherBlock.querySelector(
+								".services-block__title"
+							) as HTMLElement;
+							const otherSecondTitle = otherBlock.querySelector(
+								".services-block__second-title"
+							) as HTMLElement;
+							const otherSecondMiddle = otherBlock.querySelector(
+								".services-block__second-middle"
+							) as HTMLElement;
+							const otherListItems = otherBlock.querySelectorAll(
+								".services-block__list li"
+							) as NodeListOf<HTMLElement>;
 							const otherImg = otherBlock.querySelector(
 								".services-block__img img"
-							) as HTMLElement | null;
+							) as HTMLElement;
+							const otherText = otherBlock.querySelector(
+								".services-block__text"
+							) as HTMLElement;
 
-							if (otherNumber) {
+							// Réinitialiser avec gsap.set pour éviter les transitions
+							if (otherNumber)
 								gsap.set(otherNumber, { scale: 1 });
-							}
-							if (otherImg) {
-								gsap.set(otherImg, { scale: 1.05 });
-							}
+							if (otherTitle)
+								gsap.set(otherTitle, { opacity: 1, y: 0 });
+							if (otherSecondTitle)
+								gsap.set(otherSecondTitle, {
+									opacity: 0,
+									y: -20,
+								});
+							if (otherSecondMiddle)
+								gsap.set(otherSecondMiddle, {
+									opacity: 0.1,
+									y: 30,
+								});
+							if (otherListItems.length > 0)
+								gsap.set(otherListItems, {
+									opacity: 0.1,
+									y: 20,
+								});
+							if (otherImg)
+								gsap.set(otherImg, {
+									opacity: 0.1,
+									y: 30,
+									scale: 1.05,
+								});
+							if (otherText) gsap.set(otherText, { opacity: 0 });
 						}
 					});
 				};
@@ -209,18 +266,19 @@ export const ServicesSection: React.FC = () => {
 					mouseX: number,
 					blockRect: DOMRect
 				) => {
-					const blockCenterX = blockRect.left + blockRect.width / 2;
-					const mouseFromCenter = mouseX - blockCenterX;
-
-					// Cartes extrêmes (première et dernière)
+					// Cartes extrêmes (première et dernière) - FORCÉES
 					if (index === 0) {
 						// Première carte (Web Design) - toujours vers la droite
 						return "right";
 					} else if (index === blocks.length - 1) {
-						// Dernière carte (Development) - toujours vers la gauche
+						// Dernière carte (Development) - TOUJOURS vers la gauche
 						return "left";
 					} else {
 						// Cartes du milieu - direction basée sur la position de la souris
+						const blockCenterX =
+							blockRect.left + blockRect.width / 2;
+						const mouseFromCenter = mouseX - blockCenterX;
+
 						if (mouseFromCenter < -30) {
 							return "right"; // Souris à gauche -> expansion vers la droite
 						} else if (mouseFromCenter > 30) {
@@ -236,7 +294,6 @@ export const ServicesSection: React.FC = () => {
 					const mouseX = e.clientX;
 					const blockRect = block.getBoundingClientRect();
 					const direction = getExpansionDirection(mouseX, blockRect);
-
 					// Marquer comme survolé
 					isHovered = true;
 
@@ -244,44 +301,174 @@ export const ServicesSection: React.FC = () => {
 					resetOtherSections(index);
 
 					// Annuler les timeouts/anims précédents
-					if (expandTimeout) clearTimeout(expandTimeout);
+					// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
 					if (contentTimeline) contentTimeline.kill();
 
-					// Phase 1: Animation d'expansion avec CSS transition (plus smooth)
-					block.style.width = "48%"; // Équivalent à 730rem en pourcentage
+					// Récupérer les éléments pour les animations
+					const title = block.querySelector(
+						".services-block__title"
+					) as HTMLElement;
+					const secondTitle = block.querySelector(
+						".services-block__second-title"
+					) as HTMLElement;
+					const secondTitleText = block.querySelector(
+						".services-block__second-title span span:last-child"
+					) as HTMLElement;
+					const secondTitlePrefix = block.querySelector(
+						".services-block__second-title span span:first-child"
+					) as HTMLElement;
+					const secondMiddle = block.querySelector(
+						".services-block__second-middle"
+					) as HTMLElement;
+					const listItems = block.querySelectorAll(
+						".services-block__list li"
+					) as NodeListOf<HTMLElement>;
+					const blockImg = block.querySelector(
+						".services-block__img img"
+					) as HTMLElement;
+					const blockText = block.querySelector(
+						".services-block__text"
+					) as HTMLElement;
 
-					// Phase 2: Animation du contenu APRÈS l'expansion (délai de 0.8s)
-					expandTimeout = setTimeout(() => {
-						// Vérifier que la souris est toujours dans la section
-						if (!isHovered) return;
+					// Phase 1: Définir les largeurs (active à 40%, autres à 15%)
+					block.style.width = "40%";
 
-						// Timeline pour les animations du contenu une fois l'expansion terminée
-						contentTimeline = gsap.timeline({
-							defaults: {
-								ease: "power2.out",
-								overwrite: "auto",
-								immediateRender: false,
-								force3D: true,
+					// Timeline principale pour toutes les animations
+					contentTimeline = gsap.timeline({
+						defaults: {
+							ease: "power2.out",
+							overwrite: "auto",
+							immediateRender: false,
+							force3D: true,
+						},
+					});
+
+					// 1. Disparition rapide du titre principal vers le haut (0.1s)
+					if (title) {
+						contentTimeline.to(
+							title,
+							{
+								opacity: 0,
+								y: -50, // Vers le haut
+								duration: 0.1,
+								ease: "power2.in",
 							},
-						});
+							0
+						);
+					}
 
-						// Animations du contenu après expansion
-						if (number) {
-							contentTimeline.to(
-								number,
-								{ scale: 1.1, duration: 0.4 },
-								0
+					// 2. Grossissement du numéro (commence immédiatement)
+					if (number) {
+						contentTimeline.to(
+							number,
+							{
+								scale: 1.15, // Testé pour un effet visible mais pas trop
+								duration: 0.6,
+								ease: "power2.out",
+							},
+							0.1
+						);
+					}
+
+					// 3. Apparition du second titre à 80% de l'expansion (0.64s)
+					if (secondTitle) {
+						contentTimeline.to(
+							secondTitle,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.4,
+								ease: "power2.out",
+							},
+							0.64
+						);
+
+						// Délai léger entre le texte et les // - CORRECTION
+						if (secondTitleText) {
+							contentTimeline.fromTo(
+								secondTitleText,
+								{ opacity: 0, y: -10 },
+								{
+									opacity: 1,
+									y: 0,
+									duration: 0.2,
+									ease: "power2.out",
+								},
+								0.64
 							);
 						}
 
-						if (img) {
-							contentTimeline.to(
-								img,
-								{ scale: 1, duration: 0.5 },
-								0.1
+						if (secondTitlePrefix) {
+							contentTimeline.fromTo(
+								secondTitlePrefix,
+								{ opacity: 0, y: -10 },
+								{
+									opacity: 1,
+									y: 0,
+									duration: 0.2,
+									ease: "power2.out",
+								},
+								0.7 // 0.06s après le texte pour un délai plus visible
 							);
 						}
-					}, 800); // Attendre la fin de l'expansion CSS (0.8s)
+					}
+
+					// 4. Animation du contenu (liste + image) en même temps
+					if (secondMiddle) {
+						contentTimeline.to(
+							secondMiddle,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.5,
+								ease: "power2.out",
+							},
+							0.8
+						);
+					}
+
+					// Animation des items de liste de haut en bas
+					if (listItems.length > 0) {
+						contentTimeline.to(
+							listItems,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.4,
+								stagger: 0.05, // Délai entre chaque item
+								ease: "power2.out",
+							},
+							0.8
+						);
+					}
+
+					// Animation de l'image de haut en bas avec ralenti
+					if (blockImg) {
+						contentTimeline.to(
+							blockImg,
+							{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								duration: 0.6,
+								ease: "power3.out", // Ralenti sur la fin
+							},
+							0.8
+						);
+					}
+
+					// 5. Animation du texte descriptif à 50% du timing du contenu (1.05s)
+					if (blockText) {
+						contentTimeline.to(
+							blockText,
+							{
+								opacity: 1,
+								duration: 0.3,
+								ease: "power2.out",
+							},
+							1.05
+						); // 0.8 + (0.5 * 0.5) = 1.05s
+					}
 				});
 
 				// Hover leave - retour à l'état normal IMMÉDIAT
@@ -290,30 +477,48 @@ export const ServicesSection: React.FC = () => {
 					isHovered = false;
 
 					// Annuler les timeouts/anims en cours
-					if (expandTimeout) clearTimeout(expandTimeout);
+					// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
 					if (contentTimeline) contentTimeline.kill();
 
-					// IMMÉDIAT: Rétrécir le bloc sans délai
-					block.style.width = "20%"; // Retour à la largeur normale IMMÉDIATEMENT
+					// Récupérer tous les éléments pour la réinitialisation
+					const title = block.querySelector(
+						".services-block__title"
+					) as HTMLElement;
+					const secondTitle = block.querySelector(
+						".services-block__second-title"
+					) as HTMLElement;
+					const secondMiddle = block.querySelector(
+						".services-block__second-middle"
+					) as HTMLElement;
+					const listItems = block.querySelectorAll(
+						".services-block__list li"
+					) as NodeListOf<HTMLElement>;
+					const blockImg = block.querySelector(
+						".services-block__img img"
+					) as HTMLElement;
+					const blockText = block.querySelector(
+						".services-block__text"
+					) as HTMLElement;
 
-					// Réinitialiser le contenu en parallèle (GSAP instantané)
-					if (number) {
-						gsap.to(number, {
-							scale: 1,
-							duration: 0.3,
-							ease: "power2.inOut",
-							overwrite: "auto",
-						});
-					}
+					// IMMÉDIAT: Réinitialiser toutes les largeurs à 20%
+					blocks.forEach((blk) => (blk.style.width = "20%"));
 
-					if (img) {
-						gsap.to(img, {
+					// Réinitialiser tous les éléments instantanément avec gsap.set
+					if (number) gsap.set(number, { scale: 1 });
+					if (title) gsap.set(title, { opacity: 1, y: 0 });
+					if (secondTitle)
+						gsap.set(secondTitle, { opacity: 0, y: -20 });
+					if (secondMiddle)
+						gsap.set(secondMiddle, { opacity: 0.1, y: 30 });
+					if (listItems.length > 0)
+						gsap.set(listItems, { opacity: 0.1, y: 20 });
+					if (blockImg)
+						gsap.set(blockImg, {
+							opacity: 0.1,
+							y: 30,
 							scale: 1.05,
-							duration: 0.3,
-							ease: "power2.inOut",
-							overwrite: "auto",
 						});
-					}
+					if (blockText) gsap.set(blockText, { opacity: 0 });
 				});
 			});
 		}, sectionRef);
@@ -350,7 +555,7 @@ export const ServicesSection: React.FC = () => {
 						</h3>
 						<h3 className="services-block__second-title">
 							<span>
-								<span>//</span> {service.title}
+								<span>{"//"}</span> {service.title}
 							</span>
 						</h3>
 						<div className="services-block__second-middle">
