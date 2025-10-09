@@ -102,15 +102,15 @@ export default function SmokeEffect() {
 			};
 		}
 
-		function pointerPrototype() {
-			(this as any).id = -1;
-			(this as any).x = 0;
-			(this as any).y = 0;
-			(this as any).dx = 0;
-			(this as any).dy = 0;
-			(this as any).down = false;
-			(this as any).moved = false;
-			(this as any).color = [30, 0, 300];
+		function pointerPrototype(this: any) {
+			this.id = -1;
+			this.x = 0;
+			this.y = 0;
+			this.dx = 0;
+			this.dy = 0;
+			this.down = false;
+			this.moved = false;
+			this.color = [30, 0, 300];
 		}
 
 		pointers.push(new (pointerPrototype as any)());
