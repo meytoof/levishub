@@ -18,8 +18,35 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "LevisWeb - Développement Web Freelance",
-	description: "Sites modernes, rapides et optimisés SEO, avec backoffice sur mesure",
+	title: "LevisWeb - Développement Web Freelance | Sites Modernes & Optimisés SEO",
+	description:
+		"Développeur web freelance spécialisé dans la création de sites vitrines, e-commerce et backoffices sur mesure. Optimisation SEO, performance et conversion garanties.",
+	keywords:
+		"développeur web freelance, création site internet, e-commerce, backoffice sur mesure, optimisation SEO, performance web, conversion",
+	openGraph: {
+		title: "LevisWeb - Développement Web Freelance",
+		description:
+			"Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+		url: "https://levisweb.net",
+		siteName: "LevisWeb",
+		images: [
+			{
+				url: "/favicon.ico",
+				width: 1200,
+				height: 630,
+				alt: "LevisWeb - Développement Web Freelance",
+			},
+		],
+		locale: "fr_FR",
+		type: "website",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "LevisWeb - Développement Web Freelance",
+		description:
+			"Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+		images: ["/favicon.ico"],
+	},
 };
 
 export default async function MarketingLayout({
@@ -54,7 +81,6 @@ export default async function MarketingLayout({
 						</NavBody>
 						<MobileNavigation />
 					</Navbar>
-					<div className="h-16 lg:h-20" />
 					<main className="flex-1">{children}</main>
 					<Footer />
 				</SessionProvider>

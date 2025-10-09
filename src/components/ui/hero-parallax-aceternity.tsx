@@ -260,11 +260,82 @@ export const Header = () => {
 			});
 		});
 
+		// Animation GSAP pour le bouton "Commencer mon projet"
+		const projectButton = document.querySelector(".project-cta-button");
+		const projectSlideBg = document.querySelector(".project-slide-bg");
+
+		if (projectButton && projectSlideBg) {
+			// Position initiale : complètement à gauche et invisible
+			gsap.set(projectSlideBg, {
+				x: "-100%",
+				skewX: -12,
+				opacity: 0,
+			});
+
+			// Animation au hover
+			projectButton.addEventListener("mouseenter", () => {
+				gsap.to(projectSlideBg, {
+					x: "0%",
+					opacity: 1,
+					scaleX: 1.2,
+					duration: 0.9,
+					ease: "power2.out",
+				});
+			});
+
+			projectButton.addEventListener("mouseleave", () => {
+				gsap.to(projectSlideBg, {
+					x: "-100%",
+					opacity: 0,
+					scaleX: 1,
+					duration: 0.9,
+					ease: "power2.out",
+				});
+			});
+		}
+
+		// Animation GSAP pour le bouton "Voir mes services"
+		const servicesButton = document.querySelector(".services-cta-button");
+		const servicesSlideBg = document.querySelector(".services-slide-bg");
+
+		if (servicesButton && servicesSlideBg) {
+			// Position initiale : complètement à gauche et invisible
+			gsap.set(servicesSlideBg, {
+				x: "-100%",
+				skewX: -12,
+				opacity: 0,
+			});
+
+			// Animation au hover
+			servicesButton.addEventListener("mouseenter", () => {
+				gsap.to(servicesSlideBg, {
+					x: "0%",
+					opacity: 1,
+					scaleX: 1.2,
+					duration: 0.9,
+					ease: "power2.out",
+				});
+			});
+
+			servicesButton.addEventListener("mouseleave", () => {
+				gsap.to(servicesSlideBg, {
+					x: "-100%",
+					opacity: 0,
+					scaleX: 1,
+					duration: 0.9,
+					ease: "power2.out",
+				});
+			});
+		}
+
 		return () => ctx.revert();
 	}, []);
 
 	return (
-		<div className="h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 py-8 relative z-30">
+		<header
+			className="h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 relative z-30"
+			role="banner"
+		>
 			{/* Main Content */}
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 				{/* Left Section - Main Headline (Mobile First) */}
@@ -273,11 +344,25 @@ export const Header = () => {
 						ref={titleRef}
 						className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.9] mb-6 lg:mb-8"
 					>
-						DES SITES{" "}
+						<span
+							style={{
+								textShadow:
+									"3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
+							}}
+						>
+							DES SITES
+						</span>{" "}
 						<span className="bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
 							MODERNES
 						</span>{" "}
-						POUR{" "}
+						<span
+							style={{
+								textShadow:
+									"3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
+							}}
+						>
+							POUR
+						</span>{" "}
 						<span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
 							CONVERTIR
 						</span>
@@ -285,6 +370,10 @@ export const Header = () => {
 					<p
 						ref={subtitleRef}
 						className="text-base sm:text-lg md:text-xl text-gray-300 max-w-lg lg:ml-auto leading-relaxed"
+						style={{
+							textShadow:
+								"2px 2px 0px #000000, -2px -2px 0px #000000, 2px -2px 0px #000000, -2px 2px 0px #000000, 0px 0px 15px rgba(0,0,0,0.6)",
+						}}
 					>
 						LevisWeb — développeur web freelance. Je conçois des
 						sites vitrines, e‑commerce et backoffices sur mesure,
@@ -296,7 +385,13 @@ export const Header = () => {
 				{/* Right Section - Call to Action (Mobile Second) */}
 				<div className="space-y-6 lg:space-y-8 order-2 lg:order-1">
 					{/* Call to Action */}
-					<p className="text-lg sm:text-xl md:text-2xl text-white/90 font-medium max-w-md leading-relaxed">
+					<p
+						className="text-lg sm:text-xl md:text-2xl text-white/90 font-medium max-w-md leading-relaxed"
+						style={{
+							textShadow:
+								"2px 2px 0px #000000, -2px -2px 0px #000000, 2px -2px 0px #000000, -2px 2px 0px #000000, 0px 0px 15px rgba(0,0,0,0.6)",
+						}}
+					>
 						Choisissez votre projet, envoyez votre demande, et votre
 						site web commence demain.
 					</p>
@@ -311,8 +406,18 @@ export const Header = () => {
 							}}
 						>
 							{/* Bouton principal */}
-							<div className="relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold no-underline cursor-pointer outline-offset-4 transition-all duration-500 transform group-hover:scale-105  hover:from-cyan-500 hover:to-violet-500 text-white shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl">
-								Commencer mon projet
+							<div className="relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold no-underline cursor-pointer outline-offset-4 transition-all duration-500 transform group-hover:scale-105 text-white shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl overflow-hidden project-cta-button border-2 border-white/40 hover:border-white/60">
+								<span className="relative z-10">
+									Commencer mon projet
+								</span>
+								<div
+									className="project-slide-bg absolute top-0 left-0 h-full w-[180%] bg-gradient-to-r from-emerald-500 to-purple-600 transform -skew-x-12"
+									style={{
+										transform:
+											"translateX(-100%) skewX(-12deg)",
+										opacity: 0,
+									}}
+								></div>
 							</div>
 
 							{/* Effet de bordure animée avec point lumineux */}
@@ -383,36 +488,24 @@ export const Header = () => {
 						</a>
 						<a
 							href="/services"
-							className="border-2 border-white/40 hover:border-white/60 text-white hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center"
+							className="relative border-2 border-white/40 hover:border-white/60 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden services-cta-button"
 						>
-							Voir mes services
+							<span className="relative z-10">
+								Voir mes services
+							</span>
+							<div
+								className="services-slide-bg absolute top-0 left-0 h-full w-[180%] bg-black transform -skew-x-12"
+								style={{
+									transform:
+										"translateX(-100%) skewX(-12deg)",
+									opacity: 0,
+								}}
+							></div>
 						</a>
 					</div>
 				</div>
 			</div>
-
-			{/* Bottom CTA Links */}
-			<div className="flex justify-between items-center mt-20 pt-8 border-t border-gray-800">
-				<a
-					href="/services"
-					className="text-white/70 hover:text-white transition-colors flex items-center group"
-				>
-					À propos{" "}
-					<span className="ml-2 group-hover:translate-x-1 transition-transform">
-						→
-					</span>
-				</a>
-				<a
-					href="/pricing"
-					className="text-white/70 hover:text-white transition-colors flex items-center group"
-				>
-					Voir les tarifs{" "}
-					<span className="ml-2 group-hover:translate-x-1 transition-transform">
-						→
-					</span>
-				</a>
-			</div>
-		</div>
+		</header>
 	);
 };
 
@@ -444,7 +537,8 @@ export const ProductCard = ({
 					height="600"
 					width="600"
 					className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
-					alt={product.title}
+					alt={`Projet ${product.title} - Réalisation LevisWeb`}
+					loading="lazy"
 				/>
 			</div>
 			<div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
