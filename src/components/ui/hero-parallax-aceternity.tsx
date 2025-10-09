@@ -18,7 +18,7 @@ import {
 	useTransform,
 } from "motion/react";
 import React, { useEffect, useRef } from "react";
-import SmokeEffect from "./smoke-effect";
+// import SmokeEffect from "./smoke-effect";
 
 // Enregistrer le plugin SplitText
 if (typeof window !== "undefined") {
@@ -120,7 +120,7 @@ export const HeroParallax = ({
 				className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
 			>
 				{/* Effet de fumée qui couvre toute la section hero */}
-				<SmokeEffect />
+				{/* <SmokeEffect /> */}
 				<Header />
 				<motion.div
 					style={{
@@ -531,20 +531,27 @@ export const ProductCard = ({
 			key={product.title}
 			className="group/product h-80 w-[30rem] relative shrink-0"
 		>
-			<div className="block pointer-events-none">
-				<img
-					src={product.thumbnail}
-					height="600"
-					width="600"
-					className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
-					alt={`Projet ${product.title} - Réalisation LevisWeb`}
-					loading="lazy"
-				/>
-			</div>
-			<div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-			<h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-				{product.title}
-			</h2>
+			<a
+				href={product.link}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="block w-full h-full"
+			>
+				<div className="block pointer-events-none">
+					<img
+						src={product.thumbnail}
+						height="600"
+						width="600"
+						className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
+						alt={`Projet ${product.title} - Réalisation LevisWeb`}
+						loading="lazy"
+					/>
+				</div>
+				<div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
+				<h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
+					{product.title}
+				</h2>
+			</a>
 		</motion.div>
 	);
 };

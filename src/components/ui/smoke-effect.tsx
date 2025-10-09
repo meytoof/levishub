@@ -124,8 +124,8 @@ export default function SmokeEffect() {
 				if (!(this instanceof GLProgram))
 					throw new TypeError("Cannot call a class as a function");
 
-				this.uniforms = {};
-				this.program = gl.createProgram();
+				(this as any).uniforms = {};
+				(this as any).program = gl.createProgram();
 
 				gl.attachShader(this.program, vertexShader);
 				gl.attachShader(this.program, fragmentShader);
