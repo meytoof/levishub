@@ -436,14 +436,14 @@ export const ProductCard = ({
 				y: -20,
 			}}
 			key={product.title}
-			className="group/product h-96 w-[30rem] relative shrink-0"
+			className="group/product h-80 w-[30rem] relative shrink-0"
 		>
 			<div className="block pointer-events-none">
 				<img
 					src={product.thumbnail}
 					height="600"
 					width="600"
-					className="object-cover object-left-top absolute h-full w-full inset-0 opacity-30"
+					className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
 					alt={product.title}
 				/>
 			</div>

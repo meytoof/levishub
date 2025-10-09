@@ -167,7 +167,7 @@
 
 .services-block__list span {
 	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
-	font-size: 1rem;
+	font-size: 1.4rem; /* Encore un peu plus grand */
 	font-weight: 700;
 	color: #000;
 	letter-spacing: 0.02em;
@@ -180,7 +180,7 @@
 	overflow: hidden;
 	border-radius: 4px;
 	position: relative;
-	border: 1px solid #ddd;
+	/* Pas de bordure visible */
 }
 
 .services-block__img img {

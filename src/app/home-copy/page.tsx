@@ -4,94 +4,79 @@ import { HeroParallax } from "@/components/ui/hero-parallax-aceternity";
 
 const demoProducts = [
 	{
-		title: "Site Vitrine Moderne",
-		link: "/demo/vitrine",
-		thumbnail:
-			"https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=600&fit=crop",
+		title: "Vrac en Chartreuse",
+		link: "https://vracenchartreuse.wuaze.com/?i=1",
+		thumbnail: "/images/header/vracenchartreuse.jpg",
 	},
 	{
-		title: "E-commerce Premium",
-		link: "/demo/ecommerce",
-		thumbnail:
-			"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=600&fit=crop",
+		title: "D&B Charpente",
+		link: "http://www.dbcharpente.fr/",
+		thumbnail: "/images/header/DBCharpente.jpg",
 	},
 	{
-		title: "Blog Personnel",
-		link: "/demo/blog",
-		thumbnail:
-			"https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop",
+		title: "Oss'Alpes",
+		link: "https://ossalpes.fr/",
+		thumbnail: "/images/header/OssAlpes.jpg",
 	},
 	{
-		title: "Portfolio Créatif",
-		link: "/demo/portfolio",
-		thumbnail:
-			"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
+		title: "D&B Aménagements",
+		link: "https://dbamenagements.com/",
+		thumbnail: "/images/header/DBAmenagement.jpg",
 	},
 	{
-		title: "Landing SaaS",
-		link: "/demo/landing-saas",
-		thumbnail:
-			"https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=600&fit=crop",
+		title: "Vrac en Chartreuse - 2",
+		link: "https://vracenchartreuse.wuaze.com/?i=1",
+		thumbnail: "/images/header/vracenchartreuse.jpg",
 	},
 	{
-		title: "Dashboard Analytics",
-		link: "/demo/dashboard",
-		thumbnail:
-			"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=600&fit=crop",
+		title: "D&B Charpente - 2",
+		link: "http://www.dbcharpente.fr/",
+		thumbnail: "/images/header/DBCharpente.jpg",
 	},
 	{
-		title: "Site Corporate",
-		link: "/demo/com-digital",
-		thumbnail:
-			"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop",
+		title: "Oss'Alpes - 2",
+		link: "https://ossalpes.fr/",
+		thumbnail: "/images/header/OssAlpes.jpg",
 	},
 	{
-		title: "Application Mobile",
-		link: "/demo/mobile",
-		thumbnail:
-			"https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=600&fit=crop",
+		title: "D&B Aménagements - 2",
+		link: "https://dbamenagements.com/",
+		thumbnail: "/images/header/DBAmenagement.jpg",
 	},
 	{
-		title: "Plateforme Web",
-		link: "/demo/platform",
-		thumbnail:
-			"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
+		title: "Vrac en Chartreuse - 3",
+		link: "https://vracenchartreuse.wuaze.com/?i=1",
+		thumbnail: "/images/header/vracenchartreuse.jpg",
 	},
 	{
-		title: "Marketplace",
-		link: "/demo/marketplace",
-		thumbnail:
-			"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=600&fit=crop",
+		title: "D&B Charpente - 3",
+		link: "http://www.dbcharpente.fr/",
+		thumbnail: "/images/header/DBCharpente.jpg",
 	},
 	{
-		title: "Réseau Social",
-		link: "/demo/social",
-		thumbnail:
-			"https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=600&fit=crop",
+		title: "Oss'Alpes - 3",
+		link: "https://ossalpes.fr/",
+		thumbnail: "/images/header/OssAlpes.jpg",
 	},
 	{
-		title: "Application Fintech",
-		link: "/demo/fintech",
-		thumbnail:
-			"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=600&fit=crop",
+		title: "D&B Aménagements - 3",
+		link: "https://dbamenagements.com/",
+		thumbnail: "/images/header/DBAmenagement.jpg",
 	},
 	{
-		title: "Plateforme E-learning",
-		link: "/demo/elearning",
-		thumbnail:
-			"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=600&fit=crop",
+		title: "Vrac en Chartreuse - 4",
+		link: "https://vracenchartreuse.wuaze.com/?i=1",
+		thumbnail: "/images/header/vracenchartreuse.jpg",
 	},
 	{
-		title: "Site Immobilier",
-		link: "/demo/realestate",
-		thumbnail:
-			"https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=600&fit=crop",
+		title: "D&B Charpente - 4",
+		link: "http://www.dbcharpente.fr/",
+		thumbnail: "/images/header/DBCharpente.jpg",
 	},
 	{
-		title: "Application Fitness",
-		link: "/demo/fitness",
-		thumbnail:
-			"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop",
+		title: "Oss'Alpes - 4",
+		link: "https://ossalpes.fr/",
+		thumbnail: "/images/header/OssAlpes.jpg",
 	},
 ];
 

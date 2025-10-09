@@ -10,69 +10,73 @@ gsap.registerPlugin(ScrollTrigger);
 const servicesData = [
 	{
 		number: "00-1",
-		title: "web design",
+		title: "optimisation seo",
 		features: [
-			"/ Modern layouts",
-			"/ Responsive design",
-			"/ SEO-friendly structure",
-			"/ Clear navigation",
-			"/ Visual storytelling",
+			"/ Audit technique complet",
+			"/ Optimisation Core Web Vitals",
+			"/ Structure HTML sémantique",
+			"/ Meta tags & Schema.org",
+			"/ Performance Lighthouse 95+",
 		],
 		description:
-			"I create websites that stand out from the competition and bring real value to businesses. Each project combines creativity and functionality to deliver the best digital solutions.",
-		image: "https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?w=800&h=600&fit=crop&crop=center",
+			"J'optimise votre visibilité sur Google avec des techniques SEO modernes. Audit complet, optimisation technique, et stratégie de contenu pour dominer les résultats de recherche et attirer plus de clients qualifiés.",
+		image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center",
 	},
 	{
 		number: "00-2",
-		title: "UX/UI design",
+		title: "création & refonte",
 		features: [
-			"/ User flows",
-			"/ Wireframes & flows",
-			"/ Interactive prototypes",
-			"/ Design system",
+			"/ Sites vitrines modernes",
+			"/ E-commerce sécurisé",
+			"/ Design responsive mobile-first",
+			"/ Intégration paiements Stripe",
+			"/ CMS sur mesure",
 		],
 		description:
-			"I design interfaces that balance logic and emotion. They are intuitive from the first click, easy to use, and keep users engaged — helping brands build stronger connections.",
-		image: "https://images.unsplash.com/photo-1558603668-6570496b66f8?w=800&h=600&fit=crop&crop=center",
+			"Création de sites web modernes et refonte de sites existants. Design responsive, intégrations sécurisées, et architecture optimisée pour convertir vos visiteurs en clients. Du concept au lancement.",
+		image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&h=600&fit=crop&crop=center",
 	},
 	{
 		number: "00-3",
-		title: "creative design",
+		title: "maintenance web",
 		features: [
-			"/ Visual design",
-			"/ Social media design",
-			"/ presentation",
+			"/ Mises à jour sécurité",
+			"/ Sauvegardes automatiques",
+			"/ Monitoring performance",
+			"/ Support technique réactif",
+			"/ Évolutions fonctionnelles",
 		],
 		description:
-			"My creative design is about visuals that speak for the brand. From eye-catching social media and stylish presentations to thoughtful visual concepts — everything is designed to inspire, connect, and deliver the best digital solutions.",
-		image: "https://images.unsplash.com/photo-1537165924986-cc3568f5d454?w=800&h=600&fit=crop&crop=center",
+			"Maintenance préventive et évolutive de vos sites web. Sécurité renforcée, performances optimisées, et accompagnement continu pour garantir la fiabilité et la croissance de votre présence en ligne.",
+		image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&crop=center",
 	},
 	{
 		number: "00-4",
-		title: "product and app design",
+		title: "design & interface",
 		features: [
-			"/ Mobile & web apps",
-			"/ Design systems",
-			"/ Complex interactions",
-			"/ Scalable solutions",
+			"/ UX/UI moderne",
+			"/ Prototypes interactifs",
+			"/ Design system cohérent",
+			"/ Identité visuelle",
+			"/ Expérience utilisateur optimisée",
 		],
 		description:
-			"Product and app design focused on simplicity, consistency, and growth — crafted to deliver the best digital solutions.",
-		image: "https://images.unsplash.com/photo-1589271243958-d61e12b61b97?w=800&h=600&fit=crop&crop=center",
+			"Design d'interfaces intuitives et modernes qui convertissent. UX/UI centré utilisateur, prototypes interactifs, et identité visuelle forte pour créer des expériences digitales mémorables et efficaces.",
+		image: "/images/services/design.jpg",
 	},
 	{
 		number: "00-5",
-		title: "development",
+		title: "conseil & code",
 		features: [
-			"/ Front-end",
-			"/ Back-end",
-			"/ No-code solutions",
-			"/ Optimization",
-			"/ Support",
+			"/ Audit technique",
+			"/ Architecture scalable",
+			"/ Développement fullstack",
+			"/ Formation & accompagnement",
+			"/ Solutions sur mesure",
 		],
 		description:
-			"Full-cycle development with the best experts — from front-end to back-end. We deliver turnkey projects that are reliable, scalable, and built to last.",
-		image: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&h=600&fit=crop&crop=center",
+			"Conseil technique et développement fullstack pour vos projets complexes. Audit d'architecture, développement sur mesure, et formation pour équiper vos équipes avec les meilleures pratiques du web moderne.",
+		image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&crop=center",
 	},
 ];
 
@@ -193,8 +197,8 @@ export const ServicesSection: React.FC = () => {
 				if (blockImg)
 					gsap.set(blockImg, {
 						opacity: 0, // Complètement invisible
-						y: 30,
-						scale: 1.05,
+						y: -120, // Départ très haut pour animation de haut en bas
+						scale: 1,
 						transformOrigin: "center center",
 					});
 				if (blockImgOverlay) gsap.set(blockImgOverlay, { opacity: 0 });
@@ -457,16 +461,21 @@ export const ServicesSection: React.FC = () => {
 
 					// Animation de l'image de haut en bas avec ralenti
 					if (blockImg) {
-						contentTimeline.to(
+						contentTimeline.fromTo(
 							blockImg,
+							{
+								opacity: 0,
+								y: -120, // Départ très haut pour mouvement visible
+								scale: 1,
+							},
 							{
 								opacity: 1,
 								y: 0,
 								scale: 1,
-								duration: 0.6,
-								ease: "power3.out", // Ralenti sur la fin
+								duration: 1.2, // Animation fluide avec ralenti
+								ease: "circ.out", // Ralenti très prononcé à la fin
 							},
-							0.8
+							1.0 // Commence à 1s pour être synchronisée avec l'expansion à 80%
 						);
 					}
 
@@ -544,8 +553,8 @@ export const ServicesSection: React.FC = () => {
 					if (blockImg)
 						gsap.set(blockImg, {
 							opacity: 0,
-							y: 30,
-							scale: 1.05,
+							y: -120, // Départ très haut pour animation de haut en bas
+							scale: 1,
 						});
 					if (blockImgOverlay)
 						gsap.set(blockImgOverlay, { opacity: 0 });
@@ -616,10 +625,10 @@ export const ServicesSection: React.FC = () => {
 			<div className="container">
 				<div className="services__title">
 					<h2 ref={titleRef} className="animation-title">
-						service
+						services
 					</h2>
 					<div className="services__title-span">
-						<span>dsgn/4</span>
+						<span>dev/5</span>
 					</div>
 				</div>
 			</div>
@@ -652,14 +661,6 @@ export const ServicesSection: React.FC = () => {
 							<div className="services-block__img">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img src={service.image} alt={service.title} />
-								<div className="services-block__img-overlay">
-									<span className="services-block__img-text-1">
-										INNOVATIVE DESIGN
-									</span>
-									<span className="services-block__img-text-2">
-										TIMELESS ARCHITECTURE
-									</span>
-								</div>
 							</div>
 						</div>
 						<p className="services-block__text">
