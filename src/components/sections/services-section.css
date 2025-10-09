@@ -242,76 +242,165 @@
 	overflow-wrap: break-word;
 }
 
-/* Responsive Mobile - Système vertical avec expansion */
+/* =========================================== */
+/* VERSION DESKTOP - NE JAMAIS TOUCHER ! */
+/* =========================================== */
+
+/* Cacher la version mobile sur desktop */
+.services__wrapper--mobile {
+	display: none !important;
+}
+
+/* =========================================== */
+/* VERSION MOBILE - COMPLÈTEMENT SÉPARÉE */
+/* =========================================== */
+
 @media (max-width: 1100px) {
-	.services__wrapper {
+	/* CACHER LA VERSION DESKTOP */
+	.services__wrapper--desktop {
+		display: none !important;
+	}
+
+	/* AFFICHER LA VERSION MOBILE */
+	.services__wrapper--mobile {
+		display: flex !important;
 		flex-direction: column;
 	}
 
-	.services-block {
-		border-right: none;
+	/* Layout mobile - exactement comme l'exemple */
+	.services__wrapper--mobile .services-block--mobile {
+		width: 100% !important;
+		max-height: 55px !important;
+		height: auto !important;
+		padding: 0.7rem 1rem !important;
+		border-right: none !important;
 		border-bottom: 1px solid #000;
-		flex: none; /* Pas de flex sur mobile */
-		width: 100% !important; /* Force 100% sur mobile */
-		height: auto; /* Hauteur automatique sur mobile */
-		min-height: 40px; /* Hauteur très compacte comme l'exemple */
-		padding: 0.8rem 1rem; /* Padding très réduit */
-		transition: min-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-			padding 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		cursor: pointer; /* Indique que c'est cliquable */
+		background: rgb(245, 245, 245) !important;
+		cursor: pointer;
+		overflow: hidden;
+		transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		display: flex !important;
+		align-items: center;
+		flex-direction: row !important;
+		justify-content: flex-start;
 	}
 
-	.services-block:last-child {
+	.services__wrapper--mobile .services-block--mobile:last-child {
 		border-bottom: none;
 	}
 
-	/* État normal sur mobile - contenu caché */
-	.services-block__second-title,
-	.services-block__second-middle,
-	.services-block__text {
-		opacity: 0;
-		visibility: hidden;
-		transform: translateY(20px);
-		transition: opacity 0.3s ease, transform 0.3s ease;
+	/* Header mobile - numéro + titre sur la même ligne */
+	.services__wrapper--mobile .services-block__number--mobile {
+		font-size: 1.1rem !important;
+		margin: 0 !important;
+		margin-right: 0.8rem !important;
+		line-height: 1.2 !important;
+		font-weight: 600 !important;
+		display: inline !important;
+		opacity: 1 !important;
+		transform: none !important;
 	}
 
-	/* État expansé sur mobile */
-	.services-block.expanded {
-		min-height: 280px; /* Hauteur plus modérée quand expansé */
-		padding: 1.5rem 1rem;
+	.services__wrapper--mobile .services-block__title--mobile {
+		font-size: 1.2rem !important;
+		margin: 0 !important;
+		line-height: 1.2 !important;
+		font-weight: 700 !important;
+		transform: translate(0px, 2px) !important;
+		display: inline !important;
+		opacity: 1 !important;
 	}
 
-	.services-block.expanded .services-block__second-title,
-	.services-block.expanded .services-block__second-middle,
-	.services-block.expanded .services-block__text {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(0);
+	/* Contenu caché par défaut sur mobile */
+	.services__wrapper--mobile .services-block__second-title--mobile,
+	.services__wrapper--mobile .services-block__second-middle--mobile,
+	.services__wrapper--mobile .services-block__text--mobile {
+		opacity: 0 !important;
+		visibility: hidden !important;
+		transform: translateY(20px) !important;
+		transition: opacity 0.3s ease, transform 0.3s ease !important;
 	}
 
-	/* Ajustements mobile - style compact comme l'exemple */
-	.services-block__title {
-		font-size: 1rem; /* Plus petit et compact */
-		margin-bottom: 0.3rem;
-		font-weight: 500;
+	/* État expanded sur mobile */
+	.services__wrapper--mobile .services-block--mobile.expanded {
+		max-height: 500px !important;
+		padding: 1.5rem 1rem !important;
+		flex-direction: column !important;
+		align-items: flex-start !important;
 	}
 
-	.services-block__number {
-		font-size: 0.9rem;
-		margin-bottom: 0.3rem;
-		font-weight: 400;
+	.services__wrapper--mobile
+		.services-block--mobile.expanded
+		.services-block__second-title--mobile,
+	.services__wrapper--mobile
+		.services-block--mobile.expanded
+		.services-block__second-middle--mobile,
+	.services__wrapper--mobile
+		.services-block--mobile.expanded
+		.services-block__text--mobile {
+		opacity: 1 !important;
+		visibility: visible !important;
+		transform: translateY(0) !important;
 	}
 
-	.services-block__img {
-		width: 100%;
-		height: 120px; /* Plus petit */
-		object-fit: cover;
+	/* Layout du contenu expanded */
+	.services__wrapper--mobile .services-block__second-middle--mobile {
+		display: flex !important;
+		flex-direction: row !important;
+		gap: 1rem !important;
+		align-items: flex-start !important;
+		margin-bottom: 1rem !important;
+		margin-top: 1rem !important;
 	}
 
-	.services-block__text {
-		font-size: 12px;
-		line-height: 1.3;
-		margin-top: 0.8rem;
+	.services__wrapper--mobile .services-block__list--mobile {
+		flex: 1 !important;
+		order: 1 !important;
+	}
+
+	.services__wrapper--mobile .services-block__list--mobile li {
+		font-size: 0.75rem !important;
+		line-height: 1.3 !important;
+		margin-bottom: 0.2rem !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	.services__wrapper--mobile .services-block__img--mobile {
+		order: 2 !important;
+		width: 120px !important;
+		height: 80px !important;
+		flex-shrink: 0 !important;
+	}
+
+	.services__wrapper--mobile .services-block__img--mobile img {
+		object-fit: cover !important;
+		width: 100% !important;
+		height: 100% !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	.services__wrapper--mobile .services-block__text--mobile {
+		font-size: 13px !important;
+		line-height: 1.4 !important;
+		margin-top: 0.8rem !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	/* Ajustements du titre principal pour mobile */
+	.services__title {
+		padding: 2vh 0 2vh 0 !important;
+		min-height: 20vh !important;
+		flex-direction: row !important;
+		justify-content: space-between !important;
+		align-items: flex-end !important;
+	}
+
+	.services__title-span {
+		margin-top: 0 !important;
+		margin-left: auto !important;
 	}
 }
 

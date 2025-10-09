@@ -145,29 +145,19 @@ export const ServicesSection: React.FC = () => {
 				});
 			}
 
-			// Animations hover des services-block avec expansion intelligente
-			const blocks = gsap.utils.toArray<HTMLElement>(".services-block");
+			// === LOGIQUE DESKTOP - Ne change jamais ===
+			const desktopBlocks = gsap.utils.toArray<HTMLElement>(
+				".services__wrapper--desktop .services-block"
+			);
 
-			// Détecter si on est sur mobile
-			const isMobile = window.innerWidth <= 1100;
-
-			blocks.forEach((block, index) => {
+			desktopBlocks.forEach((block, index) => {
 				const number = block.querySelector(".services-block__number");
 
-				// Position initiale selon la plateforme
-				if (isMobile) {
-					// Sur mobile : largeur 100%, pas de width dynamique
-					gsap.set(block, {
-						width: "100%",
-						clearProps: "all",
-					});
-				} else {
-					// Sur desktop : largeur 20%
-					gsap.set(block, {
-						width: "20%",
-						clearProps: "all",
-					});
-				}
+				// Position initiale comme sur le site d'exemple
+				gsap.set(block, {
+					width: "20%", // Équivalent à 304rem en pourcentage
+					clearProps: "all", // Nettoie les anciennes props GSAP
+				});
 
 				// Récupérer tous les éléments pour l'initialisation
 				const title = block.querySelector(
@@ -214,81 +204,61 @@ export const ServicesSection: React.FC = () => {
 
 				// Compresser toutes les autres sections lorsque l'une est active
 				const resetOtherSections = (currentIndex: number) => {
-					blocks.forEach((otherBlock, otherIndex) => {
+					desktopBlocks.forEach((otherBlock, otherIndex) => {
 						if (otherIndex !== currentIndex) {
-							if (isMobile) {
-								// Sur mobile : retirer la classe expanded et réinitialiser
-								otherBlock.classList.remove("expanded");
-								// Réinitialiser les animations du contenu
-								const otherNumber = otherBlock.querySelector(
-									".services-block__number"
-								) as HTMLElement;
-								const otherTitle = otherBlock.querySelector(
-									".services-block__title"
-								) as HTMLElement;
-								if (otherNumber)
-									gsap.set(otherNumber, { scale: 1 });
-								if (otherTitle)
-									gsap.set(otherTitle, { opacity: 1, y: 0 });
-							} else {
-								// Sur desktop : compresser les autres cartes
-								otherBlock.style.width = "15%";
+							// Compresser les autres cartes
+							otherBlock.style.width = "15%";
 
-								// Réinitialiser tous les éléments à leur état initial (desktop uniquement)
-								const otherNumber = otherBlock.querySelector(
-									".services-block__number"
-								) as HTMLElement;
-								const otherTitle = otherBlock.querySelector(
-									".services-block__title"
-								) as HTMLElement;
-								const otherSecondTitle =
-									otherBlock.querySelector(
-										".services-block__second-title"
-									) as HTMLElement;
-								const otherSecondMiddle =
-									otherBlock.querySelector(
-										".services-block__second-middle"
-									) as HTMLElement;
-								const otherListItems =
-									otherBlock.querySelectorAll(
-										".services-block__list li"
-									) as NodeListOf<HTMLElement>;
-								const otherImg = otherBlock.querySelector(
-									".services-block__img img"
-								) as HTMLElement;
-								const otherText = otherBlock.querySelector(
-									".services-block__text"
-								) as HTMLElement;
+							// Réinitialiser tous les éléments à leur état initial
+							const otherNumber = otherBlock.querySelector(
+								".services-block__number"
+							) as HTMLElement;
+							const otherTitle = otherBlock.querySelector(
+								".services-block__title"
+							) as HTMLElement;
+							const otherSecondTitle = otherBlock.querySelector(
+								".services-block__second-title"
+							) as HTMLElement;
+							const otherSecondMiddle = otherBlock.querySelector(
+								".services-block__second-middle"
+							) as HTMLElement;
+							const otherListItems = otherBlock.querySelectorAll(
+								".services-block__list li"
+							) as NodeListOf<HTMLElement>;
+							const otherImg = otherBlock.querySelector(
+								".services-block__img img"
+							) as HTMLElement;
+							const otherText = otherBlock.querySelector(
+								".services-block__text"
+							) as HTMLElement;
 
-								// Réinitialiser avec gsap.set pour éviter les transitions
-								if (otherNumber)
-									gsap.set(otherNumber, { scale: 1 });
-								if (otherTitle)
-									gsap.set(otherTitle, { opacity: 1, y: 0 });
-								if (otherSecondTitle)
-									gsap.set(otherSecondTitle, {
-										opacity: 0,
-										y: -20,
-									});
-								if (otherSecondMiddle)
-									gsap.set(otherSecondMiddle, {
-										opacity: 0.1,
-										y: 30,
-									});
-								if (otherListItems.length > 0)
-									gsap.set(otherListItems, {
-										opacity: 0.1,
-										y: 20,
-									});
-								if (otherImg)
-									gsap.set(otherImg, {
-										opacity: 0.1,
-										y: 30,
-										scale: 1.05,
-									});
-								if (otherText)
-									gsap.set(otherText, { opacity: 0 });
-							}
+							// Réinitialiser avec gsap.set pour éviter les transitions
+							if (otherNumber)
+								gsap.set(otherNumber, { scale: 1 });
+							if (otherTitle)
+								gsap.set(otherTitle, { opacity: 1, y: 0 });
+							if (otherSecondTitle)
+								gsap.set(otherSecondTitle, {
+									opacity: 0,
+									y: -20,
+								});
+							if (otherSecondMiddle)
+								gsap.set(otherSecondMiddle, {
+									opacity: 0.1,
+									y: 30,
+								});
+							if (otherListItems.length > 0)
+								gsap.set(otherListItems, {
+									opacity: 0.1,
+									y: 20,
+								});
+							if (otherImg)
+								gsap.set(otherImg, {
+									opacity: 0.1,
+									y: 30,
+									scale: 1.05,
+								});
+							if (otherText) gsap.set(otherText, { opacity: 0 });
 						}
 					});
 				};
@@ -302,7 +272,7 @@ export const ServicesSection: React.FC = () => {
 					if (index === 0) {
 						// Première carte (Web Design) - toujours vers la droite
 						return "right";
-					} else if (index === blocks.length - 1) {
+					} else if (index === desktopBlocks.length - 1) {
 						// Dernière carte (Development) - TOUJOURS vers la gauche
 						return "left";
 					} else {
@@ -321,365 +291,286 @@ export const ServicesSection: React.FC = () => {
 					}
 				};
 
-				// Système d'interaction selon la plateforme
-				if (isMobile) {
-					// Sur mobile : système de clic
-					let isExpanded = false;
+				// Hover enter avec détection de direction - animation réactive
+				block.addEventListener("mouseenter", (e) => {
+					const mouseX = e.clientX;
+					const blockRect = block.getBoundingClientRect();
+					const direction = getExpansionDirection(mouseX, blockRect);
+					// Marquer comme survolé
+					isHovered = true;
 
-					block.addEventListener("click", () => {
-						if (isExpanded) {
-							// Fermer la carte
-							block.classList.remove("expanded");
-							isExpanded = false;
+					// ÉTAPE CRUCIALE: Réinitialiser toutes les autres sections IMMÉDIATEMENT
+					resetOtherSections(index);
 
-							// Réinitialiser les animations
-							if (number) gsap.set(number, { scale: 1 });
-							if (title) gsap.set(title, { opacity: 1, y: 0 });
-							if (secondTitle)
-								gsap.set(secondTitle, { opacity: 0, y: -20 });
-							if (secondMiddle)
-								gsap.set(secondMiddle, { opacity: 0.1, y: 30 });
-							if (listItems.length > 0)
-								gsap.set(listItems, { opacity: 0.1, y: 20 });
-							if (blockImg)
-								gsap.set(blockImg, {
-									opacity: 0.1,
-									y: 30,
-									scale: 1.05,
-								});
-							if (blockText) gsap.set(blockText, { opacity: 0 });
-						} else {
-							// Fermer toutes les autres cartes d'abord
-							blocks.forEach((otherBlock, otherIndex) => {
-								if (otherIndex !== index) {
-									otherBlock.classList.remove("expanded");
-									// Réinitialiser les autres cartes
-									const otherNumber =
-										otherBlock.querySelector(
-											".services-block__number"
-										) as HTMLElement;
-									const otherTitle = otherBlock.querySelector(
-										".services-block__title"
-									) as HTMLElement;
-									if (otherNumber)
-										gsap.set(otherNumber, { scale: 1 });
-									if (otherTitle)
-										gsap.set(otherTitle, {
-											opacity: 1,
-											y: 0,
-										});
-								}
-							});
+					// Annuler les timeouts/anims précédents
+					// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
+					if (contentTimeline) contentTimeline.kill();
 
-							// Ouvrir cette carte
-							block.classList.add("expanded");
-							isExpanded = true;
+					// Récupérer les éléments pour les animations
+					const title = block.querySelector(
+						".services-block__title"
+					) as HTMLElement;
+					const secondTitle = block.querySelector(
+						".services-block__second-title"
+					) as HTMLElement;
+					const secondTitleText = block.querySelector(
+						".services-block__second-title span span:last-child"
+					) as HTMLElement;
+					const secondTitlePrefix = block.querySelector(
+						".services-block__second-title span span:first-child"
+					) as HTMLElement;
+					const secondMiddle = block.querySelector(
+						".services-block__second-middle"
+					) as HTMLElement;
+					const listItems = block.querySelectorAll(
+						".services-block__list li"
+					) as NodeListOf<HTMLElement>;
+					const blockImg = block.querySelector(
+						".services-block__img img"
+					) as HTMLElement;
+					const blockText = block.querySelector(
+						".services-block__text"
+					) as HTMLElement;
 
-							// Animations d'ouverture - plus rapides sur mobile
-							if (number)
-								gsap.to(number, {
-									scale: 1.1, // Plus subtil sur mobile
-									duration: 0.3,
-									ease: "power2.out",
-								});
-							if (title)
-								gsap.to(title, {
-									opacity: 0,
-									y: -20,
-									duration: 0.15,
-									ease: "power2.in",
-								});
-							if (secondTitle)
-								gsap.to(secondTitle, {
-									opacity: 1,
-									y: 0,
-									duration: 0.25,
-									ease: "power2.out",
-									delay: 0.08,
-								});
-							if (secondMiddle)
-								gsap.to(secondMiddle, {
-									opacity: 1,
-									y: 0,
-									duration: 0.3,
-									ease: "power2.out",
-									delay: 0.15,
-								});
-							if (listItems.length > 0)
-								gsap.to(listItems, {
-									opacity: 1,
-									y: 0,
-									duration: 0.25,
-									stagger: 0.03,
-									ease: "power2.out",
-									delay: 0.2,
-								});
-							if (blockImg)
-								gsap.to(blockImg, {
-									opacity: 1,
-									y: 0,
-									scale: 1,
-									duration: 0.3,
-									ease: "power2.out",
-									delay: 0.2,
-								});
-							if (blockText)
-								gsap.to(blockText, {
-									opacity: 1,
-									duration: 0.25,
-									ease: "power2.out",
-									delay: 0.3,
-								});
-						}
+					// Phase 1: Définir les largeurs (active à 40%, autres à 15%)
+					block.style.width = "40%";
+
+					// Timeline principale pour toutes les animations
+					contentTimeline = gsap.timeline({
+						defaults: {
+							ease: "power2.out",
+							overwrite: "auto",
+							immediateRender: false,
+							force3D: true,
+						},
 					});
-				} else {
-					// Sur desktop : système de hover
-					block.addEventListener("mouseenter", (e) => {
-						const mouseX = e.clientX;
-						const blockRect = block.getBoundingClientRect();
-						const direction = getExpansionDirection(
-							mouseX,
-							blockRect
-						);
-						// Marquer comme survolé
-						isHovered = true;
 
-						// ÉTAPE CRUCIALE: Réinitialiser toutes les autres sections IMMÉDIATEMENT
-						resetOtherSections(index);
-
-						// Annuler les timeouts/anims précédents
-						// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
-						if (contentTimeline) contentTimeline.kill();
-
-						// Récupérer les éléments pour les animations
-						const title = block.querySelector(
-							".services-block__title"
-						) as HTMLElement;
-						const secondTitle = block.querySelector(
-							".services-block__second-title"
-						) as HTMLElement;
-						const secondTitleText = block.querySelector(
-							".services-block__second-title span span:last-child"
-						) as HTMLElement;
-						const secondTitlePrefix = block.querySelector(
-							".services-block__second-title span span:first-child"
-						) as HTMLElement;
-						const secondMiddle = block.querySelector(
-							".services-block__second-middle"
-						) as HTMLElement;
-						const listItems = block.querySelectorAll(
-							".services-block__list li"
-						) as NodeListOf<HTMLElement>;
-						const blockImg = block.querySelector(
-							".services-block__img img"
-						) as HTMLElement;
-						const blockText = block.querySelector(
-							".services-block__text"
-						) as HTMLElement;
-
-						// Phase 1: Définir les largeurs selon la plateforme
-						if (isMobile) {
-							// Sur mobile : ajouter la classe expanded
-							block.classList.add("expanded");
-						} else {
-							// Sur desktop : définir les largeurs (active à 40%, autres à 15%)
-							block.style.width = "40%";
-						}
-
-						// Timeline principale pour toutes les animations
-						contentTimeline = gsap.timeline({
-							defaults: {
-								ease: "power2.out",
-								overwrite: "auto",
-								immediateRender: false,
-								force3D: true,
+					// 1. Disparition rapide du titre principal vers le haut (0.1s)
+					if (title) {
+						contentTimeline.to(
+							title,
+							{
+								opacity: 0,
+								y: -50, // Vers le haut
+								duration: 0.1,
+								ease: "power2.in",
 							},
-						});
+							0
+						);
+					}
 
-						// 1. Disparition rapide du titre principal vers le haut (0.1s)
-						if (title) {
-							contentTimeline.to(
-								title,
-								{
-									opacity: 0,
-									y: -50, // Vers le haut
-									duration: 0.1,
-									ease: "power2.in",
-								},
-								0
-							);
-						}
+					// 2. Grossissement du numéro (commence immédiatement)
+					if (number) {
+						contentTimeline.to(
+							number,
+							{
+								scale: 1.15, // Testé pour un effet visible mais pas trop
+								duration: 0.6,
+								ease: "power2.out",
+							},
+							0.1
+						);
+					}
 
-						// 2. Grossissement du numéro (commence immédiatement)
-						if (number) {
-							contentTimeline.to(
-								number,
-								{
-									scale: 1.15, // Testé pour un effet visible mais pas trop
-									duration: 0.6,
-									ease: "power2.out",
-								},
-								0.1
-							);
-						}
+					// 3. Apparition du second titre à 80% de l'expansion (0.64s)
+					if (secondTitle) {
+						contentTimeline.to(
+							secondTitle,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.4,
+								ease: "power2.out",
+							},
+							0.64
+						);
 
-						// 3. Apparition du second titre à 80% de l'expansion (0.64s)
-						if (secondTitle) {
-							contentTimeline.to(
-								secondTitle,
+						// Délai léger entre le texte et les // - CORRECTION
+						if (secondTitleText) {
+							contentTimeline.fromTo(
+								secondTitleText,
+								{ opacity: 0, y: -10 },
 								{
 									opacity: 1,
 									y: 0,
-									duration: 0.4,
+									duration: 0.2,
 									ease: "power2.out",
 								},
 								0.64
 							);
-
-							// Délai léger entre le texte et les // - CORRECTION
-							if (secondTitleText) {
-								contentTimeline.fromTo(
-									secondTitleText,
-									{ opacity: 0, y: -10 },
-									{
-										opacity: 1,
-										y: 0,
-										duration: 0.2,
-										ease: "power2.out",
-									},
-									0.64
-								);
-							}
-
-							if (secondTitlePrefix) {
-								contentTimeline.fromTo(
-									secondTitlePrefix,
-									{ opacity: 0, y: -10 },
-									{
-										opacity: 1,
-										y: 0,
-										duration: 0.2,
-										ease: "power2.out",
-									},
-									0.7 // 0.06s après le texte pour un délai plus visible
-								);
-							}
 						}
 
-						// 4. Animation du contenu (liste + image) en même temps
-						if (secondMiddle) {
-							contentTimeline.to(
-								secondMiddle,
+						if (secondTitlePrefix) {
+							contentTimeline.fromTo(
+								secondTitlePrefix,
+								{ opacity: 0, y: -10 },
 								{
 									opacity: 1,
 									y: 0,
-									duration: 0.5,
+									duration: 0.2,
 									ease: "power2.out",
 								},
-								0.8
+								0.7 // 0.06s après le texte pour un délai plus visible
 							);
 						}
+					}
 
-						// Animation des items de liste de haut en bas
-						if (listItems.length > 0) {
-							contentTimeline.to(
-								listItems,
-								{
-									opacity: 1,
-									y: 0,
-									duration: 0.4,
-									stagger: 0.05, // Délai entre chaque item
-									ease: "power2.out",
-								},
-								0.8
-							);
-						}
+					// 4. Animation du contenu (liste + image) en même temps
+					if (secondMiddle) {
+						contentTimeline.to(
+							secondMiddle,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.5,
+								ease: "power2.out",
+							},
+							0.8
+						);
+					}
 
-						// Animation de l'image de haut en bas avec ralenti
-						if (blockImg) {
-							contentTimeline.to(
-								blockImg,
-								{
-									opacity: 1,
-									y: 0,
-									scale: 1,
-									duration: 0.6,
-									ease: "power3.out", // Ralenti sur la fin
-								},
-								0.8
-							);
-						}
+					// Animation des items de liste de haut en bas
+					if (listItems.length > 0) {
+						contentTimeline.to(
+							listItems,
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.4,
+								stagger: 0.05, // Délai entre chaque item
+								ease: "power2.out",
+							},
+							0.8
+						);
+					}
 
-						// 5. Animation du texte descriptif à 50% du timing du contenu (1.05s)
-						if (blockText) {
-							contentTimeline.to(
-								blockText,
-								{
-									opacity: 1,
-									duration: 0.3,
-									ease: "power2.out",
-								},
-								1.05
-							); // 0.8 + (0.5 * 0.5) = 1.05s
-						}
-					});
+					// Animation de l'image de haut en bas avec ralenti
+					if (blockImg) {
+						contentTimeline.to(
+							blockImg,
+							{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								duration: 0.6,
+								ease: "power3.out", // Ralenti sur la fin
+							},
+							0.8
+						);
+					}
 
-					// Hover leave - retour à l'état normal IMMÉDIAT
-					block.addEventListener("mouseleave", () => {
-						// Marquer comme non survolé
-						isHovered = false;
+					// 5. Animation du texte descriptif à 50% du timing du contenu (1.05s)
+					if (blockText) {
+						contentTimeline.to(
+							blockText,
+							{
+								opacity: 1,
+								duration: 0.3,
+								ease: "power2.out",
+							},
+							1.05
+						); // 0.8 + (0.5 * 0.5) = 1.05s
+					}
+				});
 
-						// Annuler les timeouts/anims en cours
-						// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
-						if (contentTimeline) contentTimeline.kill();
+				// Hover leave - retour à l'état normal IMMÉDIAT
+				block.addEventListener("mouseleave", () => {
+					// Marquer comme non survolé
+					isHovered = false;
 
-						// Récupérer tous les éléments pour la réinitialisation
-						const title = block.querySelector(
-							".services-block__title"
-						) as HTMLElement;
-						const secondTitle = block.querySelector(
-							".services-block__second-title"
-						) as HTMLElement;
-						const secondMiddle = block.querySelector(
-							".services-block__second-middle"
-						) as HTMLElement;
-						const listItems = block.querySelectorAll(
-							".services-block__list li"
-						) as NodeListOf<HTMLElement>;
-						const blockImg = block.querySelector(
-							".services-block__img img"
-						) as HTMLElement;
-						const blockText = block.querySelector(
-							".services-block__text"
-						) as HTMLElement;
+					// Annuler les timeouts/anims en cours
+					// if (expandTimeout) clearTimeout(expandTimeout); // Temporairement désactivé
+					if (contentTimeline) contentTimeline.kill();
 
-						// IMMÉDIAT: Réinitialiser selon la plateforme
-						if (isMobile) {
-							// Sur mobile : retirer la classe expanded
-							block.classList.remove("expanded");
-						} else {
-							// Sur desktop : réinitialiser toutes les largeurs à 20%
-							blocks.forEach((blk) => (blk.style.width = "20%"));
-						}
+					// Récupérer tous les éléments pour la réinitialisation
+					const title = block.querySelector(
+						".services-block__title"
+					) as HTMLElement;
+					const secondTitle = block.querySelector(
+						".services-block__second-title"
+					) as HTMLElement;
+					const secondMiddle = block.querySelector(
+						".services-block__second-middle"
+					) as HTMLElement;
+					const listItems = block.querySelectorAll(
+						".services-block__list li"
+					) as NodeListOf<HTMLElement>;
+					const blockImg = block.querySelector(
+						".services-block__img img"
+					) as HTMLElement;
+					const blockText = block.querySelector(
+						".services-block__text"
+					) as HTMLElement;
 
-						// Réinitialiser tous les éléments instantanément avec gsap.set
-						if (number) gsap.set(number, { scale: 1 });
-						if (title) gsap.set(title, { opacity: 1, y: 0 });
-						if (secondTitle)
-							gsap.set(secondTitle, { opacity: 0, y: -20 });
-						if (secondMiddle)
-							gsap.set(secondMiddle, { opacity: 0.1, y: 30 });
-						if (listItems.length > 0)
-							gsap.set(listItems, { opacity: 0.1, y: 20 });
-						if (blockImg)
-							gsap.set(blockImg, {
-								opacity: 0.1,
-								y: 30,
-								scale: 1.05,
-							});
-						if (blockText) gsap.set(blockText, { opacity: 0 });
-					});
-				} // Fermeture de la section else (desktop)
+					// IMMÉDIAT: Réinitialiser toutes les largeurs à 20%
+					desktopBlocks.forEach((blk) => (blk.style.width = "20%"));
+
+					// Réinitialiser tous les éléments instantanément avec gsap.set
+					if (number) gsap.set(number, { scale: 1 });
+					if (title) gsap.set(title, { opacity: 1, y: 0 });
+					if (secondTitle)
+						gsap.set(secondTitle, { opacity: 0, y: -20 });
+					if (secondMiddle)
+						gsap.set(secondMiddle, { opacity: 0.1, y: 30 });
+					if (listItems.length > 0)
+						gsap.set(listItems, { opacity: 0.1, y: 20 });
+					if (blockImg)
+						gsap.set(blockImg, {
+							opacity: 0.1,
+							y: 30,
+							scale: 1.05,
+						});
+					if (blockText) gsap.set(blockText, { opacity: 0 });
+				});
+			});
+
+			// === LOGIQUE MOBILE - Complètement séparée ===
+			const mobileBlocks = gsap.utils.toArray<HTMLElement>(
+				".services__wrapper--mobile .services-block--mobile"
+			);
+
+			// Détection mobile
+			const isMobile = () => window.innerWidth <= 1100;
+
+			// Fonction pour réinitialiser les autres blocs mobile
+			const resetOtherMobileBlocks = (currentIndex: number) => {
+				mobileBlocks.forEach((otherBlock, otherIndex) => {
+					if (otherIndex !== currentIndex) {
+						otherBlock.classList.remove("expanded");
+						// Réinitialiser avec GSAP
+						gsap.set(otherBlock, { maxHeight: "55px" });
+					}
+				});
+			};
+
+			mobileBlocks.forEach((block, index) => {
+				// Gestionnaire de clic pour mobile
+				block.addEventListener("click", () => {
+					if (!isMobile()) return; // Sécurité pour éviter les effets de bord
+
+					const isExpanded = block.classList.contains("expanded");
+
+					if (!isExpanded) {
+						// Fermer les autres blocs
+						resetOtherMobileBlocks(index);
+
+						// Ouvrir le bloc actuel
+						block.classList.add("expanded");
+						gsap.to(block, {
+							maxHeight: "500px",
+							duration: 0.4,
+							ease: "power2.out",
+						});
+					} else {
+						// Fermer le bloc actuel
+						block.classList.remove("expanded");
+						gsap.to(block, {
+							maxHeight: "55px",
+							duration: 0.4,
+							ease: "power2.out",
+						});
+					}
+				});
 			});
 		}, sectionRef);
 
@@ -704,9 +595,10 @@ export const ServicesSection: React.FC = () => {
 				</div>
 			</div>
 
-			<div className="services__wrapper">
+			{/* VERSION DESKTOP - Ne change jamais */}
+			<div className="services__wrapper services__wrapper--desktop">
 				{servicesData.map((service, index) => (
-					<div className="services-block" key={index}>
+					<div className="services-block" key={`desktop-${index}`}>
 						<h4 className="services-block__number">
 							{service.number}
 						</h4>
@@ -742,6 +634,54 @@ export const ServicesSection: React.FC = () => {
 							</div>
 						</div>
 						<p className="services-block__text">
+							{service.description}
+						</p>
+					</div>
+				))}
+			</div>
+
+			{/* VERSION MOBILE - Complètement séparée */}
+			<div className="services__wrapper services__wrapper--mobile">
+				{servicesData.map((service, index) => (
+					<div
+						className="services-block services-block--mobile"
+						key={`mobile-${index}`}
+					>
+						<h4 className="services-block__number services-block__number--mobile">
+							{service.number}
+						</h4>
+						<h3 className="services-block__title services-block__title--mobile">
+							<span>{service.title}</span>
+						</h3>
+						<h3 className="services-block__second-title services-block__second-title--mobile">
+							<span>
+								<span>{"//"}</span> {service.title}
+							</span>
+						</h3>
+						<div className="services-block__second-middle services-block__second-middle--mobile">
+							<ul className="services-block__list services-block__list--mobile">
+								{service.features.map(
+									(feature, featureIndex) => (
+										<li key={featureIndex}>
+											<span>{feature}</span>
+										</li>
+									)
+								)}
+							</ul>
+							<div className="services-block__img services-block__img--mobile">
+								{/* eslint-disable-next-line @next/next/no-img-element */}
+								<img src={service.image} alt={service.title} />
+								<div className="services-block__img-overlay">
+									<span className="services-block__img-text-1">
+										INNOVATIVE DESIGN
+									</span>
+									<span className="services-block__img-text-2">
+										TIMELESS ARCHITECTURE
+									</span>
+								</div>
+							</div>
+						</div>
+						<p className="services-block__text services-block__text--mobile">
 							{service.description}
 						</p>
 					</div>
