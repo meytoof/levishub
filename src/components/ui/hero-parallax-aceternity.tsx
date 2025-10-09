@@ -17,7 +17,7 @@ import {
 	useSpring,
 	useTransform,
 } from "motion/react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SmokeEffect from "./smoke-effect";
 
 // Enregistrer le plugin SplitText
@@ -57,6 +57,9 @@ export const HeroParallax = ({
 }) => {
 	const firstRow = products.slice(0, 5);
 	const secondRow = products.slice(5, 10);
+	
+	// État pour contrôler l'affichage du SmokeEffect
+	const [showSmokeEffect, setShowSmokeEffect] = useState(false);
 	const thirdRow = products.slice(10, 15);
 	const ref = React.useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -97,6 +100,47 @@ export const HeroParallax = ({
 		{ name: "Contact", link: "/contact" },
 	];
 
+	// Détection de performance pour le WebGL smoke-effect
+	useEffect(() => {
+		const detectPerformance = () => {
+			// Détecter les navigateurs problématiques
+			const userAgent = navigator.userAgent.toLowerCase();
+			const isOpera = userAgent.includes('opera') || userAgent.includes('opr');
+			const isEdge = userAgent.includes('edge') || userAgent.includes('edg');
+			
+			// Détecter la puissance du GPU (approximation)
+			const canvas = document.createElement('canvas');
+			const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
+			const debugInfo = gl?.getExtension('WEBGL_debug_renderer_info');
+			const renderer = debugInfo ? gl?.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '';
+			
+			// Détecter les GPU intégrés ou faibles
+			const isLowEndGPU = renderer?.toLowerCase().includes('intel') || 
+							   renderer?.toLowerCase().includes('mali') ||
+							   renderer?.toLowerCase().includes('adreno') ||
+							   renderer?.toLowerCase().includes('powervr');
+			
+			// Détecter la mémoire disponible (approximation)
+			const deviceMemory = (navigator as { deviceMemory?: number }).deviceMemory || 4;
+			
+			// Décider si activer l'effet de fumée
+			const shouldEnableSmoke = !isOpera && !isEdge && !isLowEndGPU && deviceMemory >= 4;
+			
+			console.log('🔍 Performance Detection:', {
+				isOpera,
+				isEdge,
+				renderer,
+				isLowEndGPU,
+				deviceMemory,
+				shouldEnableSmoke
+			});
+			
+			setShowSmokeEffect(shouldEnableSmoke);
+		};
+
+		detectPerformance();
+	}, []);
+
 	return (
 		<div className="bg-black relative">
 			<Navbar>
@@ -119,8 +163,8 @@ export const HeroParallax = ({
 				ref={ref}
 				className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
 			>
-				{/* Effet de fumée qui couvre toute la section hero */}
-				<SmokeEffect />
+				{/* Effet de fumée qui couvre toute la section hero - Conditionné par performance */}
+				{showSmokeEffect && <SmokeEffect />}
 				<Header />
 				<motion.div
 					style={{
@@ -439,49 +483,60 @@ export const Header = () => {
 									></rect>
 								</svg>
 
-								{/* Point lumineux qui orbite */}
+								{/* Point lumineux qui orbite - Version responsive */}
 								<div
 									ref={(el) => {
 										if (el) {
+											// Détection mobile pour ajuster l'animation
+											const isMobile = window.innerWidth <= 768;
+											const offset = isMobile ? 12 : 8; // Plus d'offset sur mobile
+											const size = isMobile ? 8 : 12; // Plus petit sur mobile
+											
+											// Mettre à jour la taille du point
+											el.style.width = `${size}px`;
+											el.style.height = `${size}px`;
+											
 											const tl = gsap.timeline({
 												repeat: -1,
 											});
-											// Côté haut (plus long)
+											// Côté haut (plus long) - avec offset mobile
 											tl.to(el, {
-												top: "8px",
-												left: "calc(100% - 8px)",
+												top: `${offset}px`,
+												left: `calc(100% - ${offset}px)`,
 												duration: 1.4,
 												ease: "none",
 											})
 												// Coin haut-droite (court)
 												.to(el, {
-													top: "calc(100% - 8px)",
-													left: "calc(100% - 8px)",
+													top: `calc(100% - ${offset}px)`,
+													left: `calc(100% - ${offset}px)`,
 													duration: 0.6,
 													ease: "none",
 												})
 												// Côté droite (plus long)
 												.to(el, {
-													top: "calc(100% - 8px)",
-													left: "8px",
+													top: `calc(100% - ${offset}px)`,
+													left: `${offset}px`,
 													duration: 1.4,
 													ease: "none",
 												})
 												// Coin bas-gauche (court)
 												.to(el, {
-													top: "8px",
-													left: "8px",
+													top: `${offset}px`,
+													left: `${offset}px`,
 													duration: 0.6,
 													ease: "none",
 												});
 										}
 									}}
-									className="absolute w-12 h-12 bg-cyan-400 rounded-full"
+									className="absolute bg-cyan-400 rounded-full"
 									style={{
 										top: "8px",
 										left: "8px",
 										transform: "translate(-50%, -50%)",
-										filter: "blur(2px) drop-shadow(0 0 16px rgba(34, 211, 238, 0.9))",
+										filter: "blur(1px) drop-shadow(0 0 12px rgba(34, 211, 238, 0.8))",
+										width: "12px",
+										height: "12px",
 									}}
 								></div>
 							</div>
