@@ -42,6 +42,7 @@ export default function SmokeEffect() {
 
 		// Sizing function optimisée
 		function resizeCanvas() {
+			if (!canvas) return;
 			const newWidth = canvas.clientWidth;
 			const newHeight = canvas.clientHeight;
 
