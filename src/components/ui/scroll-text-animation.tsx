@@ -85,7 +85,7 @@ export const ScrollTextAnimation: React.FC<ScrollTextAnimationProps> = ({
 			start: "top 95%", // Commence quand l'élément arrive à 95% de la viewport
 			end: "center 60%", // Se termine quand le centre de l'élément atteint 60% de la viewport (plus tôt pour compenser la navbar)
 			scrub: true, // Animation liée au scroll
-			onUpdate: (self) => {
+			onUpdate: (self: any) => {
 				updateAnimation(self.progress);
 			},
 		};
