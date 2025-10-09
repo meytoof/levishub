@@ -175,6 +175,9 @@ export const ServicesSection: React.FC = () => {
 				const blockImg = block.querySelector(
 					".services-block__img img"
 				) as HTMLElement;
+				const blockImgOverlay = block.querySelector(
+					".services-block__img-overlay"
+				) as HTMLElement;
 				const blockText = block.querySelector(
 					".services-block__text"
 				) as HTMLElement;
@@ -184,17 +187,17 @@ export const ServicesSection: React.FC = () => {
 				if (number)
 					gsap.set(number, { scale: 1, transformOrigin: "top left" });
 				if (secondTitle) gsap.set(secondTitle, { opacity: 0, y: -20 });
-				if (secondMiddle)
-					gsap.set(secondMiddle, { opacity: 0.1, y: 30 }); // Légèrement visible
+				if (secondMiddle) gsap.set(secondMiddle, { opacity: 0, y: 30 }); // Complètement invisible
 				if (listItems.length > 0)
-					gsap.set(listItems, { opacity: 0.1, y: 20 }); // Légèrement visible
+					gsap.set(listItems, { opacity: 0, y: 20 }); // Complètement invisible
 				if (blockImg)
 					gsap.set(blockImg, {
-						opacity: 0.1, // Légèrement visible
+						opacity: 0, // Complètement invisible
 						y: 30,
 						scale: 1.05,
 						transformOrigin: "center center",
 					});
+				if (blockImgOverlay) gsap.set(blockImgOverlay, { opacity: 0 });
 				if (blockText) gsap.set(blockText, { opacity: 0 });
 
 				// Variables pour tracker l'état de la section
@@ -228,6 +231,9 @@ export const ServicesSection: React.FC = () => {
 							const otherImg = otherBlock.querySelector(
 								".services-block__img img"
 							) as HTMLElement;
+							const otherImgOverlay = otherBlock.querySelector(
+								".services-block__img-overlay"
+							) as HTMLElement;
 							const otherText = otherBlock.querySelector(
 								".services-block__text"
 							) as HTMLElement;
@@ -244,20 +250,22 @@ export const ServicesSection: React.FC = () => {
 								});
 							if (otherSecondMiddle)
 								gsap.set(otherSecondMiddle, {
-									opacity: 0.1,
+									opacity: 0,
 									y: 30,
 								});
 							if (otherListItems.length > 0)
 								gsap.set(otherListItems, {
-									opacity: 0.1,
+									opacity: 0,
 									y: 20,
 								});
 							if (otherImg)
 								gsap.set(otherImg, {
-									opacity: 0.1,
+									opacity: 0,
 									y: 30,
 									scale: 1.05,
 								});
+							if (otherImgOverlay)
+								gsap.set(otherImgOverlay, { opacity: 0 });
 							if (otherText) gsap.set(otherText, { opacity: 0 });
 						}
 					});
@@ -327,6 +335,9 @@ export const ServicesSection: React.FC = () => {
 					) as NodeListOf<HTMLElement>;
 					const blockImg = block.querySelector(
 						".services-block__img img"
+					) as HTMLElement;
+					const blockImgOverlay = block.querySelector(
+						".services-block__img-overlay"
 					) as HTMLElement;
 					const blockText = block.querySelector(
 						".services-block__text"
@@ -459,6 +470,19 @@ export const ServicesSection: React.FC = () => {
 						);
 					}
 
+					// Animation de l'overlay de l'image
+					if (blockImgOverlay) {
+						contentTimeline.to(
+							blockImgOverlay,
+							{
+								opacity: 1,
+								duration: 0.4,
+								ease: "power2.out",
+							},
+							0.8
+						);
+					}
+
 					// 5. Animation du texte descriptif à 50% du timing du contenu (1.05s)
 					if (blockText) {
 						contentTimeline.to(
@@ -498,6 +522,9 @@ export const ServicesSection: React.FC = () => {
 					const blockImg = block.querySelector(
 						".services-block__img img"
 					) as HTMLElement;
+					const blockImgOverlay = block.querySelector(
+						".services-block__img-overlay"
+					) as HTMLElement;
 					const blockText = block.querySelector(
 						".services-block__text"
 					) as HTMLElement;
@@ -511,15 +538,17 @@ export const ServicesSection: React.FC = () => {
 					if (secondTitle)
 						gsap.set(secondTitle, { opacity: 0, y: -20 });
 					if (secondMiddle)
-						gsap.set(secondMiddle, { opacity: 0.1, y: 30 });
+						gsap.set(secondMiddle, { opacity: 0, y: 30 });
 					if (listItems.length > 0)
-						gsap.set(listItems, { opacity: 0.1, y: 20 });
+						gsap.set(listItems, { opacity: 0, y: 20 });
 					if (blockImg)
 						gsap.set(blockImg, {
-							opacity: 0.1,
+							opacity: 0,
 							y: 30,
 							scale: 1.05,
 						});
+					if (blockImgOverlay)
+						gsap.set(blockImgOverlay, { opacity: 0 });
 					if (blockText) gsap.set(blockText, { opacity: 0 });
 				});
 			});
@@ -647,12 +676,14 @@ export const ServicesSection: React.FC = () => {
 						className="services-block services-block--mobile"
 						key={`mobile-${index}`}
 					>
-						<h4 className="services-block__number services-block__number--mobile">
-							{service.number}
-						</h4>
-						<h3 className="services-block__title services-block__title--mobile">
-							<span>{service.title}</span>
-						</h3>
+						<div className="services-block__header-mobile">
+							<h4 className="services-block__number services-block__number--mobile">
+								{service.number}
+							</h4>
+							<h3 className="services-block__title services-block__title--mobile">
+								<span>{service.title}</span>
+							</h3>
+						</div>
 						<h3 className="services-block__second-title services-block__second-title--mobile">
 							<span>
 								<span>{"//"}</span> {service.title}

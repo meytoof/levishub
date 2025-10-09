@@ -119,10 +119,10 @@
 
 .services-block__second-title {
 	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
-	font-size: 1.2rem;
+	font-size: 50px; /* Taille agrandie comme demandé */
 	font-weight: 700;
 	color: #000;
-	margin: 0 0 2rem 0;
+	margin: -2rem 0 2rem 0; /* Remonte le titre pour l'aligner avec les numéros */
 	text-transform: uppercase;
 	letter-spacing: 0.02em;
 	text-align: right;
@@ -141,7 +141,7 @@
 	display: flex;
 	gap: 1.5rem; /* Réduit de 2rem à 1.5rem pour s'adapter à l'expansion réduite */
 	margin-bottom: 1.5rem; /* Réduit de 2rem à 1.5rem */
-	opacity: 0.1; /* Légèrement visible pour debug */
+	opacity: 0; /* Complètement invisible par défaut */
 	transform: translateY(30px);
 	transition: none; /* Géré par GSAP */
 	will-change: opacity, transform;
@@ -159,7 +159,7 @@
 
 .services-block__list li {
 	margin-bottom: 1rem;
-	opacity: 0.1; /* Légèrement visible pour debug */
+	opacity: 0; /* Complètement invisible par défaut */
 	transform: translateY(20px);
 	transition: none; /* Géré par GSAP */
 	will-change: opacity, transform;
@@ -188,7 +188,7 @@
 	height: 100%;
 	object-fit: cover;
 	transform: scale(1.05) translateY(30px);
-	opacity: 0.1; /* Légèrement visible pour debug */
+	opacity: 0; /* Complètement invisible par défaut */
 	/* Transition désactivée - gérée par GSAP */
 	will-change: transform, opacity;
 }
@@ -202,6 +202,9 @@
 	transform: translate(-50%, -50%);
 	text-align: center;
 	z-index: 2;
+	opacity: 0; /* Complètement invisible par défaut */
+	transition: none; /* Géré par GSAP */
+	will-change: opacity;
 }
 
 .services-block__img-text-1 {
@@ -289,26 +292,35 @@
 		border-bottom: none;
 	}
 
-	/* Header mobile - numéro + titre sur la même ligne */
+	/* Header mobile - conteneur pour numéro + titre sur la même ligne */
+	.services__wrapper--mobile .services-block__header-mobile {
+		display: flex !important;
+		align-items: center !important;
+		width: 100% !important;
+		gap: 0.5rem !important; /* Espacement entre numéro et titre */
+	}
+
 	.services__wrapper--mobile .services-block__number--mobile {
-		font-size: 1.1rem !important;
+		font-size: 1rem !important; /* Légèrement plus grand */
 		margin: 0 !important;
-		margin-right: 0.8rem !important;
-		line-height: 1.2 !important;
+		line-height: 1 !important;
 		font-weight: 600 !important;
-		display: inline !important;
 		opacity: 1 !important;
 		transform: none !important;
+		flex-shrink: 0 !important; /* Empêche la compression */
+		min-width: fit-content !important; /* Prend juste la place nécessaire */
 	}
 
 	.services__wrapper--mobile .services-block__title--mobile {
-		font-size: 1.2rem !important;
+		font-size: 1.1rem !important; /* Plus grand car il y a de la place */
 		margin: 0 !important;
-		line-height: 1.2 !important;
+		line-height: 1 !important;
 		font-weight: 700 !important;
-		transform: translate(0px, 2px) !important;
-		display: inline !important;
+		transform: none !important;
 		opacity: 1 !important;
+		flex: 1 !important; /* Prend l'espace restant */
+		/* Suppression de overflow et text-overflow pour afficher le titre entier */
+		white-space: nowrap !important; /* Force le titre sur une ligne */
 	}
 
 	/* Contenu caché par défaut sur mobile */
@@ -331,7 +343,10 @@
 
 	.services__wrapper--mobile
 		.services-block--mobile.expanded
-		.services-block__second-title--mobile,
+		.services-block__second-title--mobile {
+		display: none !important; /* Cacher le titre secondaire sur mobile pour éviter la duplication */
+	}
+
 	.services__wrapper--mobile
 		.services-block--mobile.expanded
 		.services-block__second-middle--mobile,
