@@ -57,7 +57,7 @@ export const HeroParallax = ({
 }) => {
 	const firstRow = products.slice(0, 5);
 	const secondRow = products.slice(5, 10);
-	
+
 	// État pour contrôler l'affichage du SmokeEffect
 	const [showSmokeEffect, setShowSmokeEffect] = useState(false);
 	const thirdRow = products.slice(10, 15);
@@ -105,36 +105,47 @@ export const HeroParallax = ({
 		const detectPerformance = () => {
 			// Détecter les navigateurs problématiques
 			const userAgent = navigator.userAgent.toLowerCase();
-			const isOpera = userAgent.includes('opera') || userAgent.includes('opr');
-			const isEdge = userAgent.includes('edge') || userAgent.includes('edg');
-			
+			const isOpera =
+				userAgent.includes("opera") || userAgent.includes("opr");
+			const isEdge =
+				userAgent.includes("edge") || userAgent.includes("edg");
+
 			// Détecter la puissance du GPU (approximation)
-			const canvas = document.createElement('canvas');
-			const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
-			const debugInfo = gl?.getExtension('WEBGL_debug_renderer_info');
-			const renderer = debugInfo ? gl?.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '';
-			
+			const canvas = document.createElement("canvas");
+			const gl =
+				canvas.getContext("webgl") ||
+				(canvas.getContext(
+					"experimental-webgl"
+				) as WebGLRenderingContext | null);
+			const debugInfo = gl?.getExtension("WEBGL_debug_renderer_info");
+			const renderer = debugInfo
+				? gl?.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+				: "";
+
 			// Détecter les GPU intégrés ou faibles
-			const isLowEndGPU = renderer?.toLowerCase().includes('intel') || 
-							   renderer?.toLowerCase().includes('mali') ||
-							   renderer?.toLowerCase().includes('adreno') ||
-							   renderer?.toLowerCase().includes('powervr');
-			
+			const isLowEndGPU =
+				renderer?.toLowerCase().includes("intel") ||
+				renderer?.toLowerCase().includes("mali") ||
+				renderer?.toLowerCase().includes("adreno") ||
+				renderer?.toLowerCase().includes("powervr");
+
 			// Détecter la mémoire disponible (approximation)
-			const deviceMemory = (navigator as { deviceMemory?: number }).deviceMemory || 4;
-			
+			const deviceMemory =
+				(navigator as { deviceMemory?: number }).deviceMemory || 4;
+
 			// Décider si activer l'effet de fumée
-			const shouldEnableSmoke = !isOpera && !isEdge && !isLowEndGPU && deviceMemory >= 4;
-			
-			console.log('🔍 Performance Detection:', {
+			const shouldEnableSmoke =
+				!isOpera && !isEdge && !isLowEndGPU && deviceMemory >= 4;
+
+			console.log("🔍 Performance Detection:", {
 				isOpera,
 				isEdge,
 				renderer,
 				isLowEndGPU,
 				deviceMemory,
-				shouldEnableSmoke
+				shouldEnableSmoke,
 			});
-			
+
 			setShowSmokeEffect(shouldEnableSmoke);
 		};
 
@@ -441,16 +452,16 @@ export const Header = () => {
 					</p>
 
 					{/* CTA Buttons */}
-					<div className="flex flex-col sm:flex-row gap-4">
+					<div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
 						<a
 							href="/contact"
-							className="relative block overflow-hidden rounded-full p-px group"
+							className="relative block overflow-hidden rounded-full p-px group w-full sm:w-auto"
 							style={{
 								borderRadius: "3.40282e+38px",
 							}}
 						>
 							{/* Bouton principal */}
-							<div className="relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold no-underline cursor-pointer outline-offset-4 transition-all duration-500 transform group-hover:scale-105 text-white shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl overflow-hidden project-cta-button border-2 border-white/40 hover:border-white/60">
+							<div className="relative flex sm:inline-flex items-center justify-center whitespace-nowrap rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold no-underline cursor-pointer outline-offset-4 transition-all duration-500 transform group-hover:scale-105 text-white shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl overflow-hidden project-cta-button border-2 border-white/40 hover:border-white/60 w-full sm:w-auto">
 								<span className="relative z-10">
 									Commencer mon projet
 								</span>
@@ -483,67 +494,56 @@ export const Header = () => {
 									></rect>
 								</svg>
 
-								{/* Point lumineux qui orbite - Version responsive */}
+								{/* Point lumineux qui orbite - VERSION ORIGINALE */}
 								<div
 									ref={(el) => {
 										if (el) {
-											// Détection mobile pour ajuster l'animation
-											const isMobile = window.innerWidth <= 768;
-											const offset = isMobile ? 12 : 8; // Plus d'offset sur mobile
-											const size = isMobile ? 8 : 12; // Plus petit sur mobile
-											
-											// Mettre à jour la taille du point
-											el.style.width = `${size}px`;
-											el.style.height = `${size}px`;
-											
 											const tl = gsap.timeline({
 												repeat: -1,
 											});
-											// Côté haut (plus long) - avec offset mobile
+											// Côté haut (plus long)
 											tl.to(el, {
-												top: `${offset}px`,
-												left: `calc(100% - ${offset}px)`,
+												top: "8px",
+												left: "calc(100% - 8px)",
 												duration: 1.4,
 												ease: "none",
 											})
 												// Coin haut-droite (court)
 												.to(el, {
-													top: `calc(100% - ${offset}px)`,
-													left: `calc(100% - ${offset}px)`,
+													top: "calc(100% - 8px)",
+													left: "calc(100% - 8px)",
 													duration: 0.6,
 													ease: "none",
 												})
 												// Côté droite (plus long)
 												.to(el, {
-													top: `calc(100% - ${offset}px)`,
-													left: `${offset}px`,
+													top: "calc(100% - 8px)",
+													left: "8px",
 													duration: 1.4,
 													ease: "none",
 												})
 												// Coin bas-gauche (court)
 												.to(el, {
-													top: `${offset}px`,
-													left: `${offset}px`,
+													top: "8px",
+													left: "8px",
 													duration: 0.6,
 													ease: "none",
 												});
 										}
 									}}
-									className="absolute bg-cyan-400 rounded-full"
+									className="absolute w-12 h-12 bg-cyan-400 rounded-full"
 									style={{
 										top: "8px",
 										left: "8px",
 										transform: "translate(-50%, -50%)",
-										filter: "blur(1px) drop-shadow(0 0 12px rgba(34, 211, 238, 0.8))",
-										width: "12px",
-										height: "12px",
+										filter: "blur(2px) drop-shadow(0 0 16px rgba(34, 211, 238, 0.9))",
 									}}
 								></div>
 							</div>
 						</a>
 						<a
 							href="/services"
-							className="relative border-2 border-white/40 hover:border-white/60 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden services-cta-button"
+							className="relative border-2 border-white/40 hover:border-white/60 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden services-cta-button w-full sm:w-auto"
 						>
 							<span className="relative z-10">
 								Voir mes services
