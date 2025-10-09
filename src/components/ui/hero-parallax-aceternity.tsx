@@ -18,7 +18,7 @@ import {
 	useTransform,
 } from "motion/react";
 import React, { useEffect, useRef } from "react";
-// import SmokeEffect from "./smoke-effect";
+import SmokeEffect from "./smoke-effect";
 
 // Enregistrer le plugin SplitText
 if (typeof window !== "undefined") {
@@ -120,7 +120,7 @@ export const HeroParallax = ({
 				className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
 			>
 				{/* Effet de fumée qui couvre toute la section hero */}
-				{/* <SmokeEffect /> */}
+				<SmokeEffect />
 				<Header />
 				<motion.div
 					style={{

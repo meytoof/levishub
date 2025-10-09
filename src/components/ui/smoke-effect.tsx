@@ -2,6 +2,23 @@
 
 import { useEffect, useRef } from "react";
 
+interface Pointer {
+	id: number;
+	x: number;
+	y: number;
+	dx: number;
+	dy: number;
+	down: boolean;
+	moved: boolean;
+	color: number[];
+}
+
+interface GLProgramInstance {
+	uniforms: { [key: string]: WebGLUniformLocation | null };
+	program: WebGLProgram;
+	bind(): void;
+}
+
 export default function SmokeEffect() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,22 +40,22 @@ export default function SmokeEffect() {
 			SPLAT_RADIUS: 0.0008, // Beaucoup plus petit pour un effet subtil
 		};
 
-		const pointers: any[] = [];
+		const pointers: Pointer[] = [];
 		const splatStack: number[] = []; // Pas de splats initiaux
 
-		const _getWebGLContext: any = getWebGLContext(canvas);
-		const gl: any = _getWebGLContext.gl;
-		const ext: any = _getWebGLContext.ext;
-		const support_linear_float: any = _getWebGLContext.support_linear_float;
+		const _getWebGLContext = getWebGLContext(canvas);
+		const gl = _getWebGLContext.gl;
+		const ext = _getWebGLContext.ext;
+		const support_linear_float = _getWebGLContext.support_linear_float;
 
 		// Déclarer les variables de texture avant leur utilisation
-		let textureWidth: any,
-			textureHeight: any,
-			density: any,
-			velocity: any,
-			divergence: any,
-			curl: any,
-			pressure: any;
+		let textureWidth: number;
+		let textureHeight: number;
+		let density: any;
+		let velocity: any;
+		let divergence: any;
+		let curl: any;
+		let pressure: any;
 
 		// Sizing function optimisée
 		function resizeCanvas() {
@@ -63,13 +80,15 @@ export default function SmokeEffect() {
 			};
 
 			let gl: any = canvas.getContext("webgl2", params);
-
 			const isWebGL2 = !!gl;
 
-			if (!isWebGL2)
+			if (!isWebGL2) {
 				gl =
 					canvas.getContext("webgl", params) ||
 					canvas.getContext("experimental-webgl", params);
+			}
+
+			if (!gl) throw new Error("WebGL not supported");
 
 			const halfFloat = gl.getExtension("OES_texture_half_float");
 			let support_linear_float = gl.getExtension(
@@ -88,7 +107,9 @@ export default function SmokeEffect() {
 			const internalFormat = isWebGL2 ? gl.RGBA16F : gl.RGBA;
 			const internalFormatRG = isWebGL2 ? gl.RG16F : gl.RGBA;
 			const formatRG = isWebGL2 ? gl.RG : gl.RGBA;
-			const texType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+			const texType = isWebGL2
+				? gl.HALF_FLOAT
+				: (halfFloat as any).HALF_FLOAT_OES;
 
 			return {
 				gl: gl,
@@ -102,7 +123,7 @@ export default function SmokeEffect() {
 			};
 		}
 
-		function pointerPrototype(this: any) {
+		function pointerPrototype(this: Pointer) {
 			this.id = -1;
 			this.x = 0;
 			this.y = 0;
@@ -117,15 +138,15 @@ export default function SmokeEffect() {
 
 		const GLProgram = (function () {
 			function GLProgram(
-				this: any,
-				vertexShader: any,
-				fragmentShader: any
+				this: GLProgramInstance,
+				vertexShader: WebGLShader,
+				fragmentShader: WebGLShader
 			) {
 				if (!(this instanceof GLProgram))
 					throw new TypeError("Cannot call a class as a function");
 
-				(this as any).uniforms = {};
-				(this as any).program = gl.createProgram();
+				this.uniforms = {};
+				this.program = gl.createProgram()!;
 
 				gl.attachShader(this.program, vertexShader);
 				gl.attachShader(this.program, fragmentShader);
@@ -140,26 +161,24 @@ export default function SmokeEffect() {
 				);
 
 				for (let i = 0; i < uniformCount; i++) {
-					const uniformName = gl.getActiveUniform(
-						this.program,
-						i
-					).name;
-
-					this.uniforms[uniformName] = gl.getUniformLocation(
-						this.program,
-						uniformName
-					);
+					const uniform = gl.getActiveUniform(this.program, i);
+					if (uniform) {
+						this.uniforms[uniform.name] = gl.getUniformLocation(
+							this.program,
+							uniform.name
+						);
+					}
 				}
 			}
 
-			GLProgram.prototype.bind = function bind(this: any) {
+			GLProgram.prototype.bind = function bind(this: GLProgramInstance) {
 				gl.useProgram(this.program);
 			};
 			return GLProgram as any;
 		})();
 
-		function compileShader(type: any, source: string) {
-			const sh = gl.createShader(type);
+		function compileShader(type: number, source: string): WebGLShader {
+			const sh = gl.createShader(type)!;
 			gl.shaderSource(sh, source);
 			gl.compileShader(sh);
 			if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS))
@@ -215,41 +234,41 @@ export default function SmokeEffect() {
 		const clearProgram = new (GLProgram as any)(
 			baseVertexShader,
 			clearShader
-		);
+		) as GLProgramInstance;
 		const displayProgram = new (GLProgram as any)(
 			baseVertexShader,
 			displayShader
-		);
+		) as GLProgramInstance;
 		const splatProgram = new (GLProgram as any)(
 			baseVertexShader,
 			splatShader
-		);
+		) as GLProgramInstance;
 		const advectionProgram = new (GLProgram as any)(
 			baseVertexShader,
 			support_linear_float
 				? advectionShader
 				: advectionManualFilteringShader
-		);
+		) as GLProgramInstance;
 		const divergenceProgram = new (GLProgram as any)(
 			baseVertexShader,
 			divergenceShader
-		);
+		) as GLProgramInstance;
 		const curlProgram = new (GLProgram as any)(
 			baseVertexShader,
 			curlShader
-		);
+		) as GLProgramInstance;
 		const vorticityProgram = new (GLProgram as any)(
 			baseVertexShader,
 			vorticityShader
-		);
+		) as GLProgramInstance;
 		const pressureProgram = new (GLProgram as any)(
 			baseVertexShader,
 			pressureShader
-		);
+		) as GLProgramInstance;
 		const gradProg = new (GLProgram as any)(
 			baseVertexShader,
 			gradientSubtractShader
-		);
+		) as GLProgramInstance;
 
 		function initFramebuffers() {
 			textureWidth = gl.drawingBufferWidth >> config.TEXTURE_DOWNSAMPLE;
@@ -309,10 +328,10 @@ export default function SmokeEffect() {
 			texId: number,
 			w: number,
 			h: number,
-			internalFormat: any,
-			format: any,
-			type: any,
-			param: any
+			internalFormat: number,
+			format: number,
+			type: number,
+			param: number
 		) {
 			gl.activeTexture(gl.TEXTURE0 + texId);
 			const texture = gl.createTexture();
@@ -358,10 +377,10 @@ export default function SmokeEffect() {
 			texId: number,
 			w: number,
 			h: number,
-			internalFormat: any,
-			format: any,
-			type: any,
-			param: any
+			internalFormat: number,
+			format: number,
+			type: number,
+			param: number
 		) {
 			let fbo1 = createFBO(
 				texId,
@@ -412,7 +431,7 @@ export default function SmokeEffect() {
 			);
 			gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 			gl.enableVertexAttribArray(0);
-			return function (destination: any) {
+			return function (destination: WebGLFramebuffer | null) {
 				gl.bindFramebuffer(gl.FRAMEBUFFER, destination);
 				gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
 			};
@@ -435,8 +454,8 @@ export default function SmokeEffect() {
 						Math.random() * 10,
 						Math.random() * 10,
 					];
-					const x = canvas.width * Math.random();
-					const y = canvas.height * Math.random();
+					const x = canvas!.width * Math.random();
+					const y = canvas!.height * Math.random();
 					const dx = 1000 * (Math.random() - 0.5);
 					const dy = 1000 * (Math.random() - 0.5);
 					splat(x, y, dx, dy, color);
@@ -445,30 +464,30 @@ export default function SmokeEffect() {
 
 			advectionProgram.bind();
 			gl.uniform2f(
-				advectionProgram.uniforms.texelSize,
+				advectionProgram.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
 			gl.uniform1i(
-				advectionProgram.uniforms.uVelocity,
+				advectionProgram.uniforms.uVelocity!,
 				velocity.first[2]
 			);
-			gl.uniform1i(advectionProgram.uniforms.uSource, velocity.first[2]);
-			gl.uniform1f(advectionProgram.uniforms.dt, dt);
+			gl.uniform1i(advectionProgram.uniforms.uSource!, velocity.first[2]);
+			gl.uniform1f(advectionProgram.uniforms.dt!, dt);
 			gl.uniform1f(
-				advectionProgram.uniforms.dissipation,
+				advectionProgram.uniforms.dissipation!,
 				config.VELOCITY_DISSIPATION
 			);
 			blit(velocity.second[1]);
 			velocity.swap();
 
 			gl.uniform1i(
-				advectionProgram.uniforms.uVelocity,
+				advectionProgram.uniforms.uVelocity!,
 				velocity.first[2]
 			);
-			gl.uniform1i(advectionProgram.uniforms.uSource, density.first[2]);
+			gl.uniform1i(advectionProgram.uniforms.uSource!, density.first[2]);
 			gl.uniform1f(
-				advectionProgram.uniforms.dissipation,
+				advectionProgram.uniforms.dissipation!,
 				config.DENSITY_DISSIPATION
 			);
 			blit(density.second[1]);
@@ -492,37 +511,37 @@ export default function SmokeEffect() {
 
 			curlProgram.bind();
 			gl.uniform2f(
-				curlProgram.uniforms.texelSize,
+				curlProgram.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
-			gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.first[2]);
+			gl.uniform1i(curlProgram.uniforms.uVelocity!, velocity.first[2]);
 			blit(curl[1]);
 
 			vorticityProgram.bind();
 			gl.uniform2f(
-				vorticityProgram.uniforms.texelSize,
+				vorticityProgram.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
 			gl.uniform1i(
-				vorticityProgram.uniforms.uVelocity,
+				vorticityProgram.uniforms.uVelocity!,
 				velocity.first[2]
 			);
-			gl.uniform1i(vorticityProgram.uniforms.uCurl, curl[2]);
-			gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL);
-			gl.uniform1f(vorticityProgram.uniforms.dt, dt);
+			gl.uniform1i(vorticityProgram.uniforms.uCurl!, curl[2]);
+			gl.uniform1f(vorticityProgram.uniforms.curl!, config.CURL);
+			gl.uniform1f(vorticityProgram.uniforms.dt!, dt);
 			blit(velocity.second[1]);
 			velocity.swap();
 
 			divergenceProgram.bind();
 			gl.uniform2f(
-				divergenceProgram.uniforms.texelSize,
+				divergenceProgram.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
 			gl.uniform1i(
-				divergenceProgram.uniforms.uVelocity,
+				divergenceProgram.uniforms.uVelocity!,
 				velocity.first[2]
 			);
 			blit(divergence[1]);
@@ -533,9 +552,9 @@ export default function SmokeEffect() {
 
 			gl.activeTexture(gl.TEXTURE0 + pressureTexId);
 			gl.bindTexture(gl.TEXTURE_2D, pressure.first[0]);
-			gl.uniform1i(clearProgram.uniforms.uTexture, pressureTexId);
+			gl.uniform1i(clearProgram.uniforms.uTexture!, pressureTexId);
 			gl.uniform1f(
-				clearProgram.uniforms.value,
+				clearProgram.uniforms.value!,
 				config.PRESSURE_DISSIPATION
 			);
 			blit(pressure.second[1]);
@@ -543,35 +562,38 @@ export default function SmokeEffect() {
 
 			pressureProgram.bind();
 			gl.uniform2f(
-				pressureProgram.uniforms.texelSize,
+				pressureProgram.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
-			gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence[2]);
+			gl.uniform1i(pressureProgram.uniforms.uDivergence!, divergence[2]);
 			pressureTexId = pressure.first[2];
 			gl.activeTexture(gl.TEXTURE0 + pressureTexId);
 
 			for (let _i = 0; _i < config.PRESSURE_ITERATIONS; _i++) {
 				gl.bindTexture(gl.TEXTURE_2D, pressure.first[0]);
-				gl.uniform1i(pressureProgram.uniforms.uPressure, pressureTexId);
+				gl.uniform1i(
+					pressureProgram.uniforms.uPressure!,
+					pressureTexId
+				);
 				blit(pressure.second[1]);
 				pressure.swap();
 			}
 
 			gradProg.bind();
 			gl.uniform2f(
-				gradProg.uniforms.texelSize,
+				gradProg.uniforms.texelSize!,
 				1.0 / textureWidth,
 				1.0 / textureHeight
 			);
-			gl.uniform1i(gradProg.uniforms.uPressure, pressure.first[2]);
-			gl.uniform1i(gradProg.uniforms.uVelocity, velocity.first[2]);
+			gl.uniform1i(gradProg.uniforms.uPressure!, pressure.first[2]);
+			gl.uniform1i(gradProg.uniforms.uVelocity!, velocity.first[2]);
 			blit(velocity.second[1]);
 			velocity.swap();
 
 			gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 			displayProgram.bind();
-			gl.uniform1i(displayProgram.uniforms.uTexture, density.first[2]);
+			gl.uniform1i(displayProgram.uniforms.uTexture!, density.first[2]);
 			blit(null);
 
 			// Continuer l'animation comme le CodePen
@@ -586,23 +608,23 @@ export default function SmokeEffect() {
 			color: number[]
 		) {
 			splatProgram.bind();
-			gl.uniform1i(splatProgram.uniforms.uTarget, velocity.first[2]);
+			gl.uniform1i(splatProgram.uniforms.uTarget!, velocity.first[2]);
 			gl.uniform1f(
-				splatProgram.uniforms.aspectRatio,
-				canvas.width / canvas.height
+				splatProgram.uniforms.aspectRatio!,
+				canvas!.width / canvas!.height
 			);
 			gl.uniform2f(
-				splatProgram.uniforms.point,
-				x / canvas.width,
-				1.0 - y / canvas.height
+				splatProgram.uniforms.point!,
+				x / canvas!.width,
+				1.0 - y / canvas!.height
 			);
-			gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0);
-			gl.uniform1f(splatProgram.uniforms.radius, config.SPLAT_RADIUS);
+			gl.uniform3f(splatProgram.uniforms.color!, dx, -dy, 1.0);
+			gl.uniform1f(splatProgram.uniforms.radius!, config.SPLAT_RADIUS);
 			blit(velocity.second[1]);
 			velocity.swap();
-			gl.uniform1i(splatProgram.uniforms.uTarget, density.first[2]);
+			gl.uniform1i(splatProgram.uniforms.uTarget!, density.first[2]);
 			gl.uniform3f(
-				splatProgram.uniforms.color,
+				splatProgram.uniforms.color!,
 				color[0] * 0.3,
 				color[1] * 0.3,
 				color[2] * 0.3
