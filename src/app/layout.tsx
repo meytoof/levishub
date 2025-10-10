@@ -9,6 +9,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "LevisWeb - Développement Web Freelance",
 	description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+	icons: {
+		icon: "/images/logo.png",
+		shortcut: "/images/logo.png",
+		apple: "/images/logo.png",
+	},
 };
 
 export default function RootLayout({
