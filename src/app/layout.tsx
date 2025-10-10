@@ -14,6 +14,27 @@ export const metadata: Metadata = {
 		shortcut: "/images/logo.png",
 		apple: "/images/logo.png",
 	},
+	openGraph: {
+		title: "LevisWeb - Développement Web Freelance",
+		description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+		images: [
+			{
+				url: "/images/logo.png",
+				width: 1200,
+				height: 630,
+				alt: "LevisWeb - Développement Web Freelance",
+			},
+		],
+		siteName: "LevisWeb",
+		type: "website",
+		locale: "fr_FR",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "LevisWeb - Développement Web Freelance",
+		description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+		images: ["/images/logo.png"],
+	},
 };
 
 export default function RootLayout({
