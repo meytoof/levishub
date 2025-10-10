@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 		siteName: "LevisWeb",
 		images: [
 			{
-				url: "/favicon.ico",
+				url: "/images/logo.png",
 				width: 1200,
 				height: 630,
 				alt: "LevisWeb - Développement Web Freelance",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 		title: "LevisWeb - Développement Web Freelance",
 		description:
 			"Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
-		images: ["/favicon.ico"],
+		images: ["/images/logo.png"],
 	},
 };
 

@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		title: "LevisWeb - Développement Web Freelance",
-		description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+		description:
+			"Sites modernes, rapides et animés avec backoffice sur mesure",
 		images: [
 			{
 				url: "/images/logo.png",
@@ -32,7 +33,8 @@ export const metadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		title: "LevisWeb - Développement Web Freelance",
-		description: "Sites modernes, rapides et animés avec backoffice sur mesure",
+		description:
+			"Sites modernes, rapides et animés avec backoffice sur mesure",
 		images: ["/images/logo.png"],
 	},
 };
