@@ -37,12 +37,10 @@ export default function CalScheduler({
         const cal = await getCalApi();
 
         if (cal && calRef.current) {
-          // Configuration des styles
+          // Configuration des styles (branding uniquement supporté)
           cal("ui", {
             styles: {
               branding: { brandColor: accentColor },
-              light: { backgroundColor, textColor },
-              dark: { backgroundColor, textColor },
             },
           });
 
