@@ -4,63 +4,63 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const AUDIT_BCC = process.env.EMAIL_AUDIT_BCC;
 
 export interface EmailData {
-	to: string;
-	subject: string;
-	html: string;
+  to: string;
+  subject: string;
+  html: string;
 }
 
 export interface InvitationEmailData {
-	to: string;
-	companyName: string;
-	inviterName: string;
-	invitationUrl: string;
-	expiresAt: Date;
+  to: string;
+  companyName: string;
+  inviterName: string;
+  invitationUrl: string;
+  expiresAt: Date;
 }
 
 export interface TicketNotificationData {
-	to: string;
-	ticketTitle: string;
-	ticketStatus: string;
-	companyName: string;
-	ticketUrl: string;
+  to: string;
+  ticketTitle: string;
+  ticketStatus: string;
+  companyName: string;
+  ticketUrl: string;
 }
 
 export interface TicketMessageNotificationData {
-	to: string;
-	ticketTitle: string;
-	messagePreview: string;
-	companyName: string;
-	ticketUrl: string;
+  to: string;
+  ticketTitle: string;
+  messagePreview: string;
+  companyName: string;
+  ticketUrl: string;
 }
 
 export interface TicketUpdateNotificationData {
-	ticketId: string;
-	title: string;
-	status: "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
-	priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
-	clientName: string;
-	clientEmail: string;
-	updatedAt: Date;
-	adminMessage?: string;
+  ticketId: string;
+  title: string;
+  status: "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+  clientName: string;
+  clientEmail: string;
+  updatedAt: Date;
+  adminMessage?: string;
 }
 
 export interface PasswordResetEmailData {
-	to: string;
-	resetUrl: string;
-	expiresAt: Date;
+  to: string;
+  resetUrl: string;
+  expiresAt: Date;
 }
 
 /**
  * Envoie un email d'invitation à un nouveau client
  */
 export async function sendInvitationEmail(data: InvitationEmailData) {
-	const { to, companyName, inviterName, invitationUrl, expiresAt } = data;
+  const { to, companyName, inviterName, invitationUrl, expiresAt } = data;
 
-	const expiresIn = Math.ceil(
-		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
-	); // heures
+  const expiresIn = Math.ceil(
+    (expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
+  ); // heures
 
-	const html = `
+  const html = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -121,49 +121,48 @@ export async function sendInvitationEmail(data: InvitationEmailData) {
 		</html>
 	`;
 
-	try {
-		// Utilise un expéditeur basé sur le domaine (meilleure délivrabilité)
-		const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-		const defaultFrom = `LevisWeb <noreply@${domain}>`;
-		const from = process.env.RESEND_FROM || defaultFrom;
+  try {
+    // Utilise un expéditeur basé sur le domaine (meilleure délivrabilité)
+    const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+    const defaultFrom = `LevisWeb <noreply@${domain}>`;
+    const from = process.env.RESEND_FROM || defaultFrom;
 
-		const result = await resend.emails.send({
-			from,
-			to: [to],
-			subject: `Invitation LevisWeb - ${companyName}`,
-			html: html,
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
+    const result = await resend.emails.send({
+      from,
+      to: [to],
+      subject: `Invitation LevisWeb - ${companyName}`,
+      html: html,
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
 
-		console.log("Email d'invitation envoyé:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Erreur envoi email d'invitation:", error);
-		return { success: false, error };
-	}
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Erreur envoi email d'invitation:", error);
+    return { success: false, error };
+  }
 }
 
 /**
  * Envoie une notification de mise à jour de ticket
  */
 export async function sendTicketNotification(data: TicketNotificationData) {
-	const { to, ticketTitle, ticketStatus, companyName, ticketUrl } = data;
+  const { to, ticketTitle, ticketStatus, companyName, ticketUrl } = data;
 
-	const statusColors = {
-		OPEN: "#dc2626",
-		IN_PROGRESS: "#ea580c",
-		RESOLVED: "#059669",
-		CLOSED: "#6b7280",
-	};
+  const statusColors = {
+    OPEN: "#dc2626",
+    IN_PROGRESS: "#ea580c",
+    RESOLVED: "#059669",
+    CLOSED: "#6b7280",
+  };
 
-	const statusLabels = {
-		OPEN: "Ouvert",
-		IN_PROGRESS: "En cours",
-		RESOLVED: "Résolu",
-		CLOSED: "Fermé",
-	};
+  const statusLabels = {
+    OPEN: "Ouvert",
+    IN_PROGRESS: "En cours",
+    RESOLVED: "Résolu",
+    CLOSED: "Fermé",
+  };
 
-	const html = `
+  const html = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -180,8 +179,8 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 				.button:hover { background: #1d4ed8; }
 				.footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
 				.ticket-info { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid ${
-					statusColors[ticketStatus as keyof typeof statusColors]
-				}; }
+          statusColors[ticketStatus as keyof typeof statusColors]
+        }; }
 			</style>
 		</head>
 		<body>
@@ -199,10 +198,8 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 					<div class="ticket-info">
 						<h3 style="margin: 0 0 10px 0;">${ticketTitle}</h3>
 						<span class="status" style="background: ${
-							statusColors[
-								ticketStatus as keyof typeof statusColors
-							]
-						};">
+              statusColors[ticketStatus as keyof typeof statusColors]
+            };">
 							${statusLabels[ticketStatus as keyof typeof statusLabels]}
 						</span>
 					</div>
@@ -223,29 +220,28 @@ export async function sendTicketNotification(data: TicketNotificationData) {
 		</html>
 	`;
 
-	try {
-		const result = await resend.emails.send({
-			from: "LevisWeb Support <onboarding@resend.dev>",
-			to: [to],
-			subject: `Ticket mis à jour - ${ticketTitle}`,
-			html: html,
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
+  try {
+    const result = await resend.emails.send({
+      from: "LevisWeb Support <onboarding@resend.dev>",
+      to: [to],
+      subject: `Ticket mis à jour - ${ticketTitle}`,
+      html: html,
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
 
-		console.log("Notification ticket envoyée:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Erreur envoi notification ticket:", error);
-		return { success: false, error };
-	}
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Erreur envoi notification ticket:", error);
+    return { success: false, error };
+  }
 }
 
 export async function sendTicketMessageNotification(
-	data: TicketMessageNotificationData
+  data: TicketMessageNotificationData
 ) {
-	const { to, ticketTitle, messagePreview, companyName, ticketUrl } = data;
+  const { to, ticketTitle, messagePreview, companyName, ticketUrl } = data;
 
-	const html = `
+  const html = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -281,48 +277,50 @@ export async function sendTicketMessageNotification(
         </html>
     `;
 
-    try {
-        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-        // Fallback vers domaine Resend si domaine non vérifié
-        const from = process.env.RESEND_FROM || defaultFrom || "LevisWeb Support <onboarding@resend.dev>";
-		const result = await resend.emails.send({
-			from,
-			to: [to],
-			subject: `Nouveau message - ${ticketTitle}`,
-			html,
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
+  try {
+    const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+    const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+    // Fallback vers domaine Resend si domaine non vérifié
+    const from =
+      process.env.RESEND_FROM ||
+      defaultFrom ||
+      "LevisWeb Support <onboarding@resend.dev>";
+    const result = await resend.emails.send({
+      from,
+      to: [to],
+      subject: `Nouveau message - ${ticketTitle}`,
+      html,
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
 
-		console.log("Notification message envoyée:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Erreur envoi notification message:", error);
-		return { success: false, error };
-	}
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Erreur envoi notification message:", error);
+    return { success: false, error };
+  }
 }
 
 export async function sendTicketUpdateNotification(
-	data: TicketUpdateNotificationData
+  data: TicketUpdateNotificationData
 ) {
-	const {
-		title,
-		status,
-		priority,
-		clientName,
-		clientEmail,
-		updatedAt,
-		adminMessage,
-	} = data;
+  const {
+    title,
+    status,
+    priority,
+    clientName,
+    clientEmail,
+    updatedAt,
+    adminMessage,
+  } = data;
 
-	const statusLabels = {
-		OPEN: "Ouvert",
-		IN_PROGRESS: "En cours",
-		RESOLVED: "Résolu",
-		CLOSED: "Fermé",
-	} as const;
+  const statusLabels = {
+    OPEN: "Ouvert",
+    IN_PROGRESS: "En cours",
+    RESOLVED: "Résolu",
+    CLOSED: "Fermé",
+  } as const;
 
-	const html = `
+  const html = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -348,16 +346,16 @@ export async function sendTicketUpdateNotification(
                 <div class="content">
                     <h2>${title}</h2>
                     <p>Statut: <span class="pill">${
-						statusLabels[status]
-					}</span> — Priorité: <strong>${priority}</strong></p>
+                      statusLabels[status]
+                    }</span> — Priorité: <strong>${priority}</strong></p>
                     <p>Mis à jour le ${new Date(updatedAt).toLocaleString(
-						"fr-FR"
-					)}.</p>
+                      "fr-FR"
+                    )}.</p>
                     ${
-						adminMessage
-							? `<div class="note"><strong>Message:</strong><br/>${adminMessage}</div>`
-							: ""
-					}
+                      adminMessage
+                        ? `<div class="note"><strong>Message:</strong><br/>${adminMessage}</div>`
+                        : ""
+                    }
                 </div>
                 <div class="footer">LevisWeb - Support</div>
             </div>
@@ -365,36 +363,38 @@ export async function sendTicketUpdateNotification(
         </html>
     `;
 
-    try {
-        const domain = process.env.RESEND_DOMAIN || "levisweb.net";
-        const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
-        const from = process.env.RESEND_FROM || defaultFrom || "LevisWeb Support <onboarding@resend.dev>";
-		const result = await resend.emails.send({
-			from,
-			to: [clientEmail],
-			subject: `Mise à jour du ticket - ${title}`,
-			html,
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
-		console.log("Notification mise à jour envoyée:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Erreur envoi notif mise à jour:", error);
-		return { success: false, error };
-	}
+  try {
+    const domain = process.env.RESEND_DOMAIN || "levisweb.net";
+    const defaultFrom = `LevisWeb Support <noreply@${domain}>`;
+    const from =
+      process.env.RESEND_FROM ||
+      defaultFrom ||
+      "LevisWeb Support <onboarding@resend.dev>";
+    const result = await resend.emails.send({
+      from,
+      to: [clientEmail],
+      subject: `Mise à jour du ticket - ${title}`,
+      html,
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Erreur envoi notif mise à jour:", error);
+    return { success: false, error };
+  }
 }
 
 /**
  * Envoie un email de reset de mot de passe
  */
 export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
-	const { to, resetUrl, expiresAt } = data;
+  const { to, resetUrl, expiresAt } = data;
 
-	const expiresIn = Math.ceil(
-		(expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
-	); // heures
+  const expiresIn = Math.ceil(
+    (expiresAt.getTime() - Date.now()) / (1000 * 60 * 60)
+  ); // heures
 
-	const html = `
+  const html = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -449,40 +449,38 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
 		</html>
 	`;
 
-	try {
-		const result = await resend.emails.send({
-			from: "LevisWeb Sécurité <onboarding@resend.dev>",
-			to: [to],
-			subject: "Reset mot de passe - LevisWeb",
-			html: html,
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
+  try {
+    const result = await resend.emails.send({
+      from: "LevisWeb Sécurité <onboarding@resend.dev>",
+      to: [to],
+      subject: "Reset mot de passe - LevisWeb",
+      html: html,
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
 
-		console.log("Email reset mot de passe envoyé:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Erreur envoi email reset mot de passe:", error);
-		return { success: false, error };
-	}
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Erreur envoi email reset mot de passe:", error);
+    return { success: false, error };
+  }
 }
 
 /**
  * Test de connexion Resend
  */
 export async function testResendConnection() {
-	try {
-		const result = await resend.emails.send({
-			from: "LevisWeb <onboarding@resend.dev>",
-			to: ["quentinlevis@gmail.com"], // Remplace par ton email si tu veux
-			subject: "Test connexion Resend",
-			html: "<p>Test de connexion réussi !</p>",
-			bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
-		});
+  try {
+    const result = await resend.emails.send({
+      from: "LevisWeb <onboarding@resend.dev>",
+      to: ["quentinlevis@gmail.com"], // Remplace par ton email si tu veux
+      subject: "Test connexion Resend",
+      html: "<p>Test de connexion réussi !</p>",
+      bcc: AUDIT_BCC ? [AUDIT_BCC] : undefined,
+    });
 
-		console.log("Test Resend réussi:", result);
-		return { success: true, data: result };
-	} catch (error) {
-		console.error("Test Resend échoué:", error);
-		return { success: false, error };
-	}
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Test Resend échoué:", error);
+    return { success: false, error };
+  }
 }
