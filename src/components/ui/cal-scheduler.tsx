@@ -37,6 +37,10 @@ export default function CalScheduler({
         const cal = await getCalApi();
 
         if (cal && calRef.current) {
+          const prefillParams: Record<string, string> = {};
+          if (prefillName) prefillParams.name = prefillName;
+          if (prefillEmail) prefillParams.email = prefillEmail;
+          if (prefillNotes) prefillParams.notes = prefillNotes;
           // Configuration des styles (branding uniquement supporté)
           cal("ui", {
             styles: {
@@ -51,11 +55,7 @@ export default function CalScheduler({
             config: {
               layout: "month_view",
               theme: "dark",
-            },
-            prefill: {
-              name: prefillName || undefined,
-              email: prefillEmail || undefined,
-              notes: prefillNotes || undefined,
+              prefill: prefillParams,
             },
           });
 
