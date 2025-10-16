@@ -100,7 +100,7 @@ export default async function MarketingLayout({
                 <AuthButtons />
               </div>
             </NavBody>
-            <MobileNavigation />
+            <MobileNavigation items={navItems} authButtons={<AuthButtons />} />
           </Navbar>
           <main className="flex-1">{children}</main>
           <Footer />

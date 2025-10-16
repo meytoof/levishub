@@ -1,13 +1,4 @@
 "use client";
-import { AuthButtons } from "@/components/auth/AuthButtons";
-import {
-  MobileNavigation,
-  Navbar,
-  NavbarLogo,
-  NavBody,
-  NavItems,
-} from "@/components/ui/resizable-navbar";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import {
@@ -145,22 +136,6 @@ export const HeroParallax = ({
 
   return (
     <div className="bg-black relative">
-      <Navbar>
-        <NavBody
-          className="shadow-none levisweb-nav z-20"
-          shrinkOnScroll={false}
-        >
-          <NavbarLogo />
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <AuthButtons />
-          </div>
-        </NavBody>
-        <MobileNavigation />
-      </Navbar>
-      <div className="h-16 lg:h-20" />
-
       <div
         ref={ref}
         className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
