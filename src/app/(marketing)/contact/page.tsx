@@ -62,6 +62,7 @@ export default function ContactPage() {
           "@context": "https://schema.org",
           "@type": "ContactPage",
           name: "Contact - LevisWeb",
+          alternateName: "Levis Web",
           description:
             "Contactez LevisWeb pour votre projet de développement web",
           url: "https://levisweb.net/contact",
