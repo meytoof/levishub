@@ -137,7 +137,7 @@ export default function Home() {
           areaServed: [{ "@type": "Country", name: "France" }],
           priceRange: "€€€",
           description:
-            "Développement web freelance - Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+            "Agence digitale - Sites modernes, responsives et optimisés SEO avec backoffice sur mesure. Refonte site web, e-commerce sécurisé et maintenance continue.",
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Services LevisWeb",
@@ -146,14 +146,14 @@ export default function Home() {
                 "@type": "Offer",
                 itemOffered: {
                   "@type": "Service",
-                  name: "Développement de sites web",
+                  name: "Développement de sites web modernes et responsives",
                 },
               },
               {
                 "@type": "Offer",
                 itemOffered: {
                   "@type": "Service",
-                  name: "E-commerce",
+                  name: "E-commerce sécurisé avec paiements",
                 },
               },
               {
@@ -174,7 +174,7 @@ export default function Home() {
                 "@type": "Offer",
                 itemOffered: {
                   "@type": "Service",
-                  name: "Maintenance web",
+                  name: "Refonte et maintenance de sites web",
                 },
               },
             ],

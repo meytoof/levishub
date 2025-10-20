@@ -7,63 +7,67 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "LevisWeb - Développement Web Freelance",
-	description: "Sites modernes, rapides et animés avec backoffice sur mesure",
-	icons: {
-		icon: "/images/logo.png",
-		shortcut: "/images/logo.png",
-		apple: "/images/logo.png",
-	},
-	openGraph: {
-		title: "LevisWeb - Développement Web Freelance",
-		description:
-			"Sites modernes, rapides et animés avec backoffice sur mesure",
-		images: [
-			{
-				url: "/images/logo.png",
-				width: 1200,
-				height: 630,
-				alt: "LevisWeb - Développement Web Freelance",
-			},
-		],
-		siteName: "LevisWeb",
-		type: "website",
-		locale: "fr_FR",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "LevisWeb - Développement Web Freelance",
-		description:
-			"Sites modernes, rapides et animés avec backoffice sur mesure",
-		images: ["/images/logo.png"],
-	},
+  title:
+    "LevisWeb - Agence Digitale SEO | Sites Modernes & Optimisés SEO | Savoie & Chartreuse",
+  description:
+    "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale. Savoie & Chartreuse.",
+  keywords:
+    "agence digitale SEO, spécialiste SEO, agence de communication, création site internet moderne, design moderne, refonte site web, e-commerce sécurisé, performance web, maintenance site web, Savoie, Chartreuse, Grenoble",
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
+  openGraph: {
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+    description:
+      "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale.",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+      },
+    ],
+    siteName: "LevisWeb",
+    type: "website",
+    locale: "fr_FR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+    description:
+      "Agence digitale spécialisée SEO et création de sites modernes. Performance, proximité et expertise locale. Refonte site web et e-commerce sécurisé.",
+    images: ["/images/logo.png"],
+  },
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="fr" suppressHydrationWarning>
-			<head>
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link
-					rel="preconnect"
-					href="https://fonts.gstatic.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
-					rel="stylesheet"
-				/>
-				<link
-					href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
-					rel="stylesheet"
-				/>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `
+  return (
+    <html lang="fr" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
 							// Force le thème clair pour les WebViews (Messenger, etc.)
 							(function() {
 								// Détecter si on est dans un WebView mobile
@@ -93,18 +97,13 @@ export default function RootLayout({
 								}
 							})();
 						`,
-					}}
-				/>
-			</head>
-			<body className={inter.className} suppressHydrationWarning>
-				<SessionWrapper>{children}</SessionWrapper>
-				<Toaster
-					position="top-right"
-					richColors
-					closeButton
-					duration={4000}
-				/>
-			</body>
-		</html>
-	);
+          }}
+        />
+      </head>
+      <body className={inter.className} suppressHydrationWarning>
+        <SessionWrapper>{children}</SessionWrapper>
+        <Toaster position="top-right" richColors closeButton duration={4000} />
+      </body>
+    </html>
+  );
 }
