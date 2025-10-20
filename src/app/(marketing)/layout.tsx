@@ -20,16 +20,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://levisweb.net"),
-  title:
-    "LevisWeb - Développement Web Freelance | Sites Modernes & Optimisés SEO",
+  title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Optimisés SEO | Savoie & Chartreuse",
   description:
-    "Développeur web freelance spécialisé dans la création de sites vitrines, e-commerce et backoffices sur mesure. Optimisation SEO, performance et conversion garanties.",
+    "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale. Savoie & Chartreuse.",
   keywords:
-    "développeur web freelance, création site internet, e-commerce, backoffice sur mesure, optimisation SEO, performance web, conversion",
+    "agence digitale SEO, spécialiste SEO, agence de communication, création site internet moderne, design moderne, refonte site web, e-commerce sécurisé, performance web, maintenance site web, Savoie, Chartreuse, Grenoble, Chambéry",
   openGraph: {
-    title: "LevisWeb - Développement Web Freelance",
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Optimisés SEO",
     description:
-      "Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+      "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale.",
     url: "https://levisweb.net",
     siteName: "LevisWeb",
     images: [
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
         url: "/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "LevisWeb - Développement Web Freelance",
+        alt: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
       },
     ],
     locale: "fr_FR",
@@ -45,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LevisWeb - Développement Web Freelance",
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Optimisés SEO",
     description:
-      "Sites modernes, rapides et optimisés SEO avec backoffice sur mesure",
+      "Agence digitale spécialisée SEO et création de sites modernes. Performance, proximité et expertise locale. Refonte site web et e-commerce sécurisé.",
     images: ["/images/logo.png"],
   },
   alternates: {
