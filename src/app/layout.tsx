@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title:
-    "LevisWeb - Agence Digitale SEO | Sites Modernes & Optimisés SEO | Savoie & Chartreuse",
+    "LevisWeb - Agence Digitale SEO | Sites Modernes et Optimises SEO | Savoie et Chartreuse",
   description:
     "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale. Savoie & Chartreuse.",
   keywords:
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     apple: "/images/logo.png",
   },
   openGraph: {
-    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes et Performance",
     description:
       "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale.",
     images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+    title: "LevisWeb - Agence Digitale SEO | Sites Modernes et Performance",
     description:
       "Agence digitale spécialisée SEO et création de sites modernes. Performance, proximité et expertise locale. Refonte site web et e-commerce sécurisé.",
     images: ["/images/logo.png"],
