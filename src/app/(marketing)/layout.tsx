@@ -21,7 +21,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://levisweb.net"),
   title:
-    "LevisWeb - Agence Digitale SEO | Sites Modernes et Optimises SEO | Savoie et Chartreuse",
+    "LevisWeb - Agence Digitale | Sites Modernes et Optimises SEO | Savoie et Chartreuse",
   description:
     "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale. Savoie & Chartreuse.",
   keywords:
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         url: "/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+        alt: "LevisWeb - Agence Digitale | Sites Modernes & Performance",
       },
     ],
     locale: "fr_FR",

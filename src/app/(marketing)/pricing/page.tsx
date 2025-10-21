@@ -8,14 +8,14 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
-    "Tarifs - Agence Digitale SEO | Sites Modernes & Performance à Prix Compétitifs | LevisWeb",
+    "Tarifs - LevisWeb - Agence Digitale | Sites Modernes & Performance à Prix Compétitifs",
   description:
     "Tarifs transparents pour sites vitrine modernes, e-commerce sécurisé et backoffice sur mesure. Refonte site web et maintenance continue. Solutions responsives et optimisées SEO à des prix compétitifs.",
   keywords:
     "tarifs agence digitale SEO, prix site web moderne, tarif e-commerce sécurisé, prix refonte site web, performance web, maintenance site web, agence de communication, LevisWeb, Chambéry, Isère, Savoie",
   openGraph: {
     title:
-      "Tarifs - Agence Digitale SEO | Sites Modernes & Performance | LevisWeb",
+      "Tarifs - LevisWeb - Agence Digitale | Sites Modernes & Performance",
     description:
       "Tarifs transparents pour sites vitrine modernes, e-commerce sécurisé et backoffice sur mesure. Refonte site web et maintenance continue à des prix compétitifs.",
     url: "https://levisweb.net/pricing",
