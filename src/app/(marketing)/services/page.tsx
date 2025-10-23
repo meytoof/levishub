@@ -7,14 +7,14 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
-    "Services - LevisWeb - Agence Digitale | Sites Modernes & E-commerce",
+    "Services - Agence Digitale SEO | Sites Modernes & E-commerce | LevisWeb",
   description:
     "Services d'agence digitale spécialisée SEO : sites vitrine modernes, e-commerce sécurisé, backoffice sur mesure, refonte site web. Performance et design pour votre entreprise. Chambéry, Isère, Savoie.",
   keywords:
     "services agence digitale SEO, spécialiste SEO, site vitrine moderne, e-commerce sécurisé, backoffice sur mesure, refonte site web, performance web, maintenance site web, agence de communication, LevisWeb, Chambéry, Isère, Savoie",
   openGraph: {
     title:
-      "Services - LevisWeb - Agence Digitale | Sites Modernes & Performance",
+      "Services - Agence Digitale SEO | Sites Modernes & Performance | LevisWeb",
     description:
       "Services d'agence digitale spécialisée SEO : sites vitrine modernes, e-commerce sécurisé, backoffice sur mesure, refonte site web. Performance et design.",
     url: "https://levisweb.net/services",

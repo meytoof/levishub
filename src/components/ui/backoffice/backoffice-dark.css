@@ -1242,3 +1242,8 @@ body {
 .p5 {
 	padding: 5px;
 }
+.p-40px{
+	padding: 40px;
+	font-size: 18px;
+	border-radius: 10px;
+}

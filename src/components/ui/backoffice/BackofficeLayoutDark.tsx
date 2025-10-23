@@ -108,6 +108,7 @@ export default function BackofficeLayoutDark({
 				{ name: "Dashboard", href: "/dashboard", icon: Home },
 				// Analytics/Factures/Projets masqués temporairement côté client
 				{ name: "Tickets", href: "/dashboard/tickets", icon: LifeBuoy },
+				{ name: "Abonnement", href: "/dashboard/invoices", icon: LifeBuoy },
 			];
 		}
 	}, [userRole, isClientMode]);
