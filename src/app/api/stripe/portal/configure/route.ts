@@ -27,12 +27,9 @@ export async function POST() {
       invoice_history: { enabled: true },
       payment_method_update: { enabled: true },
       subscription_cancel: { enabled: true },
-      subscription_pause: { enabled: false },
       subscription_update: { enabled: true },
     },
   });
 
   return NextResponse.json({ configuration });
 }
-
-
