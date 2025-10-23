@@ -151,7 +151,7 @@ export default function PricingPage() {
         {/* Header de la page */}
         <div className="text-center mb-20">
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-gradient-cyan">
-            Tarifs transparents
+            Tarifs Sites Web | Optimisation SEO | LevisWeb
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Des solutions web sur mesure à des prix compétitifs. Choisissez le
