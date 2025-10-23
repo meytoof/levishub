@@ -51,6 +51,11 @@ export async function GET() {
     // Récupérer les informations du customer
     const customer = await stripe.customers.retrieve(client.stripeCustomerId);
 
+    // Vérifier si le customer n'est pas supprimé
+    if (customer.deleted) {
+      return NextResponse.json({ error: "Customer supprimé" }, { status: 404 });
+    }
+
     // Récupérer les factures récentes
     const invoices = await stripe.invoices.list({
       customer: client.stripeCustomerId,
@@ -90,9 +95,9 @@ export async function GET() {
         return {
           id: sub.id,
           status: sub.status,
-          current_period_start: sub.current_period_start,
-          current_period_end: sub.current_period_end,
-          cancel_at_period_end: sub.cancel_at_period_end,
+          current_period_start: sub.billing_cycle_anchor,
+          current_period_end: sub.billing_cycle_anchor,
+          cancel_at_period_end: false,
           canceled_at: sub.canceled_at,
           trial_start: sub.trial_start,
           trial_end: sub.trial_end,
