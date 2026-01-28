@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { PageTransition } from "@/components/ui/page-transition";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,7 +63,7 @@ export default async function MarketingLayout({
   const session = await getServerSession(authOptions);
 
   const navItems = [
-    { name: "Services", link: "/services" },
+    { name: "Offres et accompagnement", link: "/services" },
     { name: "Projets Démo", link: "/projets-demo" },
     { name: "Tarifs", link: "/pricing" },
     { name: "Contact", link: "/contact" },
@@ -70,6 +71,7 @@ export default async function MarketingLayout({
 
   return (
     <div className={`${inter.className} flex flex-col min-h-screen`}>
+      <PageTransition />
       <ThemeProvider>
         <SessionProvider session={session}>
           {/* Organization JSON-LD global pour SEO avec alternateName */}

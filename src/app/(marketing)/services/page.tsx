@@ -1,8 +1,8 @@
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { Button } from "@/components/ui/button";
 import { TracingBeam } from "@/components/ui/tracing-beam";
+import { MarketingPreviewLink } from "@/components/ui/transition-link";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -53,11 +53,11 @@ export default function Services() {
               je vous accompagne dans tous vos projets de communication
               numérique
             </p>
-            <Link href="/contact">
+            <MarketingPreviewLink href="/contact">
               <Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 sm:px-10 py-3 sm:py-4 text-lg sm:text-xl">
                 Discutons de votre projet
               </Button>
-            </Link>
+            </MarketingPreviewLink>
           </div>
         </section>
 
@@ -96,11 +96,11 @@ export default function Services() {
                   </ul>
                 </CardItem>
                 <CardItem translateZ="30" className="mt-auto">
-                  <Link href="/contact">
+                  <MarketingPreviewLink href="/contact">
                     <Button className="w-full btn-cyan-gradient">
                       Demander un devis
                     </Button>
-                  </Link>
+                  </MarketingPreviewLink>
                 </CardItem>
               </CardBody>
             </CardContainer>
@@ -128,11 +128,11 @@ export default function Services() {
                   </ul>
                 </CardItem>
                 <CardItem translateZ="30" className="mt-auto">
-                  <Link href="/contact">
+                  <MarketingPreviewLink href="/contact">
                     <Button className="w-full btn-cyan-gradient">
                       En savoir plus
                     </Button>
-                  </Link>
+                  </MarketingPreviewLink>
                 </CardItem>
               </CardBody>
             </CardContainer>
@@ -341,19 +341,19 @@ export default function Services() {
               le succès.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
+              <MarketingPreviewLink href="/contact">
                 <Button className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 sm:px-10 py-3 sm:py-4 text-lg sm:text-xl">
                   Discutons de votre projet
                 </Button>
-              </Link>
-              <Link href="/pricing">
+              </MarketingPreviewLink>
+              <MarketingPreviewLink href="/pricing">
                 <Button
                   variant="outline"
                   className="border-2 transition-all duration-200 hover:-translate-y-1 px-8 sm:px-10 py-3 sm:py-4 text-lg sm:text-xl border-cyan-500/50 hover:border-cyan-600"
                 >
                   Voir mes tarifs
                 </Button>
-              </Link>
+              </MarketingPreviewLink>
             </div>
           </div>
         </section>

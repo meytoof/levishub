@@ -7,8 +7,8 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "motion/react";
-import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
+import { MarketingPreviewLink, TransitionLink } from "./transition-link";
 
 import React, { useState } from "react";
 
@@ -71,9 +71,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
         React.isValidElement(child)
           ? React.cloneElement(
               child as React.ReactElement<{ visible?: boolean }>,
-              { visible }
+              { visible },
             )
-          : child
+          : child,
       )}
     </motion.div>
   );
@@ -94,7 +94,9 @@ export const NavBody = ({
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        width: shrinkOnScroll && visible ? "40%" : "100%",
+        // Quand la navbar "se rétracte", on laisse plus de place
+        // pour les liens longs + les boutons à droite
+        width: shrinkOnScroll && visible ? "65%" : "100%",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -107,7 +109,7 @@ export const NavBody = ({
       }}
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-neutral-900/80 px-4 py-2 lg:flex",
-        className
+        className,
       )}
     >
       {children}
@@ -123,26 +125,31 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2 pointer-events-none",
-        className
+        className,
       )}
     >
       {items.map((item, idx) => (
-        <a
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 pointer-events-auto"
+        <MarketingPreviewLink
           key={`link-${idx}`}
           href={item.link}
-          aria-label={item.name}
+          className="pointer-events-auto"
         >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-500 dark:bg-neutral-800"
-            />
-          )}
-          <span className="relative z-20 text-white">{item.name}</span>
-        </a>
+          <button
+            type="button"
+            onMouseEnter={() => setHovered(idx)}
+            onClick={onItemClick}
+            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+            aria-label={item.name}
+          >
+            {hovered === idx && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-gray-500 dark:bg-neutral-800"
+              />
+            )}
+            <span className="relative z-20 text-white">{item.name}</span>
+          </button>
+        </MarketingPreviewLink>
       ))}
     </motion.div>
   );
@@ -171,7 +178,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       }}
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-[calc(100vw-1rem)] flex-col items-center justify-between bg-neutral-900/80 px-6 py-3 lg:hidden",
-        className
+        className,
       )}
     >
       {children}
@@ -187,7 +194,7 @@ export const MobileNavHeader = ({
     <div
       className={cn(
         "flex w-full flex-row items-center justify-between px-2",
-        className
+        className,
       )}
     >
       {children}
@@ -211,7 +218,7 @@ export const MobileNavMenu = ({
           transition={{ duration: 0.2 }}
           className={cn(
             "absolute top-full left-0 right-0 mt-2 w-full flex-col items-start justify-start gap-4 rounded-lg bg-neutral-900/95 backdrop-blur-xl border border-neutral-500/30 px-4 py-8 shadow-2xl",
-            className
+            className,
           )}
           id="mobile-menu"
           role="menu"
@@ -251,13 +258,13 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <Link
+    <TransitionLink
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
       aria-label="Aller à l'accueil"
     >
       <span className="font-bold text-xl navbar-logo">LevisWeb</span>
-    </Link>
+    </TransitionLink>
   );
 };
 export const NavbarButton = ({
