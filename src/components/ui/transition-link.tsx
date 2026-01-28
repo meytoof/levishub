@@ -1,6 +1,6 @@
 "use client";
 
-import { AnchorHTMLAttributes, ReactNode } from "react";
+import { AnchorHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { LinkPreview } from "./link-preview";
 
 interface TransitionLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -47,6 +47,7 @@ interface MarketingPreviewLinkProps {
   href: string;
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
   urlOverride?: string;
 }
 
@@ -56,6 +57,7 @@ export const MarketingPreviewLink = ({
   href,
   children,
   className,
+  style,
   urlOverride,
 }: MarketingPreviewLinkProps) => {
   const url = urlOverride || `${MARKETING_BASE_URL}${href}`;
@@ -70,7 +72,7 @@ export const MarketingPreviewLink = ({
           e.preventDefault();
           startTransitionTo(href);
         }}
-        style={{ display: "inline-block" }}
+        style={{ ...(style || {}), display: "inline-block" }}
       >
         {children}
       </span>
