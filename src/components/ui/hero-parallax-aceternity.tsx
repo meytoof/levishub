@@ -8,8 +8,8 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
-import SmokeEffect from "./smoke-effect";
+import React, { useEffect, useRef } from "react";
+import { TransitionLink } from "./transition-link";
 
 // Enregistrer le plugin SplitText
 if (typeof window !== "undefined") {
@@ -48,9 +48,6 @@ export const HeroParallax = ({
 }) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
-
-  // État pour contrôler l'affichage du SmokeEffect
-  const [showSmokeEffect, setShowSmokeEffect] = useState(false);
   const thirdRow = products.slice(10, 15);
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
@@ -62,86 +59,34 @@ export const HeroParallax = ({
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig
+    springConfig,
   );
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig
+    springConfig,
   );
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig
+    springConfig,
   );
   const opacity = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig
+    springConfig,
   );
   const rotateZ = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig
+    springConfig,
   );
   const translateY = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [-900, 500]),
-    springConfig
+    springConfig,
   );
-  const navItems = [
-    { name: "Services", link: "/services" },
-    { name: "Projets Démo", link: "/projets-demo" },
-    { name: "Tarifs", link: "/pricing" },
-    { name: "Contact", link: "/contact" },
-  ];
-
-  // Détection de performance pour le WebGL smoke-effect
-  useEffect(() => {
-    const detectPerformance = () => {
-      // Détecter les navigateurs problématiques
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isOpera = userAgent.includes("opera") || userAgent.includes("opr");
-      const isEdge = userAgent.includes("edge") || userAgent.includes("edg");
-
-      // Détecter la puissance du GPU (approximation)
-      const canvas = document.createElement("canvas");
-      const gl =
-        canvas.getContext("webgl") ||
-        (canvas.getContext(
-          "experimental-webgl"
-        ) as WebGLRenderingContext | null);
-      const debugInfo = gl?.getExtension("WEBGL_debug_renderer_info");
-      const renderer = debugInfo
-        ? gl?.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-        : "";
-
-      // Détecter les GPU intégrés ou faibles
-      const isLowEndGPU =
-        renderer?.toLowerCase().includes("intel") ||
-        renderer?.toLowerCase().includes("mali") ||
-        renderer?.toLowerCase().includes("adreno") ||
-        renderer?.toLowerCase().includes("powervr");
-
-      // Détecter la mémoire disponible (approximation)
-      const deviceMemory =
-        (navigator as { deviceMemory?: number }).deviceMemory || 4;
-
-      // Décider si activer l'effet de fumée
-      const shouldEnableSmoke =
-        !isOpera && !isEdge && !isLowEndGPU && deviceMemory >= 4;
-
-      // diagnostics removed
-
-      setShowSmokeEffect(shouldEnableSmoke);
-    };
-
-    detectPerformance();
-  }, []);
-
   return (
-    <div className="bg-black relative">
+    <div className="relative" id="hero-section">
       <div
         ref={ref}
         className="h-[300vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-transparent z-10"
       >
-        {/* Effet de fumée qui couvre toute la section hero - Conditionné par performance */}
-        {showSmokeEffect && <SmokeEffect />}
         <Header />
         <motion.div
           style={{
@@ -198,7 +143,7 @@ export const Header = () => {
 
       // 1. Animation des mots normaux (Des, sites, pour)
       const textNodes = Array.from(titleElement.childNodes).filter(
-        (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim()
+        (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
       );
 
       textNodes.forEach((textNode) => {
@@ -357,12 +302,12 @@ export const Header = () => {
       role="banner"
     >
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-        {/* Left Section - Main Headline (Mobile First) */}
+      <div className="grid grid-cols-1 gap-8 lg:gap-16 items-center">
+        {/* Section principale : titre + description + CTA alignés verticalement */}
         <div className="lg:text-right order-1 lg:order-2">
           <h1
             ref={titleRef}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.9] mb-6 lg:mb-8"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.9] mb-6 lg:mb-8 text-center line-height-1"
           >
             <span
               style={{
@@ -370,10 +315,11 @@ export const Header = () => {
                   "3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
               }}
             >
-              DES SITES
+              Nous gérons le
             </span>{" "}
-            <span className="bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
-              MODERNES
+            <span className="bg-[linear-gradient(135deg,#a855f7,#ec4899,#f43f5e)] dark:bg-gradient-to-r dark:from-cyan-400 dark:to-violet-400 bg-clip-text text-transparent">
+              Site web.
+              <br />
             </span>{" "}
             <span
               style={{
@@ -381,43 +327,26 @@ export const Header = () => {
                   "3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
               }}
             >
-              POUR
+              Vous gérez l'
             </span>{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
-              CONVERTIR
+            <span className="bg-[linear-gradient(135deg,#a855f7,#ec4899,#f43f5e)] dark:bg-gradient-to-r dark:from-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              Empire.
             </span>
           </h1>
           <p
             ref={subtitleRef}
-            className="text-base sm:text-lg md:text-xl text-gray-300 max-w-lg lg:ml-auto leading-relaxed"
-            style={{
-              textShadow:
-                "2px 2px 0px #000000, -2px -2px 0px #000000, 2px -2px 0px #000000, -2px 2px 0px #000000, 0px 0px 15px rgba(0,0,0,0.6)",
-            }}
+            className="text-base sm:text-lg md:text-xl text-slate-800 dark:text-gray-300 max-w-lg mx-auto leading-relaxed text-center mb-4"
           >
             LevisWeb — développeur web freelance. Je conçois des sites vitrines,
             e‑commerce et backoffices sur mesure, optimisés pour la performance,
             le référencement et la conversion.
           </p>
-        </div>
 
-        {/* Right Section - Call to Action (Mobile Second) */}
-        <div className="space-y-6 lg:space-y-8 order-2 lg:order-1">
-          {/* Call to Action */}
-          <p
-            className="text-lg sm:text-xl md:text-2xl text-white/90 font-medium max-w-md leading-relaxed"
-            style={{
-              textShadow:
-                "2px 2px 0px #000000, -2px -2px 0px #000000, 2px -2px 0px #000000, -2px 2px 0px #000000, 0px 0px 15px rgba(0,0,0,0.6)",
-            }}
-          >
-            Choisissez votre projet, envoyez votre demande, et votre site web
-            commence demain.
-          </p>
+          {/* Texte court au-dessus du call-to-action */}
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <a
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mx-auto justify-center">
+            <TransitionLink
               href="/contact"
               className="relative block overflow-hidden rounded-full p-px group w-full sm:w-auto"
               style={{
@@ -502,12 +431,12 @@ export const Header = () => {
                   }}
                 ></div>
               </div>
-            </a>
-            <a
+            </TransitionLink>
+            <TransitionLink
               href="/services"
               className="relative border-2 border-white/40 hover:border-white/60 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden services-cta-button w-full sm:w-auto"
             >
-              <span className="relative z-10">Voir mes services</span>
+              <span className="relative z-10">Mes offres</span>
               <div
                 className="services-slide-bg absolute top-0 left-0 h-full w-[180%] bg-black transform -skew-x-12"
                 style={{
@@ -515,7 +444,7 @@ export const Header = () => {
                   opacity: 0,
                 }}
               ></div>
-            </a>
+            </TransitionLink>
           </div>
         </div>
       </div>

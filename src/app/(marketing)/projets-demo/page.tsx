@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { TransitionLink } from "@/components/ui/transition-link";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Script from "next/script";
 
 const demos = [
@@ -145,14 +145,14 @@ export default function ProjetsDemo() {
 										</p>
 
 										{/* Bouton avec gradient LevisWeb */}
-										<Link href={demo.link}>
+										<TransitionLink href={demo.link}>
 											<Button
 												className="btn-cyan-gradient shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 hover:rotate-1"
 												size="lg"
 											>
 												Voir la démo
 											</Button>
-										</Link>
+										</TransitionLink>
 
 										{/* Accent de couleur subtil */}
 										<div
@@ -181,14 +181,14 @@ export default function ProjetsDemo() {
 									LevisWeb. Des solutions web rapides, fiables
 									et pensées pour générer des résultats.
 								</p>
-								<Link href="/contact">
+								<TransitionLink href="/contact">
 									<Button
 										size="lg"
 										className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 py-4 text-lg transition-all duration-200 hover:scale-105 hover:rotate-1"
 									>
 										Me contacter
 									</Button>
-								</Link>
+								</TransitionLink>
 							</div>
 						</motion.div>
 					</section>

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { TransitionLink } from "./transition-link";
 
 interface PulseCTAProps {
 	href: string;
@@ -32,7 +32,7 @@ export const PulseCTA = ({
 	};
 
 	return (
-		<Link href={href}>
+		<TransitionLink href={href}>
 			<div className="relative inline-block group">
 				{/* Effet de pulsation en arrière-plan */}
 				<div
@@ -55,6 +55,6 @@ export const PulseCTA = ({
 					{children}
 				</Button>
 			</div>
-		</Link>
+		</TransitionLink>
 	);
 };
