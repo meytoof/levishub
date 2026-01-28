@@ -445,7 +445,6 @@ html.dark .btn-cyan-gradient {
 }
 
 /* Page transition gradient selon le thème */
-
 .page-transition-path {
   stroke: url(#grad-light);
   fill: url(#grad-light);

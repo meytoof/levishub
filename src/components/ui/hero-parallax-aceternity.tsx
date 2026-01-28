@@ -9,7 +9,7 @@ import {
   useTransform,
 } from "motion/react";
 import React, { useEffect, useRef } from "react";
-import { TransitionLink } from "./transition-link";
+import { MarketingPreviewLink } from "./transition-link";
 
 // Enregistrer le plugin SplitText
 if (typeof window !== "undefined") {
@@ -346,9 +346,10 @@ export const Header = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mx-auto justify-center">
-            <TransitionLink
+            <MarketingPreviewLink
               href="/contact"
               className="relative block overflow-hidden rounded-full p-px group w-full sm:w-auto"
+              urlOverride="https://levisweb.net/contact"
               style={{
                 borderRadius: "3.40282e+38px",
               }}
@@ -431,10 +432,11 @@ export const Header = () => {
                   }}
                 ></div>
               </div>
-            </TransitionLink>
-            <TransitionLink
+            </MarketingPreviewLink>
+            <MarketingPreviewLink
               href="/services"
               className="relative border-2 border-white/40 hover:border-white/60 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden services-cta-button w-full sm:w-auto"
+              urlOverride="https://levisweb.net/services"
             >
               <span className="relative z-10">Mes offres</span>
               <div
@@ -444,7 +446,7 @@ export const Header = () => {
                   opacity: 0,
                 }}
               ></div>
-            </TransitionLink>
+            </MarketingPreviewLink>
           </div>
         </div>
       </div>

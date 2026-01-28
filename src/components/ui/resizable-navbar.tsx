@@ -8,7 +8,7 @@ import {
   useScroll,
 } from "motion/react";
 import { ThemeToggle } from "./theme-toggle";
-import { TransitionLink } from "./transition-link";
+import { MarketingPreviewLink, TransitionLink } from "./transition-link";
 
 import React, { useState } from "react";
 
@@ -129,22 +129,27 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       )}
     >
       {items.map((item, idx) => (
-        <TransitionLink
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 pointer-events-auto"
+        <MarketingPreviewLink
           key={`link-${idx}`}
           href={item.link}
-          aria-label={item.name}
+          className="pointer-events-auto"
         >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-500 dark:bg-neutral-800"
-            />
-          )}
-          <span className="relative z-20 text-white">{item.name}</span>
-        </TransitionLink>
+          <button
+            type="button"
+            onMouseEnter={() => setHovered(idx)}
+            onClick={onItemClick}
+            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+            aria-label={item.name}
+          >
+            {hovered === idx && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-gray-500 dark:bg-neutral-800"
+              />
+            )}
+            <span className="relative z-20 text-white">{item.name}</span>
+          </button>
+        </MarketingPreviewLink>
       ))}
     </motion.div>
   );
