@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import * as React from "react";
+import { createPortal } from "react-dom";
 
 interface LinkPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   url: string;
@@ -22,7 +23,7 @@ const buildMicrolinkUrl = (url: string) => {
   return `${base}?${params.toString()}`;
 };
 
-// Link preview : petite carte avec screenshot + URL
+// Link preview : rendu en Portal pour échapper à overflow-hidden des parents
 export const LinkPreview = ({
   url,
   children,
@@ -30,36 +31,36 @@ export const LinkPreview = ({
   ...rest
 }: LinkPreviewProps) => {
   const [open, setOpen] = React.useState(false);
-  const [cursorX, setCursorX] = React.useState<number | null>(null);
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+  const triggerRef = React.useRef<HTMLDivElement>(null);
   const previewUrl = buildMicrolinkUrl(url);
 
-  return (
-    <div
-      className={cn("relative inline-block", className)}
-      onMouseEnter={(e) => {
-        setOpen(true);
-        const rect = (
-          e.currentTarget as HTMLDivElement
-        ).getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        setCursorX(x);
-      }}
-      onMouseMove={(e) => {
-        if (!open) return;
-        const rect = (
-          e.currentTarget as HTMLDivElement
-        ).getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        setCursorX(x);
-      }}
-      onMouseLeave={() => {
-        setOpen(false);
-        setCursorX(null);
-      }}
-      {...rest}
-    >
-      {children}
+  const updatePosition = React.useCallback(() => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    setPosition({
+      top: rect.bottom + 12,
+      left: rect.left + rect.width / 2,
+    });
+  }, []);
 
+  React.useLayoutEffect(() => {
+    if (!open) return;
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [open, updatePosition]);
+
+  const handleMouseEnter = () => setOpen(true);
+  const handleMouseLeave = () => setOpen(false);
+
+  const previewContent =
+    typeof document !== "undefined" &&
+    createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -67,10 +68,11 @@ export const LinkPreview = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="pointer-events-none absolute top-full z-50 mt-3 w-80 rounded-xl border border-neutral-800/80 bg-black/90 p-3 shadow-2xl backdrop-blur-2xl"
+            className="pointer-events-none fixed z-[9999] w-80 rounded-xl border border-neutral-800/80 bg-black/90 p-3 shadow-2xl backdrop-blur-2xl"
             style={{
-              left: `${cursorX ?? 50}%`,
-              transform: "translateX(-50%)",
+              top: position.top,
+              left: position.left,
+              transform: `translateX(-50%)`,
               willChange: "transform, opacity",
             }}
           >
@@ -87,7 +89,20 @@ export const LinkPreview = ({
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body,
+    );
+
+  return (
+    <div
+      ref={triggerRef}
+      className={cn("relative inline-block", className)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      {...rest}
+    >
+      {children}
+      {previewContent}
     </div>
   );
 };

@@ -358,6 +358,29 @@ a[aria-disabled="true"] {
   background: radial-gradient(circle, var(--tw-gradient-stops));
 }
 
+/* ===== PAGE SERVICES - Slide overlap footer + scroll snap ===== */
+main:has(.services-slides-wrapper) {
+  position: relative;
+  z-index: 10;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+main:has(.services-slides-wrapper) + footer {
+  position: relative;
+  z-index: 1;
+  margin-top: -1px;
+}
+
+/* Process circles services - couleurs chaudes (light) / froides (dark) */
+.services-slides-wrapper .process-circle-1 {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+}
+
+html.dark .services-slides-wrapper .process-circle-1 {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+}
+
 /* ===== SYSTÈME DE THÈMES UNIFIÉ ===== */
 
 /* Thème Light - Cyan */
