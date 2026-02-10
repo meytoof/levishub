@@ -1,6 +1,6 @@
 "use client";
 import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   motion,
   MotionValue,
@@ -8,33 +8,53 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { MarketingPreviewLink } from "./transition-link";
 
-// Enregistrer le plugin SplitText
+// Enregistrer les plugins GSAP côté client
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(SplitText);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
-// Fonction SplitText simple pour diviser le texte en gardant les espaces
-const splitText = (element: HTMLElement) => {
-  const text = element.textContent || "";
-  const words = text.split(" ");
+// Split du titre en caractères en préservant les gradients (Site web., Empire.)
+const splitTitleToChars = (titleElement: HTMLElement): HTMLElement[] => {
+  const chars: HTMLElement[] = [];
 
-  // Créer un wrapper pour chaque mot avec espace
-  const wordElements = words.map((word) => {
-    const span = document.createElement("span");
-    span.textContent = word;
-    span.style.display = "inline-block";
-    span.style.marginRight = "0.25em"; // Espace entre les mots
-    return span;
-  });
+  const walk = (node: Node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent || "";
+      if (!text.length) return;
+      const parent = node.parentElement;
+      const cls =
+        parent?.classList.contains("bg-clip-text") ? parent.className : "";
 
-  // Vider l'élément et ajouter les mots
-  element.innerHTML = "";
-  wordElements.forEach((word) => element.appendChild(word));
+      const parentText = parent?.textContent ?? "";
+      for (const ch of text) {
+        const span = document.createElement("span");
+        span.textContent = ch === " " ? "\u00A0" : ch; // espace insécable pour éviter la collapse
+        span.style.display = "inline-block";
+        if (ch === " ") span.style.minWidth = "0.25em";
+        if (cls) span.className = cls;
+        if ((ch === "i" || ch === "I") && parentText.includes("Site"))
+          span.classList.add("hero-i-site");
+        if ((ch === "i" || ch === "I") && parentText.includes("Empire"))
+          span.classList.add("hero-i-empire");
+        chars.push(span);
+        node.parentNode?.insertBefore(span, node);
+      }
+      node.parentNode?.removeChild(node);
+      return;
+    }
+    if (
+      node.nodeType === Node.ELEMENT_NODE &&
+      (node as HTMLElement).tagName !== "BR"
+    ) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  };
 
-  return wordElements;
+  Array.from(titleElement.childNodes).forEach(walk);
+  return chars;
 };
 
 export const HeroParallax = ({
@@ -133,95 +153,121 @@ export const HeroParallax = ({
 export const Header = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  
+  // Scroll progress pour réaction au scroll
+  const { scrollYProgress } = useScroll({
+    target: headerRef,
+    offset: ["start start", "end start"],
+  });
 
-  useEffect(() => {
+  const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
+  
+  // Transformations réactives au scroll (moins agressives pour garder le texte visible)
+  const titleScale = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [1, 0.92]),
+    springConfig
+  );
+  const titleLetterSpacing = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [0, -0.01]),
+    springConfig
+  );
+  const titleY = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [0, -40]),
+    springConfig
+  );
+  const titleOpacity = useSpring(
+    useTransform(scrollYProgress, [0, 0.4], [1, 0.85]),
+    springConfig
+  );
+
+  useLayoutEffect(() => {
     if (!titleRef.current || !subtitleRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animation propre et fonctionnelle du h1
-      const titleElement = titleRef.current!;
+      // 1. Animation par lettres du H1 avec effet 3D sur certaines lettres
+      const tl = gsap.timeline({ delay: 0.1, defaults: { ease: "power4.out" } });
 
-      // 1. Animation des mots normaux (Des, sites, pour)
-      const textNodes = Array.from(titleElement.childNodes).filter(
-        (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
+      const titleElement = titleRef.current!;
+      const chars = splitTitleToChars(titleElement);
+
+      const thinChars: HTMLElement[] = [];
+      const otherChars: HTMLElement[] = [];
+
+      chars.forEach((charEl) => {
+        const ch = (charEl.textContent || "").replace(/\u00A0/g, " ").trim();
+        if (/[IltiTI]/.test(ch)) {
+          thinChars.push(charEl); // I, l, t, i → rotationY flip
+        } else if (/[Oo]/.test(ch)) {
+          thinChars.push(charEl); // O, o → rotationY flip aussi
+        } else {
+          otherChars.push(charEl);
+        }
+      });
+
+      if (otherChars.length) {
+        tl.fromTo(
+          otherChars,
+          {
+            y: 40,
+            opacity: 0,
+            rotationX: 15,
+            filter: "blur(4px)",
+            transformOrigin: "50% 100%",
+          },
+          {
+            y: 0,
+            opacity: 1,
+            rotationX: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            stagger: 0.015,
+          },
+        );
+      }
+
+      if (thinChars.length) {
+        tl.fromTo(
+          thinChars,
+          {
+            rotationY: -90,
+            opacity: 0,
+            transformOrigin: "50% 50%",
+          },
+          {
+            rotationY: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.02,
+          },
+          0.05,
+        );
+      }
+
+      // 2. Animation du sous-titre (sans split pour préserver le span levis-i)
+      tl.fromTo(
+        subtitleRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        "-=0.4",
       );
 
-      textNodes.forEach((textNode) => {
-        const words = textNode.textContent?.split(" ") || [];
-        words.forEach((word) => {
-          if (word.trim()) {
-            const span = document.createElement("span");
-            span.textContent = word + " ";
-            span.style.display = "inline-block";
-            span.style.marginRight = "0.25em";
-
-            gsap.set(span, {
-              y: 30,
-              opacity: 0,
-            });
-
-            gsap.to(span, {
-              y: 0,
-              opacity: 1,
-              duration: 0.6,
-              ease: "power2.out",
-              delay: Math.random() * 1.5,
-            });
-
-            textNode.parentNode?.insertBefore(span, textNode);
-          }
-        });
-        textNode.remove();
-      });
-
-      // 2. Animation des spans avec gradients (modernes et convertir)
-      const gradientSpans = titleRef.current?.querySelectorAll("span");
-      if (gradientSpans) {
-        gradientSpans.forEach((span, spanIndex) => {
-          // Vérifier si c'est un span avec gradient (pas ceux qu'on vient de créer)
-          if (span.className.includes("bg-gradient")) {
-            gsap.set(span, {
-              y: 30,
-              opacity: 0,
-            });
-
-            gsap.to(span, {
-              y: 0,
-              opacity: 1,
-              duration: 0.6,
-              ease: "power2.out",
-              delay: Math.random() * 1.5,
-            });
-
-            // Animation continue du gradient
-            gsap.to(span, {
-              backgroundPosition: "200% center",
-              duration: 3 + spanIndex * 0.5,
-              ease: "none",
+      // 3. Boucle rotation 3D sur les i (Site, Empire, Levis) toutes les ~3s, indépendants
+      tl.add(() => {
+        [".hero-i-site", ".hero-i-empire", ".levis-i"].forEach((sel, idx) => {
+          const el = document.querySelector<HTMLElement>(sel);
+          if (el) {
+            gsap.to(el, {
+              rotationY: 360,
+              duration: 1.2,
+              ease: "power2.inOut",
+              transformOrigin: "50% 50%",
               repeat: -1,
-              yoyo: true,
-              delay: 2 + spanIndex * 0.2,
+              repeatDelay: 2.2,
+              delay: idx * 0.4, // décalage pour que chaque i tourne à son propre rythme
             });
           }
         });
-      }
-    });
-
-    // Animation SplitText pour le sous-titre
-    const subtitleWords = splitText(subtitleRef.current!);
-
-    subtitleWords.forEach((word) => {
-      gsap.set(word, {
-        y: 30,
-        opacity: 0,
-      });
-
-      gsap.to(word, {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: 1.5 + Math.random() * 0.8,
       });
     });
 
@@ -298,16 +344,23 @@ export const Header = () => {
 
   return (
     <header
+      ref={headerRef}
       className="h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 relative z-30"
       role="banner"
     >
       {/* Main Content */}
-      <div className="grid grid-cols-1 gap-8 lg:gap-16 items-center">
+      <div className="relative grid grid-cols-1 gap-8 lg:gap-16 items-center z-10">
         {/* Section principale : titre + description + CTA alignés verticalement */}
         <div className="lg:text-right order-1 lg:order-2">
-          <h1
+          <motion.h1
             ref={titleRef}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.9] mb-6 lg:mb-8 text-center line-height-1"
+            style={{
+              scale: titleScale,
+              letterSpacing: titleLetterSpacing,
+              y: titleY,
+              opacity: titleOpacity,
+            }}
+            className="hero-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[1] mb-6 lg:mb-8 text-center"
           >
             <span
               style={{
@@ -315,29 +368,29 @@ export const Header = () => {
                   "3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
               }}
             >
-              Nous gérons le
-            </span>{" "}
+              Nous gérons le{" "}
+            </span>
             <span className="bg-[linear-gradient(135deg,#a855f7,#ec4899,#f43f5e)] dark:bg-gradient-to-r dark:from-cyan-400 dark:to-violet-400 bg-clip-text text-transparent">
               Site web.
-              <br />
-            </span>{" "}
+            </span>
+            <br />
             <span
               style={{
                 textShadow:
                   "3px 3px 0px #000000, -3px -3px 0px #000000, 3px -3px 0px #000000, -3px 3px 0px #000000, 0px 0px 20px rgba(0,0,0,0.8)",
               }}
             >
-              Vous gérez l'
-            </span>{" "}
+              Vous gérez l&apos;{" "}
+            </span>
             <span className="bg-[linear-gradient(135deg,#a855f7,#ec4899,#f43f5e)] dark:bg-gradient-to-r dark:from-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Empire.
             </span>
-          </h1>
+          </motion.h1>
           <p
             ref={subtitleRef}
             className="text-base sm:text-lg md:text-xl text-slate-800 dark:text-gray-300 max-w-lg mx-auto leading-relaxed text-center mb-4"
           >
-            LevisWeb — développeur web freelance. Je conçois des sites vitrines,
+            Lev<span className="levis-i inline-block" style={{ transformOrigin: "50% 50%" }}>i</span>sWeb — développeur web freelance. Je conçois des sites vitrines,
             e‑commerce et backoffices sur mesure, optimisés pour la performance,
             le référencement et la conversion.
           </p>

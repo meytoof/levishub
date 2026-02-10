@@ -19,7 +19,7 @@ const SLIDES = [
     bgClass:
       "bg-gradient-to-br from-amber-200 via-orange-100 to-lime-200 dark:from-slate-900 dark:via-cyan-950 dark:to-teal-900",
     content: (
-      <div className="section-inner flex h-full flex-col items-center justify-center overflow-hidden px-6 text-center">
+      <div className="section-inner flex h-full flex-col items-center justify-center overflow-visible px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -29,11 +29,11 @@ const SLIDES = [
           <p className="slide-reveal-words text-sm font-semibold uppercase tracking-[0.3em] text-amber-600/80 dark:text-cyan-400/80 sm:text-base">
             Offres & Accompagnement
           </p>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]">
+          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem]">
             <span className="slide-reveal-words block text-neutral-800 dark:text-neutral-200">
               Nos Services de
             </span>
-            <span className="slide-reveal-words slide-reveal-words-gradient mt-2 block bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400">
+            <span className="slide-reveal-words slide-reveal-words-gradient mt-2 block bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent pb-3 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400">
               Communication Digitale
             </span>
           </h1>
@@ -313,7 +313,8 @@ export function ServicesSlidesPinning() {
     const panels = gsap.utils.toArray<HTMLElement>(".services-slide-panel");
 
     const ctx = gsap.context(() => {
-      panels.forEach((panel) => {
+      panels.forEach((panel, index) => {
+        const isLastPanel = index === panels.length - 1;
         const innerPanel = panel.querySelector(".section-inner") as HTMLElement;
         if (!innerPanel) return;
 
@@ -323,26 +324,35 @@ export function ServicesSlidesPinning() {
         const fakeScrollRatio =
           difference > 0 ? difference / (difference + windowHeight) : 0;
 
-        if (fakeScrollRatio) {
+        // On n'ajoute du faux scroll qu'aux panneaux intermédiaires,
+        // pas au dernier slide pour éviter le gros gap avant le footer.
+        if (fakeScrollRatio && !isLastPanel) {
           (panel as HTMLElement).style.marginBottom = `${panelHeight * fakeScrollRatio}px`;
         }
+
+        const shouldPin = !isLastPanel;
+        const slideId = (panel as HTMLElement).dataset.slideId;
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: panel,
             start: "bottom bottom",
-            end: fakeScrollRatio
-              ? `+=${innerPanel.offsetHeight}`
-              : "bottom top",
-            pinSpacing: false,
-            pin: true,
-            scrub: true,
+            end:
+              fakeScrollRatio && !isLastPanel
+                ? `+=${innerPanel.offsetHeight}`
+                : "bottom top",
+            pinSpacing: shouldPin ? false : true,
+            pin: shouldPin,
+            scrub: shouldPin,
           },
         });
 
         // Animation Awwwards : word-split slide-up + blocks blur/scale
         const easeReveal = "power4.out" as const;
         const splitWords = (el: HTMLElement) => {
+          // On laisse le hero (slide \"hero\") tranquille pour éviter les soucis de crop,
+          // il a déjà sa propre anim via Framer Motion.
+          if (slideId === "hero") return;
           if (el.classList.contains("slide-reveal-words-gradient")) return;
           const text = el.textContent || "";
           const words = text.split(/\s+/).filter(Boolean);
@@ -423,6 +433,7 @@ export function ServicesSlidesPinning() {
       {SLIDES.map((slide) => (
         <section
           key={slide.id}
+          data-slide-id={slide.id}
           className={`services-slide-panel section flex min-h-[calc(100vh-80px)] w-full items-center justify-center overflow-hidden px-4 py-6 sm:px-6 ${slide.bgClass}`}
         >
           <div className="section-content h-full w-full max-w-7xl">
@@ -432,7 +443,7 @@ export function ServicesSlidesPinning() {
       ))}
 
       {/* Section CTA finale */}
-      <section className="services-cta-overlap relative z-20 flex min-h-[75vh] w-full flex-col items-center justify-center bg-gradient-to-br from-amber-200 via-lime-100 to-rose-200 px-6 py-24 text-center dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-900 md:min-h-[80vh]">
+      <section className="services-cta-overlap relative z-20 flex w-full flex-col items-center justify-center bg-gradient-to-br from-amber-200 via-lime-100 to-rose-200 px-6 py-24 text-center dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-900 md:py-28">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
