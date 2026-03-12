@@ -1,7 +1,0 @@
-import { redirect } from "next/navigation";
-
-export default function AdminTestPage() {
-	// Page désactivée temporairement
-	redirect("/admin");
-	return null;
-}

@@ -1,7 +1,14 @@
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST() {
+	const userSession = await getServerSession(authOptions);
+	if (!userSession) {
+		return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+	}
+
 	const secret = process.env.STRIPE_SECRET_KEY;
 	const priceId = process.env.STRIPE_PRICE_ID;
 	if (!secret || !priceId)

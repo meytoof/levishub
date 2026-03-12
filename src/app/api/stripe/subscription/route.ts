@@ -4,6 +4,13 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
+// Stripe v18 supprime current_period_start/end du type Subscription TypeScript
+// mais ces champs sont toujours présents dans la réponse API REST.
+interface StripeSubscriptionWithPeriod extends Stripe.Subscription {
+  current_period_start: number;
+  current_period_end: number;
+}
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
@@ -64,7 +71,7 @@ export async function GET() {
 
     // Enrichir les abonnements avec les détails des produits
     const enrichedSubscriptions = await Promise.all(
-      subscriptions.data.map(async (sub) => {
+      (subscriptions.data as StripeSubscriptionWithPeriod[]).map(async (sub) => {
         const enrichedItems = await Promise.all(
           sub.items.data.map(async (item) => {
             // Récupérer les détails du prix
@@ -95,9 +102,9 @@ export async function GET() {
         return {
           id: sub.id,
           status: sub.status,
-          current_period_start: sub.billing_cycle_anchor,
-          current_period_end: sub.billing_cycle_anchor,
-          cancel_at_period_end: false,
+          current_period_start: sub.current_period_start,
+          current_period_end: sub.current_period_end,
+          cancel_at_period_end: sub.cancel_at_period_end,
           canceled_at: sub.canceled_at,
           trial_start: sub.trial_start,
           trial_end: sub.trial_end,
