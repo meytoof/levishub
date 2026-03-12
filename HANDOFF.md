@@ -232,3 +232,26 @@ Ces deux fichiers sont inclus dans le périmètre du commit à venir.
 ### Ce qui reste à faire
 - DEVOPS : peut committer et pousser le diff actuel (3 fichiers modifiés + 15 suppressions + HANDOFF.md)
 - DEV (prochaine itération) : webhook Stripe, harmonisation APP_URL/NEXTAUTH_URL, nettoyage console.log register, harmonisation expéditeur Resend
+
+---
+
+## DEVOPS — 2026-03-13
+
+### Statut build : READY
+
+**Commit** : 66aeedb1abef5fe9af419d1961955dbb2cd09e08
+**URL prod** : https://levisweb.net
+**Déploiement** : dpl_ELcaEsKWjTrYVKfM8QwcbUP97y5D
+
+### Ce qui a été fait
+- Staging des 16 entrées du périmètre approuvé par le REVIEWER : 3 fichiers modifiés, 12 suppressions de pages test/debug, HANDOFF.md
+- Vérification .gitignore : `.env*` ignoré ligne 34, aucun fichier sensible dans le diff
+- Commit sur `master` avec message conventionnel
+- Push vers origin/master (cea6f05 -> 66aeedb)
+- Build Vercel READY en ~72 secondes
+
+### Points d'attention pour le prochain agent (DEV)
+- Webhook Stripe (`/api/stripe/webhook`) : corps vide/TODO — abonnements jamais mis à jour en base sans ce webhook
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL (incohérence signalée par testeur et reviewer)
+- Supprimer les `console.log` de debug dans `/api/register`
+- Uniformiser l'expéditeur Resend dans `lib/email.ts` (`onboarding@resend.dev` en dur dans `sendTicketNotification`)
