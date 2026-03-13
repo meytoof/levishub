@@ -255,3 +255,80 @@ Ces deux fichiers sont inclus dans le périmètre du commit à venir.
 - Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL (incohérence signalée par testeur et reviewer)
 - Supprimer les `console.log` de debug dans `/api/register`
 - Uniformiser l'expéditeur Resend dans `lib/email.ts` (`onboarding@resend.dev` en dur dans `sendTicketNotification`)
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — 8 phases de redesign Awwwards-quality
+
+#### Phase 1 — Foundation
+- Installation de `lenis` v1.3 (smooth scroll)
+- `src/components/ui/smooth-scroll-provider.tsx` : Lenis RAF loop wrappant le layout
+- `src/components/ui/text-cursor.tsx` : curseur magnétique avec AnimatePresence, activé par `data-cursor="..."` attributes
+- `src/components/ui/grain-overlay.tsx` : overlay bruit SVG fixe (opacity 0.08, z-9998)
+- `src/app/globals.css` : import Clash Display via Fontshare CDN + tokens CSS (`--font-display`, `--ease-expo`, `.font-display`)
+- `src/components/ui/resizable-navbar.tsx` : fix flash hydration — état `mounted` + opacity 0→1 animée au mount
+- `src/app/(marketing)/layout.tsx` : intégration des trois nouveaux providers
+
+#### Phase 2 — Footer
+- Wordmark "LevisWeb" géant en background (opacity 0.04, Clash Display)
+- Ligne animée scaleX en top via whileInView
+- Grid 4 colonnes propres (brand / adresse / contact / légal)
+- `data-cursor` attributes sur tous les liens interactifs
+- Icônes réseaux sociaux SVG inline
+
+#### Phase 3 — Services
+- Numéros géants "01"-"04" en background (opacity 0.05) par slide
+- Titres en Clash Display (`font-display`)
+- `data-cursor="Voir"` sur cards et CTAs
+- CTA flottant sur slide process
+
+#### Phase 4 — Pricing
+- Hero "Nos tarifs" en Clash Display
+- Symbole `€` géant background opacity 0.03
+- `AnimatedCheck` : checkmarks animés à l'IntersectionObserver
+- `data-cursor="Voir"` sur les cartes
+- Easing `[0.76, 0, 0.24, 1]` uniformisé sur toutes les animations
+
+#### Phase 5 — Contact
+- Split screen 50/50 : left panel fixe (dark, mesh gradient violet/pink, wordmark)
+- Right panel : inputs underline-focus animés, CalScheduler slide-in whileInView
+- `data-cursor="Envoyer"` sur submit
+
+#### Phase 6 — Auth Pages
+- Login/Register : split screen identique au contact (left = brand panel fixe)
+- AnimatePresence login ↔ forgot-password avec slide
+- Shake animation sur erreur de validation
+- RegisterClient : suppression de `any` (interface `Invitation` explicite)
+- Orbite animée sur le left panel
+
+#### Phase 7 — Projets Démo
+- Filter bar avec `LayoutGroup` + pill animée (`layoutId="filter-pill"`)
+- `AnimatePresence` sur la grille lors du changement de filtre
+- Cards avec hover overlay gradient, scale, `data-cursor="Voir"`
+- Badges catégorie, propriété `tall` pour effet masonry
+
+#### Phase 8 — Mentions Légales
+- Conversion en client component
+- `StickyTOC` desktop : surlignage actif par `IntersectionObserver`
+- `TracingBeam` conservé
+- Titres `font-display`, animations whileInView
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché, hors périmètre
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
+- **Tester visuellement toutes les pages** sur la branche `feat/awwwards-redesign`
+- Potentiel à étendre : page d'accueil (`/`) non redessinée dans ce scope
+
+### Points d'attention pour le TESTEUR
+- La branche est `feat/awwwards-redesign` — ne pas pousser sur master sans review
+- Tester le smooth scroll Lenis sur les navigateurs cibles (Chrome, Safari, Firefox)
+- Vérifier que `data-cursor` fonctionne bien (visible seulement sur `md:` et plus)
+- Le left panel auth est `sticky + lg:h-svh` — tester le comportement mobile
+- La page Contact est désormais un split screen pleine hauteur — vérifier l'overflow mobile
+- `npx tsc --noEmit` passait à zéro erreur au moment du commit
+- `lenis` peut interférer avec les animations GSAP ScrollTrigger sur `/services` — à valider
