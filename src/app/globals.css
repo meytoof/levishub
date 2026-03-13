@@ -1,4 +1,20 @@
 @import "tailwindcss";
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+
+/* ===== AWWWARDS DESIGN TOKENS ===== */
+:root {
+  --font-display: 'Clash Display', 'Sofia Sans Condensed', sans-serif;
+  --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-headline: 1.2s;
+  --duration-micro: 0.2s;
+  --stagger: 0.06s;
+  --accent-emerald: #34d399;
+  --accent-emerald-dark: #059669;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
 
 @custom-variant dark (&:is(.dark *));
 

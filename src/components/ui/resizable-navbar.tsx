@@ -10,7 +10,7 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { MarketingPreviewLink, TransitionLink } from "./transition-link";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -54,6 +54,11 @@ interface MobileNavMenuProps {
 export const Navbar = ({ children, className }: NavbarProps) => {
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 100) {
@@ -66,6 +71,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <motion.div
       className={cn("fixed inset-x-0 top-0 z-[100] w-full", className)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: mounted ? 1 : 0 }}
+      transition={{ duration: 0.3, delay: 0.1 }}
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)

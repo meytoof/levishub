@@ -16,6 +16,9 @@ import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { PageTransition } from "@/components/ui/page-transition";
+import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
+import { TextCursor } from "@/components/ui/text-cursor";
+import { GrainOverlay } from "@/components/ui/grain-overlay";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -74,7 +77,6 @@ export default async function MarketingLayout({
       <PageTransition />
       <ThemeProvider>
         <SessionProvider session={session}>
-          {/* Organization JSON-LD global pour SEO avec alternateName */}
           <Script id="ld-json-organization-global" type="application/ld+json">
             {JSON.stringify({
               "@context": "https://schema.org",
@@ -89,22 +91,26 @@ export default async function MarketingLayout({
               ],
             })}
           </Script>
-          <Navbar>
-            <NavBody
-              className="shadow-none levisweb-nav"
-              shrinkOnScroll={!session}
-            >
-              <NavbarLogo />
-              <NavItems items={navItems} />
-              <div className="flex items-center gap-2">
-                <ThemeToggle />
-                <AuthButtons />
-              </div>
-            </NavBody>
-            <MobileNavigation items={navItems} authButtons={<AuthButtons />} />
-          </Navbar>
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <GrainOverlay />
+          <TextCursor />
+          <SmoothScrollProvider>
+            <Navbar>
+              <NavBody
+                className="shadow-none levisweb-nav"
+                shrinkOnScroll={!session}
+              >
+                <NavbarLogo />
+                <NavItems items={navItems} />
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <AuthButtons />
+                </div>
+              </NavBody>
+              <MobileNavigation items={navItems} authButtons={<AuthButtons />} />
+            </Navbar>
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </SmoothScrollProvider>
         </SessionProvider>
       </ThemeProvider>
     </div>
