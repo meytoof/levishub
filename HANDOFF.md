@@ -332,3 +332,96 @@ Ces deux fichiers sont inclus dans le périmètre du commit à venir.
 - La page Contact est désormais un split screen pleine hauteur — vérifier l'overflow mobile
 - `npx tsc --noEmit` passait à zéro erreur au moment du commit
 - `lenis` peut interférer avec les animations GSAP ScrollTrigger sur `/services` — à valider
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — Redesign v2 radical, 10 phases complètes
+
+**Commit** : `eef3439` — `feat(awwwards-v2): redesign radical complet — 10 phases`
+
+#### Phase 1 — Hooks créés
+- `src/hooks/use-magnetic.ts` — effet magnétique GSAP sur hover
+- `src/hooks/use-split-text.ts` — utilitaire split chars
+- `src/hooks/use-scroll-velocity.ts` — vélocité scroll Lenis
+- `src/hooks/use-in-view-gsap.ts` — hook générique GSAP + ScrollTrigger
+
+#### Phase 2 — Composants globaux créés
+- `src/components/ui/cursor.tsx` — curseur dot 6px mix-blend-difference, scale spring sur data-cursor link/image/magnetic
+- `src/components/ui/magnetic-button.tsx` — wrapper MagneticButton GSAP elastic
+- `src/components/ui/split-heading.tsx` — SplitHeading char-by-char avec ScrollTrigger ou triggerOnLoad
+- `src/components/ui/marquee-ticker.tsx` — MarqueeTicker GSAP infinite loop, pause on hover
+- `src/components/ui/animated-counter.tsx` — AnimatedCounter ScrollTrigger gsap.to obj.val
+- `src/components/ui/line-reveal.tsx` — LineReveal scaleX 0→1 ScrollTrigger
+
+#### Phase 3 — SmoothScrollProvider
+- Ajout velocity skew `.lenis-skew` via `lenis.on('scroll')`
+- Ajout `ScrollTrigger.update()` dans le RAF loop
+
+#### Phase 4 — Marketing Layout
+- Remplacement `TextCursor` → `Cursor`
+- Suppression `src/components/ui/text-cursor.tsx`
+- Wrapper `div.lenis-skew` autour du contenu
+
+#### Phase 5 — Services horizontal scroll
+- `src/components/ui/services-slides-pinning.tsx` : refonte complète en 5 panels GSAP horizontal scroll
+- Panel 0 intro + panels 1-4 (Site Vitrine, E-commerce, Backoffice, Maintenance)
+- Accordion mobile
+- Export `ServicesCTA` ajouté dans `src/app/(marketing)/services/page.tsx`
+
+#### Phase 6 — Pricing éditorial
+- `src/components/marketing/pricing-page-content.tsx` : refonte complète sur fond noir
+- Hero 100vh avec `1490€` char-by-char GSAP back.out(1.5)
+- MarqueeTicker band
+- AnimatedCounter stats (4 sem., 99.9%, 24/7)
+- Plans éditoriaux avec SvgCheckmark et MagneticButton
+- PricingQuiz préservé
+
+#### Phase 7 — Contact statement
+- `src/app/(marketing)/contact/page.tsx` : refonte complète
+- Statement 60vh avec SplitHeading + LineReveal
+- Floating labels avec clip-path reveal CSS sur focus
+- Radial gradient suivant la souris via `useMotionValue`
+- CalScheduler et structure split 50/50 préservés
+
+#### Phase 8 — Projets démo éditorial
+- `src/app/(marketing)/projets-demo/page.tsx` : refonte complète sur fond noir
+- Hero 100vh NOS PROJETS SplitHeading
+- MarqueeTicker band avec noms projets
+- Filter pills style mono/border
+- Grid éditorial avec hover clip-path title reveal via motion variants
+
+#### Phase 9 — Auth artistique
+- `src/app/(auth)/login/page.tsx` : refonte complète
+- `src/app/(auth)/register/RegisterClient.tsx` : refonte complète
+- `ParticlesOrbit` : 5 particules GSAP rotation + SVG "L" stroke-dashoffset
+- `AuthLeftPanel` avec radial gradient suivant la souris
+- `FloatingLabelInput` : labels flottants CSS pure, border-bottom animée
+- Shake sur erreur via `gsap.to({ keyframes: { x: [...] } })`
+- `MagneticButton` sur submit
+
+#### Phase 10 — Footer polish
+- `src/components/ui/footer.tsx` : refonte complète
+- `LineReveal` sur la bordure top
+- `HoverLink` avec underline scaleX 0→1 via GSAP
+- `SocialIcon` avec `MagneticButton` + rotation GSAP au hover
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
+- **Test visuel complet** de toutes les pages sur `feat/awwwards-redesign`
+
+### Points d'attention pour le TESTEUR
+- Branche `feat/awwwards-redesign` — ne pas pusher sur master sans review
+- Services `/services` : horizontal scroll 5 panels, tester le scrub GSAP + Lenis ensemble
+- Contact `/contact` : nouvelles floating labels, le `StatefulButton` est utilisé dans un `MagneticButton`
+- Auth `/login` et `/register` : fond `#050505`, ParticlesOrbit (GSAP `transformOrigin` sur divs), pas de régression fonctionnelle
+- Projets démo `/projets-demo` : hover variants Motion, les titres apparaissent au hover uniquement — vérifier mobile
+- Pricing `/pricing` : hero 1490€ char-by-char, les counters AnimatedCounter se déclenchent à l'entrée en viewport
+- Footer : LineReveal sur la bordure top (fond noir = bien visible), MagneticButton + rotation icônes sociales
+- `tsc --noEmit` = 0 erreur au commit
+- Le `mix-blend-difference` du nouveau curseur fonctionne sur fond noir mais peut être invisible sur certaines couleurs claires — tester sur les pages light mode
