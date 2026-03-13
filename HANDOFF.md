@@ -425,3 +425,63 @@ Ces deux fichiers sont inclus dans le périmètre du commit à venir.
 - Footer : LineReveal sur la bordure top (fond noir = bien visible), MagneticButton + rotation icônes sociales
 - `tsc --noEmit` = 0 erreur au commit
 - Le `mix-blend-difference` du nouveau curseur fonctionne sur fond noir mais peut être invisible sur certaines couleurs claires — tester sur les pages light mode
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — Corrections bugs critiques animations + polish couleur
+
+**Commit** : `f3caaf3`
+
+#### BUG CRITIQUE 1 — SmoothScrollProvider desync Lenis+GSAP
+Fichier : `src/components/ui/smooth-scroll-provider.tsx`
+- Suppression du RAF loop manuel (`requestAnimationFrame(raf)`) qui tournait en parallèle du ticker GSAP, causant une désynchronisation entre Lenis et ScrollTrigger (scroll bloquant sur /pricing, jerks partout)
+- Remplacement par `gsap.ticker.add(tickerFn)` comme driver unique de Lenis (`lenis.raf(time * 1000)`)
+- Ajout `gsap.ticker.lagSmoothing(0)` pour supprimer le smoothing automatique GSAP
+- `lenis.on("scroll", ScrollTrigger.update)` pour notifier ScrollTrigger à chaque tick Lenis
+- Skew `.lenis-skew` conditionnel (vérifie la présence d'éléments avant GSAP.to)
+- Cleanup propre : `lenis.destroy()` + `gsap.ticker.remove(tickerFn)`
+
+#### BUG CRITIQUE 2 — Services horizontal scroll brisé
+Fichier : `src/components/ui/services-slides-pinning.tsx`
+- Suppression de `style={{ height: "100vh" }}` + `overflow-hidden` sur la `<section>` qui écrasaient le pin spacer GSAP (le spacer ne pouvait pas injecter sa hauteur)
+- La section n'a plus de height/overflow contraints — GSAP gère seul
+- Track conserve `height: 100vh`
+- Passage à `gsap.context()` pour cleanup propre (`.revert()`)
+- Ajout `anticipatePin: 1` pour éliminer le flash au moment du pin
+- Refonte visuelle des 5 panels avec mockups plus riches (layout browser / grille e-commerce / terminal / heartbeat SVG)
+- ServicesCTA avec effet slide-in fill sur le CTA (fond `#050505` cohérent)
+
+#### FIX 3 — Projets démo : suppression filtre + stagger GSAP différencié
+Fichier : `src/app/(marketing)/projets-demo/page.tsx`
+- Suppression complète de la filter bar (LayoutGroup, AnimatePresence filtre, useState activeFilter, ALL_CATEGORIES)
+- Stagger GSAP ScrollTrigger individuel par carte avec durées différentes : 0.7s / 1.0s / 0.85s / 1.1s (via `data-duration` attribute) pour l'effet de vitesses simultanées multiples
+- Les cartes partent avec `opacity: 0` (style inline) puis sont animées par GSAP au scroll
+- `gsap.context()` sur le gridRef pour cleanup propre
+- Hover variants Motion conservés (clip-path title reveal)
+- MarqueeTicker conservé
+
+#### FIX 4 — Accents couleur
+- `src/app/(marketing)/page.tsx` : ligne `h-px` avec `linear-gradient(to right, transparent, #06b6d4 20%, #a855f7 60%, transparent)` entre hero et services
+- `src/components/ui/footer.tsx` : watermark "LevisWeb" en dégradé cyan→purple via `background-clip: text` (opacity 0.06)
+
+#### Fix bonus — Auth shake GSAP v3
+- `src/app/(auth)/login/page.tsx` et `RegisterClient.tsx` : `gsap.to({ keyframes: [...] })` remplacé par `gsap.timeline()` enchaîné (l'API keyframes n'existe pas en GSAP v3 standard)
+
+### Points d'attention pour le TESTEUR
+
+- **CRITIQUE à tester** : `/services` — le horizontal scroll doit maintenant défiler sans blocage ni flash au pin
+- **CRITIQUE à tester** : scroll global sur toutes les pages — plus de jerks, le ScrollTrigger doit déclencher correctement
+- `/projets-demo` : les 4 cartes doivent s'animer à des vitesses différentes en entrant dans le viewport (pas de stagger simultané identique)
+- Footer : le watermark "LevisWeb" doit apparaître en dégradé cyan→purple (subtil, opacity 0.06)
+- Homepage : vérifier la ligne de séparation entre hero et services
+- Auth `/login` et `/register` : le shake sur erreur doit fonctionner (timeline GSAP séquencée)
+- `tsc --noEmit` = 0 erreur confirmé au commit
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
