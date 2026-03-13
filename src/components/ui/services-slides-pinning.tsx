@@ -1,548 +1,393 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
-import { PulseCTA } from "@/components/ui/PulseCTA";
-import { StaggeredReveal } from "@/components/ui/staggered-reveal";
-import { MarketingPreviewLink } from "@/components/ui/transition-link";
-import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "motion/react";
-import { useEffect, useRef } from "react";
+import { SplitHeading } from "./split-heading";
+import { AnimatedCounter } from "./animated-counter";
+import { LineReveal } from "./line-reveal";
+import { MagneticButton } from "./magnetic-button";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const SLIDES = [
+const panels = [
   {
-    id: "hero",
-    bgClass:
-      "bg-gradient-to-br from-amber-200 via-orange-100 to-lime-200 dark:from-slate-900 dark:via-cyan-950 dark:to-teal-900",
-    accentColor: "from-violet-600 to-indigo-600",
-    bgNumber: "01",
-    content: (
-      <div className="section-inner flex h-full flex-col items-center justify-center overflow-visible px-6 text-center">
-        {/* Background large number */}
-        <span
-          aria-hidden="true"
-          className="font-display pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none text-[20vw] font-bold leading-none text-neutral-900 dark:text-white"
-          style={{ opacity: 0.05 }}
-        >
-          01
-        </span>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          className="relative z-10 space-y-8"
-        >
-          <p className="slide-reveal-words text-sm font-semibold uppercase tracking-[0.3em] text-amber-600/80 dark:text-cyan-400/80 sm:text-base">
-            Offres &amp; Accompagnement
-          </p>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem]">
-            <span className="slide-reveal-words font-display block text-neutral-800 dark:text-neutral-200">
-              Nos Services de
-            </span>
-            <span className="slide-reveal-words slide-reveal-words-gradient mt-2 block bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent pb-3 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400">
-              Communication Digitale
-            </span>
-          </h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mx-auto max-w-2xl text-xl text-neutral-600 dark:text-neutral-400 sm:text-2xl"
-          >
-            De la création de sites web à la formation en stratégie digitale, je
-            vous accompagne dans tous vos projets.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            <div data-cursor="Voir">
-              <PulseCTA href="/contact" size="lg">
-                Discutons de votre projet
-              </PulseCTA>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    ),
+    id: 0,
+    label: null,
+    accent: "#ffffff",
+    bg: "#000000",
   },
   {
-    id: "principaux",
-    bgClass:
-      "bg-gradient-to-br from-lime-200 via-emerald-100 to-amber-200 dark:from-blue-950 dark:via-indigo-950 dark:to-slate-900",
-    accentColor: "from-pink-600 to-rose-600",
-    bgNumber: "02",
-    content: (
-      <div className="section-inner flex h-full flex-col justify-center overflow-hidden px-6 pb-[20vh] pt-8 sm:px-12 lg:px-20">
-        {/* Background large number */}
-        <span
-          aria-hidden="true"
-          className="font-display pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none text-[20vw] font-bold leading-none text-neutral-900 dark:text-white"
-          style={{ opacity: 0.05 }}
-        >
-          02
-        </span>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-          className="relative z-10 mb-16 text-center"
-        >
-          <p className="slide-reveal-words mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-amber-700/70 dark:text-cyan-400/70">
-            Solutions complètes
-          </p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-            <span className="slide-reveal-words slide-reveal-words-gradient font-display bg-gradient-to-r from-orange-600 to-amber-700 bg-clip-text text-transparent dark:from-cyan-400 dark:to-blue-500">
-              Services Principaux
-            </span>
-          </h2>
-        </motion.div>
-        <StaggeredReveal
-          className="relative z-10 mx-auto grid max-w-5xl gap-8 text-left sm:grid-cols-2 lg:gap-16"
-          staggerDelay={150}
-          direction="up"
-        >
-          <motion.div
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="group relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white/90 p-8 shadow-xl backdrop-blur-sm transition-shadow duration-300 hover:shadow-2xl dark:border-white/10 dark:bg-white/10 dark:hover:bg-white/15"
-            data-cursor="Voir"
-          >
-            <span className="absolute -right-4 -top-4 text-8xl opacity-20 transition-transform duration-300 group-hover:scale-110">
-              🌐
-            </span>
-            <h3 className="relative mb-4 text-3xl font-bold sm:text-4xl">
-              Création de Sites Web
-            </h3>
-            <ul className="relative space-y-3 text-base text-neutral-600 dark:text-neutral-400">
-              <li>— Sites vitrines modernes et responsives</li>
-              <li>— E-commerce avec paiements sécurisés</li>
-              <li>— Applications web sur mesure</li>
-              <li>— Backoffices et interfaces d&apos;administration</li>
-              <li>— Optimisation des performances</li>
-            </ul>
-            <MarketingPreviewLink href="/contact" className="relative mt-6 inline-block">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-amber-500/60 font-semibold hover:border-amber-600 hover:bg-amber-50 dark:border-cyan-500/50 dark:hover:border-cyan-500 dark:hover:bg-cyan-950/30"
-              >
-                Demander un devis
-              </Button>
-            </MarketingPreviewLink>
-          </motion.div>
-          <motion.div
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="group relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white/90 p-8 shadow-xl backdrop-blur-sm transition-shadow duration-300 hover:shadow-2xl dark:border-white/10 dark:bg-white/10 dark:hover:bg-white/15"
-            data-cursor="Voir"
-          >
-            <span className="absolute -right-4 -top-4 text-8xl opacity-20 transition-transform duration-300 group-hover:scale-110">
-              🎓
-            </span>
-            <h3 className="relative mb-4 text-3xl font-bold sm:text-4xl">
-              Formation &amp; Accompagnement
-            </h3>
-            <ul className="relative space-y-3 text-base text-neutral-600 dark:text-neutral-400">
-              <li>— Formation en développement web</li>
-              <li>— Accompagnement stratégique digital</li>
-              <li>— Workshops sur mesure</li>
-              <li>— Support technique continu</li>
-              <li>— Mentoring personnalisé</li>
-            </ul>
-            <MarketingPreviewLink href="/contact" className="relative mt-6 inline-block">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-amber-500/60 font-semibold hover:border-amber-600 hover:bg-amber-50 dark:border-cyan-500/50 dark:hover:border-cyan-500 dark:hover:bg-cyan-950/30"
-              >
-                En savoir plus
-              </Button>
-            </MarketingPreviewLink>
-          </motion.div>
-        </StaggeredReveal>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="relative z-10 mt-20 text-center text-sm italic tracking-wide text-neutral-500 dark:text-neutral-500"
-        >
-          Scroll pour continuer ↓
-        </motion.p>
-      </div>
-    ),
+    id: 1,
+    number: "01",
+    title: "Site Vitrine",
+    description: "Une présence digitale qui convertit. Design sur mesure, performance optimisée, identité forte.",
+    features: ["Design personnalisé", "Optimisation SEO", "Responsive mobile", "Livraison 4 semaines"],
+    accent: "#06b6d4",
+    bg: "#020a0e",
   },
   {
-    id: "specialises",
-    bgClass:
-      "bg-gradient-to-br from-rose-200 via-amber-200 to-emerald-200 dark:from-indigo-950 dark:via-violet-950 dark:to-purple-900",
-    accentColor: "from-emerald-500 to-teal-600",
-    bgNumber: "03",
-    content: (
-      <div className="section-inner flex h-full flex-col items-center overflow-hidden px-6 py-8 sm:px-12">
-        {/* Background large number */}
-        <span
-          aria-hidden="true"
-          className="font-display pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none text-[20vw] font-bold leading-none text-neutral-900 dark:text-white"
-          style={{ opacity: 0.05 }}
-        >
-          03
-        </span>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 mb-12 text-center"
-        >
-          <p className="slide-reveal-words mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-rose-600/70 dark:text-blue-400/70">
-            Expertise pointue
-          </p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-            <span className="slide-reveal-words slide-reveal-words-gradient font-display bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-violet-500">
-              Services Spécialisés
-            </span>
-          </h2>
-        </motion.div>
-        <StaggeredReveal
-          className="relative z-10 grid max-w-6xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6"
-          staggerDelay={80}
-          direction="scale"
-        >
-          {[
-            {
-              icon: "🔍",
-              title: "SEO & Visibilité",
-              desc: "Audit, optimisation technique, stratégie de mots-clés",
-            },
-            {
-              icon: "📊",
-              title: "Stratégie Digitale",
-              desc: "Analyse de marché, plan d'action, KPIs",
-            },
-            {
-              icon: "📱",
-              title: "Communication Digitale",
-              desc: "Réseaux sociaux, contenu, community management",
-            },
-            {
-              icon: "⚡",
-              title: "Performance Web",
-              desc: "Audit, optimisation images, mise en cache",
-            },
-            {
-              icon: "🔒",
-              title: "Sécurité Web",
-              desc: "Protection, SSL/TLS, sauvegardes",
-            },
-            {
-              icon: "🛠️",
-              title: "Maintenance & Support",
-              desc: "Mises à jour, monitoring 24/7",
-            },
-          ].map((s) => (
-            <motion.div
-              key={s.title}
-              whileHover={{ scale: 1.03, y: -4 }}
-              className="group relative overflow-hidden rounded-2xl border border-neutral-200/80 bg-white/90 p-6 backdrop-blur-sm shadow-lg transition-all duration-300 hover:shadow-xl dark:border-white/10 dark:bg-white/10"
-              data-cursor="Voir"
-            >
-              <span className="text-4xl transition-transform duration-300 group-hover:scale-110">
-                {s.icon}
-              </span>
-              <h4 className="mt-4 text-xl font-bold sm:text-2xl">{s.title}</h4>
-              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                {s.desc}
-              </p>
-            </motion.div>
-          ))}
-        </StaggeredReveal>
-      </div>
-    ),
+    id: 2,
+    number: "02",
+    title: "E-commerce",
+    description: "Votre boutique en ligne pensée pour vendre. UX fluide, paiement sécurisé, gestion simplifiée.",
+    features: ["Catalogue illimité", "Paiement sécurisé", "Gestion des stocks", "Analytics avancés"],
+    accent: "#a855f7",
+    bg: "#0a020e",
+    counter: { value: 3, label: "× votre CA moyen" },
   },
   {
-    id: "process",
-    bgClass:
-      "bg-gradient-to-br from-orange-200 via-amber-200 to-rose-200 dark:from-violet-950 dark:via-fuchsia-950 dark:to-rose-950",
-    accentColor: "from-amber-500 to-orange-600",
-    bgNumber: "04",
-    content: (
-      <div className="section-inner flex h-full flex-col items-center justify-center overflow-hidden px-6 py-8 sm:px-12">
-        {/* Background large number */}
-        <span
-          aria-hidden="true"
-          className="font-display pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none text-[20vw] font-bold leading-none text-neutral-900 dark:text-white"
-          style={{ opacity: 0.05 }}
-        >
-          04
-        </span>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 mb-16 text-center"
-        >
-          <p className="slide-reveal-words mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-rose-600/70 dark:text-violet-400/70">
-            Méthodologie
-          </p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-            <span className="slide-reveal-words slide-reveal-words-gradient font-display bg-gradient-to-r from-rose-600 via-orange-600 to-amber-700 bg-clip-text text-transparent dark:from-violet-400 dark:to-fuchsia-400">
-              Comment je travaille
-            </span>
-          </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
-            Une approche structurée et transparente
-          </p>
-        </motion.div>
-        <StaggeredReveal
-          className="relative z-10 grid w-full max-w-6xl grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-12"
-          staggerDelay={120}
-          direction="down"
-        >
-          {[
-            {
-              n: "01",
-              title: "Consultation",
-              desc: "Analyse de vos besoins et objectifs",
-            },
-            {
-              n: "02",
-              title: "Planification",
-              desc: "Plan détaillé avec planning et livrables",
-            },
-            {
-              n: "03",
-              title: "Exécution",
-              desc: "Développement avec suivi régulier",
-            },
-            {
-              n: "04",
-              title: "Livraison",
-              desc: "Mise en ligne et accompagnement",
-            },
-          ].map((s) => (
-            <motion.div
-              key={s.n}
-              whileHover={{ y: -6 }}
-              className="group relative text-center"
-            >
-              <div className="process-circle-1 mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full text-2xl font-bold text-white shadow-xl transition-transform duration-300 group-hover:scale-110 sm:h-28 sm:w-28 sm:text-3xl">
-                {s.n}
-              </div>
-              <h4 className="text-xl font-bold sm:text-2xl">{s.title}</h4>
-              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                {s.desc}
-              </p>
-            </motion.div>
-          ))}
-        </StaggeredReveal>
-
-        {/* Floating CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="relative z-10 mt-16"
-        >
-          <div data-cursor="Voir">
-            <PulseCTA href="/contact" size="lg">
-              Démarrer mon projet
-            </PulseCTA>
-          </div>
-        </motion.div>
-      </div>
-    ),
+    id: 3,
+    number: "03",
+    title: "Backoffice",
+    description: "Gérez votre activité depuis un tableau de bord sur mesure. Efficacité et clarté.",
+    features: ["Dashboard custom", "Gestion utilisateurs", "Rapports en temps réel", "API RESTful"],
+    accent: "#34d399",
+    bg: "#02090a",
+  },
+  {
+    id: 4,
+    number: "04",
+    title: "Maintenance",
+    description: "Votre site entre de bonnes mains. Mises à jour, sécurité, monitoring 24/7.",
+    features: ["Updates régulières", "Backup quotidien", "Support prioritaire", "Monitoring 24/7"],
+    accent: "#f59e0b",
+    bg: "#0a0600",
+    counter: { value: 99.9, label: "% uptime" },
   },
 ];
 
 export function ServicesSlidesPinning() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (!wrapperRef.current || typeof window === "undefined") return;
-
-    const panels = gsap.utils.toArray<HTMLElement>(".services-slide-panel");
-
-    const ctx = gsap.context(() => {
-      panels.forEach((panel, index) => {
-        const isLastPanel = index === panels.length - 1;
-        const innerPanel = panel.querySelector(".section-inner") as HTMLElement;
-        if (!innerPanel) return;
-
-        const panelHeight = innerPanel.offsetHeight;
-        const windowHeight = window.innerHeight;
-        const difference = panelHeight - windowHeight;
-        const fakeScrollRatio =
-          difference > 0 ? difference / (difference + windowHeight) : 0;
-
-        if (fakeScrollRatio && !isLastPanel) {
-          (panel as HTMLElement).style.marginBottom = `${panelHeight * fakeScrollRatio}px`;
-        }
-
-        const shouldPin = !isLastPanel;
-        const slideId = (panel as HTMLElement).dataset.slideId;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: panel,
-            start: "bottom bottom",
-            end:
-              fakeScrollRatio && !isLastPanel
-                ? `+=${innerPanel.offsetHeight}`
-                : "bottom top",
-            pinSpacing: shouldPin ? false : true,
-            pin: shouldPin,
-            scrub: shouldPin,
-          },
-        });
-
-        const easeReveal = "power4.out" as const;
-        const splitWords = (el: HTMLElement) => {
-          if (slideId === "hero") return;
-          if (el.classList.contains("slide-reveal-words-gradient")) return;
-          const text = el.textContent || "";
-          const words = text.split(/\s+/).filter(Boolean);
-          if (words.length < 2) return;
-          el.innerHTML = words
-            .map(
-              (w) =>
-                `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:bottom"><span class="word-inner" style="display:inline-block">${w}</span></span>`
-            )
-            .join(" ");
-        };
-        innerPanel
-          .querySelectorAll<HTMLElement>(".slide-reveal-words")
-          .forEach(splitWords);
-        const words = innerPanel.querySelectorAll(".word-inner");
-        const blocks = Array.from(innerPanel.children);
-        gsap.fromTo(
-          words,
-          { yPercent: 110 },
-          {
-            yPercent: 0,
-            stagger: 0.035,
-            duration: 1,
-            ease: easeReveal,
-            scrollTrigger: {
-              trigger: panel,
-              start: "top 82%",
-              end: "top 28%",
-              scrub: 1.2,
-            },
-          }
-        );
-        gsap.fromTo(
-          blocks,
-          {
-            opacity: 0,
-            scale: 0.96,
-            filter: "blur(10px)",
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            stagger: 0.07,
-            duration: 1,
-            ease: easeReveal,
-            scrollTrigger: {
-              trigger: panel,
-              start: "top 85%",
-              end: "top 25%",
-              scrub: 1.2,
-            },
-          }
-        );
-
-        if (fakeScrollRatio) {
-          tl.to(innerPanel, {
-            yPercent: -100,
-            y: window.innerHeight,
-            duration: 1 / (1 - fakeScrollRatio) - 1,
-            ease: "none",
-          });
-        }
-
-        tl.fromTo(
-          panel,
-          { scale: 1, opacity: 1 },
-          { scale: 0.7, opacity: 0.5, duration: 0.9, ease: "none" }
-        ).to(panel, { opacity: 0, duration: 0.1, ease: "none" });
-      });
-    }, wrapperRef);
-
-    return () => ctx.revert();
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  return (
-    <div ref={wrapperRef} className="services-slides-wrapper mt-[72px] w-full md:mt-20">
-      {SLIDES.map((slide) => (
-        <section
-          key={slide.id}
-          data-slide-id={slide.id}
-          className={`services-slide-panel section flex min-h-[calc(100vh-80px)] w-full items-center justify-center overflow-hidden px-4 py-6 sm:px-6 ${slide.bgClass}`}
-        >
-          <div className="section-content h-full w-full max-w-7xl">
-            {slide.content}
-          </div>
-        </section>
-      ))}
+  useEffect(() => {
+    if (typeof window === "undefined" || isMobile) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    if (!section || !track) return;
 
-      {/* Section CTA finale */}
-      <section className="services-cta-overlap relative z-20 flex w-full flex-col items-center justify-center bg-gradient-to-br from-amber-200 via-lime-100 to-rose-200 px-6 py-24 text-center dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-900 md:py-28">
-        {/* Background wordmark */}
-        <span
-          aria-hidden="true"
-          className="font-display pointer-events-none absolute inset-0 flex items-center justify-center select-none overflow-hidden text-[25vw] font-bold uppercase leading-none text-neutral-900 dark:text-white"
-          style={{ opacity: 0.04 }}
-        >
-          GO
-        </span>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          className="relative z-10 space-y-10"
-        >
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400/70 dark:text-amber-700/70">
-            Prêt à démarrer ?
-          </p>
-          <h2 className="max-w-5xl text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-            <span className="font-display bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400 bg-clip-text text-transparent dark:from-amber-600 dark:via-orange-600 dark:to-rose-600">
-              Prêt à transformer votre présence digitale ?
-            </span>
-          </h2>
-          <p className="mx-auto max-w-2xl text-xl text-neutral-600 dark:text-neutral-400">
-            Que vous ayez besoin d&apos;un site web, d&apos;une formation ou
-            d&apos;une stratégie digitale complète.
-          </p>
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
-            <div data-cursor="Voir">
-              <PulseCTA href="/contact" size="lg">Discutons de votre projet</PulseCTA>
-            </div>
-            <MarketingPreviewLink href="/pricing">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-orange-500/60 px-10 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 hover:border-orange-600 dark:border-cyan-500/50 dark:hover:border-cyan-600"
-                data-cursor="Voir"
+    const scrollDistance = track.scrollWidth - window.innerWidth;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        pin: true,
+        scrub: 1,
+        end: () => `+=${scrollDistance}`,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    tl.to(track, {
+      x: () => -scrollDistance,
+      ease: "none",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, [isMobile]);
+
+  // Mobile accordion
+  if (isMobile) {
+    return (
+      <section className="bg-black py-16">
+        <div className="px-6 mb-10">
+          <h2 className="font-display text-5xl font-bold text-white">NOS SERVICES</h2>
+          <p className="text-white/50 mt-3">Votre présence digitale, repensée.</p>
+        </div>
+        <div className="space-y-px">
+          {panels.slice(1).map((panel) => (
+            <div key={panel.id} className="border-t border-white/10">
+              <button
+                className="w-full flex items-center justify-between px-6 py-5 text-left"
+                onClick={() => setOpenAccordion(openAccordion === panel.id ? null : panel.id)}
               >
-                Voir mes tarifs
-              </Button>
-            </MarketingPreviewLink>
-          </div>
-        </motion.div>
+                <div className="flex items-center gap-4">
+                  <span className="text-xs font-mono opacity-40">{panel.number}</span>
+                  <span className="font-display text-xl text-white">{panel.title}</span>
+                </div>
+                <span
+                  className="text-2xl transition-transform duration-300"
+                  style={{
+                    color: panel.accent,
+                    transform: openAccordion === panel.id ? "rotate(45deg)" : "rotate(0deg)",
+                  }}
+                >
+                  +
+                </span>
+              </button>
+              <div
+                className="overflow-hidden transition-all duration-500"
+                style={{ maxHeight: openAccordion === panel.id ? "400px" : "0" }}
+              >
+                <div className="px-6 pb-6">
+                  <p className="text-white/60 text-sm mb-4">{panel.description}</p>
+                  <ul className="space-y-2">
+                    {panel.features?.map((f, i) => (
+                      <li key={i} className="flex items-center gap-2 text-sm">
+                        <span style={{ color: panel.accent }}>✓</span>
+                        <span className="text-white/80">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
-    </div>
+    );
+  }
+
+  return (
+    <section ref={sectionRef} className="overflow-hidden bg-black" style={{ height: "100vh" }}>
+      <div ref={trackRef} className="flex h-full will-change-transform" style={{ width: `${panels.length * 100}vw` }}>
+        {/* Panel 0 — Intro */}
+        <div className="w-screen h-full flex flex-col items-center justify-center relative" style={{ background: "#000" }}>
+          <div className="text-center">
+            <SplitHeading
+              as="h2"
+              className="font-display font-bold text-white leading-none"
+              style={{ fontSize: "clamp(4rem, 12vw, 14rem)" } as React.CSSProperties}
+              triggerOnLoad
+            >
+              NOS SERVICES
+            </SplitHeading>
+            <p className="text-white/40 mt-6 text-lg tracking-widest uppercase font-light">
+              Votre présence digitale, repensée.
+            </p>
+            <div className="mt-12 flex items-center gap-3 justify-center text-white/30 text-sm">
+              <span>Scrollez pour explorer</span>
+              <span className="animate-bounce">→</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel 1 — Site Vitrine */}
+        <div className="w-screen h-full flex" style={{ background: panels[1].bg }}>
+          <div className="w-[45%] flex flex-col justify-center pl-[8vw] pr-8 relative">
+            <span className="font-mono text-[20vw] font-bold absolute left-0 top-1/2 -translate-y-1/2 opacity-[0.04] text-white select-none pointer-events-none leading-none">
+              {panels[1].number}
+            </span>
+            <span className="font-mono text-xs uppercase tracking-[0.3em] mb-4" style={{ color: panels[1].accent }}>
+              {panels[1].number}
+            </span>
+            <SplitHeading
+              as="h3"
+              className="font-display text-[6vw] font-bold text-white leading-none mb-6"
+            >
+              {panels[1].title}
+            </SplitHeading>
+            <p className="text-white/50 text-lg mb-8 max-w-[360px]">{panels[1].description}</p>
+            <ul className="space-y-3">
+              {panels[1].features?.map((f, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <LineReveal className="w-8 opacity-60" color={panels[1].accent} delay={i * 0.1} />
+                  <span className="text-white/80">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="w-[55%] flex items-center justify-center pr-[8vw]">
+            <div
+              className="w-[80%] h-[70%] rounded-2xl relative overflow-hidden"
+              style={{ background: `linear-gradient(135deg, ${panels[1].accent}22, ${panels[1].accent}05)`, border: `1px solid ${panels[1].accent}33` }}
+              data-cursor="image"
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-mono text-xs tracking-widest uppercase opacity-20" style={{ color: panels[1].accent }}>
+                  Site Vitrine Preview
+                </span>
+              </div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="h-2 rounded-full mb-2" style={{ background: `${panels[1].accent}33`, width: "60%" }} />
+                <div className="h-2 rounded-full mb-2" style={{ background: `${panels[1].accent}22`, width: "80%" }} />
+                <div className="h-2 rounded-full" style={{ background: `${panels[1].accent}11`, width: "40%" }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel 2 — E-commerce */}
+        <div className="w-screen h-full flex" style={{ background: panels[2].bg }}>
+          <div className="w-[45%] flex flex-col justify-center pl-[8vw] pr-8">
+            <span className="font-mono text-xs uppercase tracking-[0.3em] mb-4" style={{ color: panels[2].accent }}>
+              {panels[2].number}
+            </span>
+            <SplitHeading
+              as="h3"
+              className="font-display text-[6vw] font-bold text-white leading-none mb-6"
+            >
+              {panels[2].title}
+            </SplitHeading>
+            <p className="text-white/50 text-lg mb-8 max-w-[360px]">{panels[2].description}</p>
+            <div className="mb-8">
+              <div className="font-display text-[5vw] font-bold" style={{ color: panels[2].accent }}>
+                <AnimatedCounter target={3} prefix="×" suffix="" className="" />
+                <span className="text-white/40 text-xl ml-2 font-sans font-light">votre CA moyen</span>
+              </div>
+            </div>
+            <ul className="space-y-3">
+              {panels[2].features?.map((f, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <LineReveal className="w-8 opacity-60" color={panels[2].accent} delay={i * 0.1} />
+                  <span className="text-white/80">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="w-[55%] flex items-center justify-center pr-[8vw]">
+            <div
+              className="w-[80%] h-[70%] rounded-2xl overflow-hidden relative"
+              style={{ background: `linear-gradient(135deg, ${panels[2].accent}22, ${panels[2].accent}05)`, border: `1px solid ${panels[2].accent}33` }}
+              data-cursor="image"
+            >
+              <div className="absolute inset-0 grid grid-cols-2 gap-4 p-6">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="rounded-xl flex flex-col p-3" style={{ background: `${panels[2].accent}11` }}>
+                    <div className="w-full aspect-square rounded-lg mb-2" style={{ background: `${panels[2].accent}22` }} />
+                    <div className="h-2 rounded mb-1" style={{ background: `${panels[2].accent}33`, width: "70%" }} />
+                    <div className="h-2 rounded" style={{ background: `${panels[2].accent}22`, width: "40%" }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel 3 — Backoffice */}
+        <div className="w-screen h-full flex" style={{ background: panels[3].bg }}>
+          <div className="w-[45%] flex flex-col justify-center pl-[8vw] pr-8">
+            <span className="font-mono text-xs uppercase tracking-[0.3em] mb-4" style={{ color: panels[3].accent }}>
+              {panels[3].number}
+            </span>
+            <SplitHeading
+              as="h3"
+              className="font-display text-[6vw] font-bold text-white leading-none mb-6"
+            >
+              {panels[3].title}
+            </SplitHeading>
+            <p className="text-white/50 text-lg mb-8 max-w-[360px]">{panels[3].description}</p>
+            <ul className="space-y-3">
+              {panels[3].features?.map((f, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <LineReveal className="w-8 opacity-60" color={panels[3].accent} delay={i * 0.1} />
+                  <span className="text-white/80">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="w-[55%] flex items-center justify-center pr-[8vw]">
+            <div
+              className="w-[80%] h-[70%] rounded-2xl overflow-hidden font-mono text-xs p-6 leading-relaxed"
+              style={{ background: "#000", border: `1px solid ${panels[3].accent}33`, color: `${panels[3].accent}99` }}
+              data-cursor="image"
+            >
+              <div className="opacity-60 mb-2">{"// backoffice.dashboard.init()"}</div>
+              <div><span style={{ color: panels[3].accent }}>const</span> dashboard = new Dashboard()</div>
+              <div className="mt-1 pl-4"><span style={{ color: panels[3].accent }}>.</span>withAuth(session)</div>
+              <div className="pl-4"><span style={{ color: panels[3].accent }}>.</span>withAnalytics()</div>
+              <div className="pl-4"><span style={{ color: panels[3].accent }}>.</span>build()</div>
+              <div className="mt-4 opacity-40">{"// ✓ Dashboard ready"}</div>
+              <div className="opacity-40">{"// ✓ 12 users connected"}</div>
+              <div className="opacity-40">{"// ✓ 1,247 events logged"}</div>
+              <div className="mt-4 flex items-center gap-2">
+                <span style={{ color: panels[3].accent }}>▶</span>
+                <span className="animate-pulse">_</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel 4 — Maintenance */}
+        <div className="w-screen h-full flex" style={{ background: panels[4].bg }}>
+          <div className="w-[45%] flex flex-col justify-center pl-[8vw] pr-8">
+            <span className="font-mono text-xs uppercase tracking-[0.3em] mb-4" style={{ color: panels[4].accent }}>
+              {panels[4].number}
+            </span>
+            <SplitHeading
+              as="h3"
+              className="font-display text-[6vw] font-bold text-white leading-none mb-6"
+            >
+              {panels[4].title}
+            </SplitHeading>
+            <p className="text-white/50 text-lg mb-8 max-w-[360px]">{panels[4].description}</p>
+            <div className="mb-8">
+              <div className="font-display text-[5vw] font-bold" style={{ color: panels[4].accent }}>
+                <AnimatedCounter target={99} suffix=".9%" className="" />
+                <span className="text-white/40 text-xl ml-2 font-sans font-light">uptime</span>
+              </div>
+            </div>
+            <ul className="space-y-3">
+              {panels[4].features?.map((f, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <LineReveal className="w-8 opacity-60" color={panels[4].accent} delay={i * 0.1} />
+                  <span className="text-white/80">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="w-[55%] flex items-center justify-center pr-[8vw]">
+            <div className="flex flex-col items-center gap-8">
+              <svg width="200" height="80" viewBox="0 0 200 80" fill="none" className="overflow-visible">
+                <path
+                  d="M0,40 L30,40 L45,10 L60,70 L75,20 L90,60 L105,30 L120,50 L135,35 L150,45 L165,38 L180,42 L200,40"
+                  stroke={panels[4].accent}
+                  strokeWidth="2"
+                  fill="none"
+                  style={{
+                    strokeDasharray: "600",
+                    strokeDashoffset: "0",
+                    animation: "heartbeat 2s ease-in-out infinite",
+                  }}
+                />
+              </svg>
+              <div className="text-center">
+                <div className="font-display text-6xl font-bold" style={{ color: panels[4].accent }}>24/7</div>
+                <div className="text-white/40 text-sm mt-2 tracking-widest uppercase">Monitoring actif</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes heartbeat {
+          0%, 100% { stroke-dashoffset: 600; }
+          50% { stroke-dashoffset: 0; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+export function ServicesCTA() {
+  return (
+    <section className="bg-black py-32 flex flex-col items-center justify-center text-center">
+      <p className="text-white/30 text-sm uppercase tracking-[0.3em] mb-6">Prêt à démarrer ?</p>
+      <SplitHeading as="h2" className="font-display text-[5vw] font-bold text-white mb-12">
+        Démarrer votre projet
+      </SplitHeading>
+      <MagneticButton>
+        <a
+          href="/contact"
+          data-cursor="magnetic"
+          className="inline-flex items-center gap-3 border border-white/20 text-white px-10 py-5 text-lg hover:bg-white hover:text-black transition-colors duration-300"
+        >
+          Démarrer votre projet
+          <span>→</span>
+        </a>
+      </MagneticButton>
+    </section>
   );
 }

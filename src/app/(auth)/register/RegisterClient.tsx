@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StatefulButton } from "@/components/ui/stateful-button";
-import { motion, AnimatePresence } from "motion/react";
+import { SplitHeading } from "@/components/ui/split-heading";
+import { MagneticButton } from "@/components/ui/magnetic-button";
+import { motion, AnimatePresence, useMotionValue } from "motion/react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { toast } from "sonner";
+import gsap from "gsap";
 
 interface Invitation {
   email: string;
@@ -16,6 +19,210 @@ interface Invitation {
     name: string;
     companyName: string;
   };
+}
+
+function ParticlesOrbit() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const particles = container.querySelectorAll<HTMLDivElement>(".orbit-particle-r");
+    particles.forEach((p, i) => {
+      const angle = (i / particles.length) * Math.PI * 2;
+      const radius = 80 + i * 15;
+      const duration = 8 + i * 2;
+      gsap.to(p, {
+        rotate: 360,
+        duration,
+        repeat: -1,
+        ease: "none",
+        transformOrigin: `${-radius}px 0px`,
+      });
+      gsap.set(p, {
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+      });
+    });
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-40 h-40 flex items-center justify-center">
+      <svg width="60" height="70" viewBox="0 0 60 70" fill="none" className="relative z-10">
+        <path
+          d="M10 10 L10 60 L50 60"
+          stroke="white"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            strokeDasharray: 120,
+            strokeDashoffset: 0,
+            animation: "dash-draw-r 2s ease-in-out forwards",
+          }}
+        />
+      </svg>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="orbit-particle-r absolute w-1.5 h-1.5 rounded-full"
+          style={{
+            background: `hsl(${260 + i * 20}, 80%, ${60 + i * 5}%)`,
+            opacity: 0.6 + i * 0.08,
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes dash-draw-r {
+          from { stroke-dashoffset: 120; }
+          to { stroke-dashoffset: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function BrandPanel({ companyName }: { companyName?: string }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      className="relative flex flex-col items-center justify-center overflow-hidden px-10 py-16 text-white lg:sticky lg:top-0 lg:h-svh lg:w-1/2 lg:py-0"
+      style={{ background: "#050505" }}
+      initial={{ opacity: 0, x: -40 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+      onMouseMove={handleMouseMove}
+    >
+      {/* Radial gradient following mouse */}
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          background: `radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(139,92,246,0.15), transparent 60%)`,
+        }}
+      />
+
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse at 30% 40%, hsl(258 96% 67% / 0.2) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, hsl(333 93% 56% / 0.15) 0%, transparent 50%)",
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 select-none overflow-hidden"
+      >
+        <span
+          className="font-display block whitespace-nowrap text-[28vw] font-bold uppercase leading-none text-white lg:text-[14vw]"
+          style={{ opacity: 0.04 }}
+        >
+          LevisWeb
+        </span>
+      </div>
+
+      <div className="relative z-10 text-center">
+        <ParticlesOrbit />
+        <div className="mt-8">
+          <SplitHeading
+            as="span"
+            className="font-display block text-5xl font-bold text-white lg:text-6xl"
+            triggerOnLoad
+            delay={0.3}
+          >
+            LevisWeb
+          </SplitHeading>
+          <p className="mt-4 text-sm text-neutral-500">
+            {companyName ? (
+              <>Invitation pour <span className="font-semibold text-white">{companyName}</span></>
+            ) : (
+              "Agence Digitale — Savoie & Chartreuse"
+            )}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function FloatingLabelInput({
+  id,
+  name,
+  type = "text",
+  label,
+  placeholder,
+  value,
+  onChange,
+  required,
+  autoFocus,
+  autoComplete,
+  hint,
+}: {
+  id: string;
+  name: string;
+  type?: string;
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (val: string) => void;
+  required?: boolean;
+  autoFocus?: boolean;
+  autoComplete?: string;
+  hint?: string;
+}) {
+  const [focused, setFocused] = useState(false);
+  const hasValue = value.length > 0;
+
+  return (
+    <div className="relative pt-5">
+      <label
+        htmlFor={id}
+        className="absolute left-0 transition-all duration-300 pointer-events-none"
+        style={{
+          top: focused || hasValue ? "0px" : "20px",
+          fontSize: focused || hasValue ? "10px" : "14px",
+          letterSpacing: focused || hasValue ? "0.2em" : "0.05em",
+          textTransform: "uppercase" as const,
+          color: focused ? "#8b5cf6" : "rgba(255,255,255,0.3)",
+          fontWeight: 600,
+        }}
+      >
+        {label}
+      </label>
+      <Input
+        id={id}
+        name={name}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        required={required}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete}
+        placeholder={focused ? placeholder : ""}
+        className="border-0 border-b bg-transparent px-0 pt-2 pb-3 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-white placeholder:text-white/20 rounded-none"
+        style={{
+          borderBottomColor: focused ? "#8b5cf6" : "rgba(255,255,255,0.15)",
+          borderBottomWidth: "1px",
+          transition: "border-color 0.3s ease",
+        }}
+      />
+      {hint && <p className="text-xs text-white/20 mt-1">{hint}</p>}
+    </div>
+  );
 }
 
 export default function RegisterClient() {
@@ -27,7 +234,7 @@ export default function RegisterClient() {
   const [error, setError] = useState<string | null>(null);
   const [invitation, setInvitation] = useState<Invitation | null>(null);
   const [loading, setLoading] = useState(true);
-  const [shake, setShake] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const token = searchParams.get("token");
 
@@ -50,9 +257,7 @@ export default function RegisterClient() {
 
   const validateInvitation = async () => {
     try {
-      const response = await fetch(
-        `/api/invitations/validate?token=${token}`
-      );
+      const response = await fetch(`/api/invitations/validate?token=${token}`);
       if (response.ok) {
         const data = await response.json();
         setInvitation(data.invitation as Invitation);
@@ -82,6 +287,16 @@ export default function RegisterClient() {
     return null;
   };
 
+  function shakeForm() {
+    const el = formRef.current;
+    if (!el) return;
+    gsap.to(el, {
+      keyframes: { x: [-12, 12, -8, 8, -4, 4, 0] },
+      ease: "none",
+      duration: 0.5,
+    });
+  }
+
   async function handleRegister() {
     setError(null);
 
@@ -92,21 +307,20 @@ export default function RegisterClient() {
 
     if (!password.trim() || !confirmPassword.trim()) {
       toast.error("Veuillez remplir tous les champs");
+      shakeForm();
       return;
     }
 
     const passwordError = validatePassword(password);
     if (passwordError) {
       toast.error(passwordError);
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
+      shakeForm();
       return;
     }
 
     if (password !== confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas");
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
+      shakeForm();
       return;
     }
 
@@ -153,19 +367,16 @@ export default function RegisterClient() {
           : "Erreur lors de la création du compte";
       toast.error(errorMessage);
       setError(errorMessage);
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
+      shakeForm();
       throw err;
     }
   }
 
   const LoadingSpinner = () => (
-    <div className="flex flex-1 items-center justify-center px-4">
+    <div className="flex flex-1 items-center justify-center px-4 bg-black">
       <div className="text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500 mx-auto mb-4" />
-        <p className="text-muted-foreground text-sm">
-          Validation de l&apos;invitation...
-        </p>
+        <p className="text-white/40 text-sm">Validation de l&apos;invitation...</p>
       </div>
     </div>
   );
@@ -189,82 +400,57 @@ export default function RegisterClient() {
       <BrandPanel companyName={invitation?.client?.companyName} />
 
       {/* Right form panel */}
-      <div className="flex flex-1 items-center justify-center px-6 py-12 lg:px-16">
-        <div className="w-full max-w-md">
+      <div className="flex flex-1 items-center justify-center px-6 py-12 lg:px-16 bg-black">
+        <div className="w-full max-w-md" ref={formRef}>
           <motion.div
-            animate={shake ? { x: [0, -10, 10, -8, 8, -5, 5, 0] } : { x: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
-            <h2 className="font-display text-3xl font-bold text-foreground mb-2">
+            <h2 className="font-display text-3xl font-bold text-white mb-1">
               Créer votre compte
             </h2>
             {invitation && (
-              <p className="text-sm text-muted-foreground mb-8">
+              <p className="text-sm text-white/30 mb-10">
                 Bienvenue chez{" "}
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-white">
                   {invitation.client.companyName}
                 </span>
               </p>
             )}
 
             <form
-              className="space-y-6"
+              className="space-y-8"
               onSubmit={(e) => {
                 e.preventDefault();
                 handleRegister();
               }}
             >
-              <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-xs font-semibold uppercase tracking-[0.15em] text-neutral-500"
-                >
-                  Mot de passe
-                </Label>
-                <div className="relative border-b border-neutral-300 pb-2 focus-within:border-violet-500 transition-colors duration-300 dark:border-neutral-700 dark:focus-within:border-violet-400">
-                  <Input
-                    id="password"
-                    type="password"
-                    name="new-password"
-                    autoComplete="new-password"
-                    autoFocus
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-foreground placeholder:text-neutral-400"
-                    placeholder="Min. 8 car., maj., chiffre, symbole"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Minimum 8 caractères, une majuscule, un chiffre et un
-                  caractère spécial
-                </p>
-              </div>
+              <FloatingLabelInput
+                id="password"
+                name="new-password"
+                type="password"
+                label="Mot de passe"
+                placeholder="Min. 8 car., maj., chiffre, symbole"
+                value={password}
+                onChange={setPassword}
+                required
+                autoFocus
+                autoComplete="new-password"
+                hint="Minimum 8 caractères, une majuscule, un chiffre et un caractère spécial"
+              />
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="confirmPassword"
-                  className="text-xs font-semibold uppercase tracking-[0.15em] text-neutral-500"
-                >
-                  Confirmer le mot de passe
-                </Label>
-                <div className="relative border-b border-neutral-300 pb-2 focus-within:border-violet-500 transition-colors duration-300 dark:border-neutral-700 dark:focus-within:border-violet-400">
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    name="confirm-password"
-                    autoComplete="new-password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    className="border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-foreground placeholder:text-neutral-400"
-                    placeholder="Répétez votre mot de passe"
-                  />
-                </div>
-              </div>
+              <FloatingLabelInput
+                id="confirmPassword"
+                name="confirm-password"
+                type="password"
+                label="Confirmer le mot de passe"
+                placeholder="Répétez votre mot de passe"
+                value={confirmPassword}
+                onChange={setConfirmPassword}
+                required
+                autoComplete="new-password"
+              />
 
               <AnimatePresence>
                 {error && (
@@ -272,27 +458,29 @@ export default function RegisterClient() {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="text-sm text-red-500"
+                    className="text-sm text-red-400"
                   >
                     {error}
                   </motion.p>
                 )}
               </AnimatePresence>
 
-              <StatefulButton
-                onClick={handleRegister}
-                className="w-full rounded-full h-12 bg-gradient-to-r from-violet-600 to-pink-600 text-white font-semibold hover:from-violet-700 hover:to-pink-700 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/30"
-              >
-                Créer mon compte
-              </StatefulButton>
+              <MagneticButton>
+                <StatefulButton
+                  onClick={handleRegister}
+                  className="w-full border border-violet-500/40 bg-transparent text-violet-400 h-12 font-semibold text-sm hover:bg-violet-600 hover:text-white hover:border-violet-600 transition-all duration-300 rounded-none"
+                >
+                  Créer mon compte →
+                </StatefulButton>
+              </MagneticButton>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-muted-foreground">
+            <div className="mt-8 text-center">
+              <p className="text-sm text-white/20">
                 Vous avez déjà un compte ?{" "}
                 <Button
                   variant="link"
-                  className="p-0 h-auto text-violet-500 hover:text-violet-600"
+                  className="p-0 h-auto text-violet-400 hover:text-violet-300"
                   onClick={() => router.push("/login")}
                 >
                   Se connecter
@@ -303,63 +491,5 @@ export default function RegisterClient() {
         </div>
       </div>
     </div>
-  );
-}
-
-function BrandPanel({ companyName }: { companyName?: string }) {
-  return (
-    <motion.div
-      className="relative flex flex-col items-center justify-center overflow-hidden bg-neutral-950 px-10 py-16 text-white lg:sticky lg:top-0 lg:h-svh lg:w-1/2 lg:py-0"
-      initial={{ opacity: 0, x: -40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-    >
-      {/* Mesh gradient */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 40%, hsl(258 96% 67% / 0.4) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, hsl(333 93% 56% / 0.3) 0%, transparent 50%)",
-        }}
-      />
-
-      {/* Background wordmark */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 right-0 select-none overflow-hidden"
-      >
-        <span
-          className="font-display block whitespace-nowrap text-[28vw] font-bold uppercase leading-none text-white lg:text-[14vw]"
-          style={{ opacity: 0.06 }}
-        >
-          LevisWeb
-        </span>
-      </div>
-
-      <div className="relative z-10 text-center">
-        <motion.div
-          className="mx-auto mb-8 h-20 w-20 rounded-full border border-violet-500/30 flex items-center justify-center"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="h-2 w-2 rounded-full bg-violet-400" />
-        </motion.div>
-        <span className="font-display block text-5xl font-bold navbar-logo lg:text-6xl">
-          LevisWeb
-        </span>
-        {companyName && (
-          <p className="mt-4 text-sm text-neutral-400">
-            Invitation pour{" "}
-            <span className="font-semibold text-white">{companyName}</span>
-          </p>
-        )}
-        {!companyName && (
-          <p className="mt-4 text-sm text-neutral-400">
-            Agence Digitale — Savoie &amp; Chartreuse
-          </p>
-        )}
-      </div>
-    </motion.div>
   );
 }

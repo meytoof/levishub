@@ -17,7 +17,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { PageTransition } from "@/components/ui/page-transition";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
-import { TextCursor } from "@/components/ui/text-cursor";
+import { Cursor } from "@/components/ui/cursor";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -92,24 +92,26 @@ export default async function MarketingLayout({
             })}
           </Script>
           <GrainOverlay />
-          <TextCursor />
+          <Cursor />
           <SmoothScrollProvider>
-            <Navbar>
-              <NavBody
-                className="shadow-none levisweb-nav"
-                shrinkOnScroll={!session}
-              >
-                <NavbarLogo />
-                <NavItems items={navItems} />
-                <div className="flex items-center gap-2">
-                  <ThemeToggle />
-                  <AuthButtons />
-                </div>
-              </NavBody>
-              <MobileNavigation items={navItems} authButtons={<AuthButtons />} />
-            </Navbar>
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <div className="lenis-skew">
+              <Navbar>
+                <NavBody
+                  className="shadow-none levisweb-nav"
+                  shrinkOnScroll={!session}
+                >
+                  <NavbarLogo />
+                  <NavItems items={navItems} />
+                  <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <AuthButtons />
+                  </div>
+                </NavBody>
+                <MobileNavigation items={navItems} authButtons={<AuthButtons />} />
+              </Navbar>
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
           </SmoothScrollProvider>
         </SessionProvider>
       </ThemeProvider>

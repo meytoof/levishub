@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { MarketingPreviewLink } from "@/components/ui/transition-link";
+import { SplitHeading } from "@/components/ui/split-heading";
+import { MarqueeTicker } from "@/components/ui/marquee-ticker";
+import { LineReveal } from "@/components/ui/line-reveal";
 import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import Script from "next/script";
 import { useState } from "react";
@@ -12,39 +14,39 @@ const demos = [
     description:
       "Un e-commerce moderne avec panier d'achat et gestion des produits.",
     link: "/demo/ecommerce",
-    icon: "🛒",
-    color: "from-cyan-500 to-blue-600",
+    accent: "#06b6d4",
     category: "E-commerce",
     tall: true,
+    number: "01",
   },
   {
     title: "Portfolio",
     description:
       "Un portfolio créatif avec des animations néon et un design moderne.",
     link: "/demo/portfolio",
-    icon: "🎨",
-    color: "from-violet-500 to-purple-600",
+    accent: "#a855f7",
     category: "Créatif",
     tall: false,
+    number: "02",
   },
   {
     title: "Site Vitrine",
     description: "Un site vitrine professionnel et sobre pour PME et artisans.",
     link: "/demo/vitrine",
-    icon: "🏗️",
-    color: "from-blue-500 to-cyan-600",
+    accent: "#34d399",
     category: "Vitrine",
     tall: false,
+    number: "03",
   },
   {
     title: "Blog Magazine",
     description:
       "Un blog éditorial avec une inspiration magazine et un design chaleureux.",
     link: "/demo/blog",
-    icon: "📝",
-    color: "from-violet-500 to-indigo-600",
+    accent: "#f59e0b",
     category: "Blog",
     tall: true,
+    number: "04",
   },
 ];
 
@@ -72,81 +74,109 @@ export default function ProjetsDemo() {
               position: 1,
               name: "E-commerce",
               url: "https://levisweb.net/demo/ecommerce",
-              description:
-                "Un e-commerce moderne avec panier d'achat et gestion des produits",
+              description: "Un e-commerce moderne avec panier d'achat et gestion des produits",
             },
             {
               "@type": "ListItem",
               position: 2,
               name: "Portfolio",
               url: "https://levisweb.net/demo/portfolio",
-              description:
-                "Un portfolio créatif avec des animations néon et un design moderne",
+              description: "Un portfolio créatif avec des animations néon et un design moderne",
             },
             {
               "@type": "ListItem",
               position: 3,
               name: "Site Vitrine",
               url: "https://levisweb.net/demo/vitrine",
-              description:
-                "Un site vitrine professionnel et sobre pour PME et artisans",
+              description: "Un site vitrine professionnel et sobre pour PME et artisans",
             },
             {
               "@type": "ListItem",
               position: 4,
               name: "Blog Magazine",
               url: "https://levisweb.net/demo/blog",
-              description:
-                "Un blog éditorial avec une inspiration magazine et un design chaleureux",
+              description: "Un blog éditorial avec une inspiration magazine et un design chaleureux",
             },
           ],
         })}
       </Script>
 
-      <main className="min-h-svh">
-        <section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24">
-          {/* Hero */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="mb-16 text-center"
+      <main className="bg-black text-white min-h-svh">
+        {/* Hero 100vh */}
+        <section className="relative flex flex-col justify-end min-h-screen pb-16 px-8 md:px-16 overflow-hidden">
+          {/* Large background number */}
+          <span
+            aria-hidden="true"
+            className="font-display pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none text-[35vw] font-bold leading-none text-white"
+            style={{ opacity: 0.03 }}
           >
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400/80">
+            NP
+          </span>
+
+          <div className="relative z-10 max-w-6xl">
+            <p className="text-white/30 text-xs uppercase tracking-[0.4em] font-mono mb-6">
               Exemples concrets
             </p>
-            <h1 className="font-display text-5xl font-bold tracking-tight text-gradient-cyan sm:text-6xl md:text-7xl mb-6">
-              Projets Démo
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed sm:text-xl">
-              Découvrez différents exemples concrets de ce que je peux réaliser
-              pour vous.
+            <SplitHeading
+              as="h1"
+              className="font-display font-bold text-white leading-none mb-6"
+              style={{ fontSize: "clamp(3.5rem, 10vw, 12rem)" } as React.CSSProperties}
+              triggerOnLoad
+            >
+              NOS PROJETS
+            </SplitHeading>
+            <LineReveal className="w-32 mb-8" color="#a855f7" height={2} delay={0.8} />
+            <p className="text-white/40 text-lg md:text-xl max-w-2xl leading-relaxed">
+              Découvrez différents exemples concrets de ce que je peux réaliser pour vous.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Filter bar */}
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 right-8 text-white/20 text-xs font-mono uppercase tracking-widest">
+            <span className="animate-bounce inline-block">↓ Explorez</span>
+          </div>
+        </section>
+
+        {/* MarqueeTicker */}
+        <div className="border-y border-white/10 py-5 overflow-hidden">
+          <MarqueeTicker speed={25} className="text-white/20 text-sm font-mono uppercase tracking-widest">
+            <span className="px-8">E-commerce</span>
+            <span className="text-white/10 px-4">—</span>
+            <span className="px-8">Portfolio</span>
+            <span className="text-white/10 px-4">—</span>
+            <span className="px-8">Site Vitrine</span>
+            <span className="text-white/10 px-4">—</span>
+            <span className="px-8">Blog Magazine</span>
+            <span className="text-white/10 px-4">—</span>
+            <span className="px-8">LevisWeb Demos</span>
+            <span className="text-white/10 px-4">—</span>
+          </MarqueeTicker>
+        </div>
+
+        {/* Filter bar */}
+        <div className="px-8 md:px-16 pt-12 pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-            className="mb-12 flex flex-wrap justify-center gap-3"
+            className="flex flex-wrap gap-2"
           >
-            <LayoutGroup id="filters">
+            <LayoutGroup id="filters-projets">
               {ALL_CATEGORIES.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setActiveFilter(cat)}
-                  className={`relative px-5 py-2 text-sm font-semibold rounded-full transition-colors duration-200 ${
+                  className={`relative px-5 py-2 text-sm font-mono uppercase tracking-widest transition-colors duration-200 border ${
                     activeFilter === cat
-                      ? "text-white"
-                      : "text-neutral-500 hover:text-foreground"
+                      ? "text-black border-white"
+                      : "text-white/40 border-white/10 hover:text-white hover:border-white/30"
                   }`}
                 >
                   {activeFilter === cat && (
                     <motion.span
-                      layoutId="filter-pill"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 to-pink-600"
+                      layoutId="filter-pill-projets"
+                      className="absolute inset-0 bg-white"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
@@ -155,8 +185,10 @@ export default function ProjetsDemo() {
               ))}
             </LayoutGroup>
           </motion.div>
+        </div>
 
-          {/* Masonry-style grid */}
+        {/* Editorial asymmetric grid */}
+        <div className="px-8 md:px-16 pb-24">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeFilter}
@@ -164,15 +196,15 @@ export default function ProjetsDemo() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2"
+              className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2"
             >
               {filtered.map((demo, index) => (
                 <motion.div
                   key={demo.title}
                   layout
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
                   transition={{
                     duration: 0.5,
                     delay: index * 0.08,
@@ -180,91 +212,104 @@ export default function ProjetsDemo() {
                   }}
                   className={demo.tall ? "sm:row-span-2" : ""}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.015, y: -4 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="group relative overflow-hidden rounded-2xl border border-neutral-500/30 bg-white/5 backdrop-blur-xl h-full hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1"
-                    data-cursor="Voir"
-                  >
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-violet-600/0 to-pink-600/0 group-hover:from-violet-600/10 group-hover:to-pink-600/10 transition-all duration-500 z-10" />
+                  <MarketingPreviewLink href={demo.link} className="block h-full">
+                    <motion.div
+                      className="group relative overflow-hidden bg-black h-full cursor-pointer"
+                      style={{ minHeight: demo.tall ? "500px" : "280px" }}
+                      data-cursor="image"
+                      whileHover="hovered"
+                    >
+                      {/* Grayscale filter background with accent on hover */}
+                      <div
+                        className="absolute inset-0 transition-all duration-700"
+                        style={{
+                          background: `linear-gradient(135deg, ${demo.accent}08, transparent 70%)`,
+                        }}
+                      />
+                      <motion.div
+                        className="absolute inset-0"
+                        style={{ background: `linear-gradient(135deg, ${demo.accent}20, ${demo.accent}05)` }}
+                        initial={{ opacity: 0 }}
+                        variants={{ hovered: { opacity: 1 } }}
+                        transition={{ duration: 0.4 }}
+                      />
 
-                    {/* Accent glow */}
-                    <div
-                      className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${demo.color} opacity-0 group-hover:opacity-20 rounded-full blur-3xl -translate-y-20 translate-x-20 transition-opacity duration-500`}
-                    />
-
-                    <div className={`relative z-20 p-8 flex flex-col ${demo.tall ? "min-h-72" : "min-h-48"}`}>
-                      {/* Category badge */}
-                      <span className="mb-4 inline-flex items-center self-start rounded-full border border-neutral-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">
-                        {demo.category}
+                      {/* Number watermark */}
+                      <span
+                        aria-hidden="true"
+                        className="font-display pointer-events-none absolute right-4 bottom-4 select-none text-[8vw] font-bold leading-none"
+                        style={{ opacity: 0.06, color: demo.accent }}
+                      >
+                        {demo.number}
                       </span>
 
-                      {/* Icon */}
-                      <div className="mb-4 text-5xl transition-transform duration-300 group-hover:scale-110">
-                        {demo.icon}
-                      </div>
-
                       {/* Content */}
-                      <h3 className="font-display text-2xl font-bold mb-3 text-foreground">
-                        {demo.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-6 leading-relaxed flex-1">
-                        {demo.description}
-                      </p>
+                      <div className="relative z-10 p-8 flex flex-col h-full">
+                        {/* Category badge */}
+                        <div className="flex items-center justify-between mb-auto">
+                          <span
+                            className="text-xs font-mono uppercase tracking-[0.3em] border px-3 py-1"
+                            style={{ color: demo.accent, borderColor: `${demo.accent}40` }}
+                          >
+                            {demo.category}
+                          </span>
+                          <span className="text-xs font-mono text-white/20">{demo.number}</span>
+                        </div>
 
-                      {/* CTA */}
-                      <MarketingPreviewLink href={demo.link}>
-                        <Button
-                          className="btn-cyan-gradient shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
-                          size="lg"
-                        >
-                          Voir la démo
-                        </Button>
-                      </MarketingPreviewLink>
-                    </div>
-                  </motion.div>
+                        {/* Title with clip-path reveal */}
+                        <div className="mt-auto">
+                          <div className="overflow-hidden mb-3">
+                            <motion.h3
+                              className="font-display text-3xl md:text-4xl font-bold text-white"
+                              initial={{ y: "100%" }}
+                              variants={{ hovered: { y: "0%" } }}
+                              transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                            >
+                              {demo.title}
+                            </motion.h3>
+                          </div>
+                          <motion.p
+                            className="text-white/50 text-sm leading-relaxed max-w-xs"
+                            initial={{ opacity: 0 }}
+                            variants={{ hovered: { opacity: 1 } }}
+                            transition={{ duration: 0.4, delay: 0.1 }}
+                          >
+                            {demo.description}
+                          </motion.p>
+                          <motion.div
+                            className="mt-4 flex items-center gap-2 text-sm font-mono"
+                            style={{ color: demo.accent }}
+                            initial={{ opacity: 0, x: -10 }}
+                            variants={{ hovered: { opacity: 1, x: 0 } }}
+                            transition={{ duration: 0.4, delay: 0.15 }}
+                          >
+                            <span>Voir la démo</span>
+                            <span>→</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </MarketingPreviewLink>
                 </motion.div>
               ))}
             </motion.div>
           </AnimatePresence>
+        </div>
 
-          {/* CTA Final */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="mt-20 text-center"
-          >
-            <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-neutral-500/30 p-12 hover:bg-white/10 transition-all duration-300">
-              {/* Background number */}
-              <span
-                aria-hidden="true"
-                className="font-display pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none text-[15vw] font-bold leading-none text-neutral-900 dark:text-white"
-                style={{ opacity: 0.04 }}
-              >
-                +
-              </span>
-              <h2 className="font-display relative z-10 text-3xl sm:text-4xl font-bold text-foreground mb-6">
-                Vous avez un projet en tête ?
-              </h2>
-              <p className="relative z-10 text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Transformez votre vision en réalité avec LevisWeb. Des solutions
-                web rapides, fiables et pensées pour générer des résultats.
-              </p>
-              <div className="relative z-10" data-cursor="Voir">
-                <MarketingPreviewLink href="/contact">
-                  <Button
-                    size="lg"
-                    className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 py-4 text-lg transition-all duration-200 hover:scale-105"
-                  >
-                    Me contacter
-                  </Button>
-                </MarketingPreviewLink>
-              </div>
-            </div>
-          </motion.div>
+        {/* CTA Final */}
+        <section className="border-t border-white/10 py-32 px-8 md:px-16 text-center">
+          <p className="text-white/30 text-sm uppercase tracking-[0.3em] mb-8 font-mono">
+            Votre projet, notre expertise
+          </p>
+          <SplitHeading as="h2" className="font-display text-4xl md:text-6xl font-bold text-white mb-12">
+            Vous avez un projet en tête ?
+          </SplitHeading>
+          <MarketingPreviewLink href="/contact">
+            <span className="inline-flex items-center gap-3 border border-white/20 text-white px-10 py-5 text-sm font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+              Me contacter
+              <span>→</span>
+            </span>
+          </MarketingPreviewLink>
         </section>
       </main>
     </>

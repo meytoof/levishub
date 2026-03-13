@@ -1,4 +1,4 @@
-import { ServicesSlidesPinning } from "@/components/ui/services-slides-pinning";
+import { ServicesSlidesPinning, ServicesCTA } from "@/components/ui/services-slides-pinning";
 import type { Metadata } from "next";
 import Script from "next/script";
 
@@ -39,6 +39,7 @@ export default function Services() {
         })}
       </Script>
       <ServicesSlidesPinning />
+      <ServicesCTA />
     </main>
   );
 }
