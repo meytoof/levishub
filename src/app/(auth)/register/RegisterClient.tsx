@@ -290,11 +290,12 @@ export default function RegisterClient() {
   function shakeForm() {
     const el = formRef.current;
     if (!el) return;
-    gsap.to(el, {
-      keyframes: { x: [-12, 12, -8, 8, -4, 4, 0] },
-      ease: "none",
-      duration: 0.5,
-    });
+    const tl = gsap.timeline();
+    tl.to(el, { x: -12, duration: 0.07, ease: "none" })
+      .to(el, { x: 12, duration: 0.07, ease: "none" })
+      .to(el, { x: -8, duration: 0.07, ease: "none" })
+      .to(el, { x: 8, duration: 0.07, ease: "none" })
+      .to(el, { x: 0, duration: 0.07, ease: "none" });
   }
 
   async function handleRegister() {

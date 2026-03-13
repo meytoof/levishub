@@ -116,8 +116,14 @@ export function Footer() {
         className="pointer-events-none absolute inset-0 flex items-center justify-center select-none overflow-hidden"
       >
         <span
-          className="font-display whitespace-nowrap text-[20vw] font-bold uppercase leading-none text-white"
-          style={{ opacity: 0.03 }}
+          className="font-display whitespace-nowrap text-[20vw] font-bold uppercase leading-none"
+          style={{
+            opacity: 0.06,
+            background: "linear-gradient(to right, #06b6d4, #a855f7)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
           LevisWeb
         </span>

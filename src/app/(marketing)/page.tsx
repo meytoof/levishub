@@ -238,6 +238,16 @@ export default function Home() {
           <HeroParallax products={demoProducts} />
         </section>
 
+        {/* Gradient accent band — séparateur visuel cyan → purple */}
+        <div
+          aria-hidden="true"
+          className="w-full h-px"
+          style={{
+            background: "linear-gradient(to right, transparent, #06b6d4 20%, #a855f7 60%, transparent)",
+            opacity: 0.6,
+          }}
+        />
+
         {/* Section Services avec structure sémantique */}
         <section aria-label="Services de développement web">
           <ServicesSection />
