@@ -2,19 +2,24 @@ import type { Metadata } from "next";
 import { PricingPageContent } from "@/components/marketing/pricing-page-content";
 
 export const metadata: Metadata = {
-  title:
-    "Tarifs - Agence Digitale SEO | Sites Modernes & Performance à Prix Compétitifs | LevisWeb",
+  title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
   description:
-    "Tarifs transparents pour sites vitrine modernes, e-commerce sécurisé et backoffice sur mesure. Refonte site web et maintenance continue. Solutions responsives et optimisées SEO à des prix compétitifs.",
+    "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Demandez un devis gratuit en Savoie & Chartreuse.",
   keywords:
-    "tarifs agence digitale SEO, prix site web moderne, tarif e-commerce sécurisé, prix refonte site web, performance web, maintenance site web, agence de communication, LevisWeb, Chambéry, Isère, Savoie",
+    "tarifs agence web SEO, prix site vitrine, tarif e-commerce, prix refonte site web, devis gratuit, maintenance site web, LevisWeb, Savoie, Chartreuse",
   openGraph: {
-    title:
-      "Tarifs - Agence Digitale SEO | Sites Modernes & Performance | LevisWeb",
+    title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
     description:
-      "Tarifs transparents pour sites vitrine modernes, e-commerce sécurisé et backoffice sur mesure. Refonte site web et maintenance continue à des prix compétitifs.",
+      "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
     url: "https://levisweb.net/pricing",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
+    description:
+      "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
+    images: ["https://levisweb.net/images/logo.png"],
   },
 };
 
