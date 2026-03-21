@@ -7,27 +7,27 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title:
-    "LevisWeb - Agence Digitale SEO | Sites Modernes et Optimises SEO | Savoie et Chartreuse",
+  title: "LevisWeb | Agence Web SEO Savoie — Création Sites Modernes",
   description:
-    "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale. Savoie & Chartreuse.",
+    "Agence web SEO en Savoie & Chartreuse. Création sites modernes, refonte, e-commerce sécurisé & maintenance. Devis gratuit, résultats concrets.",
   keywords:
-    "agence digitale SEO, spécialiste SEO, agence de communication, création site internet moderne, design moderne, refonte site web, e-commerce sécurisé, performance web, maintenance site web, Savoie, Chartreuse, Grenoble",
+    "agence digitale SEO, spécialiste SEO, création site internet moderne, refonte site web, e-commerce sécurisé, performance web, maintenance site web, Savoie, Chartreuse, Grenoble",
   icons: {
     icon: "/images/logo.png",
     shortcut: "/images/logo.png",
     apple: "/images/logo.png",
   },
   openGraph: {
-    title: "LevisWeb - Agence Digitale SEO | Sites Modernes et Performance",
+    title: "LevisWeb | Agence Web SEO Savoie — Création Sites Modernes",
     description:
-      "Agence digitale spécialisée SEO et création de sites modernes. Refonte site web, e-commerce sécurisé et maintenance. Performance, proximité et expertise locale.",
+      "Agence web SEO en Savoie & Chartreuse. Création sites modernes, refonte, e-commerce sécurisé & maintenance. Devis gratuit, résultats concrets.",
+    url: "https://levisweb.net",
     images: [
       {
-        url: "/images/logo.png",
+        url: "https://levisweb.net/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
+        alt: "LevisWeb — Agence Web SEO Savoie | Création Sites Modernes",
       },
     ],
     siteName: "LevisWeb",
@@ -36,11 +36,39 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LevisWeb - Agence Digitale SEO | Sites Modernes et Performance",
+    title: "LevisWeb | Agence Web SEO Savoie — Création Sites Modernes",
     description:
-      "Agence digitale spécialisée SEO et création de sites modernes. Performance, proximité et expertise locale. Refonte site web et e-commerce sécurisé.",
-    images: ["/images/logo.png"],
+      "Agence web SEO en Savoie & Chartreuse. Création sites modernes, refonte, e-commerce sécurisé & maintenance. Devis gratuit, résultats concrets.",
+    images: ["https://levisweb.net/images/logo.png"],
   },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://levisweb.net/#website",
+      url: "https://levisweb.net",
+      name: "LevisWeb",
+      description: "Agence web SEO en Savoie & Chartreuse",
+      inLanguage: "fr-FR",
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://levisweb.net/#business",
+      name: "LevisWeb",
+      description: "Agence web SEO spécialisée en création de sites modernes, Savoie & Chartreuse.",
+      url: "https://levisweb.net",
+      address: {
+        "@type": "PostalAddress",
+        addressRegion: "Savoie",
+        addressCountry: "FR",
+      },
+      areaServed: ["Savoie", "Isère", "Chartreuse", "Grenoble"],
+      serviceType: ["Création de site web", "Référencement SEO", "Refonte web", "E-commerce"],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -64,6 +92,10 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <script
           dangerouslySetInnerHTML={{
