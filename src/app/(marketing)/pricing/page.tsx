@@ -1,22 +1,23 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { PricingPageContent } from "@/components/marketing/pricing-page-content";
 
 export const metadata: Metadata = {
-  title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
+  title: "Tarifs Agence Web Savoie | Site web & E-commerce — LevisWeb",
   description:
     "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Demandez un devis gratuit en Savoie & Chartreuse.",
   keywords:
     "tarifs agence web SEO, prix site vitrine, tarif e-commerce, prix refonte site web, devis gratuit, maintenance site web, LevisWeb, Savoie, Chartreuse",
   openGraph: {
-    title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
+    title: "Tarifs Agence Web Savoie | Site web & E-commerce — LevisWeb",
     description:
       "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
     url: "https://levisweb.net/pricing",
     type: "website",
+    images: [{ url: "https://levisweb.net/images/logo.png", width: 1200, height: 630, alt: "Tarifs LevisWeb \u2014 Agence Web Savoie" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tarifs LevisWeb | Site vitrine dès 1 000 € — Agence Web Savoie",
+    title: "Tarifs Agence Web Savoie | Site web & E-commerce — LevisWeb",
     description:
       "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
     images: ["https://levisweb.net/images/logo.png"],
