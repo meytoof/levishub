@@ -94,7 +94,6 @@ export default async function MarketingLayout({
           <GrainOverlay />
           <Cursor />
           <SmoothScrollProvider>
-            <div className="lenis-skew">
               <Navbar>
                 <NavBody
                   className="shadow-none levisweb-nav"
@@ -111,7 +110,6 @@ export default async function MarketingLayout({
               </Navbar>
               <main className="flex-1">{children}</main>
               <Footer />
-            </div>
           </SmoothScrollProvider>
         </SessionProvider>
       </ThemeProvider>

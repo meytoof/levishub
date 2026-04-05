@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function Services() {
   return (
-    <main className="min-h-svh w-full overflow-x-hidden bg-white dark:bg-black">
+    <main className="min-h-svh w-full bg-white dark:bg-black" style={{ overflowX: "clip" }}>
       <Script id="ld-json-services" type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",

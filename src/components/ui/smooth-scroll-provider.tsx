@@ -4,6 +4,12 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
+
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -13,22 +19,13 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      autoRaf: false,
     });
+
+    window.__lenis = lenis;
 
     // Correct Lenis + GSAP ScrollTrigger integration
     lenis.on("scroll", ScrollTrigger.update);
-
-    lenis.on("scroll", ({ velocity }: { velocity: number }) => {
-      const skewTargets = document.querySelectorAll(".lenis-skew");
-      if (skewTargets.length > 0) {
-        gsap.to(".lenis-skew", {
-          skewY: velocity * 0.05,
-          ease: "power3",
-          overwrite: true,
-          duration: 0.4,
-        });
-      }
-    });
 
     // Use GSAP ticker as the driver
     const tickerFn = (time: number) => {
@@ -40,6 +37,7 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     return () => {
       lenis.destroy();
       gsap.ticker.remove(tickerFn);
+      delete window.__lenis;
     };
   }, []);
 

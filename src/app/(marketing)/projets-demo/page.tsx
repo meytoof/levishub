@@ -1,37 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MarketingPreviewLink } from "@/components/ui/transition-link";
 import { SplitHeading } from "@/components/ui/split-heading";
 import { MarqueeTicker } from "@/components/ui/marquee-ticker";
 import { LineReveal } from "@/components/ui/line-reveal";
 import { motion } from "motion/react";
 import Script from "next/script";
+import { useTheme } from "next-themes";
 
 const demos = [
   {
     title: "E-commerce",
-    description:
-      "Un e-commerce moderne avec panier d'achat et gestion des produits.",
+    description: "Un e-commerce moderne avec panier d'achat et gestion des produits.",
     link: "/demo/ecommerce",
     accent: "#06b6d4",
     category: "E-commerce",
-    tall: true,
     number: "01",
-    gsapDuration: 0.7,
   },
   {
     title: "Portfolio",
-    description:
-      "Un portfolio créatif avec des animations néon et un design moderne.",
+    description: "Un portfolio créatif avec des animations néon et un design moderne.",
     link: "/demo/portfolio",
     accent: "#a855f7",
     category: "Créatif",
-    tall: false,
     number: "02",
-    gsapDuration: 1.0,
   },
   {
     title: "Site Vitrine",
@@ -39,57 +31,21 @@ const demos = [
     link: "/demo/vitrine",
     accent: "#34d399",
     category: "Vitrine",
-    tall: false,
     number: "03",
-    gsapDuration: 0.85,
   },
   {
     title: "Blog Magazine",
-    description:
-      "Un blog éditorial avec une inspiration magazine et un design chaleureux.",
+    description: "Un blog éditorial avec une inspiration magazine et un design chaleureux.",
     link: "/demo/blog",
     accent: "#f59e0b",
     category: "Blog",
-    tall: true,
     number: "04",
-    gsapDuration: 1.1,
   },
 ];
 
 export default function ProjetsDemo() {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const ctx = gsap.context(() => {
-      const cards = grid.querySelectorAll<HTMLElement>("[data-card]");
-      cards.forEach((card) => {
-        const duration = parseFloat(card.dataset.duration ?? "0.8");
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration,
-            ease: "expo.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 88%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    }, grid);
-
-    return () => ctx.revert();
-  }, []);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   return (
     <>
@@ -98,122 +54,90 @@ export default function ProjetsDemo() {
           "@context": "https://schema.org",
           "@type": "ItemList",
           name: "Projets Démo LevisWeb",
-          description:
-            "Découvrez différents exemples concrets de sites web réalisés par LevisWeb",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "E-commerce",
-              url: "https://levisweb.net/demo/ecommerce",
-              description: "Un e-commerce moderne avec panier d'achat et gestion des produits",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Portfolio",
-              url: "https://levisweb.net/demo/portfolio",
-              description: "Un portfolio créatif avec des animations néon et un design moderne",
-            },
-            {
-              "@type": "ListItem",
-              position: 3,
-              name: "Site Vitrine",
-              url: "https://levisweb.net/demo/vitrine",
-              description: "Un site vitrine professionnel et sobre pour PME et artisans",
-            },
-            {
-              "@type": "ListItem",
-              position: 4,
-              name: "Blog Magazine",
-              url: "https://levisweb.net/demo/blog",
-              description: "Un blog éditorial avec une inspiration magazine et un design chaleureux",
-            },
-          ],
+          description: "Découvrez différents exemples concrets de sites web réalisés par LevisWeb",
+          itemListElement: demos.map((d, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: d.title,
+            url: `https://levisweb.net${d.link}`,
+            description: d.description,
+          })),
         })}
       </Script>
 
-      <main className="bg-black text-white min-h-svh">
-        {/* Hero 100vh */}
-        <section className="relative flex flex-col justify-end min-h-screen pb-16 px-8 md:px-16 overflow-hidden">
-          {/* Large background watermark */}
+      <main className="min-h-svh bg-[#f5f5f0] dark:bg-black text-black dark:text-white">
+        {/* ---- Hero ---- */}
+        <section className="relative flex min-h-screen flex-col justify-end overflow-hidden px-8 pb-16 md:px-16">
           <span
             aria-hidden="true"
-            className="font-display pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none text-[35vw] font-bold leading-none text-white"
-            style={{ opacity: 0.03 }}
+            className="font-display pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none text-[35vw] font-bold leading-none text-black dark:text-white"
+            style={{ opacity: 0.04 }}
           >
             NP
           </span>
-
           <div className="relative z-10 max-w-6xl">
-            <p className="text-white/30 text-xs uppercase tracking-[0.4em] font-mono mb-6">
+            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-black/40 dark:text-white/40">
               Exemples concrets
             </p>
             <SplitHeading
               as="h1"
-              className="font-display font-bold text-white leading-none mb-6"
+              className="font-display font-bold leading-none text-black dark:text-white mb-6"
               style={{ fontSize: "clamp(3.5rem, 10vw, 12rem)" } as React.CSSProperties}
               triggerOnLoad
             >
               NOS PROJETS
             </SplitHeading>
             <LineReveal className="w-32 mb-8" color="#a855f7" height={2} delay={0.8} />
-            <p className="text-white/40 text-lg md:text-xl max-w-2xl leading-relaxed">
+            <p className="max-w-2xl text-lg leading-relaxed text-black/50 dark:text-white/50 md:text-xl">
               Découvrez différents exemples concrets de ce que je peux réaliser pour vous.
             </p>
           </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 right-8 text-white/20 text-xs font-mono uppercase tracking-widest">
-            <span className="animate-bounce inline-block">↓ Explorez</span>
+          <div className="absolute bottom-8 right-8 font-mono text-xs uppercase tracking-widest text-black/25 dark:text-white/25">
+            <span className="inline-block animate-bounce">↓ Explorez</span>
           </div>
         </section>
 
-        {/* MarqueeTicker */}
-        <div className="border-y border-white/10 py-5 overflow-hidden">
-          <MarqueeTicker speed={25} className="text-white/20 text-sm font-mono uppercase tracking-widest">
+        {/* ---- Marquee ---- */}
+        <div className="overflow-hidden border-y border-black/10 dark:border-white/10 py-5">
+          <MarqueeTicker speed={25} className="font-mono text-sm uppercase tracking-widest text-black/25 dark:text-white/25">
             <span className="px-8">E-commerce</span>
-            <span className="text-white/10 px-4">—</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
             <span className="px-8">Portfolio</span>
-            <span className="text-white/10 px-4">—</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
             <span className="px-8">Site Vitrine</span>
-            <span className="text-white/10 px-4">—</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
             <span className="px-8">Blog Magazine</span>
-            <span className="text-white/10 px-4">—</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
             <span className="px-8">LevisWeb Demos</span>
-            <span className="text-white/10 px-4">—</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
           </MarqueeTicker>
         </div>
 
-        {/* Editorial asymmetric grid */}
-        <div className="px-8 md:px-16 py-24" ref={gridRef}>
-          <div className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2">
-            {demos.map((demo) => (
-              <div
-                key={demo.title}
-                data-card
-                data-duration={demo.gsapDuration}
-                style={{ opacity: 0 }}
-                className={demo.tall ? "sm:row-span-2" : ""}
+        {/* ---- Grille projets ---- */}
+        <section className="px-8 py-24 md:px-16">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {demos.map((demo, i) => (
+              <motion.div
+                key={demo.number}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               >
-                <MarketingPreviewLink href={demo.link} className="block h-full">
+                <MarketingPreviewLink href={demo.link} className="block">
                   <motion.div
-                    className="group relative overflow-hidden bg-black h-full cursor-pointer"
-                    style={{ minHeight: demo.tall ? "500px" : "280px" }}
+                    className="group relative overflow-hidden cursor-pointer"
+                    style={{
+                      height: i === 0 ? "420px" : i === 1 ? "340px" : i === 2 ? "340px" : "420px",
+                      background: `linear-gradient(160deg, ${demo.accent}22, ${demo.accent}0a 50%, ${isDark ? "#111111" : "#ebebeb"} 100%)`,
+                      border: `1px solid ${demo.accent}50`,
+                    }}
                     data-cursor="image"
                     whileHover="hovered"
                   >
-                    {/* Subtle base gradient */}
-                    <div
-                      className="absolute inset-0 transition-all duration-700"
-                      style={{
-                        background: `linear-gradient(135deg, ${demo.accent}08, transparent 70%)`,
-                      }}
-                    />
-                    {/* Hover gradient overlay */}
+                    {/* Hover gradient */}
                     <motion.div
                       className="absolute inset-0"
-                      style={{ background: `linear-gradient(135deg, ${demo.accent}20, ${demo.accent}05)` }}
+                      style={{ background: `linear-gradient(160deg, ${demo.accent}35, ${demo.accent}12 50%, transparent)` }}
                       initial={{ opacity: 0 }}
                       variants={{ hovered: { opacity: 1 } }}
                       transition={{ duration: 0.4 }}
@@ -222,51 +146,40 @@ export default function ProjetsDemo() {
                     {/* Number watermark */}
                     <span
                       aria-hidden="true"
-                      className="font-display pointer-events-none absolute right-4 bottom-4 select-none text-[8vw] font-bold leading-none"
-                      style={{ opacity: 0.06, color: demo.accent }}
+                      className="font-display pointer-events-none absolute right-6 bottom-6 select-none font-bold leading-none"
+                      style={{ opacity: 0.08, color: demo.accent, fontSize: "clamp(6rem, 12vw, 16rem)" }}
                     >
                       {demo.number}
                     </span>
 
                     {/* Content */}
-                    <div className="relative z-10 p-8 flex flex-col h-full">
-                      {/* Category badge */}
-                      <div className="flex items-center justify-between mb-auto">
+                    <div className="relative z-10 flex h-full flex-col p-8">
+                      <div className="mb-auto flex items-center justify-between">
                         <span
-                          className="text-xs font-mono uppercase tracking-[0.3em] border px-3 py-1"
-                          style={{ color: demo.accent, borderColor: `${demo.accent}40` }}
+                          className="border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em]"
+                          style={{ color: demo.accent, borderColor: `${demo.accent}70` }}
                         >
                           {demo.category}
                         </span>
-                        <span className="text-xs font-mono text-white/20">{demo.number}</span>
+                        <span className="font-mono text-xs text-black/30 dark:text-white/30">{demo.number}</span>
                       </div>
-
-                      {/* Title with clip-path reveal on hover */}
                       <div className="mt-auto">
-                        <div className="overflow-hidden mb-3">
-                          <motion.h3
-                            className="font-display text-3xl md:text-4xl font-bold text-white"
-                            initial={{ y: "100%" }}
-                            variants={{ hovered: { y: "0%" } }}
-                            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                          >
-                            {demo.title}
-                          </motion.h3>
-                        </div>
-                        <motion.p
-                          className="text-white/50 text-sm leading-relaxed max-w-xs"
-                          initial={{ opacity: 0 }}
-                          variants={{ hovered: { opacity: 1 } }}
-                          transition={{ duration: 0.4, delay: 0.1 }}
-                        >
+                        <div
+                          className="mb-4 h-px w-12 transition-all duration-500 group-hover:w-full"
+                          style={{ background: demo.accent }}
+                        />
+                        <h3 className="font-display text-3xl font-bold text-black dark:text-white md:text-4xl lg:text-5xl">
+                          {demo.title}
+                        </h3>
+                        <p className="mt-2 max-w-xs text-sm leading-relaxed text-black/50 dark:text-white/50">
                           {demo.description}
-                        </motion.p>
+                        </p>
                         <motion.div
-                          className="mt-4 flex items-center gap-2 text-sm font-mono"
+                          className="mt-4 flex items-center gap-2 font-mono text-sm"
                           style={{ color: demo.accent }}
                           initial={{ opacity: 0, x: -10 }}
                           variants={{ hovered: { opacity: 1, x: 0 } }}
-                          transition={{ duration: 0.4, delay: 0.15 }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <span>Voir la démo</span>
                           <span>→</span>
@@ -275,21 +188,21 @@ export default function ProjetsDemo() {
                     </div>
                   </motion.div>
                 </MarketingPreviewLink>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* CTA Final */}
-        <section className="border-t border-white/10 py-32 px-8 md:px-16 text-center">
-          <p className="text-white/30 text-sm uppercase tracking-[0.3em] mb-8 font-mono">
+        {/* ---- CTA ---- */}
+        <section className="border-t border-black/10 dark:border-white/10 px-8 py-32 text-center md:px-16">
+          <p className="mb-8 font-mono text-sm uppercase tracking-[0.3em] text-black/35 dark:text-white/35">
             Votre projet, notre expertise
           </p>
-          <SplitHeading as="h2" className="font-display text-4xl md:text-6xl font-bold text-white mb-12">
+          <SplitHeading as="h2" className="font-display mb-12 text-4xl font-bold text-black dark:text-white md:text-6xl">
             Vous avez un projet en tête ?
           </SplitHeading>
           <MarketingPreviewLink href="/contact">
-            <span className="inline-flex items-center gap-3 border border-white/20 text-white px-10 py-5 text-sm font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+            <span className="inline-flex items-center gap-3 border border-black/20 dark:border-white/20 px-10 py-5 font-mono text-sm uppercase tracking-widest text-black dark:text-white transition-colors duration-300 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black">
               Me contacter
               <span>→</span>
             </span>
