@@ -1,4 +1,4 @@
-import { ServicesSlidesPinning } from "@/components/ui/services-slides-pinning";
+import { ServicesSlidesPinning, ServicesCTA } from "@/components/ui/services-slides-pinning";
 import type { Metadata } from "next";
 import Script from "next/script";
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function Services() {
   return (
-    <main className="min-h-svh w-full overflow-x-hidden bg-white dark:bg-black">
+    <main className="min-h-svh w-full bg-white dark:bg-black" style={{ overflowX: "clip" }}>
       <Script id="ld-json-services" type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
@@ -39,6 +39,7 @@ export default function Services() {
         })}
       </Script>
       <ServicesSlidesPinning />
+      <ServicesCTA />
     </main>
   );
 }
