@@ -1,202 +1,214 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { TracingBeam } from "@/components/ui/tracing-beam";
 import { MarketingPreviewLink } from "@/components/ui/transition-link";
-import { motion } from "framer-motion";
+import { SplitHeading } from "@/components/ui/split-heading";
+import { MarqueeTicker } from "@/components/ui/marquee-ticker";
+import { LineReveal } from "@/components/ui/line-reveal";
+import { motion } from "motion/react";
 import Script from "next/script";
+import { useTheme } from "next-themes";
 
 const demos = [
   {
     title: "E-commerce",
-    description:
-      "Un e-commerce moderne avec panier d'achat et gestion des produits.",
+    description: "Un e-commerce moderne avec panier d'achat et gestion des produits.",
     link: "/demo/ecommerce",
-    icon: "🛒",
-    color: "from-cyan-500 to-blue-600",
+    accent: "#06b6d4",
+    category: "E-commerce",
+    number: "01",
   },
   {
     title: "Portfolio",
-    description:
-      "Un portfolio créatif avec des animations néon et un design moderne.",
+    description: "Un portfolio créatif avec des animations néon et un design moderne.",
     link: "/demo/portfolio",
-    icon: "🎨",
-    color: "from-violet-500 to-purple-600",
+    accent: "#a855f7",
+    category: "Créatif",
+    number: "02",
   },
   {
     title: "Site Vitrine",
     description: "Un site vitrine professionnel et sobre pour PME et artisans.",
     link: "/demo/vitrine",
-    icon: "🏗️",
-    color: "from-blue-500 to-cyan-600",
+    accent: "#34d399",
+    category: "Vitrine",
+    number: "03",
   },
   {
     title: "Blog Magazine",
-    description:
-      "Un blog éditorial avec une inspiration magazine et un design chaleureux.",
+    description: "Un blog éditorial avec une inspiration magazine et un design chaleureux.",
     link: "/demo/blog",
-    icon: "📝",
-    color: "from-violet-500 to-indigo-600",
+    accent: "#f59e0b",
+    category: "Blog",
+    number: "04",
   },
 ];
 
 export default function ProjetsDemo() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   return (
-    <TracingBeam className="w-full">
-      <main className="min-h-svh">
-        <Script id="ld-json-projets-demo" type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            name: "Projets Démo LevisWeb",
-            description:
-              "Découvrez différents exemples concrets de sites web réalisés par LevisWeb",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "E-commerce",
-                url: "https://levisweb.net/demo/ecommerce",
-                description:
-                  "Un e-commerce moderne avec panier d'achat et gestion des produits",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Portfolio",
-                url: "https://levisweb.net/demo/portfolio",
-                description:
-                  "Un portfolio créatif avec des animations néon et un design moderne",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: "Site Vitrine",
-                url: "https://levisweb.net/demo/vitrine",
-                description:
-                  "Un site vitrine professionnel et sobre pour PME et artisans",
-              },
-              {
-                "@type": "ListItem",
-                position: 4,
-                name: "Blog Magazine",
-                url: "https://levisweb.net/demo/blog",
-                description:
-                  "Un blog éditorial avec une inspiration magazine et un design chaleureux",
-              },
-            ],
-          })}
-        </Script>
-        {/* Hero Section */}
-        <section className="relative mx-auto max-w-7xl px-6 sm:px-8 py-12 sm:py-24 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-16"
+    <>
+      <Script id="ld-json-projets-demo" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Projets Démo LevisWeb",
+          description: "Découvrez différents exemples concrets de sites web réalisés par LevisWeb",
+          itemListElement: demos.map((d, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: d.title,
+            url: `https://levisweb.net${d.link}`,
+            description: d.description,
+          })),
+        })}
+      </Script>
+
+      <main className="min-h-svh bg-[#f5f5f0] dark:bg-black text-black dark:text-white">
+        {/* ---- Hero ---- */}
+        <section className="relative flex min-h-screen flex-col justify-end overflow-hidden px-8 pb-16 md:px-16">
+          <span
+            aria-hidden="true"
+            className="font-display pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none text-[35vw] font-bold leading-none text-black dark:text-white"
+            style={{ opacity: 0.04 }}
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gradient-cyan mb-6"
+            NP
+          </span>
+          <div className="relative z-10 max-w-6xl">
+            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-black/40 dark:text-white/40">
+              Exemples concrets
+            </p>
+            <SplitHeading
+              as="h1"
+              className="font-display font-bold leading-none text-black dark:text-white mb-6"
+              style={{ fontSize: "clamp(3.5rem, 10vw, 12rem)" } as React.CSSProperties}
+              triggerOnLoad
             >
-              Projets | Blog | E-commerce | Portfolio | Site Vitrine |
-              Communication Digitale
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
-            >
-              Découvrez différents exemples concrets de ce que je peux réaliser
-              pour vous.
-            </motion.p>
-          </motion.div>
+              NOS PROJETS
+            </SplitHeading>
+            <LineReveal className="w-32 mb-8" color="#a855f7" height={2} delay={0.8} />
+            <p className="max-w-2xl text-lg leading-relaxed text-black/50 dark:text-white/50 md:text-xl">
+              Découvrez différents exemples concrets de ce que je peux réaliser pour vous.
+            </p>
+          </div>
+          <div className="absolute bottom-8 right-8 font-mono text-xs uppercase tracking-widest text-black/25 dark:text-white/25">
+            <span className="inline-block animate-bounce">↓ Explorez</span>
+          </div>
+        </section>
 
-          {/* Grille des démos */}
-          <section className="mb-20">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            >
-              {demos.map((demo, index) => (
-                <motion.div
-                  key={demo.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.8 + index * 0.1,
-                  }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  className="group"
-                >
-                  <div className="relative bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl feature-shadow-1 h-full">
-                    {/* Icône */}
-                    <div className="text-4xl mb-4">{demo.icon}</div>
+        {/* ---- Marquee ---- */}
+        <div className="overflow-hidden border-y border-black/10 dark:border-white/10 py-5">
+          <MarqueeTicker speed={25} className="font-mono text-sm uppercase tracking-widest text-black/25 dark:text-white/25">
+            <span className="px-8">E-commerce</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
+            <span className="px-8">Portfolio</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
+            <span className="px-8">Site Vitrine</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
+            <span className="px-8">Blog Magazine</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
+            <span className="px-8">LevisWeb Demos</span>
+            <span className="px-4 text-black/15 dark:text-white/15">—</span>
+          </MarqueeTicker>
+        </div>
 
-                    {/* Contenu */}
-                    <h3 className="text-2xl font-bold mb-4 text-foreground">
-                      {demo.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-6 leading-relaxed">
-                      {demo.description}
-                    </p>
-
-                    {/* Bouton avec gradient LevisWeb + LinkPreview */}
-                    <MarketingPreviewLink href={demo.link}>
-                      <Button
-                        className="btn-cyan-gradient shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 hover:rotate-1"
-                        size="lg"
-                      >
-                        Voir la démo
-                      </Button>
-                    </MarketingPreviewLink>
-
-                    {/* Accent de couleur subtil */}
-                    <div
-                      className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${demo.color} opacity-10 rounded-full blur-3xl -translate-y-16 translate-x-16`}
-                    ></div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
-
-          {/* CTA Final */}
-          <section>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-              className="text-center"
-            >
-              <div className="bg-white/5 backdrop-blur-xl border border-neutral-500/30 rounded-3xl p-12 hover:bg-white/10 transition-all duration-300">
-                <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-                  Vous avez un projet en tête ? Parlons-en !
-                </h2>
-                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Transformez votre vision en réalité avec LevisWeb. Des
-                  solutions web rapides, fiables et pensées pour générer des
-                  résultats.
-                </p>
-                <MarketingPreviewLink href="/contact">
-                  <Button
-                    size="lg"
-                    className="btn-cyan-gradient shadow-lg hover:shadow-xl px-8 py-4 text-lg transition-all duration-200 hover:scale-105 hover:rotate-1"
+        {/* ---- Grille projets ---- */}
+        <section className="px-8 py-24 md:px-16">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {demos.map((demo, i) => (
+              <motion.div
+                key={demo.number}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <MarketingPreviewLink href={demo.link} className="block">
+                  <motion.div
+                    className="group relative overflow-hidden cursor-pointer"
+                    style={{
+                      height: i === 0 ? "420px" : i === 1 ? "340px" : i === 2 ? "340px" : "420px",
+                      background: `linear-gradient(160deg, ${demo.accent}22, ${demo.accent}0a 50%, ${isDark ? "#111111" : "#ebebeb"} 100%)`,
+                      border: `1px solid ${demo.accent}50`,
+                    }}
+                    data-cursor="image"
+                    whileHover="hovered"
                   >
-                    Me contacter
-                  </Button>
+                    {/* Hover gradient */}
+                    <motion.div
+                      className="absolute inset-0"
+                      style={{ background: `linear-gradient(160deg, ${demo.accent}35, ${demo.accent}12 50%, transparent)` }}
+                      initial={{ opacity: 0 }}
+                      variants={{ hovered: { opacity: 1 } }}
+                      transition={{ duration: 0.4 }}
+                    />
+
+                    {/* Number watermark */}
+                    <span
+                      aria-hidden="true"
+                      className="font-display pointer-events-none absolute right-6 bottom-6 select-none font-bold leading-none"
+                      style={{ opacity: 0.08, color: demo.accent, fontSize: "clamp(6rem, 12vw, 16rem)" }}
+                    >
+                      {demo.number}
+                    </span>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex h-full flex-col p-8">
+                      <div className="mb-auto flex items-center justify-between">
+                        <span
+                          className="border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em]"
+                          style={{ color: demo.accent, borderColor: `${demo.accent}70` }}
+                        >
+                          {demo.category}
+                        </span>
+                        <span className="font-mono text-xs text-black/30 dark:text-white/30">{demo.number}</span>
+                      </div>
+                      <div className="mt-auto">
+                        <div
+                          className="mb-4 h-px w-12 transition-all duration-500 group-hover:w-full"
+                          style={{ background: demo.accent }}
+                        />
+                        <h3 className="font-display text-3xl font-bold text-black dark:text-white md:text-4xl lg:text-5xl">
+                          {demo.title}
+                        </h3>
+                        <p className="mt-2 max-w-xs text-sm leading-relaxed text-black/50 dark:text-white/50">
+                          {demo.description}
+                        </p>
+                        <motion.div
+                          className="mt-4 flex items-center gap-2 font-mono text-sm"
+                          style={{ color: demo.accent }}
+                          initial={{ opacity: 0, x: -10 }}
+                          variants={{ hovered: { opacity: 1, x: 0 } }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                          <span>Voir la démo</span>
+                          <span>→</span>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
                 </MarketingPreviewLink>
-              </div>
-            </motion.div>
-          </section>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ---- CTA ---- */}
+        <section className="border-t border-black/10 dark:border-white/10 px-8 py-32 text-center md:px-16">
+          <p className="mb-8 font-mono text-sm uppercase tracking-[0.3em] text-black/35 dark:text-white/35">
+            Votre projet, notre expertise
+          </p>
+          <SplitHeading as="h2" className="font-display mb-12 text-4xl font-bold text-black dark:text-white md:text-6xl">
+            Vous avez un projet en tête ?
+          </SplitHeading>
+          <MarketingPreviewLink href="/contact">
+            <span className="inline-flex items-center gap-3 border border-black/20 dark:border-white/20 px-10 py-5 font-mono text-sm uppercase tracking-widest text-black dark:text-white transition-colors duration-300 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black">
+              Me contacter
+              <span>→</span>
+            </span>
+          </MarketingPreviewLink>
         </section>
       </main>
-    </TracingBeam>
+    </>
   );
 }

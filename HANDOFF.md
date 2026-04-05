@@ -255,3 +255,233 @@ Ces deux fichiers sont inclus dans le périmètre du commit à venir.
 - Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL (incohérence signalée par testeur et reviewer)
 - Supprimer les `console.log` de debug dans `/api/register`
 - Uniformiser l'expéditeur Resend dans `lib/email.ts` (`onboarding@resend.dev` en dur dans `sendTicketNotification`)
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — 8 phases de redesign Awwwards-quality
+
+#### Phase 1 — Foundation
+- Installation de `lenis` v1.3 (smooth scroll)
+- `src/components/ui/smooth-scroll-provider.tsx` : Lenis RAF loop wrappant le layout
+- `src/components/ui/text-cursor.tsx` : curseur magnétique avec AnimatePresence, activé par `data-cursor="..."` attributes
+- `src/components/ui/grain-overlay.tsx` : overlay bruit SVG fixe (opacity 0.08, z-9998)
+- `src/app/globals.css` : import Clash Display via Fontshare CDN + tokens CSS (`--font-display`, `--ease-expo`, `.font-display`)
+- `src/components/ui/resizable-navbar.tsx` : fix flash hydration — état `mounted` + opacity 0→1 animée au mount
+- `src/app/(marketing)/layout.tsx` : intégration des trois nouveaux providers
+
+#### Phase 2 — Footer
+- Wordmark "LevisWeb" géant en background (opacity 0.04, Clash Display)
+- Ligne animée scaleX en top via whileInView
+- Grid 4 colonnes propres (brand / adresse / contact / légal)
+- `data-cursor` attributes sur tous les liens interactifs
+- Icônes réseaux sociaux SVG inline
+
+#### Phase 3 — Services
+- Numéros géants "01"-"04" en background (opacity 0.05) par slide
+- Titres en Clash Display (`font-display`)
+- `data-cursor="Voir"` sur cards et CTAs
+- CTA flottant sur slide process
+
+#### Phase 4 — Pricing
+- Hero "Nos tarifs" en Clash Display
+- Symbole `€` géant background opacity 0.03
+- `AnimatedCheck` : checkmarks animés à l'IntersectionObserver
+- `data-cursor="Voir"` sur les cartes
+- Easing `[0.76, 0, 0.24, 1]` uniformisé sur toutes les animations
+
+#### Phase 5 — Contact
+- Split screen 50/50 : left panel fixe (dark, mesh gradient violet/pink, wordmark)
+- Right panel : inputs underline-focus animés, CalScheduler slide-in whileInView
+- `data-cursor="Envoyer"` sur submit
+
+#### Phase 6 — Auth Pages
+- Login/Register : split screen identique au contact (left = brand panel fixe)
+- AnimatePresence login ↔ forgot-password avec slide
+- Shake animation sur erreur de validation
+- RegisterClient : suppression de `any` (interface `Invitation` explicite)
+- Orbite animée sur le left panel
+
+#### Phase 7 — Projets Démo
+- Filter bar avec `LayoutGroup` + pill animée (`layoutId="filter-pill"`)
+- `AnimatePresence` sur la grille lors du changement de filtre
+- Cards avec hover overlay gradient, scale, `data-cursor="Voir"`
+- Badges catégorie, propriété `tall` pour effet masonry
+
+#### Phase 8 — Mentions Légales
+- Conversion en client component
+- `StickyTOC` desktop : surlignage actif par `IntersectionObserver`
+- `TracingBeam` conservé
+- Titres `font-display`, animations whileInView
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché, hors périmètre
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
+- **Tester visuellement toutes les pages** sur la branche `feat/awwwards-redesign`
+- Potentiel à étendre : page d'accueil (`/`) non redessinée dans ce scope
+
+### Points d'attention pour le TESTEUR
+- La branche est `feat/awwwards-redesign` — ne pas pousser sur master sans review
+- Tester le smooth scroll Lenis sur les navigateurs cibles (Chrome, Safari, Firefox)
+- Vérifier que `data-cursor` fonctionne bien (visible seulement sur `md:` et plus)
+- Le left panel auth est `sticky + lg:h-svh` — tester le comportement mobile
+- La page Contact est désormais un split screen pleine hauteur — vérifier l'overflow mobile
+- `npx tsc --noEmit` passait à zéro erreur au moment du commit
+- `lenis` peut interférer avec les animations GSAP ScrollTrigger sur `/services` — à valider
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — Redesign v2 radical, 10 phases complètes
+
+**Commit** : `eef3439` — `feat(awwwards-v2): redesign radical complet — 10 phases`
+
+#### Phase 1 — Hooks créés
+- `src/hooks/use-magnetic.ts` — effet magnétique GSAP sur hover
+- `src/hooks/use-split-text.ts` — utilitaire split chars
+- `src/hooks/use-scroll-velocity.ts` — vélocité scroll Lenis
+- `src/hooks/use-in-view-gsap.ts` — hook générique GSAP + ScrollTrigger
+
+#### Phase 2 — Composants globaux créés
+- `src/components/ui/cursor.tsx` — curseur dot 6px mix-blend-difference, scale spring sur data-cursor link/image/magnetic
+- `src/components/ui/magnetic-button.tsx` — wrapper MagneticButton GSAP elastic
+- `src/components/ui/split-heading.tsx` — SplitHeading char-by-char avec ScrollTrigger ou triggerOnLoad
+- `src/components/ui/marquee-ticker.tsx` — MarqueeTicker GSAP infinite loop, pause on hover
+- `src/components/ui/animated-counter.tsx` — AnimatedCounter ScrollTrigger gsap.to obj.val
+- `src/components/ui/line-reveal.tsx` — LineReveal scaleX 0→1 ScrollTrigger
+
+#### Phase 3 — SmoothScrollProvider
+- Ajout velocity skew `.lenis-skew` via `lenis.on('scroll')`
+- Ajout `ScrollTrigger.update()` dans le RAF loop
+
+#### Phase 4 — Marketing Layout
+- Remplacement `TextCursor` → `Cursor`
+- Suppression `src/components/ui/text-cursor.tsx`
+- Wrapper `div.lenis-skew` autour du contenu
+
+#### Phase 5 — Services horizontal scroll
+- `src/components/ui/services-slides-pinning.tsx` : refonte complète en 5 panels GSAP horizontal scroll
+- Panel 0 intro + panels 1-4 (Site Vitrine, E-commerce, Backoffice, Maintenance)
+- Accordion mobile
+- Export `ServicesCTA` ajouté dans `src/app/(marketing)/services/page.tsx`
+
+#### Phase 6 — Pricing éditorial
+- `src/components/marketing/pricing-page-content.tsx` : refonte complète sur fond noir
+- Hero 100vh avec `1490€` char-by-char GSAP back.out(1.5)
+- MarqueeTicker band
+- AnimatedCounter stats (4 sem., 99.9%, 24/7)
+- Plans éditoriaux avec SvgCheckmark et MagneticButton
+- PricingQuiz préservé
+
+#### Phase 7 — Contact statement
+- `src/app/(marketing)/contact/page.tsx` : refonte complète
+- Statement 60vh avec SplitHeading + LineReveal
+- Floating labels avec clip-path reveal CSS sur focus
+- Radial gradient suivant la souris via `useMotionValue`
+- CalScheduler et structure split 50/50 préservés
+
+#### Phase 8 — Projets démo éditorial
+- `src/app/(marketing)/projets-demo/page.tsx` : refonte complète sur fond noir
+- Hero 100vh NOS PROJETS SplitHeading
+- MarqueeTicker band avec noms projets
+- Filter pills style mono/border
+- Grid éditorial avec hover clip-path title reveal via motion variants
+
+#### Phase 9 — Auth artistique
+- `src/app/(auth)/login/page.tsx` : refonte complète
+- `src/app/(auth)/register/RegisterClient.tsx` : refonte complète
+- `ParticlesOrbit` : 5 particules GSAP rotation + SVG "L" stroke-dashoffset
+- `AuthLeftPanel` avec radial gradient suivant la souris
+- `FloatingLabelInput` : labels flottants CSS pure, border-bottom animée
+- Shake sur erreur via `gsap.to({ keyframes: { x: [...] } })`
+- `MagneticButton` sur submit
+
+#### Phase 10 — Footer polish
+- `src/components/ui/footer.tsx` : refonte complète
+- `LineReveal` sur la bordure top
+- `HoverLink` avec underline scaleX 0→1 via GSAP
+- `SocialIcon` avec `MagneticButton` + rotation GSAP au hover
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
+- **Test visuel complet** de toutes les pages sur `feat/awwwards-redesign`
+
+### Points d'attention pour le TESTEUR
+- Branche `feat/awwwards-redesign` — ne pas pusher sur master sans review
+- Services `/services` : horizontal scroll 5 panels, tester le scrub GSAP + Lenis ensemble
+- Contact `/contact` : nouvelles floating labels, le `StatefulButton` est utilisé dans un `MagneticButton`
+- Auth `/login` et `/register` : fond `#050505`, ParticlesOrbit (GSAP `transformOrigin` sur divs), pas de régression fonctionnelle
+- Projets démo `/projets-demo` : hover variants Motion, les titres apparaissent au hover uniquement — vérifier mobile
+- Pricing `/pricing` : hero 1490€ char-by-char, les counters AnimatedCounter se déclenchent à l'entrée en viewport
+- Footer : LineReveal sur la bordure top (fond noir = bien visible), MagneticButton + rotation icônes sociales
+- `tsc --noEmit` = 0 erreur au commit
+- Le `mix-blend-difference` du nouveau curseur fonctionne sur fond noir mais peut être invisible sur certaines couleurs claires — tester sur les pages light mode
+
+---
+
+## DEV — 2026-03-13
+
+### Ce qui a été fait
+
+**Branche : `feat/awwwards-redesign`** — Corrections bugs critiques animations + polish couleur
+
+**Commit** : `f3caaf3`
+
+#### BUG CRITIQUE 1 — SmoothScrollProvider desync Lenis+GSAP
+Fichier : `src/components/ui/smooth-scroll-provider.tsx`
+- Suppression du RAF loop manuel (`requestAnimationFrame(raf)`) qui tournait en parallèle du ticker GSAP, causant une désynchronisation entre Lenis et ScrollTrigger (scroll bloquant sur /pricing, jerks partout)
+- Remplacement par `gsap.ticker.add(tickerFn)` comme driver unique de Lenis (`lenis.raf(time * 1000)`)
+- Ajout `gsap.ticker.lagSmoothing(0)` pour supprimer le smoothing automatique GSAP
+- `lenis.on("scroll", ScrollTrigger.update)` pour notifier ScrollTrigger à chaque tick Lenis
+- Skew `.lenis-skew` conditionnel (vérifie la présence d'éléments avant GSAP.to)
+- Cleanup propre : `lenis.destroy()` + `gsap.ticker.remove(tickerFn)`
+
+#### BUG CRITIQUE 2 — Services horizontal scroll brisé
+Fichier : `src/components/ui/services-slides-pinning.tsx`
+- Suppression de `style={{ height: "100vh" }}` + `overflow-hidden` sur la `<section>` qui écrasaient le pin spacer GSAP (le spacer ne pouvait pas injecter sa hauteur)
+- La section n'a plus de height/overflow contraints — GSAP gère seul
+- Track conserve `height: 100vh`
+- Passage à `gsap.context()` pour cleanup propre (`.revert()`)
+- Ajout `anticipatePin: 1` pour éliminer le flash au moment du pin
+- Refonte visuelle des 5 panels avec mockups plus riches (layout browser / grille e-commerce / terminal / heartbeat SVG)
+- ServicesCTA avec effet slide-in fill sur le CTA (fond `#050505` cohérent)
+
+#### FIX 3 — Projets démo : suppression filtre + stagger GSAP différencié
+Fichier : `src/app/(marketing)/projets-demo/page.tsx`
+- Suppression complète de la filter bar (LayoutGroup, AnimatePresence filtre, useState activeFilter, ALL_CATEGORIES)
+- Stagger GSAP ScrollTrigger individuel par carte avec durées différentes : 0.7s / 1.0s / 0.85s / 1.1s (via `data-duration` attribute) pour l'effet de vitesses simultanées multiples
+- Les cartes partent avec `opacity: 0` (style inline) puis sont animées par GSAP au scroll
+- `gsap.context()` sur le gridRef pour cleanup propre
+- Hover variants Motion conservés (clip-path title reveal)
+- MarqueeTicker conservé
+
+#### FIX 4 — Accents couleur
+- `src/app/(marketing)/page.tsx` : ligne `h-px` avec `linear-gradient(to right, transparent, #06b6d4 20%, #a855f7 60%, transparent)` entre hero et services
+- `src/components/ui/footer.tsx` : watermark "LevisWeb" en dégradé cyan→purple via `background-clip: text` (opacity 0.06)
+
+#### Fix bonus — Auth shake GSAP v3
+- `src/app/(auth)/login/page.tsx` et `RegisterClient.tsx` : `gsap.to({ keyframes: [...] })` remplacé par `gsap.timeline()` enchaîné (l'API keyframes n'existe pas en GSAP v3 standard)
+
+### Points d'attention pour le TESTEUR
+
+- **CRITIQUE à tester** : `/services` — le horizontal scroll doit maintenant défiler sans blocage ni flash au pin
+- **CRITIQUE à tester** : scroll global sur toutes les pages — plus de jerks, le ScrollTrigger doit déclencher correctement
+- `/projets-demo` : les 4 cartes doivent s'animer à des vitesses différentes en entrant dans le viewport (pas de stagger simultané identique)
+- Footer : le watermark "LevisWeb" doit apparaître en dégradé cyan→purple (subtil, opacity 0.06)
+- Homepage : vérifier la ligne de séparation entre hero et services
+- Auth `/login` et `/register` : le shake sur erreur doit fonctionner (timeline GSAP séquencée)
+- `tsc --noEmit` = 0 erreur confirmé au commit
+
+### Ce qui reste à faire
+- Webhook Stripe (`/api/stripe/webhook`) — non touché
+- Harmoniser APP_URL / NEXTAUTH_URL / VERCEL_URL — non touché
+- Supprimer `console.log` dans `/api/register` — non touché
