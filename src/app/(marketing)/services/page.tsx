@@ -4,18 +4,19 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
-    "Services - Agence Digitale SEO | Sites Modernes & E-commerce | LevisWeb",
+    "Services Web Savoie | SEO, Vitrine & E-commerce \u2014 LevisWeb",
   description:
-    "Services d'agence digitale spécialisée SEO : sites vitrine modernes, e-commerce sécurisé, backoffice sur mesure, refonte site web. Performance et design pour votre entreprise. Chambéry, Isère, Savoie.",
+    "Agence web Savoie : création site vitrine, e-commerce sécurisé, backoffice sur mesure, refonte web. SEO inclus, maintenance continue. Devis gratuit.",
   keywords:
     "services agence digitale SEO, spécialiste SEO, site vitrine moderne, e-commerce sécurisé, backoffice sur mesure, refonte site web, performance web, maintenance site web, agence de communication, LevisWeb, Chambéry, Isère, Savoie",
   openGraph: {
     title:
-      "Services - Agence Digitale SEO | Sites Modernes & Performance | LevisWeb",
+      "Services Web Savoie | SEO, Vitrine & E-commerce \u2014 LevisWeb",
     description:
       "Services d'agence digitale spécialisée SEO : sites vitrine modernes, e-commerce sécurisé, backoffice sur mesure, refonte site web. Performance et design.",
     url: "https://levisweb.net/services",
     type: "website",
+    images: [{ url: "https://levisweb.net/images/logo.png", width: 1200, height: 630, alt: "LevisWeb \u2014 Services Web Savoie" }],
   },
 };
 

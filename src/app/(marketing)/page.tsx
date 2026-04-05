@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import ServicesSection from "@/components/sections/services-section";
 import { HeroParallax } from "@/components/ui/hero-parallax-aceternity";
 import Script from "next/script";
@@ -91,7 +91,7 @@ export default function Home() {
           "@type": "Organization",
           name: "LevisWeb",
           url: "https://levisweb.net",
-          logo: "/favicon.ico",
+          logo: "https://levisweb.net/favicon.ico",
           contactPoint: {
             "@type": "ContactPoint",
             contactType: "customer service",
@@ -134,7 +134,7 @@ export default function Home() {
               closes: "18:00",
             },
           ],
-          areaServed: [{ "@type": "Country", name: "France" }],
+          areaServed: ["Savoie", "Is\u00e8re", "Chartreuse", "Grenoble", "Entre-Deux-Guiers"],
           priceRange: "€€€",
           description:
             "Agence digitale - Sites modernes, responsives et optimisés SEO avec backoffice sur mesure. Refonte site web, e-commerce sécurisé et maintenance continue.",
