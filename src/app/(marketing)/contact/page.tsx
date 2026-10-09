@@ -400,6 +400,7 @@ export default function ContactPage() {
                 <MagneticButton>
                   <StatefulButton
                     onClick={handleSubmit}
+                    style={{background: "transparent"}}
                     className="h-14 w-full border border-violet-500/40 bg-transparent text-violet-600 dark:text-violet-400 font-semibold text-sm hover:bg-violet-600 hover:text-white hover:border-violet-600 transition-all duration-300 rounded-none"
                   >
                     Envoyer mon message →
