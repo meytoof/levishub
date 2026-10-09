@@ -24,12 +24,23 @@ const OPEN_SHAPES = [
 
 export const PageTransition = () => {
   const pathRef = useRef<SVGPathElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
 
   // Route cible et état de fermeture
   const pendingPathRef = useRef<string | null>(null);
   const isClosingRef = useRef(false);
+
+  const showOverlay = () => {
+    if (!overlayRef.current) return;
+    overlayRef.current.style.opacity = "1";
+  };
+
+  const hideOverlay = () => {
+    if (!overlayRef.current) return;
+    overlayRef.current.style.opacity = "0";
+  };
 
   // Phase 1 : fermeture + navigation quand l'écran est couvert
   useEffect(() => {
@@ -49,6 +60,7 @@ export const PageTransition = () => {
       const path = pathRef.current;
       pendingPathRef.current = to;
       isClosingRef.current = true;
+      showOverlay();
 
       gsap.killTweensOf(path);
 
@@ -93,7 +105,10 @@ export const PageTransition = () => {
 
     gsap.killTweensOf(path);
 
-    const tl = gsap.timeline({ defaults: { ease: "none" } });
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
+      onComplete: hideOverlay,
+    });
 
     tl.set(path, { attr: { d: OPEN_SHAPES[0] } });
 
@@ -106,11 +121,15 @@ export const PageTransition = () => {
   }, [pathname]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999]">
+    <div
+      ref={overlayRef}
+      className="pointer-events-none fixed inset-0 z-[9999] opacity-0"
+      aria-hidden="true"
+    >
       <svg
-        className="transition"
+        className="h-full w-full"
         viewBox="0 0 100 100"
-        preserveAspectRatio="xMidYMin slice"
+        preserveAspectRatio="none"
       >
         <defs>
           {/* Gradient light: bleu/cyan, comme la navbar-logo en light */}
@@ -145,10 +164,8 @@ export const PageTransition = () => {
         <path
           ref={pathRef}
           className="page-transition-path"
-          stroke="url(#grad-light)"
           fill="url(#grad-light)"
-          strokeWidth="2px"
-          vectorEffect="non-scaling-stroke"
+          stroke="none"
           d={CLOSE_SHAPES[0]}
         />
       </svg>

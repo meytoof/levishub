@@ -485,12 +485,12 @@ html.dark .btn-cyan-gradient {
 
 /* Page transition gradient selon le thème */
 .page-transition-path {
-  stroke: url(#grad-light);
+  stroke: none;
   fill: url(#grad-light);
 }
 
 html.dark .page-transition-path {
-  stroke: url(#grad-dark);
+  stroke: none;
   fill: url(#grad-dark);
 }
 
