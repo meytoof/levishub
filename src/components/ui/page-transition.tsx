@@ -60,8 +60,8 @@ export const PageTransition = () => {
         },
       });
 
-      // Position de départ
-      tl.set(path, { attr: { d: CLOSE_SHAPES[0] } });
+      // Position de départ (le path est masqué au repos)
+      tl.set(path, { attr: { d: CLOSE_SHAPES[0] }, visibility: "visible" });
 
       // interpolation fluide à travers les formes de fermeture
       tl.to(path, {
@@ -93,9 +93,15 @@ export const PageTransition = () => {
 
     gsap.killTweensOf(path);
 
-    const tl = gsap.timeline({ defaults: { ease: "none" } });
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
+      // Au repos, la forme est une ligne plate : on la masque pour éviter le trait visible
+      onComplete: () => {
+        gsap.set(path, { visibility: "hidden" });
+      },
+    });
 
-    tl.set(path, { attr: { d: OPEN_SHAPES[0] } });
+    tl.set(path, { attr: { d: OPEN_SHAPES[0] }, visibility: "visible" });
 
     tl.to(path, {
       duration: OPEN_DURATION,
@@ -108,7 +114,7 @@ export const PageTransition = () => {
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999]">
       <svg
-        className="transition"
+        className="block h-full w-full"
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMin slice"
       >
@@ -149,6 +155,7 @@ export const PageTransition = () => {
           fill="url(#grad-light)"
           strokeWidth="2px"
           vectorEffect="non-scaling-stroke"
+          visibility="hidden"
           d={CLOSE_SHAPES[0]}
         />
       </svg>

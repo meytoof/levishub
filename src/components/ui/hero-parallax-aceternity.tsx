@@ -29,18 +29,30 @@ const splitTitleToChars = (titleElement: HTMLElement): HTMLElement[] => {
         parent?.classList.contains("bg-clip-text") ? parent.className : "";
 
       const parentText = parent?.textContent ?? "";
-      for (const ch of text) {
-        const span = document.createElement("span");
-        span.textContent = ch === " " ? "\u00A0" : ch; // espace insécable pour éviter la collapse
-        span.style.display = "inline-block";
-        if (ch === " ") span.style.minWidth = "0.25em";
-        if (cls) span.className = cls;
-        if ((ch === "i" || ch === "I") && parentText.includes("Site"))
-          span.classList.add("hero-i-site");
-        if ((ch === "i" || ch === "I") && parentText.includes("Empire"))
-          span.classList.add("hero-i-empire");
-        chars.push(span);
-        node.parentNode?.insertBefore(span, node);
+      // Découpe en mots : chaque mot est un bloc insécable, seuls les espaces
+      // entre les mots peuvent provoquer un retour à la ligne
+      for (const part of text.split(/( +)/)) {
+        if (!part) continue;
+        if (/^ +$/.test(part)) {
+          node.parentNode?.insertBefore(document.createTextNode(" "), node);
+          continue;
+        }
+        const word = document.createElement("span");
+        word.style.display = "inline-block";
+        word.style.whiteSpace = "nowrap";
+        for (const ch of part) {
+          const span = document.createElement("span");
+          span.textContent = ch;
+          span.style.display = "inline-block";
+          if (cls) span.className = cls;
+          if ((ch === "i" || ch === "I") && parentText.includes("Site"))
+            span.classList.add("hero-i-site");
+          if ((ch === "i" || ch === "I") && parentText.includes("Empire"))
+            span.classList.add("hero-i-empire");
+          chars.push(span);
+          word.appendChild(span);
+        }
+        node.parentNode?.insertBefore(word, node);
       }
       node.parentNode?.removeChild(node);
       return;
@@ -360,7 +372,7 @@ export const Header = () => {
               y: titleY,
               opacity: titleOpacity,
             }}
-            className="hero-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[1] mb-6 lg:mb-8 text-center"
+            className="hero-heading [text-wrap:balance] text-[clamp(2.25rem,11.5vw,3rem)] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[1] mb-6 lg:mb-8 text-center"
           >
             <span
               style={{
@@ -371,7 +383,7 @@ export const Header = () => {
               Nous gérons le{" "}
             </span>
             <span className="bg-[linear-gradient(135deg,#a855f7,#ec4899,#f43f5e)] dark:bg-gradient-to-r dark:from-cyan-400 dark:to-violet-400 bg-clip-text text-transparent">
-              Site web.
+              Site&nbsp;web.
             </span>
             <br />
             <span
