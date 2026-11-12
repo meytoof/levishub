@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { fontVariables } from "./fonts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,11 +13,6 @@ export const metadata: Metadata = {
     "Agence web SEO en Savoie & Chartreuse. Création sites modernes, refonte, e-commerce sécurisé & maintenance. Devis gratuit, résultats concrets.",
   keywords:
     "agence digitale SEO, spécialiste SEO, création site internet moderne, refonte site web, e-commerce sécurisé, performance web, maintenance site web, Savoie, Chartreuse, Grenoble",
-  icons: {
-    icon: "/images/logo.png",
-    shortcut: "/images/logo.png",
-    apple: "/images/logo.png",
-  },
   openGraph: {
     title: "LevisWeb | Agence Web SEO Savoie — Création Sites Modernes",
     description:
@@ -24,7 +20,7 @@ export const metadata: Metadata = {
     url: "https://levisweb.net",
     images: [
       {
-        url: "https://levisweb.net/images/logo.png",
+        url: "https://levisweb.net/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "LevisWeb — Agence Web SEO Savoie | Création Sites Modernes",
@@ -39,7 +35,7 @@ export const metadata: Metadata = {
     title: "LevisWeb | Agence Web SEO Savoie — Création Sites Modernes",
     description:
       "Agence web SEO en Savoie & Chartreuse. Création sites modernes, refonte, e-commerce sécurisé & maintenance. Devis gratuit, résultats concrets.",
-    images: ["https://levisweb.net/images/logo.png"],
+    images: ["https://levisweb.net/images/og-image.jpg"],
   },
 };
 
@@ -77,22 +73,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className={fontVariables} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}

@@ -6,7 +6,7 @@ import { MarqueeTicker } from "@/components/ui/marquee-ticker";
 import { LineReveal } from "@/components/ui/line-reveal";
 import { motion } from "motion/react";
 import Script from "next/script";
-import { useTheme } from "next-themes";
+import { useIsDark } from "@/hooks/use-is-dark";
 
 const demos = [
   {
@@ -44,8 +44,7 @@ const demos = [
 ];
 
 export default function ProjetsDemo() {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const isDark = useIsDark();
 
   return (
     <>

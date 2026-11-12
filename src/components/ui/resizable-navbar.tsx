@@ -269,7 +269,7 @@ export const NavbarLogo = () => {
     <TransitionLink
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
-      aria-label="Aller à l'accueil"
+      aria-label="LevisWeb – Accueil"
     >
       <span className="font-bold text-xl navbar-logo">LevisWeb</span>
     </TransitionLink>

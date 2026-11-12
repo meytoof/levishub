@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
-import { useTheme } from "next-themes";
+import { useIsDark } from "@/hooks/use-is-dark";
 
 const CalScheduler = dynamic(() => import("@/components/ui/cal-scheduler"), {
   ssr: false,
@@ -163,8 +163,7 @@ function FloatingTextarea({
 }
 
 export default function ContactPage() {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const isDark = useIsDark();
 
   const [formData, setFormData] = useState({
     name: "",

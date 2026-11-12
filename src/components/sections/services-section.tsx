@@ -20,7 +20,7 @@ const servicesData = [
 		],
 		description:
 			"J'optimise votre visibilité sur Google avec des techniques SEO modernes. Audit complet, optimisation technique, et stratégie de contenu pour dominer les résultats de recherche et attirer plus de clients qualifiés.",
-		image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center",
+		image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=480&fit=crop&crop=center&q=70&auto=format",
 	},
 	{
 		number: "00-2",
@@ -34,7 +34,7 @@ const servicesData = [
 		],
 		description:
 			"Création de sites web modernes et refonte de sites existants. Design responsive, intégrations sécurisées, et architecture optimisée pour convertir vos visiteurs en clients. Du concept au lancement.",
-		image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&h=600&fit=crop&crop=center",
+		image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=640&h=480&fit=crop&crop=center&q=70&auto=format",
 	},
 	{
 		number: "00-3",
@@ -48,7 +48,7 @@ const servicesData = [
 		],
 		description:
 			"Maintenance préventive et évolutive de vos sites web. Sécurité renforcée, performances optimisées, et accompagnement continu pour garantir la fiabilité et la croissance de votre présence en ligne.",
-		image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&crop=center",
+		image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=480&fit=crop&crop=center&q=70&auto=format",
 	},
 	{
 		number: "00-4",
@@ -76,7 +76,7 @@ const servicesData = [
 		],
 		description:
 			"Conseil technique et développement fullstack pour vos projets complexes. Audit d'architecture, développement sur mesure, et formation pour équiper vos équipes avec les meilleures pratiques du web moderne.",
-		image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&crop=center",
+		image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=640&h=480&fit=crop&crop=center&q=70&auto=format",
 	},
 ];
 
@@ -637,9 +637,9 @@ export const ServicesSection: React.FC = () => {
 			<div className="services__wrapper services__wrapper--desktop">
 				{servicesData.map((service, index) => (
 					<div className="services-block" key={`desktop-${index}`}>
-						<h4 className="services-block__number">
+						<p className="services-block__number">
 							{service.number}
-						</h4>
+						</p>
 						<h3 className="services-block__title">
 							<span>{service.title}</span>
 						</h3>
@@ -660,7 +660,12 @@ export const ServicesSection: React.FC = () => {
 							</ul>
 							<div className="services-block__img">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={service.image} alt={service.title} />
+								<img
+									src={service.image}
+									alt={service.title}
+									loading="lazy"
+									decoding="async"
+								/>
 							</div>
 						</div>
 						<p className="services-block__text">
@@ -678,9 +683,9 @@ export const ServicesSection: React.FC = () => {
 						key={`mobile-${index}`}
 					>
 						<div className="services-block__header-mobile">
-							<h4 className="services-block__number services-block__number--mobile">
+							<p className="services-block__number services-block__number--mobile">
 								{service.number}
-							</h4>
+							</p>
 							<h3 className="services-block__title services-block__title--mobile">
 								<span>{service.title}</span>
 							</h3>
@@ -702,7 +707,12 @@ export const ServicesSection: React.FC = () => {
 							</ul>
 							<div className="services-block__img services-block__img--mobile">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={service.image} alt={service.title} />
+								<img
+									src={service.image}
+									alt={service.title}
+									loading="lazy"
+									decoding="async"
+								/>
 								<div className="services-block__img-overlay">
 									<span className="services-block__img-text-1">
 										INNOVATIVE DESIGN

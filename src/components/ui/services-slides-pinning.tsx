@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useTheme } from "next-themes";
+import { useIsDark } from "@/hooks/use-is-dark";
 import { SplitHeading } from "./split-heading";
 import { MagneticButton } from "./magnetic-button";
 import { ServicesMockupVitrine } from "./services-mockup-vitrine";
@@ -56,9 +56,12 @@ export function ServicesSlidesPinning() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [openAccordion, setOpenAccordion] = useState<number | null>(1);
   const [isMobile, setIsMobile] = useState(false);
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-  const bg = (p: Panel) => (isDark ? p.bg : p.bgLight);
+  const isDark = useIsDark();
+  // Panel backgrounds are driven by CSS (`dark:` variant) rather than JS so
+  // they're correct on the very first paint — no light flash in dark mode.
+  const panelBg = (p: Panel) =>
+    ({ "--panel-bg": p.bgLight, "--panel-bg-dark": p.bg }) as CSSProperties;
+  const panelBgClass = "bg-[var(--panel-bg)] dark:bg-[var(--panel-bg-dark)]";
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
@@ -640,14 +643,14 @@ export function ServicesSlidesPinning() {
   // Desktop : horizontal scroll pinning
   // ----------------------------------------------------------------
   return (
-    <section ref={sectionRef} style={{ background: bg(panels[0]), overflow: "hidden" }}>
+    <section ref={sectionRef} className={panelBgClass} style={{ ...panelBg(panels[0]), overflow: "hidden" }}>
       <div
         ref={trackRef}
         className="flex will-change-transform"
         style={{ width: `${panels.length * 100}vw`, height: "100vh" }}
       >
         {/* ---- Panel 0 — Intro ---- */}
-        <div className="panel-0 w-screen h-full flex flex-col items-center justify-center relative overflow-hidden" style={{ background: bg(panels[0]) }}>
+        <div className={`panel-0 w-screen h-full flex flex-col items-center justify-center relative overflow-hidden ${panelBgClass}`} style={panelBg(panels[0])}>
           <div className="absolute inset-0 pointer-events-none">
             <div
               className="p0-gradient absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10"
@@ -659,7 +662,7 @@ export function ServicesSlidesPinning() {
             <SplitHeading
               as="h2"
               className="font-display font-black text-gray-900 dark:text-white leading-none"
-              style={{ fontSize: "clamp(4rem, 13vw, 16rem)" } as React.CSSProperties}
+              style={{ fontSize: "clamp(4rem, 13vw, 16rem)" } as CSSProperties}
               triggerOnLoad
             >
               NOS SERVICES
@@ -675,7 +678,7 @@ export function ServicesSlidesPinning() {
         </div>
 
         {/* ---- Panel 1 — Site Vitrine ---- */}
-        <div className="panel-1 w-screen h-full flex overflow-hidden" style={{ background: bg(panels[1]) }}>
+        <div className={`panel-1 w-screen h-full flex overflow-hidden ${panelBgClass}`} style={panelBg(panels[1])}>
           <div className="w-[50%] flex flex-col justify-center pl-[8vw] pr-12 relative">
             <span
               className="p1-label font-mono text-xs uppercase tracking-[0.4em] mb-6 block"
@@ -711,7 +714,7 @@ export function ServicesSlidesPinning() {
         </div>
 
         {/* ---- Panel 2 — E-commerce ---- */}
-        <div className="panel-2 w-screen h-full flex overflow-hidden" style={{ background: bg(panels[2]) }}>
+        <div className={`panel-2 w-screen h-full flex overflow-hidden ${panelBgClass}`} style={panelBg(panels[2])}>
           <div className="w-[50%] flex flex-col justify-center pl-[8vw] pr-12">
             <span
               className="p2-label font-mono text-xs uppercase tracking-[0.4em] mb-6 block"
@@ -756,7 +759,7 @@ export function ServicesSlidesPinning() {
         </div>
 
         {/* ---- Panel 3 — Backoffice ---- */}
-        <div className="panel-3 w-screen h-full flex overflow-hidden" style={{ background: bg(panels[3]) }}>
+        <div className={`panel-3 w-screen h-full flex overflow-hidden ${panelBgClass}`} style={panelBg(panels[3])}>
           <div className="w-[50%] flex flex-col justify-center pl-[8vw] pr-12">
             <span
               className="p3-label font-mono text-xs uppercase tracking-[0.4em] mb-6 block"
@@ -796,7 +799,7 @@ export function ServicesSlidesPinning() {
         </div>
 
         {/* ---- Panel 4 — Maintenance ---- */}
-        <div className="panel-4 w-screen h-full flex overflow-hidden" style={{ background: bg(panels[4]) }}>
+        <div className={`panel-4 w-screen h-full flex overflow-hidden ${panelBgClass}`} style={panelBg(panels[4])}>
           <div className="w-[50%] flex flex-col justify-center pl-[8vw] pr-12">
             <span
               className="p4-label font-mono text-xs uppercase tracking-[0.4em] mb-6 block"
@@ -857,7 +860,7 @@ export function ServicesCTA() {
       <SplitHeading
         as="h2"
         className="font-display font-black text-gray-900 dark:text-white mb-14 relative z-10"
-        style={{ fontSize: "clamp(2rem, 5vw, 6rem)" } as React.CSSProperties}
+        style={{ fontSize: "clamp(2rem, 5vw, 6rem)" } as CSSProperties}
       >
         Démarrer votre projet
       </SplitHeading>

@@ -60,7 +60,7 @@ Active branch with 8-phase redesign. Foundation components added:
 - `src/components/ui/smooth-scroll-provider.tsx` — Lenis wrapper (used in marketing layout)
 - `src/components/ui/text-cursor.tsx` — contextual text cursor, activated by `data-cursor="Voir"` etc. on any element
 - `src/components/ui/grain-overlay.tsx` — SVG noise film grain overlay
-- Clash Display loaded via `@import url('https://api.fontshare.com/v2/...')` at the top of `globals.css`; use class `font-display` for headings
+- Fonts are self-hosted via `next/font` in `src/app/fonts.ts` (Clash Display as local woff2 in `src/fonts/`, Sofia Sans Condensed / Sora / Spline Sans Mono from Google). CSS uses `var(--font-clash)`, `var(--font-sofia)`, `var(--font-sora)`, `var(--font-spline-mono)` — never reintroduce external font `@import`s (render-blocking). Use class `font-display` for headings
 
 ### Key globals.css conventions
 

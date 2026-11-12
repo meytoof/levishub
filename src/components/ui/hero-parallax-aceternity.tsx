@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
+import Image from "next/image";
 import React, { useLayoutEffect, useRef } from "react";
 import { MarketingPreviewLink } from "./transition-link";
 
@@ -130,20 +131,22 @@ export const HeroParallax = ({
           className="relative z-10"
         >
           <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-            {firstRow.map((product) => (
+            {firstRow.map((product, i) => (
               <ProductCard
                 product={product}
                 translate={translateX}
                 key={product.title}
+                priority={i < 2}
               />
             ))}
           </motion.div>
           <motion.div className="flex flex-row  mb-20 space-x-20 ">
-            {secondRow.map((product) => (
+            {secondRow.map((product, i) => (
               <ProductCard
                 product={product}
                 translate={translateXReverse}
                 key={product.title}
+                priority={i < 2}
               />
             ))}
           </motion.div>
@@ -522,6 +525,7 @@ export const Header = () => {
 export const ProductCard = ({
   product,
   translate,
+  priority = false,
 }: {
   product: {
     title: string;
@@ -529,6 +533,8 @@ export const ProductCard = ({
     thumbnail: string;
   };
   translate: MotionValue<number>;
+  /** Above-the-fold cards: load eagerly with high fetch priority (LCP). */
+  priority?: boolean;
 }) => {
   return (
     <motion.div
@@ -548,13 +554,14 @@ export const ProductCard = ({
         className="block w-full h-full"
       >
         <div className="block pointer-events-none">
-          <img
+          <Image
             src={product.thumbnail}
-            height="600"
-            width="600"
-            className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
+            fill
+            sizes="(max-width: 768px) 80vw, 30rem"
+            quality={70}
+            priority={priority}
+            className="object-cover object-center opacity-70"
             alt={`Projet ${product.title} - Réalisation LevisWeb`}
-            loading="lazy"
           />
         </div>
         <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
