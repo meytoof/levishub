@@ -3,6 +3,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useEffect, useRef } from "react";
+import { runWhenIdle } from "@/lib/run-when-idle";
 import "./services-section.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -85,7 +86,11 @@ export const ServicesSection: React.FC = () => {
 	const titleRef = useRef<HTMLHeadingElement>(null);
 
 	useEffect(() => {
-		const ctx = gsap.context(() => {
+		// Section très bas dans la page : on installe les ScrollTriggers une fois
+		// le thread principal libre, pour ne pas alourdir le chargement initial.
+		let ctx: gsap.Context | undefined;
+		const cancelIdle = runWhenIdle(() => {
+		ctx = gsap.context(() => {
 			// Animation du titre "services" - lettres du centre vers l'extérieur
 			if (titleRef.current) {
 				const h2 = titleRef.current;
@@ -611,8 +616,13 @@ export const ServicesSection: React.FC = () => {
 				});
 			});
 		}, sectionRef);
+		ScrollTrigger.refresh();
+		});
 
-		return () => ctx.revert();
+		return () => {
+			cancelIdle();
+			ctx?.revert();
+		};
 	}, []);
 
 	return (
