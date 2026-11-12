@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
+import Image from "next/image";
 import React, { useLayoutEffect, useRef } from "react";
 import { MarketingPreviewLink } from "./transition-link";
 
@@ -130,29 +131,34 @@ export const HeroParallax = ({
           className="relative z-10"
         >
           <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-            {firstRow.map((product) => (
+            {firstRow.map((product, i) => (
               <ProductCard
                 product={product}
                 translate={translateX}
                 key={product.title}
+                priority={i < 2}
+                hideOnMobile={i >= 3}
               />
             ))}
           </motion.div>
           <motion.div className="flex flex-row  mb-20 space-x-20 ">
-            {secondRow.map((product) => (
+            {secondRow.map((product, i) => (
               <ProductCard
                 product={product}
                 translate={translateXReverse}
                 key={product.title}
+                priority={i < 2}
+                hideOnMobile={i >= 3}
               />
             ))}
           </motion.div>
           <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
-            {thirdRow.map((product) => (
+            {thirdRow.map((product, i) => (
               <ProductCard
                 product={product}
                 translate={translateX}
                 key={product.title}
+                hideOnMobile={i >= 3}
               />
             ))}
           </motion.div>
@@ -196,7 +202,16 @@ export const Header = () => {
   useLayoutEffect(() => {
     if (!titleRef.current || !subtitleRef.current) return;
 
+    // Accessibilité : pas d'animation d'intro si l'utilisateur la refuse
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    // Le flou animé sur ~40 lettres coûte cher à peindre sur mobile :
+    // on le garde uniquement sur les écrans larges (même rendu final).
+    const useBlur = window.matchMedia("(min-width: 768px)").matches;
+
     const ctx = gsap.context(() => {
+      if (reduceMotion) return;
       // 1. Animation par lettres du H1 avec effet 3D sur certaines lettres
       const tl = gsap.timeline({ delay: 0.1, defaults: { ease: "power4.out" } });
 
@@ -224,14 +239,14 @@ export const Header = () => {
             y: 40,
             opacity: 0,
             rotationX: 15,
-            filter: "blur(4px)",
+            ...(useBlur && { filter: "blur(4px)" }),
             transformOrigin: "50% 100%",
           },
           {
             y: 0,
             opacity: 1,
             rotationX: 0,
-            filter: "blur(0px)",
+            ...(useBlur && { filter: "blur(0px)" }),
             duration: 1,
             stagger: 0.015,
           },
@@ -522,6 +537,8 @@ export const Header = () => {
 export const ProductCard = ({
   product,
   translate,
+  priority = false,
+  hideOnMobile = false,
 }: {
   product: {
     title: string;
@@ -529,6 +546,10 @@ export const ProductCard = ({
     thumbnail: string;
   };
   translate: MotionValue<number>;
+  /** Above-the-fold cards: load eagerly with high fetch priority (LCP). */
+  priority?: boolean;
+  /** Sur mobile on n'affiche que 3 cartes par rangée (même effet, 2x moins de calculs). */
+  hideOnMobile?: boolean;
 }) => {
   return (
     <motion.div
@@ -539,7 +560,7 @@ export const ProductCard = ({
         y: -20,
       }}
       key={product.title}
-      className="group/product h-80 w-[30rem] relative shrink-0"
+      className={`group/product h-80 w-[30rem] relative shrink-0 ${hideOnMobile ? "max-md:hidden" : ""}`}
     >
       <a
         href={product.link}
@@ -548,13 +569,14 @@ export const ProductCard = ({
         className="block w-full h-full"
       >
         <div className="block pointer-events-none">
-          <img
+          <Image
             src={product.thumbnail}
-            height="600"
-            width="600"
-            className="object-cover object-center absolute h-full w-full inset-0 opacity-70"
+            fill
+            sizes="(max-width: 768px) 80vw, 30rem"
+            quality={70}
+            priority={priority}
+            className="object-cover object-center opacity-70"
             alt={`Projet ${product.title} - Réalisation LevisWeb`}
-            loading="lazy"
           />
         </div>
         <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>

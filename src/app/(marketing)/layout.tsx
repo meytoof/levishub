@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "LevisWeb",
     images: [
       {
-        url: "/images/logo.png",
+        url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "LevisWeb - Agence Digitale SEO | Sites Modernes & Performance",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "LevisWeb - Agence Digitale SEO | Sites Modernes et Optimises SEO",
     description:
       "Agence digitale spécialisée SEO et création de sites modernes. Performance, proximité et expertise locale. Refonte site web et e-commerce sécurisé.",
-    images: ["/images/logo.png"],
+    images: ["/images/og-image.jpg"],
   },
   alternates: {
     canonical: "/",

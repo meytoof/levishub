@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       "Services d'agence digitale spécialisée SEO : sites vitrine modernes, e-commerce sécurisé, backoffice sur mesure, refonte site web. Performance et design.",
     url: "https://levisweb.net/services",
     type: "website",
-    images: [{ url: "https://levisweb.net/images/logo.png", width: 1200, height: 630, alt: "LevisWeb \u2014 Services Web Savoie" }],
+    images: [{ url: "https://levisweb.net/images/og-image.jpg", width: 1200, height: 630, alt: "LevisWeb \u2014 Services Web Savoie" }],
   },
 };
 

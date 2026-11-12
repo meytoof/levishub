@@ -1,5 +1,3 @@
-/* Import de la police Spline Sans Mono */
-@import url("https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@300;400;500;600;700&display=swap");
 
 /* Services Section - Layout complet comme Olha Lazarieva */
 
@@ -30,7 +28,7 @@
 }
 
 .animation-title {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-weight: 900;
 	font-size: clamp(8rem, 15vw, 18rem);
 	line-height: 0.8;
@@ -50,7 +48,7 @@
 }
 
 .services__title-span span {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 1rem;
 	font-weight: 400;
 	color: #666;
@@ -91,7 +89,7 @@
 }
 
 .services-block__number {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 1.2rem;
 	font-weight: 700;
 	color: #000;
@@ -104,7 +102,7 @@
 }
 
 .services-block__title {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: clamp(1.8rem, 3vw, 2.5rem);
 	font-weight: 700; /* Réduit de 900 à 700 pour moins d'épaisseur */
 	color: #000;
@@ -118,7 +116,7 @@
 }
 
 .services-block__second-title {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 50px; /* Taille agrandie comme demandé */
 	font-weight: 700;
 	color: #000;
@@ -166,7 +164,7 @@
 }
 
 .services-block__list span {
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 1.4rem; /* Encore un peu plus grand */
 	font-weight: 700;
 	color: #000;
@@ -209,7 +207,7 @@
 
 .services-block__img-text-1 {
 	display: block;
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 0.9rem;
 	font-weight: 700;
 	color: #000;
@@ -220,7 +218,7 @@
 
 .services-block__img-text-2 {
 	display: block;
-	font-family: "Sofia Sans Condensed", system-ui, sans-serif;
+	font-family: var(--font-sofia), system-ui, sans-serif;
 	font-size: 0.9rem;
 	font-weight: 700;
 	color: #0066cc;
@@ -229,7 +227,7 @@
 }
 
 .services-block__text {
-	font-family: "Spline Sans Mono", monospace;
+	font-family: var(--font-spline-mono), monospace;
 	font-size: 16px; /* Réduit de 20px à 16px pour éviter le débordement */
 	font-weight: 300;
 	letter-spacing: -0.05rem; /* Réduit l'espacement */

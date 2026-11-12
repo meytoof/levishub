@@ -13,14 +13,14 @@ export const metadata: Metadata = {
       "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
     url: "https://levisweb.net/pricing",
     type: "website",
-    images: [{ url: "https://levisweb.net/images/logo.png", width: 1200, height: 630, alt: "Tarifs LevisWeb \u2014 Agence Web Savoie" }],
+    images: [{ url: "https://levisweb.net/images/og-image.jpg", width: 1200, height: 630, alt: "Tarifs LevisWeb \u2014 Agence Web Savoie" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Tarifs Agence Web Savoie | Site web & E-commerce — LevisWeb",
     description:
       "Tarifs clairs : site vitrine dès 1 000 €, e-commerce dès 2 000 € + abonnement 99 €/mois. SEO inclus. Devis gratuit.",
-    images: ["https://levisweb.net/images/logo.png"],
+    images: ["https://levisweb.net/images/og-image.jpg"],
   },
 };
 

@@ -143,7 +143,7 @@ export function Footer() {
             >
               LevisWeb
             </motion.span>
-            <p className="max-w-xs text-sm leading-relaxed text-neutral-500">
+            <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
               Développement web freelance — Sites modernes, rapides et optimisés
               SEO.
             </p>
@@ -173,10 +173,10 @@ export function Footer() {
 
           {/* Adresse */}
           <div className="space-y-5">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-600">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
               Adresse
             </h4>
-            <address className="not-italic space-y-1 text-sm text-neutral-500">
+            <address className="not-italic space-y-1 text-sm text-neutral-400">
               <p>30 place centrale</p>
               <p>38380 Entre-Deux-Guiers</p>
               <p>France</p>
@@ -185,7 +185,7 @@ export function Footer() {
 
           {/* Contact */}
           <div className="space-y-5">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-600">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
               Contact
             </h4>
             <div className="space-y-3 text-sm">
@@ -200,7 +200,7 @@ export function Footer() {
 
           {/* Legal */}
           <div className="space-y-5">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-600">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
               Légal
             </h4>
             <div className="space-y-3 text-sm">
@@ -220,10 +220,10 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-neutral-900 pt-8 md:flex-row">
-          <p className="text-xs text-neutral-700">
+          <p className="text-xs text-neutral-400">
             &copy; {new Date().getFullYear()} LevisWeb. Tous droits réservés.
           </p>
-          <p className="text-xs text-neutral-800">
+          <p className="text-xs text-neutral-400">
             Fait avec soin en Chartreuse, France
           </p>
         </div>

@@ -1,9 +1,8 @@
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
 @import "tailwindcss";
 
 /* ===== AWWWARDS DESIGN TOKENS ===== */
 :root {
-  --font-display: 'Clash Display', 'Sofia Sans Condensed', sans-serif;
+  --font-display: var(--font-clash), var(--font-sofia), sans-serif;
   --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
   --duration-headline: 1.2s;
   --duration-micro: 0.2s;
@@ -819,7 +818,7 @@ html.dark .to-blue-600 {
   font-weight: 600;
   margin: 0 0 1.5rem 0;
   opacity: 0.9;
-  font-family: "Sora", sans-serif;
+  font-family: var(--font-sora), sans-serif;
 }
 
 .slide__description {
@@ -828,7 +827,7 @@ html.dark .to-blue-600 {
   margin: 0;
   opacity: 0.8;
   max-width: 500px;
-  font-family: "Sora", sans-serif;
+  font-family: var(--font-sora), sans-serif;
 }
 
 .slide:nth-of-type(1) {
@@ -880,7 +879,7 @@ html.dark .to-blue-600 {
   padding: 0;
   text-align: right;
   border-bottom: 7px white solid;
-  font-family: "Sora", sans-serif;
+  font-family: var(--font-sora), sans-serif;
   color: white;
 }
 
