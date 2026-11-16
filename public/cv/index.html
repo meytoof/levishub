@@ -97,6 +97,18 @@ a{color:inherit}
 .edu p{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),15px);line-height:1.4}
 .hobbies{margin-top:2.4vh;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
 
+/* ---------- mobile : navigation par étapes ---------- */
+html.stepmode,html.stepmode body{overflow:hidden;overscroll-behavior:none;touch-action:none}
+#stepnav{display:none}
+html.stepmode #stepnav{display:flex;position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:45;gap:8px}
+#stepnav button{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;border:2px solid #fff;background:#0b0b0b;color:#fff;border-radius:99px;padding:13px 20px;box-shadow:0 6px 22px rgba(0,0,0,.28);cursor:pointer}
+#stepnav #stepPrev{padding:13px 15px;opacity:.85}
+#stepnav button:active{transform:scale(.94)}
+html.stepmode .card{bottom:84px}
+html.stepmode .programme{bottom:80px}
+html.stepmode .contact2{bottom:92px}
+html.stepmode #cue{display:none}
+
 /* ---------- chargement ---------- */
 html.loading,html.loading body{overflow:hidden}
 #loader{position:fixed;inset:0;z-index:100;background:var(--paper);display:grid;place-items:center;transition:opacity .7s ease,visibility .7s}
@@ -156,6 +168,19 @@ html.loading,html.loading body{overflow:hidden}
 @keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
 .trail{fill:none;stroke:#fff;stroke-linecap:round}
 html[data-sk3d] #skysvg{display:none}
+html[data-sk="mode7"] #skysvg{display:none}
+html[data-sk="mode7"] .skyhead h2{display:none}
+@media (max-width:760px){html[data-sk="mode7"] .logbook{display:none}}
+html[data-sk="mode7"] .wedge[data-k="2"]{--bg:#fff;--fg:var(--ink)}
+.m7{position:absolute;inset:0;display:block}
+html[data-sk="mode7"] .logbook{top:auto;bottom:6vh;left:var(--gutter);right:auto;width:min(380px,32vw);background:#fff;border:2px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--ink);backdrop-filter:none;color:var(--ink);transition:opacity .3s}
+html[data-sk="mode7"] .logbook h3{color:var(--ink)}
+html[data-sk="mode7"] .logbook .eyebrow{color:#c4161c}
+html[data-sk="mode7"] .lbskills{color:var(--ink);opacity:.7}
+html[data-sk="mode7"] .edu2 .meta{color:#c4161c}
+html[data-sk="mode7"] .stamp circle{stroke:#c4161c}
+html[data-sk="mode7"] .stamp text{fill:#c4161c}
+html[data-sk="mode7"] .stamp svg{filter:none}
 
 /* ---------- 03 : le théâtre ---------- */
 .theatre{position:absolute;inset:0;display:none}
@@ -179,10 +204,11 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 #thsvg .shadow{fill:var(--ink);opacity:.12}
 #thsvg .tx{font-family:var(--display);font-weight:800;fill:var(--ink)}
 #thsvg .tx.mono{font-family:var(--mono);font-weight:500}
-#thsvg .beamf{fill:var(--beam,var(--yellow));opacity:.42;mix-blend-mode:multiply;transition:fill .5s}
+#thsvg .beamf{fill:var(--beam,var(--yellow));opacity:.34;transition:fill .5s}
 #thsvg .dt{opacity:0;visibility:hidden}
+.programme,.coups{z-index:3}
 #thsvg .solid{fill:var(--ink)}
-#thsvg .glow{fill:var(--beam,var(--yellow));opacity:.3;mix-blend-mode:multiply}
+#thsvg .glow{fill:var(--beam,var(--yellow));opacity:.24}
 #thsvg .ink2{stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round}
 #thsvg .dtfade{opacity:calc(1 - var(--d,0) * 1.4)}
 #thsvg .dtk,#thsvg .dtw,#thsvg .dtrope,#thsvg .dtcue{opacity:0}
@@ -212,18 +238,18 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 #pgText{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),14.5px);line-height:1.45}
 .pgskills{margin:.9vh 0 0;font-family:var(--mono);font-size:11px;color:#c4161c}
 .pgskills:empty{display:none}
-.galword{position:absolute;left:50%;top:50%;transform-origin:50% 50%;pointer-events:none;opacity:0;visibility:hidden}
+.galword{position:absolute;left:50%;top:50%;transform-origin:50% 50%;pointer-events:none;visibility:hidden}
 .galword b,.galword span{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;line-height:1;transform:translateY(-50%)}
-.galword b{font-family:var(--display);font-weight:800;color:#fff;letter-spacing:0;text-shadow:0 0 40px rgba(255,226,122,.55),0 0 12px rgba(255,255,255,.35)}
-.galword span{font-family:var(--mono);font-weight:500;color:#ffe27a;text-shadow:0 0 18px rgba(255,226,122,.5)}
+.galword b{font-family:var(--display);font-weight:800;color:#fff;letter-spacing:-.01em}
+.galword span{font-family:var(--mono);font-weight:500;color:#FFE600;letter-spacing:.02em}
 .gl3d{position:absolute;inset:0;display:block}
 .l3dwrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .l3d{position:absolute;left:0;top:0;white-space:nowrap;font-family:var(--mono);font-size:11px;color:#fff;text-shadow:0 0 6px #05070f;opacity:0;will-change:transform,opacity;translate:-50% -50%}
 .l3d.fam{font-family:var(--display);font-weight:800;font-size:clamp(14px,1.5vw,20px);color:var(--yellow);translate:-50% calc(-100% - 18px)}
 .l3d.sun{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.8vw,24px);color:#0a0f24;text-shadow:none}
 .l3d.moon{translate:10px -50%}
-.l3d.star{translate:10px -50%;color:#e8eeff}
-.l3d.cst{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.7vw,24px);color:var(--green)}
+.l3d.star{translate:12px -50%;color:#fff;font-size:13px;font-weight:500;background:rgba(5,8,22,.82);border:1px solid rgba(255,230,0,.45);border-radius:7px;padding:4px 9px;text-shadow:none}
+.l3d.cst{font-family:var(--display);font-weight:800;font-size:clamp(17px,1.8vw,26px);color:#05070f;background:var(--yellow);border-radius:9px;padding:6px 14px;text-shadow:none}
 .cline{fill:none;stroke:#cfe3ff;stroke-width:1.2;stroke-linecap:round;opacity:.55;transition:stroke .3s,opacity .3s,stroke-width .3s;pointer-events:none}
 .chit{stroke:transparent;stroke-width:22;stroke-linecap:round;cursor:help}
 .const .cname,.const .cfam{transition:fill .3s}
@@ -595,6 +621,11 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 
 <svg id="mini" viewBox="-240 -240 570 600" aria-hidden="true"><path class="bg"/><path class="bg tin"/><path class="fg"/></svg>
 
+<div id="stepnav" aria-label="Navigation par étapes">
+  <button type="button" id="stepPrev" aria-label="Étape précédente">↑</button>
+  <button type="button" id="stepNext" aria-label="Étape suivante"><span>Suivant</span> ↓</button>
+</div>
+
 <nav id="nav" aria-label="Sections du CV">
   <ol>
     <li><a href="#intro-a" data-t="intro"><span>Intro</span><i></i></a></li>
@@ -607,6 +638,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 </nav>
 
 <script src="/cv/theatre.js"></script>
+<script src="/cv/mode7.js"></script>
 <script>
 (() => {
   /* ================= helpers ================= */
@@ -746,14 +778,14 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   ['#mini', '#lq'].forEach(s => $(s).setAttribute('viewBox', `${bb.x - 24} ${bb.y - 24} ${bb.width + 48} ${bb.height + 48}`));
 
   /* ================= timeline (en vh) ================= */
-  // Section compétences : le théâtre par défaut. Anciennes versions : ?v=2d (constellations), ?v=galaxie | planetarium | solaire (3D).
+  // Section compétences : la spirale en Mode 7 par défaut. Autres versions : ?v=galaxie | planetarium | solaire | theatre | 2d.
   const qv = new URLSearchParams(location.search).get('v');
-  const SK = ['solaire', 'planetarium', 'galaxie', '2d'].includes(qv) ? qv : 'theatre';
+  const SK = ['solaire', 'planetarium', 'galaxie', '2d', 'theatre', 'mode7'].includes(qv) ? qv : 'mode7';
   document.documentElement.dataset.sk = SK;
-  if (!['2d', 'theatre'].includes(SK)) document.documentElement.dataset.sk3d = SK;
+  if (!['2d', 'theatre', 'mode7'].includes(SK)) document.documentElement.dataset.sk3d = SK;
   if (SK === 'theatre') $('#h-skills').textContent = 'En scène';
-  const P3 = { theatre: 1000, galaxie: 620, planetarium: 380, solaire: 380, '2d': 170 }[SK]; // plus de scroll = animation plus lente
-  const ACTS = [['intro', 35], ['dive', 120], ['p1', 230], ['rot1', 100], ['p2', 170], ['rot2', 100], ['p3', P3], ['close', 80], ['dezoom', 130], ['walk', 620], ['outro', 110]];
+  const P3 = { mode7: 600, theatre: 1000, galaxie: 620, planetarium: 380, solaire: 380, '2d': 170 }[SK]; // plus de scroll = animation plus lente
+  const ACTS = [['intro', 35], ['dive', 120], ['p1', 230], ['rot1', 100], ['p2', 170], ['rot2', 100], ['p3', P3], ['close', SK === 'mode7' ? 20 : 80], ['dezoom', 130], ['walk', 620], ['outro', 110]];
   const A = {};
   let W, H, mobile, C, I, s0, sEnd, d, R, pieC, sw, anchorW, ANCH, s3, O3, total, maxScroll, NAV = {};
   const KOUT = 1.6, RB = REND + 13 * KOUT;            // trait épaissi quand le Q devient une lettre
@@ -896,12 +928,13 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   }
   // versions 3D à comparer (?v=solaire | planetarium | galaxie) : le module s'enregistre dans window.SKILLS3D
   window.CV_SKILLS = { CONSTS, USE, showStory };
+  if (SK === 'mode7' && window.CVMode7) { window.SKILLS3D = window.CVMode7.create($('#sky'), window.CV_SKILLS); $('#h-skills').textContent = 'Compétences'; }
   function renderSky(e, h, x) {
     skyH = h; skyOn = e > .001;
     if (window.SKILLS3D) {
       window.SKILLS3D.update(e, h, x);
       const sky = $('#sky');
-      sky.style.opacity = 1 - x * .9;
+      sky.style.opacity = SK === 'mode7' ? 1 : 1 - x * .9; // Mode 7 : déjà noir, on ne laisse pas transparaître le fond
       return;
     }
     nearG.setAttribute('transform', `translate(${((.5 - h) * 30).toFixed(1)} ${((.5 - h) * -18).toFixed(1)})`);
@@ -1004,7 +1037,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
     const Z = 1.2, HD = 1.4, TR = 1.2, N = 5, U = Z + N * HD + (N - 1) * TR;
     let x = u * U, L = Ls[0], b = 1, cur = 0, ka = 0, kb = 0, ta = 0;
     const st = new Array(N).fill(-1);
-    if (x < Z) { const t = x / Z; b = eio(t); st[0] = -(1 - ss(clamp((t - .5) / .5))); }
+    if (x < Z) { const t = x / Z; b = 1; st[0] = -(1 - ss(clamp(t / .6))); }
     else {
       x -= Z;
       for (let k = 0; k < N; k++) {
@@ -1039,7 +1072,9 @@ html[data-sk="theatre"] .stamp svg{filter:none}
     else if (y < A.dezoom.e) {
       // l'écran est noir (cœur du Q plein écran) : on dézoome sans camembert
       const e = ss(seg(y, 'dezoom'));
-      s = expl(sEnd, s0, e); P = lerpP(C, introCore, e); a = 480 + 240 * e;
+      // on ressort du noir directement sur le premier projet (plus de passage par la vue d'ensemble du Q)
+      const q0 = at(Ls[0]), Pw = camFrom(ANCH[0], q0, sw);
+      s = expl(sEnd, sw, e); P = lerpP(C, Pw, e); a = 480 + 240 * e;
     }
     else if (y < A.walk.e) {
       const w = walkState(seg(y, 'walk'));
@@ -1075,7 +1110,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 
     // fermeture au noir après la part verte (iris qui se referme depuis le centre)
     const tc = seg(y, 'close');
-    const irisOn = y >= A.close.s && y < A.dezoom.s;
+    const irisOn = SK !== 'mode7' && y >= A.close.s && y < A.dezoom.s; // pas d'iris en Mode 7 : l'écran est déjà noir
     iris.style.visibility = irisOn ? 'visible' : 'hidden';
     if (irisOn) iris.style.clipPath = `circle(${(eio(clamp((tc - .25) / .75)) * Math.hypot(W, H) * .52).toFixed(1)}px at 50% 50%)`;
     const exitK = eio(clamp(tc / .6));
@@ -1184,7 +1219,59 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   /* ================= scroll ================= */
   let lenis = null;
   const scrollY = () => lenis ? lenis.scroll : window.scrollY;
+  /* --- mobile : pas de scroll libre (il cassait les animations), on avance par étapes --- */
+  const STEPMODE = matchMedia('(pointer: coarse)').matches && innerWidth < 900;
+  let STOPS = [], tw = null;
+  function computeStops() {
+    const es = A.p3.s - .35 * A.rot2.len, yh = t => es + t * (A.p3.e - es);
+    const Z = 1.2, HD = 1.4, TR = 1.2, U = Z + 5 * HD + 4 * TR;
+    STOPS = [0, A.p1.s + A.p1.len * .88, A.p2.s + A.p2.len * .55];
+    if (SK === 'theatre') [.056, .215, .305, .418, .518, .618, .718, .818, .975].forEach(t => STOPS.push(yh(t)));
+    else if (SK === 'mode7') {
+      const yw = t => es + t * (A.p3.e - es + A.close.len);
+      [.03, ...[0, 1, 2, 3, 4, 5].map(k => .127 + k * .122 + .045), .845].forEach(t => STOPS.push(yw(t)));
+    }
+    else STOPS.push(A.p3.s + A.p3.len * .5);
+    for (let k = 0; k < 5; k++) STOPS.push(A.walk.s + A.walk.len * (Z + k * (HD + TR) + HD * .5) / U);
+    STOPS.push(total);
+    STOPS.sort((a, b) => a - b);
+  }
+  function tweenTo(target) {
+    const from = window.scrollY, dist = Math.abs(target - from), dur = clamp(dist / H * .3, .9, 5) * 1000, t0 = performance.now();
+    const me = tw = { target };
+    const stepF = now => {
+      if (tw !== me) return;
+      const k = clamp((now - t0) / dur);
+      window.scrollTo(0, from + (target - from) * eio(k));
+      if (k < 1) requestAnimationFrame(stepF); else { tw = null; updateStepUI(); }
+    };
+    requestAnimationFrame(stepF); updateStepUI(target);
+  }
+  function stepBy(dir) {
+    const y = tw ? tw.target : window.scrollY;
+    if (dir > 0) { const nx = STOPS.find(v => v > y + 4); tweenTo(nx === undefined ? 0 : nx); }
+    else { const pv = STOPS.filter(v => v < y - 4).pop(); tweenTo(pv === undefined ? 0 : pv); }
+  }
+  function updateStepUI(y = window.scrollY) {
+    if (!STEPMODE) return;
+    const atEnd = y >= STOPS[STOPS.length - 1] - 4;
+    $('#stepNext span').textContent = atEnd ? 'Recommencer' : y < 4 ? 'Commencer' : 'Suivant';
+    $('#stepPrev').style.visibility = y < 4 ? 'hidden' : 'visible';
+  }
+  if (STEPMODE) {
+    document.documentElement.classList.add('stepmode');
+    $('#stepNext').addEventListener('click', () => stepBy(1));
+    $('#stepPrev').addEventListener('click', () => stepBy(-1));
+    let ty0 = null;
+    addEventListener('touchstart', ev => { ty0 = ev.touches[0].clientY; }, { passive: true });
+    addEventListener('touchmove', ev => { if (!ev.target.closest('a,button,.lbtn')) ev.preventDefault(); }, { passive: false });
+    addEventListener('touchend', ev => {
+      if (ty0 === null) return; const dy = ev.changedTouches[0].clientY - ty0; ty0 = null;
+      if (Math.abs(dy) > 40) stepBy(dy < 0 ? 1 : -1);
+    }, { passive: true });
+  }
   function goTo(target) {
+    if (STEPMODE) { tweenTo(target); return; }
     const dist = Math.abs(target - scrollY());
     if (lenis) lenis.scrollTo(target, { duration: clamp(dist / (H * 7), 1.1, 5), easing: eio });
     else window.scrollTo({ top: target, behavior: RM ? 'auto' : 'smooth' });
@@ -1207,11 +1294,12 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   }
 
   let rz;
-  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { layout(); render(scrollY()); }, 120); });
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { layout(); computeStops(); render(scrollY()); }, 120); });
 
   function start() {
     layout();
-    if (!RM && window.Lenis) { lenis = new Lenis({ lerp: .085, smoothWheel: true, wheelMultiplier: .9 }); if (!loaded) lenis.stop(); }
+    computeStops(); updateStepUI();
+    if (!RM && !STEPMODE && window.Lenis) { lenis = new Lenis({ lerp: .085, smoothWheel: true, wheelMultiplier: .9 }); if (!loaded) lenis.stop(); }
     const h = location.hash.replace('#', '');
     const key = { 'intro-a': 'intro', profil: 'profil', experiences: 'experiences', competences: 'competences', projets: 'projets', contact: 'contact' }[h];
     if (key) window.scrollTo(0, NAV[key]);

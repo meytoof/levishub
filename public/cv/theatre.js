@@ -15,7 +15,7 @@
 
   // Les lieux visités, dans l'ordre du spectacle. f = point visé (coordonnées du dessin 1600×1000), z = zoom.
   const AREAS = [
-    { key: 'ticket', act: 'Prologue', place: 'La billetterie', fam: 'Intégrations', f: [200, 820], z: 1.75, win: [.275, .335], dt: 'dt-ticket', df: [800, 520],
+    { key: 'ticket', act: 'Prologue', place: 'La billetterie', fam: 'Intégrations', f: [200, 820], z: 1.75, win: [.275, .335],
       story: "Sans billetterie, pas de public. Stripe encaisse, un webhook confirme la place, l'e-mail part avec le billet : c'est le travail des intégrations.",
       skills: ['Stripe', 'Webhooks', 'SMTP', 'API tierces'] },
     { key: 'scene', act: 'Acte I', place: 'La scène', fam: 'Front-end', f: [800, 600], z: 1.8, win: [.38, .455], dt: 'dt-eye', df: [800, 540],
@@ -24,7 +24,7 @@
     { key: 'spots', act: 'Acte II', place: 'Les projecteurs', fam: 'Animation & UI', f: [800, 330], z: 1.6, win: [.48, .555],
       story: "La lumière guide le regard. GSAP, Motion et Lenis règlent les poursuites, et l'accessibilité veille à ce que toute la salle profite du spectacle.",
       skills: ['GSAP', 'Motion', 'Lenis', 'Responsive', 'Dark mode', 'Accessibilité'] },
-    { key: 'flies', act: 'Acte III', place: 'Les coulisses', fam: 'Back-end', f: [800, 400], z: 1.9, win: [.58, .655], dt: 'dt-wings', df: [900, 470],
+    { key: 'flies', act: 'Acte III', place: 'Les coulisses', fam: 'Back-end', f: [800, 400], z: 1.9, win: [.58, .655],
       story: "Invisibles depuis la salle, mais sans elles rien ne tient. Les décors pendent aux cintres, au bout de leurs cordes : Symfony, API Platform, Node.js…",
       skills: ['Symfony 6/7', 'API Platform', 'PHP objet', 'Node.js', '.NET C#', 'Java Spring', 'NextAuth'] },
     { key: 'prompt', act: 'Acte IV', place: 'Le trou du souffleur', fam: 'Données', f: [800, 750], z: 2.6, win: [.68, .755],
@@ -157,36 +157,6 @@
    * la vue d'ensemble zoome très loin et s'efface, la scène détaillée arrive en se posant. */
   const solid = (d, cls = 'solid') => `<path class="${cls}" d="${d}"/>`;
 
-  // Prologue : le bureau du guichetier, les billets étalés à côté
-  function dtTicket() {
-    let s = `<g id="dt-ticket" class="dt">`;
-    s += p('M300 70 H1300 V430 H300 Z', 'ink thick');
-    for (let x = 346; x < 1300; x += 46) s += p(`M${x} 70 V430`, 'ink faint');
-    s += p('M270 430 H1330 V462 H270 Z');
-    s += `<text class="tx mono dtfade" x="800" y="50" text-anchor="middle" font-size="26" letter-spacing="12">BILLETTERIE</text>`;
-    // la file d'attente, de l'autre côté de la vitre
-    [[470, 330], [600, 305], [735, 338], [1060, 320]].forEach(([x, y]) => { s += `<circle class="ink faint" pathLength="1" cx="${x}" cy="${y}" r="34"/>` + p(`M${x - 62} 430 Q${x} ${y + 40} ${x + 62} 430`, 'ink faint'); });
-    // le bureau
-    s += p('M80 560 H1520 L1600 1000 H0 Z') + p('M80 560 L60 592 H1540 L1520 560');
-    // lampe de bureau et son halo
-    s += `<path class="glow" d="M392 540 L590 860 L250 880 Z"/>` + p('M200 712 Q260 690 320 712') + p('M260 700 L300 570 L372 512') + p('M330 478 L446 512 L404 566 Z');
-    // la machine à billets
-    s += `<rect class="paperf ink" pathLength="1" x="1160" y="470" width="250" height="170" rx="10"/>` +
-      `<circle class="ink" pathLength="1" cx="1285" cy="470" r="62"/><circle class="ink" pathLength="1" cx="1285" cy="470" r="18"/>` + p('M1250 640 Q1270 700 1240 760 Q1215 810 1250 860');
-    // le tampon et la tasse de café
-    s += p('M1030 640 H1120 V612 H1030 Z') + p('M1060 612 V566 Q1075 546 1090 566 V612');
-    s += p('M140 862 H222 V942 Q181 958 140 942 Z') + p('M222 882 Q256 902 222 926') + p('M166 842 Q156 816 172 794 M198 842 Q188 816 204 794', 'ink faint');
-    // les billets = les compétences
-    s += [[470, 600, -7], [790, 632, 4], [520, 778, 3], [870, 800, -5]].map(([x, y, r], i) =>
-      `<g class="dtk" data-i="${i}"><g transform="translate(${x} ${y}) rotate(${r})">` +
-      `<path class="paperf ink2" d="M0 0 H400 V40 A18 18 0 0 0 400 76 V118 H0 V76 A18 18 0 0 0 0 40 Z"/>` +
-      `<line class="perf" x1="310" y1="8" x2="310" y2="110"/>` +
-      `<text class="tx" x="30" y="76" font-size="46">${AREAS[0].skills[i]}</text>` +
-      `<g class="dtstamp" transform="translate(356 60) rotate(-18)"><rect x="-44" y="-20" width="88" height="40" rx="5" fill="none" stroke="${RED}" stroke-width="3"/>` +
-      `<text class="tx mono" x="0" y="8" text-anchor="middle" font-size="18" fill="${RED}">ADMIS</text></g></g></g>`).join('');
-    return s + `</g>`;
-  }
-
   // Acte I : on est assis dans la salle, des têtes devant soi, la scène en face
   function dtEye() {
     let s = `<g id="dt-eye" class="dt">`;
@@ -204,34 +174,6 @@
     [[210, 905, 92], [640, 940, 104], [1120, 918, 98], [1500, 900, 88]].forEach(([x, y, r]) => {
       s += `<ellipse class="solid" cx="${x}" cy="${y + r * 1.25}" rx="${r * 1.9}" ry="${r * .9}"/><circle class="solid" cx="${x}" cy="${y}" r="${r}"/>`;
     });
-    return s + `</g>`;
-  }
-
-  // Acte III : dans les coulisses, le jeu de cordes
-  function dtWings() {
-    let s = `<g id="dt-wings" class="dt">`;
-    s += p('M0 900 H1600');
-    for (let y = 60; y < 900; y += 70) s += p(`M0 ${y} H660`, 'ink faint');
-    // la lumière de la scène qui déborde dans la coulisse
-    s += `<path class="glow" d="M1600 160 L1120 900 H1600 Z"/>`;
-    // le râtelier à cordes (« pin rail ») : chevilles, cordes tendues, bobines
-    s += p('M60 600 H640') + p('M60 634 H640');
-    for (let x = 90; x < 640; x += 52) {
-      s += p(`M${x + 8} 0 V600`, 'ink faint') + p(`M${x} 582 V690`) + `<ellipse class="ink" pathLength="1" cx="${x}" cy="716" rx="15" ry="36"/>`;
-    }
-    // l'échelle et le panneau SILENCE
-    s += p('M1440 0 V900 M1530 0 V900');
-    for (let y = 40; y < 900; y += 62) s += p(`M1440 ${y} H1530`);
-    // les décors = les compétences, pendus aux cintres
-    s += AREAS[3].skills.map((sk, i) => {
-      const x = 760 + i * 100, y = 300 + (i % 3) * 150;
-      return `<g class="dtrope" data-i="${i}" data-x="${x}"><line class="ink" pathLength="1" x1="${x}" y1="0" x2="${x}" y2="${y - 34}"/>` +
-        `<path class="ink" pathLength="1" d="M${x - 16} ${y - 34} L${x} ${y - 52} L${x + 16} ${y - 34}"/>` +
-        `<rect class="paperf ink2" x="${x - 104}" y="${y - 34}" width="208" height="68" rx="8"/>` +
-        `<text class="tx mono" x="${x}" y="${y + 10}" text-anchor="middle" font-size="25">${sk}</text></g>`;
-    }).join('');
-    s += `<rect x="1200" y="104" width="200" height="70" rx="6" fill="${RED}" class="dtfade"/><text class="tx mono dtfade" x="1300" y="150" text-anchor="middle" font-size="28" fill="#fff" letter-spacing="4">SILENCE</text>`;
-    s += p('M300 940 L344 962 M344 940 L300 962') + p('M980 940 L1024 962 M1024 940 L980 962');
     return s + `</g>`;
   }
 
@@ -254,7 +196,6 @@
     s += LIGHTS.map(([c, n], i) => `<g class="lbtn" data-c="${c}" role="button" tabindex="0" aria-label="Lumière ${n}">` +
       `<circle cx="${1110 + i * 118}" cy="770" r="48" fill="${c}" stroke="#0b0b0b" stroke-width="4"/>` +
       `<text class="tx mono" x="${1110 + i * 118}" y="850" text-anchor="middle" font-size="17">${n.toUpperCase()}</text></g>`).join('');
-    s += `<text class="tx mono dtfade lhint" x="1287" y="680" text-anchor="middle" font-size="19">↓ À vous : changez la lumière</text>`;
     // la conduite (compétences DevOps) sur la console
     s += `<g transform="translate(80 600) rotate(-3)"><rect class="paperf ink2" x="0" y="0" width="420" height="370" rx="6"/>` +
       `<rect class="solid" x="150" y="-14" width="120" height="30" rx="6"/>` +
@@ -269,7 +210,7 @@
     if (!built) {
       svg = document.getElementById('thsvg');
       svg.innerHTML = `<g id="thOV"><g id="thL0">${drawBack()}</g><g id="thL1">${drawMid()}</g><g id="thL2">${drawFront()}</g></g>` +
-        `<g id="thDT">${dtTicket()}${dtEye()}${dtWings()}${dtBooth()}</g>`;
+        `<g id="thDT">${dtEye()}${dtBooth()}</g>`;
       L = { back: svg.querySelector('#thL0'), mid: svg.querySelector('#thL1'), front: svg.querySelector('#thL2') };
       el = {
         draws: [...svg.querySelectorAll('[data-draw]')], ropes: [...svg.querySelectorAll('.rope')], fronts: [...svg.querySelectorAll('.actorw')],
@@ -284,7 +225,8 @@
       AREAS.forEach(a => { if (a.dt) a.g = svg.querySelector('#' + a.dt); });
       // console de la régie : chaque bouton change la couleur des projecteurs (dans la régie et sur la grande scène)
       svg.querySelectorAll('.lbtn').forEach(b => {
-        const set = () => { svg.style.setProperty('--beam', b.dataset.c); svg.querySelectorAll('.lbtn').forEach(o => o.classList.toggle('on', o === b)); };
+        const set = () => {
+          svg.style.setProperty('--beam', b.dataset.c); svg.querySelectorAll('.lbtn').forEach(o => o.classList.toggle('on', o === b)); };
         b.addEventListener('click', set); b.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); set(); } });
       });
       // égaliseur : 29 points, plus hauts au centre, chacun avec sa propre amplitude
@@ -340,17 +282,20 @@
       if (!a.g) return;
       const [w0, w1] = a.win, din = ss(clamp((h - w0) / .024)), out = ss(clamp((h - (w1 - .02)) / .02)), D = din * (1 - out);
       a.D = D; a.din = din; a.out = out; deep = Math.max(deep, D);
-      a.g.style.opacity = D.toFixed(3); a.g.style.visibility = D > .005 ? 'visible' : 'hidden';
+      a.g.style.opacity = D.toFixed(3); a.g.style.visibility = D > .005 ? 'inherit' : 'hidden';
       if (D > .005) {
         const sc = (mobile ? W / (a.dfm ? 1640 : 1250) : base * 1.1) * lerp(.42, 1, eio(din)) * lerp(1, 2.1, out * out);
         const f = mobile && a.dfm ? a.dfm : a.df;
         a.g.setAttribute('transform', `translate(${(C[0] - f[0] * sc).toFixed(2)} ${(C[1] - f[1] * sc).toFixed(2)}) scale(${sc.toFixed(5)})`);
-        a.g.style.setProperty('--d', (1 - clamp((h - w0 - .004) / .026)).toFixed(4));
+        const dv = (1 - clamp((h - w0 - .004) / .026)).toFixed(3);
+        if (a.g._d !== dv) { a.g._d = dv; a.g.style.setProperty('--d', dv); }
       }
     });
     el.ov.style.opacity = (1 - deep).toFixed(3);
+    const ovHidden = deep > .995;
+    el.ov.style.visibility = ovHidden ? 'hidden' : 'inherit';
     const zMul = Math.exp(deep * 1.7);
-    [[L.back, .82], [L.mid, 1], [L.front, 1.22]].forEach(([g, k]) => {
+    if (!ovHidden) [[L.back, .82], [L.mid, 1], [L.front, 1.22]].forEach(([g, k]) => {
       const S = base * Math.pow(cam.z * zMul, k) * (1 + x * x * (k * 1.5)); // sortie : on fonce dans la salle
       g.setAttribute('transform', `translate(${(C[0] - cam.f[0] * S).toFixed(2)} ${(C[1] - cam.f[1] * S).toFixed(2)}) scale(${S.toFixed(5)})`);
     });
@@ -360,16 +305,16 @@
     let imp = 0, knocks = 0;
     [.012, .028, .044].forEach(tk => { if (h >= tk) { knocks++; const d = (h - tk) / .014; imp = Math.max(imp, d < 1 ? Math.pow(1 - d, 2) : 0); } });
     const maxH = Math.min(220, H * .28);
-    el.coups.forEach((b, i) => {
+    if (h < .1) el.coups.forEach((b, i) => {
       const a = +b.dataset.a, wob = Math.sin(h * 900 + i * 1.7) * .18;
       b.style.height = (10 + imp * maxH * a * (1 + wob)).toFixed(1) + 'px';
     });
     el.coupsWrap.dataset.k = knocks;
     const cw = 1 - ss(clamp((h - .06) / .02));
-    el.coupsWrap.style.opacity = (cw * clamp(e * 3)).toFixed(3); el.coupsWrap.style.visibility = cw > .01 ? 'visible' : 'hidden';
+    el.coupsWrap.style.opacity = (cw * clamp(e * 3)).toFixed(3); el.coupsWrap.style.visibility = cw > .01 ? 'inherit' : 'hidden';
 
     // 2. le théâtre se dessine, groupe par groupe
-    el.draws.forEach(g => { const k = +g.dataset.draw; g.style.setProperty('--d', (1 - clamp((h - .07 - k * .026) / .05)).toFixed(4)); });
+    el.draws.forEach(g => { const k = +g.dataset.draw, dv = (1 - clamp((h - .07 - k * .026) / .05)).toFixed(3); if (g._d !== dv) { g._d = dv; g.style.setProperty('--d', dv); } });
     const red = ss(clamp((h - .22) / .025));
     svg.style.setProperty('--curtain', red.toFixed(3)); // rideau totalement opaque
 
@@ -387,19 +332,11 @@
     const R = (i, n) => clamp(rv * (n + 1.2) - i * .9 / Math.max(1, n) * n * .35);
 
     // billetterie : les billets sortent du guichet
-    // révélation dans les scènes détaillées
+    el.tickets.forEach((t, i) => { const r = active === 0 ? R(i, 4) : 0; t.style.opacity = r; t.style.transform = `translateX(${((1 - r) * -110).toFixed(1)}px)`; });
+    // révélation dans les scènes détaillées (spectateur, régie)
     const RD = (a, i, n) => clamp(ss(clamp((h - a.win[0] - .026) / .03)) * (n + 1.2) - i * .32) * (1 - a.out);
-    const A0 = AREAS[0], A1 = AREAS[1], A3 = AREAS[3], A5 = AREAS[5];
-    el.dtk.forEach((t, i) => {
-      const r = A0.D > 0 ? RD(A0, i, 4) : 0, st = clamp(r * 2.2 - 1.2);
-      t.style.opacity = r; t.style.transform = `translate(${((1 - r) * 160).toFixed(1)}px, ${((1 - r) * -40).toFixed(1)}px)`;
-      const sp = t.querySelector('.dtstamp'); sp.style.opacity = st; sp.style.transform = `scale(${(1 + (1 - st) * 1.4).toFixed(3)})`; sp.style.transformBox = 'fill-box'; sp.style.transformOrigin = 'center';
-    });
+    const A1 = AREAS[1], A5 = AREAS[5];
     el.dtw.forEach((t, i) => { const r = A1.D > 0 ? RD(A1, i, 7) : 0; t.style.opacity = r; t.style.transform = `translateY(${((1 - r) * 50).toFixed(1)}px)`; });
-    el.dtrope.forEach((r, i) => {
-      const rr = A3.D > 0 ? RD(A3, i, 7) : 0, x0 = +r.dataset.x;
-      r.style.opacity = rr; r.setAttribute('transform', `rotate(${(Math.sin(h * 70 + i * 1.3) * 3.5 * rr).toFixed(2)} ${x0} 0) translate(0 ${((1 - rr) * -320).toFixed(1)})`);
-    });
     el.dtcue.forEach((c, i) => { const r = A5.D > 0 ? RD(A5, i, 6) : 0; c.style.opacity = r; c.querySelector('.ok').style.opacity = clamp(r * 2 - 1); });
     // clignement d'œil quand on s'assoit dans la salle (acte I)
     const bump = (c, w) => Math.max(0, 1 - Math.abs(h - c) / w);
@@ -420,7 +357,7 @@
     });
     // coulisses : les décors descendent des cintres et se balancent au bout des cordes
     el.ropes.forEach((r, i) => {
-      const rr = 0, drop = -260, x0 = +r.dataset.x;
+      const rr = active === 3 ? R(i, 7) : 0, drop = (1 - rr) * -260, x0 = +r.dataset.x;
       r.style.opacity = rr; r.setAttribute('transform', `rotate(${(Math.sin(h * 70 + i * 1.3) * 4 * rr).toFixed(2)} ${x0} 110) translate(0 ${drop.toFixed(1)})`);
     });
     // souffleur : le texte se déroule

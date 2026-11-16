@@ -253,7 +253,7 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
   geo.setAttribute('aDelay', new THREE.BufferAttribute(del, 1));
   const U = {
     uTex: { value: tex }, uRot: { value: 0 }, uMorph: { value: 0 }, uGrow: { value: 1 }, uBoom: { value: 1 },
-    uSize: { value: mobile ? .11 : .085 }, uScale: { value: 1 }, uDim: { value: 1 }, uFade: { value: 1 },
+    uSize: { value: mobile ? .11 : .085 }, uScale: { value: 1 }, uDim: { value: 1 }, uFade: { value: 1 }, uGal: { value: 1 },
   };
   const mat = new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -273,11 +273,11 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
         gl_Position = projectionMatrix * mv;
       }`,
     fragmentShader: `
-      uniform sampler2D uTex; uniform float uDim, uFade;
+      uniform sampler2D uTex; uniform float uDim, uFade, uGal;
       varying vec3 vColor; varying float vM;
       void main() {
         float a = texture2D(uTex, gl_PointCoord).a;
-        gl_FragColor = vec4(vColor, a * mix(1., uDim, vM) * uFade);
+        gl_FragColor = vec4(vColor, a * mix(uGal, uDim, vM) * uFade);
       }`,
   });
   const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; scene.add(pts);
@@ -313,9 +313,12 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
   const words = [];
   const targets = api.CONSTS.map(c => {
     const L = layoutOf(c), cv = document.createElement('canvas'); cv.width = CW; cv.height = CH;
+    const mg = cv.getContext('2d'), fitSize = (txt, size, font) => { mg.font = font(size); const w = mg.measureText(txt).width; return w > CW * .92 ? Math.floor(size * CW * .92 / w) : size; };
+    L.title.size = fitSize(L.title.text, L.title.size, z => `800 ${z}px Syne`);
+    L.lines.forEach(l => { l.size = fitSize(l.text, l.size, z => `500 ${z}px "JetBrains Mono"`); });
     const g = cv.getContext('2d'); g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
     g.font = `800 ${L.title.size}px Syne`; g.fillText(L.title.text, CW / 2, CH * L.title.y);
-    g.font = `500 40px "JetBrains Mono"`; L.lines.forEach(l => g.fillText(l.text, CW / 2, CH * l.y));
+    L.lines.forEach(l => { g.font = `500 ${l.size}px "JetBrains Mono"`; g.fillText(l.text, CW / 2, CH * l.y); });
     const d = g.getImageData(0, 0, CW, CH).data, px = [];
     for (let y = 0; y < CH; y += 3) for (let x = 0; x < CW; x += 3) if (d[(y * CW + x) * 4 + 3] > 120) px.push(x, y);
     const out = new Float32Array(N * 3), cnt = px.length / 2;
@@ -354,6 +357,7 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
 
   const O = new THREE.Vector3(0, mobile ? 12 : 8.5, mobile ? 24 : 19), T = new THREE.Vector3(0, 0, CAMZ), ZERO = new THREE.Vector3();
   const camP = new THREE.Vector3(), camL = new THREE.Vector3(), cw = new THREE.Vector3(), focusP = new THREE.Vector3();
+  let cAnim = 0, lastT = 0;
 
   return {
     frame(t, { e, h, x }) {
@@ -368,12 +372,18 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
       const a = inSlot ? ss(clamp(tt / .2)) : 0;               // zoom vers la constellation
       const b = inSlot ? ss(clamp((tt - .3) / .22)) : 0;       // la caméra se met en face, les étoiles volent
       const mIn = inSlot ? ss(clamp((tt - .28) / .26)) : 0;    // morphing vers le texte
-      const c = inSlot ? ss(clamp((tt - .52) / .1)) : 0;       // le vrai texte apparaît
+      // le texte net prend le relais : passé le seuil, la bascule se fait toute seule (≈ 0,3 s), indépendamment du scroll,
+      // pour ne jamais rester figé entre particules et texte (c'était la cause du flou)
+      const want = inSlot && tt >= .5 && tt < .82 && x < .5 ? 1 : 0, dt = Math.min(.05, Math.max(0, t - lastT)); lastT = t;
+      cAnim += (want - cAnim) * (1 - Math.exp(-dt * 14)); if (Math.abs(want - cAnim) < .003) cAnim = want;
+      const c = cAnim;
       const dOut = inSlot ? ss(clamp((tt - .86) / .14)) : 0;   // tout repart dans la galaxie
       useTarget(k);
       const m = mIn * (1 - dOut);
       U.uMorph.value = m;
-      U.uDim.value = lerp(1, .16, c * (1 - dOut));
+      U.uDim.value = 1 - c * (1 - dOut);                           // les particules du texte s'éteignent complètement
+      // pendant le zoom sur une constellation, le reste de la galaxie s'efface pour la laisser ressortir
+      U.uGal.value = 1 - .62 * a * (1 - b) - .5 * c * (1 - dOut);
 
       const C = consts[k];
       cw.copy(C.center).applyAxisAngle(new THREE.Vector3(0, 1, 0), -rot);
@@ -389,13 +399,25 @@ async function galaxie({ scene, camera, renderer, tex, api, mkLabel, place, mobi
       consts.forEach((cs, i) => {
         const on = inSlot && i === k ? a * (1 - b) : 0;
         cs.lines.material.opacity = .9 * on;
-        cs.sprites.forEach((s, j) => s.material.opacity = (.75 + .25 * Math.sin(t * 2.2 + j * 1.7 + i)) * clamp(e * 2) * (1 - m * .85) * (1 - x));
+        cs.sprites.forEach((s, j) => s.material.opacity = (.75 + .25 * Math.sin(t * 2.2 + j * 1.7 + i)) * clamp(e * 2) * (1 - Math.max(m, b)) * (1 - x));
         cs.center.y = .25;
         const wp = cs.center.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), -rot);
         place(cs.name, wp.add(new THREE.Vector3(0, .9, 0)), on);
         cs.labels.forEach((l, j) => place(l, cs.local[j].clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), -rot), on));
       });
-      words.forEach((w, i) => { const o = i === k ? c * (1 - ss(clamp((tt - .8) / .06))) * (1 - x) : 0; w.style.opacity = o.toFixed(3); w.style.visibility = o > .01 ? 'visible' : 'hidden'; });
+      // apparition façon macOS : chaque ligne glisse légèrement vers le haut, l'une après l'autre, parfaitement nette
+      const out = 0;
+      words.forEach((w, i) => {
+        const on = i === k && c > .002 && x < 1;
+        w.style.visibility = on ? 'visible' : 'hidden';
+        if (!on) return;
+        w.style.opacity = ((1 - out) * (1 - x)).toFixed(3);
+        [...w.children].forEach((ln, j) => {
+          const cj = ss(clamp(c * 1.7 - j * .24));
+          ln.style.opacity = cj.toFixed(3);
+          ln.style.transform = `translateY(calc(-50% + ${((1 - cj) * 26).toFixed(1)}px))`;
+        });
+      });
     },
   };
 }
