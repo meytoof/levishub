@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Quentin Levis — CV</title>
+<meta name="description" content="CV interactif de Quentin Levis, développeur fullstack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<style>
+:root{
+  --ink:#0b0b0b; --paper:#ffffff;
+  --yellow:#FFE600; --blue:#2F54EB; --green:#2BD07B;
+  --display:'Syne',system-ui,sans-serif;
+  --text:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gutter:clamp(20px,6vw,96px);
+  --navspace:clamp(64px,9vw,150px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--yellow);color:var(--ink)}
+
+/* ---------- scroll track ---------- */
+#track{position:relative;width:1px;pointer-events:none}
+.anchor{position:absolute;left:0;width:1px;height:1px}
+
+/* ---------- stage ---------- */
+.stage{position:fixed;inset:0;overflow:hidden}
+#q{position:absolute;inset:0;width:100%;height:100%;display:block}
+#qpath,#qtailIn{fill:none;stroke:var(--ink);stroke-width:26;stroke-linecap:round;stroke-linejoin:round}
+#qprog,#qtailProg{fill:none;stroke:var(--yellow);stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+#qcore{fill:var(--ink)}
+.stop{fill:#fff;stroke:var(--ink);stroke-width:5;transition:fill .3s}
+.stop.on{fill:var(--yellow)}
+#traveler{fill:var(--yellow);stroke:var(--ink);stroke-width:5}
+
+/* ---------- camembert ---------- */
+#piecam{position:absolute;inset:0;transform-origin:0 0;will-change:transform;visibility:hidden}
+#pie{position:absolute;border-radius:50%;overflow:hidden;background:#fff;will-change:transform}
+.wedge{position:absolute;inset:0;background:var(--bg)}
+.wedge[data-k="0"]{--bg:#0b0b0b;--fg:#fff}
+.wedge[data-k="1"]{--bg:var(--blue);--fg:#fff}
+.wedge[data-k="2"]{--bg:radial-gradient(120% 90% at 50% 40%,#16204a 0%,#0a0f24 55%,#05070f 100%);--fg:#fff}
+.sep{position:absolute;height:12px;background:#fff;transform-origin:0 50%}
+#iris{position:absolute;inset:0;background:var(--ink);clip-path:circle(0px at 50% 50%);visibility:hidden}
+
+/* part jaune : traits gras + photo */
+.deco{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.bar{position:absolute;border-radius:999px;background:rgba(0,0,0,.075);will-change:transform}
+.bar.ink{background:var(--ink)}
+.bar.line{background:transparent;border:3px solid rgba(0,0,0,.16)}
+.deco-r{left:auto;right:0;width:calc(var(--navspace) + var(--photo) + 30px + 2vw)}
+.wedge[data-k="0"] .blk{right:calc(var(--navspace) + var(--photo) + 30px + 4vw)}
+.wedge[data-k="0"]{--photo:clamp(150px,21vw,300px)}
+.wedge[data-k="0"] .mega{font-size:clamp(40px,min(7.4vw,14vh),150px)}
+.photo{position:absolute;right:calc(var(--navspace) + 30px);top:46%;width:var(--photo);margin:calc(var(--photo) * -.62) 0 0;will-change:transform}
+.photo .frame{border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:12px 12px 0 var(--ink);aspect-ratio:4/5;background:#222}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.wip{position:absolute;left:-18px;bottom:-16px;transform:rotate(-6deg);background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:8px;padding:6px 10px;font-family:var(--mono);font-size:11px;line-height:1.35;box-shadow:4px 4px 0 var(--ink)}
+.wip b{display:block;font-size:12px}
+.wc{position:absolute;color:var(--fg)}
+.blk{position:absolute;left:var(--gutter);right:var(--navspace);will-change:transform}
+.blk.top{top:clamp(64px,11vh,120px)}
+.blk.bot{bottom:clamp(28px,7vh,90px)}
+.blk>*{will-change:transform}
+
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 1.8vh;opacity:.8}
+.mega{font-family:var(--display);font-weight:800;line-height:.84;letter-spacing:-.035em;margin:0;font-size:clamp(40px,min(9.2vw,15vh),170px)}
+.lead{font-size:clamp(15px,min(1.55vw,2.6vh),22px);line-height:1.45;margin:0;max-width:48ch}
+.cols{display:grid;grid-template-columns:1.25fr 1fr;gap:4vw;align-items:end}
+.facts{list-style:none;margin:0 0 2vh;padding:0;font-family:var(--mono);font-size:clamp(12px,min(1.05vw,1.9vh),14px);line-height:1.9}
+.facts li::before{content:"↳ ";opacity:.6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li{border:1.5px solid currentColor;border-radius:99px;padding:5px 12px;font-size:13px;font-weight:500}
+
+.xp{display:grid;grid-template-columns:minmax(200px,.8fr) 1.6fr;gap:3vw;align-items:start}
+.xp h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,min(2.7vw,4.3vh),44px);line-height:1;margin:.6vh 0;letter-spacing:-.02em}
+.meta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;opacity:.85}
+.xp ul{list-style:none;margin:0;padding:0;font-size:clamp(13px,min(1.2vw,2.05vh),17px);line-height:1.4}
+.xp li{padding:.75vh 0;border-top:1px solid color-mix(in srgb,currentColor 35%,transparent)}
+.xp li b{font-weight:700}
+.stage-note{margin-top:1.6vh;font-family:var(--mono);font-size:12px;opacity:.85}
+
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vh 3vw}
+.skills h4{font-family:var(--display);font-weight:800;font-size:clamp(18px,min(2vw,3.4vh),32px);margin:0 0 .6vh;letter-spacing:-.02em}
+.skills p{margin:0;font-size:clamp(12px,min(1.1vw,1.95vh),16px);line-height:1.4}
+.edu{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw}
+.edu h4{font-family:var(--display);font-weight:700;font-size:clamp(17px,min(1.7vw,3vh),26px);margin:.5vh 0;line-height:1.05}
+.edu p{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),15px);line-height:1.4}
+.hobbies{margin-top:2.4vh;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+
+/* ---------- chargement ---------- */
+html.loading,html.loading body{overflow:hidden}
+#loader{position:fixed;inset:0;z-index:100;background:var(--paper);display:grid;place-items:center;transition:opacity .7s ease,visibility .7s}
+#loader.done{opacity:0;visibility:hidden}
+.lwrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+#lq{width:120px;height:120px;overflow:visible}
+#lq path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:30}
+#lq .lbg{stroke:#eee}
+#lq .lfg{stroke:var(--ink)}
+#loader p{margin:8px 0 0;font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-.03em;line-height:1}
+#loader p span{font-size:.5em;opacity:.5}
+#loader small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[data-r]{will-change:transform,opacity}
+
+/* ---------- 02 : focus Pégase ---------- */
+.xp2{position:absolute;top:clamp(60px,10vh,110px);bottom:clamp(20px,4.5vh,50px);left:var(--gutter);right:calc(var(--navspace) + 40px);display:flex;flex-direction:column;gap:clamp(10px,2.2vh,24px);perspective:1200px}
+.xhead{display:flex;justify-content:space-between;align-items:flex-end;gap:3vw;flex-wrap:wrap}
+.xhead .eyebrow{margin-bottom:1vh}
+.xp2 h2{font-family:var(--display);font-weight:800;font-size:clamp(38px,min(7.6vw,12vh),132px);line-height:.85;letter-spacing:-.04em;margin:0}
+.role{margin:0;text-align:right;font-family:var(--display);font-weight:700;font-size:clamp(16px,min(1.9vw,3.2vh),28px);line-height:1.05}
+.role span{color:var(--yellow)}
+.counters{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid rgba(255,255,255,.35);border-bottom:1.5px solid rgba(255,255,255,.35)}
+.counters>div{padding:clamp(8px,1.6vh,18px) 1.2vw;border-left:1.5px solid rgba(255,255,255,.35)}
+.counters>div:first-child{border-left:0;padding-left:0}
+.counters b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(26px,min(3.8vw,6.6vh),64px);line-height:1;letter-spacing:-.03em}
+.counters b em{font-style:normal}
+.counters b small{font-size:.5em;opacity:.7}
+.counters b i{font-style:normal;color:var(--yellow);margin:0 .12em}
+.counters span{display:block;margin-top:.6vh;font-family:var(--mono);font-size:11px;letter-spacing:.06em;opacity:.85}
+.story{margin:0;max-width:78ch;font-size:clamp(14px,min(1.3vw,2.3vh),18px);line-height:1.45}
+.story b{color:var(--yellow)}
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,24px);margin-top:auto}
+.case{position:relative;background:#fff;color:var(--ink);border-radius:16px;padding:clamp(12px,2vh,20px) clamp(14px,1.4vw,20px);box-shadow:8px 8px 0 #0b0b0b;transform-origin:50% 100%;transition:box-shadow .25s}
+.case:hover{box-shadow:12px 12px 0 var(--yellow)}
+.ctag{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.case h3{font-family:var(--display);font-weight:800;font-size:clamp(18px,min(1.75vw,3vh),27px);line-height:1;margin:.6vh 0 .8vh;letter-spacing:-.02em}
+.case p:not(.ctag){margin:0 0 1vh;font-size:clamp(12px,min(1.02vw,1.85vh),15px);line-height:1.4}
+.case ul{display:flex;flex-wrap:wrap;gap:5px;list-style:none;margin:0;padding:0}
+.case li{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:99px;background:#eef1ff;color:var(--blue)}
+.minimap{position:absolute;top:12px;right:12px;width:min(34%,96px);overflow:visible}
+.minimap .pins circle{fill:#c9d2ff}
+.minimap .pins .near{fill:var(--blue)}
+.minimap .route{stroke:var(--ink);stroke-width:1.6;stroke-dasharray:3 3;animation:dash 1.2s linear infinite}
+.minimap .me{fill:#D71A21}
+.minimap .pulse{fill:none;stroke:#D71A21;stroke-width:1.5;transform-origin:50px 44px;animation:pulse 1.8s ease-out infinite}
+@keyframes dash{to{stroke-dashoffset:-12}}
+@keyframes pulse{from{transform:scale(1);opacity:1}to{transform:scale(3.2);opacity:0}}
+.now{margin:0;display:flex;justify-content:space-between;gap:2vw;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;line-height:1.5;opacity:.92}
+.now em{font-style:normal}
+
+/* ---------- 03 : constellation ---------- */
+.sky{position:absolute;inset:0}
+#skysvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.fs{fill:#fff}
+.tw{animation:tw 3.2s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+.trail{fill:none;stroke:#fff;stroke-linecap:round}
+html[data-sk3d] #skysvg{display:none}
+
+/* ---------- 03 : le théâtre ---------- */
+.theatre{position:absolute;inset:0;display:none}
+html[data-sk="theatre"] .theatre{display:block}
+html[data-sk="theatre"] .sky,html[data-sk="theatre"] .logbook{display:none}
+html[data-sk="theatre"] .wedge[data-k="2"]{--bg:#fbf8f1;--fg:var(--ink)}
+html[data-sk="theatre"] .edu2 .meta{color:#c4161c}
+html[data-sk="theatre"] .stamp circle{stroke:#c4161c}
+html[data-sk="theatre"] .stamp text{fill:#c4161c}
+html[data-sk="theatre"] .stamp svg{filter:none}
+#thsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#thsvg .ink{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:var(--d,0)}
+#thsvg .ink.faint{stroke-width:1.1;opacity:.55}
+#thsvg .ink.thick{stroke-width:3.4}
+#thsvg .ink.fold{stroke:#7a0d10;stroke-width:1.4;opacity:calc(var(--curtain,0) * .9 + .25)}
+#thsvg .paperf{fill:#fffdf7}
+#thsvg [data-draw] text{opacity:calc(1 - var(--d,0) * 1.4)}
+#thsvg [data-draw] .paperf{fill-opacity:calc(1 - var(--d,0))}
+#thsvg .curtainf{fill:#c4161c;fill-opacity:var(--curtain,0);stroke:none}
+#thsvg .perf{stroke:var(--ink);stroke-width:1;stroke-dasharray:3 3;opacity:.5}
+#thsvg .shadow{fill:var(--ink);opacity:.12}
+#thsvg .tx{font-family:var(--display);font-weight:800;fill:var(--ink)}
+#thsvg .tx.mono{font-family:var(--mono);font-weight:500}
+#thsvg .beamf{fill:var(--beam,var(--yellow));opacity:.42;mix-blend-mode:multiply;transition:fill .5s}
+#thsvg .dt{opacity:0;visibility:hidden}
+#thsvg .solid{fill:var(--ink)}
+#thsvg .glow{fill:var(--beam,var(--yellow));opacity:.3;mix-blend-mode:multiply}
+#thsvg .ink2{stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round}
+#thsvg .dtfade{opacity:calc(1 - var(--d,0) * 1.4)}
+#thsvg .dtk,#thsvg .dtw,#thsvg .dtrope,#thsvg .dtcue{opacity:0}
+#thsvg .lbtn{cursor:pointer;pointer-events:all}
+#thsvg .lbtn circle{transition:transform .2s;transform-box:fill-box;transform-origin:center}
+#thsvg .lbtn:hover circle,#thsvg .lbtn.on circle{transform:scale(1.12)}
+#thsvg .lbtn.on circle{stroke-width:7}
+#thsvg .lbtn:focus-visible{outline:none}
+#thsvg .lbtn:focus-visible circle{stroke:#2F54EB;stroke-width:7}
+.lids{position:absolute;inset:0;pointer-events:none;z-index:2}
+.lids i{position:absolute;left:0;right:0;height:0;background:var(--ink)}
+.lids i:first-child{top:0;border-radius:0 0 50% 50% / 0 0 40px 40px}
+.lids i:last-child{bottom:0;border-radius:50% 50% 0 0 / 40px 40px 0 0}
+#thsvg .beamt{font-family:var(--display)}
+#thsvg .ticket,#thsvg .actorw,#thsvg .cue,#thsvg .rope{opacity:0}
+.coups{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;pointer-events:none}
+.eq{display:flex;align-items:flex-end;gap:clamp(5px,.8vw,10px);height:min(240px,30vh)}
+.eq i{display:block;width:10px;height:10px;background:var(--ink);border-radius:99px;animation:eqwob .45s ease-in-out infinite alternate;transform-origin:50% 100%}
+@keyframes eqwob{from{transform:scaleY(1)}to{transform:scaleY(1.12)}}
+.coups span{transition:opacity .2s}
+.coups[data-k="0"] span{opacity:.35}
+.coups span{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+.programme{position:absolute;top:clamp(60px,10vh,110px);right:calc(var(--navspace) + 30px);width:min(380px,34vw);background:#fffdf7;border:2px solid var(--ink);border-radius:4px;padding:14px 18px 16px;box-shadow:6px 6px 0 var(--ink);opacity:0}
+.programme::before{content:"";position:absolute;left:12px;right:12px;top:6px;border-top:1px dashed rgba(0,0,0,.35)}
+.programme .eyebrow{color:#c4161c;margin:.4vh 0 .6vh;opacity:1}
+.programme h3{font-family:var(--display);font-weight:800;font-size:clamp(19px,1.9vw,28px);margin:0 0 .6vh;letter-spacing:-.02em}
+#pgText{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),14.5px);line-height:1.45}
+.pgskills{margin:.9vh 0 0;font-family:var(--mono);font-size:11px;color:#c4161c}
+.pgskills:empty{display:none}
+.galword{position:absolute;left:50%;top:50%;transform-origin:50% 50%;pointer-events:none;opacity:0;visibility:hidden}
+.galword b,.galword span{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;line-height:1;transform:translateY(-50%)}
+.galword b{font-family:var(--display);font-weight:800;color:#fff;letter-spacing:0;text-shadow:0 0 40px rgba(255,226,122,.55),0 0 12px rgba(255,255,255,.35)}
+.galword span{font-family:var(--mono);font-weight:500;color:#ffe27a;text-shadow:0 0 18px rgba(255,226,122,.5)}
+.gl3d{position:absolute;inset:0;display:block}
+.l3dwrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.l3d{position:absolute;left:0;top:0;white-space:nowrap;font-family:var(--mono);font-size:11px;color:#fff;text-shadow:0 0 6px #05070f;opacity:0;will-change:transform,opacity;translate:-50% -50%}
+.l3d.fam{font-family:var(--display);font-weight:800;font-size:clamp(14px,1.5vw,20px);color:var(--yellow);translate:-50% calc(-100% - 18px)}
+.l3d.sun{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.8vw,24px);color:#0a0f24;text-shadow:none}
+.l3d.moon{translate:10px -50%}
+.l3d.star{translate:10px -50%;color:#e8eeff}
+.l3d.cst{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.7vw,24px);color:var(--green)}
+.cline{fill:none;stroke:#cfe3ff;stroke-width:1.2;stroke-linecap:round;opacity:.55;transition:stroke .3s,opacity .3s,stroke-width .3s;pointer-events:none}
+.chit{stroke:transparent;stroke-width:22;stroke-linecap:round;cursor:help}
+.const .cname,.const .cfam{transition:fill .3s}
+.const:hover .cline,.const.on .cline{stroke:var(--yellow);opacity:1;stroke-width:2}
+.const.on .cname{fill:var(--yellow)}
+.cfam{font-family:var(--mono);font-size:10px;letter-spacing:.16em;fill:#fff;opacity:.6}
+.polaris .pcore{fill:var(--yellow)}
+.polaris .pglow{fill:var(--yellow);opacity:.18}
+.polaris text{font-family:var(--mono);font-size:11px;fill:var(--yellow);letter-spacing:.06em}
+.logbook{position:absolute;top:clamp(60px,10vh,110px);right:calc(var(--navspace) + 30px);width:min(400px,36vw);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:14px 18px;background:rgba(10,15,36,.55);backdrop-filter:blur(6px)}
+.logbook .eyebrow{margin-bottom:.8vh;color:var(--green)}
+.logbook h3{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,26px);margin:0 0 .6vh;color:var(--yellow);letter-spacing:-.02em}
+#lbText{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),14.5px);line-height:1.45}
+.lbskills{margin:.8vh 0 0;font-family:var(--mono);font-size:11px;color:var(--green)}
+.lbskills:empty{display:none}
+.cname{font-family:var(--display);font-weight:800;font-size:clamp(15px,min(1.6vw,2.8vh),24px);fill:var(--green);letter-spacing:-.01em}
+.star{cursor:default}
+.star .core{fill:#fff;transition:r .25s}
+.star .halo{fill:var(--yellow);opacity:0;transition:opacity .25s}
+.star text{font-family:var(--mono);font-size:11.5px;fill:#fff;opacity:.9;paint-order:stroke;stroke:#0a0f24;stroke-width:4px}
+.star .use{fill:var(--yellow);font-size:10.5px;opacity:0;transition:opacity .25s}
+.star:hover .halo{opacity:.35}
+.star:hover .use{opacity:1}
+.star:hover text{opacity:1}
+.skyhead{position:absolute;top:clamp(60px,10vh,110px);left:var(--gutter)}
+.skyhead h2{font-family:var(--display);font-weight:800;font-size:clamp(34px,min(5.6vw,9vh),96px);line-height:.88;letter-spacing:-.035em;margin:0}
+.edu2{position:absolute;left:var(--gutter);bottom:clamp(22px,5vh,56px);right:calc(var(--navspace) + clamp(130px,15vw,210px));display:flex;flex-wrap:wrap;gap:4px 3vw}
+.edu2 p{margin:0;font-size:clamp(12px,min(1.05vw,1.9vh),15px)}
+.edu2 .meta{color:var(--green);margin-right:6px}
+.stamp{position:absolute;right:var(--navspace);bottom:clamp(14px,3.5vh,40px);width:clamp(120px,14vw,200px)}
+.stamp svg{display:block;width:100%;overflow:visible;filter:drop-shadow(0 0 18px rgba(255,230,0,.25))}
+.stamp circle{fill:none;stroke:var(--yellow)}
+.stamp .r1{stroke-width:5}
+.stamp .r2{stroke-width:2;stroke-dasharray:4 5}
+.stamp text{fill:var(--yellow);font-family:var(--mono);text-anchor:middle}
+.stamp .ring{font-size:15.5px;letter-spacing:2.4px;font-weight:500;text-anchor:start}
+.stamp .big{font-family:var(--display);font-weight:800;font-size:36px}
+.stamp .small{font-size:11px;letter-spacing:2px}
+
+/* ---------- overlays ---------- */
+.ui{position:fixed;pointer-events:none}
+#brand{top:20px;left:var(--gutter);color:#fff;mix-blend-mode:difference;z-index:20;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;line-height:1.5}
+#brand b{font-family:var(--display);font-size:15px;letter-spacing:.02em;text-transform:none;display:block}
+#intro{inset:0;z-index:5;color:var(--ink)}
+#intro h1{position:absolute;left:var(--gutter);top:50%;margin:0;font-family:var(--display);font-weight:800;font-size:clamp(56px,8.4vw,170px);line-height:.85;letter-spacing:-.04em;transform-origin:0 50%;will-change:transform}
+#intro h1 small{display:block;font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:2.4vh}
+#cue{position:absolute;bottom:4.5vh;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+#cue svg{animation:bob 1.6s cubic-bezier(.5,0,.5,1) infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+/* nav */
+#nav{position:fixed;right:clamp(14px,2vw,28px);top:50%;transform:translateY(-50%);z-index:30;color:#fff;mix-blend-mode:difference}
+#nav ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+#nav a{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:4px 0}
+#nav a span{opacity:0;transform:translateX(8px);transition:opacity .3s,transform .3s}
+#nav a i{width:9px;height:9px;border:1.5px solid currentColor;border-radius:99px;transition:height .35s,background .35s}
+#nav a:hover span,#nav a:focus-visible span,#nav a.on span{opacity:1;transform:none}
+#nav a.on i{background:currentColor;height:26px}
+#nav a:focus-visible{outline:1.5px solid currentColor;outline-offset:4px}
+#mini{position:fixed;top:14px;right:clamp(10px,2vw,24px);width:50px;height:54px;z-index:30;mix-blend-mode:difference;display:block}
+#mini path{fill:none;stroke:#fff;stroke-linecap:round}
+#mini .bg{stroke-width:34;opacity:.28}
+#mini .fg{stroke-width:34}
+
+/* projets */
+#cards{inset:0;z-index:10}
+.card{position:absolute;right:calc(var(--navspace) + 70px);top:50%;width:min(460px,38vw);visibility:hidden;pointer-events:auto;will-change:transform,opacity}
+.float{animation:float 6.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-7px) rotate(-.6deg)}50%{transform:translateY(7px) rotate(.6deg)}}
+.tilt{background:#fff;border:2px solid var(--ink);border-radius:18px;box-shadow:10px 10px 0 var(--ink);overflow:hidden;transition:transform .25s ease-out,box-shadow .25s;transform-style:preserve-3d}
+.tilt:hover{box-shadow:14px 14px 0 var(--ink)}
+.band{height:12px;background:var(--c)}
+.cbody{padding:22px 24px 24px}
+.cidx{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.65;display:flex;justify-content:space-between}
+.card h3{font-family:var(--display);font-weight:800;font-size:clamp(34px,4vw,54px);letter-spacing:-.03em;margin:8px 0 2px;line-height:1;overflow-wrap:normal}
+.kind{font-family:var(--mono);font-size:12px;margin:0 0 12px;color:var(--c);filter:brightness(.85)}
+.card p.txt{margin:0 0 14px;line-height:1.45;font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 16px}
+.tags li{font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:99px;background:#f1f1f1}
+.team{font-size:12.5px;line-height:1.4;padding:10px 12px;border-left:3px solid var(--c);background:#fafafa;margin:0 0 16px}
+.go{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink);padding-bottom:2px}
+.go:hover{gap:12px}
+
+#labels{inset:0;z-index:9}
+.qlabel{position:absolute;left:0;top:0;pointer-events:auto;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;background:var(--ink);color:#fff;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:0;visibility:hidden}
+.qlabel:hover{background:var(--yellow);color:var(--ink)}
+
+#outro{inset:0;z-index:11;visibility:hidden}
+#wordmark{position:absolute;left:var(--gutter);top:24vh;margin:0;font-family:var(--display);font-weight:800;font-size:clamp(56px,10vw,200px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
+.qslot{display:inline-block;vertical-align:baseline}
+.wl{display:inline-block;opacity:0;will-change:transform,opacity}
+.mbr{display:none}
+.contact2{position:absolute;left:var(--gutter);right:calc(var(--navspace) + 30px);bottom:11vh;display:grid;grid-template-columns:1.2fr 1fr;gap:3vh 5vw;align-items:end;opacity:0}
+.ask{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,64px);line-height:.95;letter-spacing:-.03em;margin:0}
+#outro .links{display:flex;flex-direction:column;gap:10px;pointer-events:auto}
+#outro .links a{font-size:clamp(16px,1.6vw,22px);font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink);width:fit-content}
+#outro .links a:hover{background:var(--yellow)}
+.where{font-family:var(--mono);font-size:12px;margin:2.4vh 0 0;line-height:1.7}
+.card.left{right:auto;left:calc(var(--gutter) + 10px)}
+
+@media (max-width:1280px){
+  .wedge[data-k="0"] .cols{grid-template-columns:1fr;gap:1.8vh}
+  .wedge[data-k="0"] .facts{display:flex;flex-wrap:wrap;gap:2px 18px;margin-bottom:1.4vh}
+}
+@media (max-width:760px){
+  :root{--navspace:52px}
+  #nav a span{display:none}
+  #nav ol{gap:12px}
+  .cols,.xp,.edu{grid-template-columns:1fr;gap:1.6vh}
+  .skills{grid-template-columns:1fr 1fr;gap:1.4vh 4vw}
+  .opt{display:none}
+  .card{left:16px;right:16px;width:auto;top:auto;bottom:4vh;margin-top:0}
+  .cbody{padding:16px 18px 18px}
+  .card p.txt{font-size:14px}
+  #wordmark{top:16vh;white-space:normal;line-height:.92;font-size:17vw}
+  .mbr{display:block}
+  .contact2{grid-template-columns:1fr;right:var(--navspace);bottom:7vh}
+  #intro h1{top:clamp(80px,14vh,140px)}
+  .xhead{align-items:flex-start}
+  .role{text-align:left}
+  .counters{grid-template-columns:1fr 1fr}
+  .counters>div:nth-child(3){border-left:0;padding-left:0}
+  .counters>div:nth-child(n+3){border-top:1.5px solid rgba(255,255,255,.35)}
+  .xp2{right:var(--navspace);gap:10px}
+  .xp2 h2{font-size:36px}
+  .story{font-size:13px;line-height:1.38}
+  .counters b{font-size:24px}
+  .counters span{font-size:10px}
+  .cases{grid-template-columns:1fr;gap:7px}
+  .case{padding:7px 11px;box-shadow:4px 4px 0 #0b0b0b;border-radius:11px}
+  .case h3{font-size:15px;margin:2px 0 0}
+  .ctag{font-size:9.5px}
+  .now span:last-child{display:none}
+  .cname{font-size:12.5px}
+  .case p:not(.ctag),.case ul{display:none}
+  .minimap{display:none}
+  .now span:first-child{font-size:10px}
+  .edu2{right:calc(var(--navspace) + 104px);bottom:3vh}
+  .stamp{width:96px;bottom:2.5vh}
+  .star text{font-size:9.5px}
+  .programme{top:auto;bottom:4vh;left:var(--gutter);right:var(--navspace);width:auto;padding:10px 12px 12px;box-shadow:4px 4px 0 var(--ink)}
+  #pgText{font-size:11.5px}
+  html[data-sk="theatre"] .edu2,html[data-sk="theatre"] .stamp{bottom:auto;top:62vh}
+  .logbook{top:58vh;left:var(--gutter);right:var(--navspace);width:auto;padding:9px 12px}
+  .lbskills{font-size:10px}
+  #lbText{font-size:11.5px;line-height:1.4}
+  .star text{display:none}
+  .star .halo{opacity:0!important}
+  .cfam{font-size:8px}
+  .edu2 .opt{display:none}
+  .wedge[data-k="0"]{--photo:92px}
+  .bar.ink{display:none}
+  .wedge[data-k="0"] .blk{right:var(--navspace)}
+  .wedge[data-k="0"] .mega{font-size:clamp(28px,8vw,60px)}
+  .photo{top:43%;right:calc(var(--navspace) + 6px)}
+  .photo .frame{box-shadow:6px 6px 0 var(--ink);border-radius:14px}
+  .wip{font-size:9px;left:-30px;padding:4px 7px}
+  .wip b{font-size:10px}
+  #mini{width:40px;height:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  .float,#cue svg{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div id="track" aria-hidden="true">
+  <div class="anchor" id="intro-a"></div>
+  <div class="anchor" id="profil"></div>
+  <div class="anchor" id="experiences"></div>
+  <div class="anchor" id="competences"></div>
+  <div class="anchor" id="projets"></div>
+  <div class="anchor" id="contact"></div>
+</div>
+
+<main class="stage" id="stage">
+  <svg id="q" aria-hidden="true">
+    <g id="cam">
+      <path id="qpath"/>
+      <path id="qtailIn" class="qtail"/>
+      <path id="qprog"/>
+      <path id="qtailProg"/>
+      <circle id="qcore" r="22"/>
+      <g id="stops"></g>
+      <circle id="traveler" r="10"/>
+    </g>
+  </svg>
+
+  <div id="piecam">
+    <div id="pie">
+      <!-- 01 PROFIL -->
+      <section class="wedge" data-k="0" aria-labelledby="h-profil">
+        <div class="wc">
+          <div class="deco" aria-hidden="true">
+            <span class="bar" data-sp="1.0" style="width:78vw;height:11vh;left:-12vw;top:16vh"></span>
+            <span class="bar" data-sp="-.7" style="width:64vw;height:7vh;left:30vw;top:58vh"></span>
+            <span class="bar" data-sp=".55" style="width:52vw;height:15vh;left:-8vw;top:72vh"></span>
+            <span class="bar" data-sp="-1.2" style="width:46vw;height:4vh;left:48vw;top:6vh"></span>
+            <span class="bar line" data-sp=".9" style="width:40vw;height:9vh;left:58vw;top:34vh"></span>
+          </div>
+          <!-- traits noirs confinés à la colonne de la photo : jamais sous le texte -->
+          <div class="deco deco-r" aria-hidden="true">
+            <span class="bar ink" data-sp="-.9" style="width:150%;height:2.6vh;left:-25%;top:20vh"></span>
+            <span class="bar ink" data-sp=".8" style="width:120%;height:1.6vh;left:-10%;top:76vh"></span>
+            <span class="bar ink" data-sp="-.6" style="width:90%;height:5vh;left:0;top:62vh"></span>
+          </div>
+          <figure class="photo" id="photo">
+            <div class="frame"><img src="/cv/quentin-wip.webp" alt="Portrait de Quentin Levis" width="800" height="800" loading="lazy" decoding="async"></div>
+            <figcaption class="wip"><b>Photo WIP</b>la version pro arrive</figcaption>
+          </figure>
+          <div class="blk top">
+            <p class="eyebrow" data-d="0">01 — Profil · Quentin Levis</p>
+            <h2 class="mega" id="h-profil" data-d="1">Développeur<br>Fullstack</h2>
+          </div>
+          <div class="blk bot">
+            <div class="cols">
+              <p class="lead" data-d="1">Je conçois des applications web sur mesure, du cahier des charges à la mise en production : plateformes e-commerce, outils métier, back-offices multiclients. Certifié <b>Opquast Qualité Web</b>, je soigne l'accessibilité, la performance et la maintenabilité du code.</p>
+              <div data-d="2">
+                <ul class="facts">
+                  <li>Lyon — mobile Ardennes, Grand Est</li>
+                  <li>Ouvert au full remote</li>
+                  <li>Anglais · Permis B</li>
+                </ul>
+                <ul class="chips">
+                  <li>Esprit d'équipe</li><li>Autonome</li><li>Motivé</li><li class="opt">Relation client</li><li class="opt">Organisé</li><li class="opt">Polyvalent</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 EXPERIENCES : focus Pégase-Market -->
+      <section class="wedge" data-k="1" aria-labelledby="h-xp">
+        <div class="wc">
+          <div class="xp2">
+            <div class="xhead">
+              <div data-r="0">
+                <p class="eyebrow">02 — Expériences · fév. 2021 → déc. 2022 · Laval</p>
+                <h2 id="h-xp">Pégase-Market</h2>
+              </div>
+              <p class="role" data-r="1">Développeur Fullstack<br><span>Symfony · React · Angular</span></p>
+            </div>
+            <div class="counters">
+              <div data-r="1"><b><em data-count="210">0</em></b><span>adhérents sur Dompro</span></div>
+              <div data-r="2"><b><em data-count="3">0</em></b><span>plateformes en production</span></div>
+              <div data-r="3"><b><em data-count="3">0</em></b><span>devs coordonnés en Agile</span></div>
+              <div data-r="4"><b><em data-count="70">0</em><small>&nbsp;%</small></b><span>de front, à la demande de l'équipe</span></div>
+            </div>
+            <p class="story" data-r="4">J'ai repensé le back-end de <b>Tolteam</b> pour en faire une boutique internationale, conçu la <b>carte de géolocalisation de Dompro</b> qui oriente chaque visiteur vers l'un des 210 adhérents, et mis en place la CI/CD testée de l'équipe. Remarqué pour mon sens de l'interface, j'ai vu mon poste évoluer vers <b>70&nbsp;% de front</b>.</p>
+            <div class="cases">
+              <article class="case" data-r="5">
+                <p class="ctag">Cas 01 · Tolteam</p>
+                <h3>Du vitrine à l'e-commerce</h3>
+                <p>Back-end entièrement repensé pour transformer le site vitrine en boutique, traductions FR/EN avec le composant Translation de Symfony.</p>
+                <ul><li>Symfony</li><li>Translation</li><li>E-commerce</li></ul>
+              </article>
+              <article class="case" data-r="6">
+                <svg class="minimap" viewBox="0 0 120 70" aria-hidden="true">
+                  <g class="pins"><circle cx="18" cy="16" r="3"/><circle cx="96" cy="12" r="3"/><circle cx="104" cy="52" r="3"/><circle cx="30" cy="58" r="3"/><circle cx="74" cy="34" r="3.6" class="near"/></g>
+                  <line x1="50" y1="44" x2="74" y2="34" class="route"/>
+                  <circle cx="50" cy="44" r="4.5" class="me"/><circle cx="50" cy="44" r="4.5" class="pulse"/>
+                </svg>
+                <p class="ctag">Cas 02 · Dompro</p>
+                <h3>La carte des adhérents</h3>
+                <p>Carte interactive qui situe le visiteur et lui propose le plus proche des 210 adhérents : beaucoup de calcul géographique. Chaque adhérent a son propre site Dompro.</p>
+                <ul><li>Géolocalisation</li><li>Maths</li><li>Multi-sites</li></ul>
+              </article>
+              <article class="case" data-r="7">
+                <p class="ctag">Cas 03 · Qualité</p>
+                <h3>Livrer sans casser</h3>
+                <p>Pipeline CI/CD GitLab mise en place de A à Z : tests unitaires et fonctionnels PHPUnit, Docker. Chaque livraison est vérifiée avant la production.</p>
+                <ul><li>Git</li><li>GitLab CI</li><li>PHPUnit</li><li>Docker</li></ul>
+              </article>
+            </div>
+            <p class="now" data-r="8"><span>Travail d'équipe réalisé dans le cadre de mon salariat chez Pégase-Market.</span><span><b>Aujourd'hui →</b> freelance LevisWeb depuis 2023 · LevisHub (Next.js 15, Prisma, Stripe)<em class="opt"> · Avant : stage Optimistik, 2020</em></span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 COMPETENCES : constellation -->
+      <section class="wedge" data-k="2" aria-labelledby="h-skills">
+        <div class="wc">
+          <div class="sky" id="sky">
+            <svg id="skysvg" aria-hidden="true"><g id="farstars"></g><g id="nearstars"></g><g id="consts"></g></svg>
+          </div>
+          <!-- version théâtre (par défaut) -->
+          <div class="theatre" id="theatre">
+            <svg id="thsvg" aria-hidden="true"></svg>
+            <div class="lids" id="lids" aria-hidden="true"><i></i><i></i></div>
+            <div class="coups" id="coups" aria-hidden="true"><div class="eq" id="eq"></div><span>Les trois coups</span></div>
+            <aside class="programme" id="programme" aria-live="polite">
+              <p class="eyebrow">Programme · <span id="pgAct">Ce soir</span></p>
+              <h3 id="pgTitle">Six lieux, six familles</h3>
+              <p id="pgText"></p>
+              <p class="pgskills" id="pgSkills"></p>
+            </aside>
+          </div>
+          <div class="skyhead" data-r="0">
+            <p class="eyebrow">03 — Compétences</p>
+            <h2 id="h-skills">Mon ciel</h2>
+          </div>
+          <aside class="logbook" data-r="1" aria-live="polite">
+            <p class="eyebrow">Carnet d'observation · <span id="lbFam">6 constellations</span></p>
+            <h3 id="lbTitle">De vraies étoiles</h3>
+            <p id="lbText">Chaque famille de compétences a pris la forme d'une vraie constellation, étoiles à leur place, éclat selon leur magnitude. Survolez-en une (ou touchez-la) pour savoir pourquoi elle a été choisie.</p>
+            <p class="lbskills" id="lbSkills"></p>
+          </aside>
+          <ul class="sr-only" id="skilllist"></ul>
+          <div class="edu2" data-r="6">
+            <p><span class="meta">2020</span> Diplôme Développeur web &amp; web mobile — Simplon Chambéry</p>
+            <p><span class="meta">2014</span> Piscine 42 — École 42 Paris</p>
+            <p class="opt"><span class="meta">Hors écran</span> théâtre · astronomie · piano, violon, guitare</p>
+          </div>
+          <div class="stamp" id="stamp" data-r="7">
+            <svg viewBox="0 0 200 200" role="img" aria-label="Certifié Expert qualité Web Opquast, niveau confirmé, 2020">
+              <defs><path id="stampc" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+              <circle cx="100" cy="100" r="94" class="r1"/><circle cx="100" cy="100" r="58" class="r2"/>
+              <text class="ring"><textPath href="#stampc" startOffset="0">CERTIFIÉ ★ EXPERT QUALITÉ WEB ★ OPQUAST ★ </textPath></text>
+              <text x="100" y="94" class="big">2020</text>
+              <text x="100" y="116" class="small">NIVEAU</text>
+              <text x="100" y="130" class="small">CONFIRMÉ</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="iris" aria-hidden="true"></div>
+
+  <div class="ui" id="intro" aria-hidden="false">
+    <h1 id="introTitle"><small>Quentin Levis · CV interactif</small>Mon<br>CV</h1>
+    <div id="cue" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="18" height="30" viewBox="0 0 18 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 2v24M2 19l7 7 7-7"/></svg>
+    </div>
+  </div>
+
+  <div class="ui" id="cards"></div>
+  <!-- fin : le Q spirale devient la première lettre du nom -->
+  <section class="ui" id="outro" aria-labelledby="wordmark">
+    <h2 id="wordmark" aria-label="Quentin Levis"><span class="qslot" id="qslot" aria-hidden="true"></span></h2>
+    <div class="contact2" id="contact2">
+      <div>
+        <p class="eyebrow">05 — Contact</p>
+        <p class="ask">On construit quelque chose&nbsp;?</p>
+      </div>
+      <div>
+        <div class="links">
+          <a href="mailto:quentinlevis@gmail.com">quentinlevis@gmail.com</a>
+          <a href="https://gitlab.com/quentinle" target="_blank" rel="noopener">gitlab.com/quentinle ↗</a>
+        </div>
+        <p class="where">Lyon · mobile Ardennes, Grand Est · ouvert au full remote</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="loader" role="status" aria-live="polite">
+  <div class="lwrap">
+    <svg id="lq" aria-hidden="true"><path class="lbg"/><path class="lbg tin"/><path class="lfg"/></svg>
+    <p><b id="lpct">0</b><span>%</span></p>
+    <small>Mise en orbite de l'univers…</small>
+  </div>
+</div>
+
+<div class="ui" id="brand"><b>Quentin Levis</b>Développeur Fullstack</div>
+
+<svg id="mini" viewBox="-240 -240 570 600" aria-hidden="true"><path class="bg"/><path class="bg tin"/><path class="fg"/></svg>
+
+<nav id="nav" aria-label="Sections du CV">
+  <ol>
+    <li><a href="#intro-a" data-t="intro"><span>Intro</span><i></i></a></li>
+    <li><a href="#profil" data-t="profil"><span>Profil</span><i></i></a></li>
+    <li><a href="#experiences" data-t="experiences"><span>Expériences</span><i></i></a></li>
+    <li><a href="#competences" data-t="competences"><span>Compétences</span><i></i></a></li>
+    <li><a href="#projets" data-t="projets"><span>Projets</span><i></i></a></li>
+    <li><a href="#contact" data-t="contact"><span>Contact</span><i></i></a></li>
+  </ol>
+</nav>
+
+<script src="/cv/theatre.js"></script>
+<script>
+(() => {
+  /* ================= helpers ================= */
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lerpP = (p, q, t) => [lerp(p[0], q[0], t), lerp(p[1], q[1], t)];
+  const expl = (a, b, t) => a * Math.pow(b / a, t);
+  const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const eout = t => 1 - Math.pow(1 - t, 3);
+  const ss = t => t * t * (3 - 2 * t);
+  const mix = (a, b, t) => `rgb(${a.map((v, i) => Math.round(lerp(v, b[i], t))).join(',')})`;
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= projets ================= */
+  const TEAM = "Travail d'équipe réalisé dans le cadre de mon salariat chez Pégase-Market.";
+  const PROJECTS = [
+    { name: 'Dompro', url: 'https://www.dompro.fr/', host: 'dompro.fr', c: '#D71A21', kind: 'Plateforme B2B',
+      txt: 'Catalogue, gestion clients et commandes pour un réseau de plus de 210 points de vente partenaires.',
+      tags: ['Symfony', 'API Platform', 'React', 'MySQL'], team: true },
+    { name: 'Tolteam', url: 'https://tolteam.fr/fr/', host: 'tolteam.fr', c: '#EB0029', kind: 'E-commerce international',
+      txt: 'Transformation du site vitrine en boutique multilingue, avec CMS maison et SEO intégré.',
+      tags: ['Symfony', 'CMS maison', 'Multilingue', 'SEO'], team: true },
+    { name: 'Abrivert', url: 'https://www.abrivert.com/', host: 'abrivert.com', c: '#6E9A12', kind: "Habitat du cheval",
+      txt: 'Nouvelles fonctionnalités front et outils internes pour le spécialiste des écuries et abris.',
+      tags: ['Symfony', 'React', 'VueJS', 'jQuery'], team: true },
+    { name: 'Maïeutique', url: 'https://maieutique.app/accueil', host: 'maieutique.app', c: '#2563EB', kind: 'SaaS éducatif · IA',
+      txt: "IA socratique d'aide aux devoirs, du CP à la 3e, pensée pour les profils TDAH : elle guide sans jamais donner la réponse.",
+      tags: ['Next.js', 'TypeScript', 'IA'] },
+    { name: 'Bergerie de Saint-Pierre', url: 'https://www.bergerie-de-st-pierre.fr/', host: 'bergerie-de-st-pierre.fr', c: '#E8461E', kind: 'Site & boutique · LevisWeb',
+      txt: 'Site vitrine et boutique en ligne d’une bergerie artisanale en Savoie : fromages et yaourts au lait de brebis.',
+      tags: ['WordPress', 'WooCommerce', 'Elementor'] },
+  ];
+  const STOP_FR = [0.17, 0.37, 0.57, 0.77, 0.97];
+
+  const cardsEl = $('#cards');
+  // lettres « uentin Levis » qui viendront se ranger derrière le Q
+  const wm = $('#wordmark'), qslot = $('#qslot');
+  [...'uentin Levis'].forEach(ch => {
+    if (ch === ' ') { wm.insertAdjacentHTML('beforeend', '<span class="wl" aria-hidden="true">&nbsp;</span><br class="mbr">'); return; }
+    const sp = document.createElement('span'); sp.className = 'wl'; sp.setAttribute('aria-hidden', 'true'); sp.textContent = ch; wm.appendChild(sp);
+  });
+  const wls = $$('.wl'), contact2 = $('#contact2');
+  PROJECTS.forEach((p, i) => {
+    const c = document.createElement('article');
+    c.className = 'card'; c.style.setProperty('--c', p.c);
+    c.innerHTML = `<div class="float"><div class="tilt"><div class="band"></div><div class="cbody">
+      <div class="cidx"><span>Projet ${String(i + 1).padStart(2, '0')} / 0${PROJECTS.length}</span><span>${p.host}</span></div>
+      <h3>${p.name}</h3><p class="kind">${p.kind}</p>
+      <p class="txt">${p.txt}</p>
+      <ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join('')}</ul>
+      ${p.team ? `<p class="team">${TEAM}</p>` : ''}
+      <a class="go" href="${p.url}" target="_blank" rel="noopener">Voir le site <span aria-hidden="true">↗</span></a>
+    </div></div></div>`;
+    cardsEl.appendChild(c);
+  });
+  const cards = $$('.card');
+
+  // hover tilt
+  if (!RM) cards.forEach(card => {
+    const t = card.querySelector('.tilt');
+    card.addEventListener('pointermove', e => {
+      const r = t.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      t.style.transform = `perspective(900px) rotateX(${-y * 9}deg) rotateY(${x * 11}deg) translateZ(0)`;
+    });
+    card.addEventListener('pointerleave', () => t.style.transform = '');
+  });
+
+  /* ================= le Q (spirale) ================= */
+  // Spirale horaire qui se termine en bas à droite (45°), puis la queue du Q
+  // part en diagonale et traverse l'anneau extérieur : c'est elle qui fait lire « Q ».
+  const R0 = 22, TURNS = 2.75, REND = 210, TAU = Math.PI * 2;
+  const K = (REND - R0) / (TURNS * TAU);
+  const PHI_END = Math.PI / 4, PHI_START = PHI_END - TURNS * TAU;
+  const U = [Math.SQRT1_2, Math.SQRT1_2], TAIL_OUT = 175, TAIL_IN_R = 160;
+  const E = [REND * U[0], REND * U[1]];
+  function buildQ() {
+    const N = Math.ceil(TURNS * TAU / 0.035);
+    let d = '';
+    for (let i = 0; i <= N; i++) {
+      const th = i / N * TURNS * TAU, r = R0 + K * th, ph = PHI_START + th;
+      d += (i ? 'L' : 'M') + (r * Math.cos(ph)).toFixed(2) + ' ' + (r * Math.sin(ph)).toFixed(2);
+    }
+    d += `L${(E[0] + U[0] * TAIL_OUT).toFixed(2)} ${(E[1] + U[1] * TAIL_OUT).toFixed(2)}`;
+    return d;
+  }
+  const QD = buildQ();
+  const TD = `M${(TAIL_IN_R * U[0]).toFixed(2)} ${(TAIL_IN_R * U[1]).toFixed(2)}L${E[0].toFixed(2)} ${E[1].toFixed(2)}`;
+  const qpath = $('#qpath'), qprog = $('#qprog'), cam = $('#cam'), traveler = $('#traveler');
+  qpath.setAttribute('d', QD); qprog.setAttribute('d', QD); $('#qtailIn').setAttribute('d', TD);
+  const qtailProg = $('#qtailProg'), qcore = $('#qcore'), qtailIn = $('#qtailIn');
+  qtailProg.setAttribute('d', TD);
+  $$('#mini path, #lq path').forEach(p => p.setAttribute('d', p.classList.contains('tin') ? TD : QD));
+
+  /* ================= écran de chargement ================= */
+  // On attend les polices, la page (photo…) et la scène 3D, puis le Q se dessine jusqu'au bout et le rideau se lève.
+  document.documentElement.classList.add('loading');
+  const gates = { fonts: 0, page: 0, gl: document.documentElement.dataset.sk3d ? 0 : 1 };
+  window.__sk3dDone = () => { gates.gl = 1; };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { gates.fonts = 1; });
+  if (document.readyState === 'complete') gates.page = 1; else addEventListener('load', () => { gates.page = 1; });
+  setTimeout(() => { gates.fonts = gates.page = gates.gl = 1; }, 12000); // filet de sécurité
+  const lfg = $('#lq .lfg'), lpct = $('#lpct'), loaderEl = $('#loader'), t0 = performance.now();
+  let shown = 0, loaded = false, lastT = performance.now();
+  function tickLoader(now) {
+    const target = gates.fonts * .2 + gates.page * .3 + gates.gl * .5, dt = Math.min(.25, (now - lastT) / 1000); lastT = now;
+    // monte vers la cible au rythme du temps réel (≈ 1 s si tout est prêt), sans dépasser 92 % tant que tout n'est pas chargé
+    shown = Math.min(target < 1 ? .92 : 1, shown + Math.max(dt * .9, (target - shown) * Math.min(1, dt * 5)));
+    lfg.style.strokeDashoffset = (1 - shown) * Lfull;
+    lpct.textContent = Math.round(shown * 100);
+    if (shown >= .999 && now - t0 > 900) {
+      loaded = true; loaderEl.classList.add('done');
+      document.documentElement.classList.remove('loading');
+      if (lenis) lenis.start();
+      return;
+    }
+    requestAnimationFrame(tickLoader);
+  }
+  const Lfull = lfg.getTotalLength(); lfg.style.strokeDasharray = Lfull;
+  requestAnimationFrame(tickLoader);
+  const Lt = qpath.getTotalLength();
+  qprog.style.strokeDasharray = Lt;
+  const miniFg = $('#mini .fg');
+  miniFg.style.strokeDasharray = Lt;
+
+  const Ls = STOP_FR.map(f => f * Lt);
+  const stopPts = Ls.map(L => qpath.getPointAtLength(L));
+  const stopsG = $('#stops');
+  const stopEls = stopPts.map(p => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 12); c.setAttribute('class', 'stop');
+    stopsG.appendChild(c); return c;
+  });
+  const bb = qpath.getBBox();
+  const BW = bb.width + 26, BH = bb.height + 26, BBC = [bb.x + bb.width / 2, bb.y + bb.height / 2];
+  ['#mini', '#lq'].forEach(s => $(s).setAttribute('viewBox', `${bb.x - 24} ${bb.y - 24} ${bb.width + 48} ${bb.height + 48}`));
+
+  /* ================= timeline (en vh) ================= */
+  // Section compétences : le théâtre par défaut. Anciennes versions : ?v=2d (constellations), ?v=galaxie | planetarium | solaire (3D).
+  const qv = new URLSearchParams(location.search).get('v');
+  const SK = ['solaire', 'planetarium', 'galaxie', '2d'].includes(qv) ? qv : 'theatre';
+  document.documentElement.dataset.sk = SK;
+  if (!['2d', 'theatre'].includes(SK)) document.documentElement.dataset.sk3d = SK;
+  if (SK === 'theatre') $('#h-skills').textContent = 'En scène';
+  const P3 = { theatre: 1000, galaxie: 620, planetarium: 380, solaire: 380, '2d': 170 }[SK]; // plus de scroll = animation plus lente
+  const ACTS = [['intro', 35], ['dive', 120], ['p1', 230], ['rot1', 100], ['p2', 170], ['rot2', 100], ['p3', P3], ['close', 80], ['dezoom', 130], ['walk', 620], ['outro', 110]];
+  const A = {};
+  let W, H, mobile, C, I, s0, sEnd, d, R, pieC, sw, anchorW, ANCH, s3, O3, total, maxScroll, NAV = {};
+  const KOUT = 1.6, RB = REND + 13 * KOUT;            // trait épaissi quand le Q devient une lettre
+  const QW = RB + E[0] + U[0] * TAIL_OUT + 13 * KOUT; // largeur du Q, de l'anneau gauche au bout de la queue
+
+  const track = $('#track'), piecam = $('#piecam'), pie = $('#pie'), svg = $('#q'), iris = $('#iris');
+  const bars = $$('.bar'), photo = $('#photo');
+  const wedges = $$('.wedge').map(el => ({
+    el, wc: el.querySelector('.wc'),
+    top: el.querySelector('.blk.top'), bot: el.querySelector('.blk.bot'),
+    tk: [...el.querySelectorAll('.blk.top [data-d]')], bk: [...el.querySelectorAll('.blk.bot [data-d]')],
+    rv: [...el.querySelectorAll('[data-r]')], counts: [...el.querySelectorAll('[data-count]')],
+  }));
+
+  /* ================= constellation des compétences ================= */
+  const NS = 'http://www.w3.org/2000/svg';
+  const mk = (tag, attrs = {}, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
+  const USE = {
+    'React 19': 'Dompro · Tolteam · Abrivert', 'Next.js 15': 'LevisHub', 'TypeScript': 'LevisHub', 'Angular 19': 'Pégase-Market',
+    'VueJS': 'Tolteam · Dompro · Abrivert', 'Tailwind': 'LevisHub', 'Symfony 6/7': 'Dompro · Tolteam · LevisWeb',
+    'API Platform': 'outils internes Pégase', 'Node.js': 'LevisHub', 'PostgreSQL': 'LevisHub', 'MySQL': 'Dompro · Tolteam',
+    'Prisma': 'LevisHub', 'Doctrine': 'projets Symfony', 'GSAP': 'LevisHub', 'Motion': 'LevisHub', 'Lenis': 'ce CV · LevisHub',
+    'Stripe': 'LevisHub', 'Webhooks': 'Stripe · LevisHub', 'SMTP': 'LevisHub', 'Git': 'Pégase-Market · LevisWeb',
+    'GitLab CI': 'pipeline mise en place chez Pégase', 'PHPUnit': 'Pégase-Market', 'Docker': 'Pégase-Market',
+    'Accessibilité': 'certifié Opquast',
+  };
+  // Vraies constellations : étoiles à leur place (projection simplifiée) et magnitude réelle
+  // [compétence, étoile, magnitude, x, y] — plus la magnitude est petite, plus l'étoile brille.
+  const CONSTS = [
+    { n: 'Grande Ourse', f: 'Front-end',
+      story: "7 étoiles, 7 technos front. C'est la constellation que tout le monde reconnaît du premier coup d'œil — comme une interface, la première chose qu'on voit. Et ses deux étoiles du bout, Dubhe et Merak, pointent vers l'étoile Polaire : le front guide l'utilisateur.",
+      s: [['TypeScript', 'Alkaid', 1.86, 0, .3], ['Angular 19', 'Mizar', 2.2, .2, .14], ['React 19', 'Alioth', 1.77, .37, .1], ['SCSS', 'Megrez', 3.3, .53, .18], ['Tailwind', 'Phecda', 2.44, .57, .5], ['VueJS', 'Merak', 2.37, .9, .56], ['Next.js 15', 'Dubhe', 1.79, .94, .2]],
+      e: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
+    { n: 'Orion', f: 'Back-end',
+      story: "Le chasseur, la charpente du ciel d'hiver. Le back-end, c'est pareil : invisible quand tout va bien, mais tout repose dessus. Rigel, l'étoile la plus brillante, c'est Symfony ; et la ceinture de trois étoiles alignées, mes trois langages côté serveur.",
+      s: [['API Platform', 'Bételgeuse', .5, .12, .06], ['NextAuth', 'Bellatrix', 1.64, .78, .14], ['PHP objet', 'Alnitak', 1.77, .38, .5], ['Node.js', 'Alnilam', 1.69, .49, .46], ['.NET C#', 'Mintaka', 2.23, .6, .41], ['Java Spring', 'Saiph', 2.07, .22, .92], ['Symfony 6/7', 'Rigel', .13, .86, .86]],
+      e: [[0, 2], [1, 4], [2, 3], [3, 4], [2, 5], [4, 6], [0, 1]] },
+    { n: 'Cassiopée', f: 'Données',
+      story: "La reine en W : cinq étoiles, cinq façons de ranger les données. Depuis la France, elle ne passe jamais sous l'horizon — exactement ce qu'on attend d'une base de données : être toujours là pour répondre.",
+      s: [['Prisma', 'Caph', 2.28, 0, .22], ['PostgreSQL', 'Schedar', 2.24, .26, .78], ['MySQL', 'Navi', 2.15, .5, .36], ['Doctrine', 'Ruchbah', 2.66, .74, .72], ['Entity Framework', 'Segin', 3.35, 1, .3]],
+      e: [[0, 1], [1, 2], [2, 3], [3, 4]] },
+    { n: 'La Lyre', f: 'Animation & UI',
+      story: "L'instrument d'Orphée, avec Véga, l'une des étoiles les plus brillantes du ciel. Je joue du piano, du violon et de la guitare : animer une interface, c'est lui donner du rythme. GSAP en est la Véga.",
+      s: [['GSAP', 'Véga', .03, .36, .04], ['Lenis', 'Epsilon', 4.7, .1, .14], ['Motion', 'Zeta', 4.3, .42, .32], ['Responsive', 'Delta', 4.3, .66, .38], ['Dark mode', 'Sulafat', 3.25, .84, .9], ['Accessibilité', 'Sheliak', 3.5, .52, .86]],
+      e: [[0, 1], [0, 2], [1, 2], [2, 3], [3, 4], [4, 5], [5, 2]] },
+    { n: 'La Flèche', f: 'Intégrations',
+      story: "Petite constellation au cœur du Triangle d'été, toute en direction : elle relie un point à un autre. C'est le rôle d'une intégration — un paiement Stripe, un webhook, un e-mail qui part au bon moment.",
+      s: [['SMTP', 'Alpha Sge', 4.4, .04, .28], ['API tierces', 'Beta Sge', 4.4, .12, .74], ['Webhooks', 'Delta Sge', 3.8, .52, .52], ['Stripe', 'Gamma Sge', 3.5, .96, .34]],
+      e: [[0, 2], [1, 2], [2, 3]] },
+    { n: 'Le Cygne', f: 'DevOps & qualité',
+      story: "La Croix du Nord, une colonne vertébrale qui traverse toute la Voie lactée — comme le DevOps relie le code à la production. Git en tête avec Deneb, la CI au centre. Et Albireo, au bout, est une étoile double, l'une jaune, l'autre bleue : dev et ops, l'esprit Agile.",
+      s: [['Git', 'Deneb', 1.25, .5, .02], ['GitLab CI', 'Sadr', 2.23, .5, .36], ['Docker', 'Gienah', 2.48, .1, .52], ['PHPUnit', 'Fawaris', 2.87, .9, .22], ['Jenkins', 'Eta Cyg', 3.9, .5, .64], ['Agile', 'Albireo', 3.05, .5, .96]],
+      e: [[0, 1], [1, 4], [4, 5], [2, 1], [1, 3]] },
+  ];
+  const LPOS = {
+    Alkaid: 'b', Mizar: 't', Alioth: 't', Megrez: 'r', Phecda: 'b', Merak: 'b', Dubhe: 't',
+    'Bételgeuse': 'r', Bellatrix: 'r', Alnitak: 'l', Alnilam: 'b', Mintaka: 'r', Saiph: 'b', Rigel: 'b',
+    Caph: 't', Schedar: 'b', Navi: 't', Ruchbah: 'b', Segin: 't',
+    'Véga': 'r', Epsilon: 'l', Zeta: 'l', Delta: 'r', Sulafat: 'r', Sheliak: 'l',
+    'Alpha Sge': 't', 'Beta Sge': 'b', 'Delta Sge': 'b', 'Gamma Sge': 't',
+    Deneb: 'r', Sadr: 'l', Gienah: 'b', Fawaris: 'r', 'Eta Cyg': 'r', Albireo: 'r',
+  };
+  $('#skilllist').innerHTML = CONSTS.map(c => `<li>${c.f} (${c.n}) : ${c.s.map(s => s[0]).join(', ')}</li>`).join('');
+  let SKY = [], TRAILS = [], PIV = [0, 0], skyH = .5, skyOn = false, vel = 0;
+  const skysvg = $('#skysvg'), farG = $('#farstars'), nearG = $('#nearstars'), constG = $('#consts');
+  const lbTitle = $('#lbTitle'), lbText = $('#lbText'), lbFam = $('#lbFam');
+  function showStory(i) {
+    SKY.forEach((c, j) => c.g.classList.toggle('on', j === i));
+    const c = CONSTS[i];
+    const byFam = ['solaire', 'galaxie'].includes(document.documentElement.dataset.sk3d);
+    lbFam.textContent = byFam ? c.n : c.f; lbTitle.textContent = byFam ? c.f : c.n; lbText.textContent = c.story;
+    $('#lbSkills').textContent = c.s.map(s => s[0]).join(' · ');
+  }
+  function buildSky() {
+    [farG, nearG, constG].forEach(g => g.replaceChildren());
+    skysvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    // étoile Polaire : le pivot autour duquel tourne le ciel
+    PIV = mobile ? [W * .7, H * .15] : [W * .44, H * .24];
+    const RMAX = Math.hypot(W, H);
+    TRAILS = [];
+    for (let i = 0; i < 230; i++) {
+      const r = Math.sqrt(rnd()) * RMAX, th = rnd() * TAU, w = (rnd() * 1.4 + .6).toFixed(2);
+      const p = mk('path', { class: 'trail' + (rnd() < .4 ? ' tw' : ''), 'stroke-width': w }, farG);
+      p.style.animationDelay = (rnd() * 3.2).toFixed(2) + 's';
+      p.style.opacity = (.3 + rnd() * .6).toFixed(2);
+      TRAILS.push({ p, r, th });
+    }
+    const pol = mk('g', { class: 'polaris', transform: `translate(${PIV[0].toFixed(1)} ${PIV[1].toFixed(1)})` }, nearG);
+    mk('circle', { r: 9, class: 'pglow' }, pol); mk('circle', { r: 3.4, class: 'pcore' }, pol);
+    const pt = mk('text', { x: 0, y: 22, 'text-anchor': 'middle' }, pol); pt.textContent = 'Polaire · Fullstack';
+
+    const nav = mobile ? 52 : Math.min(150, Math.max(64, W * .09)), gut = Math.min(96, Math.max(20, W * .06));
+    const cols = mobile ? 2 : 3, rows = mobile ? 3 : 2;
+    const top = H * (mobile ? .22 : .31), bottom = H * (mobile ? .57 : .82);
+    const cw = (W - gut - nav) / cols, ch = (bottom - top) / rows;
+    SKY = CONSTS.map((c, i) => {
+      const cx = gut + (i % cols) * cw, cy = top + Math.floor(i / cols) * ch;
+      const px = (x, y) => [cx + cw * (.1 + x * .68), cy + ch * (.3 + y * .6)];
+      const g = mk('g', { class: 'const' }, constG);
+      const nm = mk('text', { x: cx + cw * .06, y: cy + ch * .1, class: 'cname' }, g); nm.textContent = c.n;
+      const fm = mk('text', { x: cx + cw * .06, y: cy + ch * .1 + (mobile ? 13 : 17), class: 'cfam' }, g); fm.textContent = c.f.toUpperCase();
+      const lines = c.e.map(([a, b]) => {
+        const p = px(c.s[a][3], c.s[a][4]), q = px(c.s[b][3], c.s[b][4]), len = Math.hypot(q[0] - p[0], q[1] - p[1]);
+        mk('line', { x1: p[0], y1: p[1], x2: q[0], y2: q[1], class: 'chit' }, g); // zone de survol large
+        const l = mk('line', { x1: p[0], y1: p[1], x2: q[0], y2: q[1], class: 'cline' }, g);
+        l.style.strokeDasharray = len; l.style.strokeDashoffset = len; return { l, len };
+      });
+      const stars = c.s.map(([label, star, mag, x, y]) => {
+        const [sx, sy] = px(x, y), pos = LPOS[star] || (x > .62 ? 'l' : 'r');
+        const r = Math.max(1.6, 5.2 - mag * .95); // magnitude réelle → taille
+        const sg = mk('g', { class: 'star', transform: `translate(${sx.toFixed(1)} ${sy.toFixed(1)})` }, g);
+        mk('circle', { r: r + 9, class: 'halo' }, sg);
+        mk('circle', { r, class: 'core' }, sg);
+        // étiquette placée à la main pour éviter les chevauchements
+        const lx = pos === 'r' ? r + 6 : pos === 'l' ? -(r + 6) : 0;
+        const ly = pos === 't' ? -(r + 6) : pos === 'b' ? r + 13 : 4;
+        const anchor = pos === 'r' ? 'start' : pos === 'l' ? 'end' : 'middle';
+        const t = mk('text', { x: lx, y: ly, 'text-anchor': anchor }, sg); t.textContent = label;
+        if (mag < 2) t.style.fontWeight = 600;
+        const u = mk('text', { x: lx, y: pos === 't' ? ly - 13 : ly + 13, 'text-anchor': anchor, class: 'use' }, sg);
+        u.textContent = `✦ ${star}` + (USE[label] ? ` · ${USE[label]}` : '');
+        return sg;
+      });
+      g.addEventListener('pointerenter', () => showStory(i));
+      g.addEventListener('click', () => showStory(i));
+      return { g, name: nm, fam: fm, lines, stars };
+    });
+  }
+  // pose longue : chaque étoile laisse un arc autour de la Polaire, d'autant plus long qu'on scrolle vite
+  function drawTrails() {
+    const rot = (skyH - .5) * .5, d = clamp(vel * .004, -.9, .9);
+    TRAILS.forEach(({ p, r, th }) => {
+      const a1 = th + rot, a0 = a1 - (Math.abs(d) < .002 ? .0001 : d);
+      const x0 = PIV[0] + r * Math.cos(a0), y0 = PIV[1] + r * Math.sin(a0), x1 = PIV[0] + r * Math.cos(a1), y1 = PIV[1] + r * Math.sin(a1);
+      p.setAttribute('d', `M${x0.toFixed(1)} ${y0.toFixed(1)}A${r.toFixed(1)} ${r.toFixed(1)} 0 0 ${d >= 0 ? 1 : 0} ${x1.toFixed(1)} ${y1.toFixed(1)}`);
+    });
+    // en mouvement, les constellations s'effacent ; à l'arrêt, elles se dessinent
+    constG.style.opacity = (1 - clamp(Math.abs(vel) / 70) * .8).toFixed(3);
+  }
+  // versions 3D à comparer (?v=solaire | planetarium | galaxie) : le module s'enregistre dans window.SKILLS3D
+  window.CV_SKILLS = { CONSTS, USE, showStory };
+  function renderSky(e, h, x) {
+    skyH = h; skyOn = e > .001;
+    if (window.SKILLS3D) {
+      window.SKILLS3D.update(e, h, x);
+      const sky = $('#sky');
+      sky.style.opacity = 1 - x * .9;
+      return;
+    }
+    nearG.setAttribute('transform', `translate(${((.5 - h) * 30).toFixed(1)} ${((.5 - h) * -18).toFixed(1)})`);
+    SKY.forEach((c, i) => {
+      const r = clamp((e * 1.9 - .3 - i * .12) / .55);
+      c.name.style.opacity = c.fam.style.opacity = r;
+      c.lines.forEach(({ l, len }, j) => { const rl = clamp(r * 1.4 - j * .08); l.style.strokeDashoffset = (len * (1 - rl)).toFixed(1); });
+      c.stars.forEach((s, j) => { s.style.opacity = clamp(r * 2 - j * .12); });
+    });
+    drawTrails();
+    // avant la fermeture au noir : les étoiles filent vers nous (« saut en hyperespace »)
+    const sky = $('#sky');
+    sky.style.transform = x > 0 ? `scale(${(1 + x * x * 1.6).toFixed(3)})` : '';
+    sky.style.opacity = 1 - x * .9;
+  }
+  // séparateurs blancs du camembert
+  const seps = [-30, 90, 210].map(a => { const s = document.createElement('div'); s.className = 'sep'; s.dataset.a = a; pie.appendChild(s); return s; });
+
+  function layout() {
+    W = innerWidth; H = innerHeight; mobile = W < 760;
+    C = [W / 2, H / 2];
+    s0 = Math.min(W * (mobile ? .8 : .5) / BW, H * (mobile ? .5 : .68) / BH);
+    I = mobile ? [W / 2, H * .62] : [W * .64, H * .52];
+
+    // camembert : centre sous l'écran pour que la vue soit entièrement dans une part de 120°
+    d = H / 2 + W / (2 * Math.sqrt(3)) + 40;
+    R = Math.hypot(W / 2, d + H / 2) + 24;
+    pieC = [W / 2, H / 2 + d];
+    sEnd = R / R0;
+    Object.assign(pie.style, { width: 2 * R + 'px', height: 2 * R + 'px', left: W / 2 - R + 'px', top: H / 2 + d - R + 'px' });
+    const pts = [-150, -120, -90, -60, -30].map(a => {
+      const r = a * Math.PI / 180; return `${R + 1.6 * R * Math.cos(r)}px ${R + 1.6 * R * Math.sin(r)}px`;
+    });
+    wedges.forEach((w, k) => {
+      w.el.style.transformOrigin = `${R}px ${R}px`;
+      w.el.style.transform = `rotate(${k * 120}deg)`;
+      w.el.style.clipPath = `polygon(${R}px ${R}px, ${pts.join(', ')})`;
+      Object.assign(w.wc.style, { left: R - W / 2 + 'px', top: R - d - H / 2 + 'px', width: W + 'px', height: H + 'px' });
+    });
+    buildSky();
+    if (SK === 'theatre') window.CVTheatre.build(W, H, mobile);
+    seps.forEach(s => Object.assign(s.style, { left: R + 'px', top: R - 6 + 'px', width: R * 1.05 + 'px', transform: `rotate(${s.dataset.a}deg)` }));
+
+    // balade le long du Q
+    sw = s0 * (mobile ? 2.1 : 2.4);
+    anchorW = mobile ? [W / 2, H * .27] : [W * .3, H / 2];
+    // balade : le Q visite les 4 coins (la carte passe du côté opposé), puis revient au 5e projet
+    ANCH = mobile ? Array(5).fill(anchorW)
+      : [[W * .24, H * .3], [W * .72, H * .3], [W * .72, H * .7], [W * .24, H * .7], anchorW];
+    cards.forEach((c, i) => c.classList.toggle('left', !mobile && (i === 1 || i === 2)));
+
+    // fin : on dimensionne l'emplacement du Q pour qu'il ait la taille d'une capitale du mot « Quentin Levis »
+    wm.style.fontSize = '';
+    let F = parseFloat(getComputedStyle(wm).fontSize);
+    const navPx = mobile ? 52 : Math.min(150, Math.max(64, W * .09)), gutPx = Math.min(96, Math.max(20, W * .06));
+    for (let i = 0; i < 40; i++) {
+      s3 = .8 * F / (2 * RB);
+      qslot.style.width = (QW * s3 + .04 * F).toFixed(1) + 'px';
+      qslot.style.height = (2 * RB * s3).toFixed(1) + 'px';
+      if (wm.offsetWidth <= W - gutPx - navPx - 20 || F < 30) break;
+      F -= 3; wm.style.fontSize = F + 'px';
+    }
+    const qr = qslot.getBoundingClientRect();
+    O3 = [qr.left + RB * s3, qr.bottom - RB * s3];
+
+    // longueur de scroll
+    const vh = H / 100; let acc = 0;
+    ACTS.forEach(([n, l]) => { A[n] = { s: acc * vh, len: l * vh, e: (acc + l) * vh }; acc += l; });
+    total = acc * vh; maxScroll = total;
+    track.style.height = total + H + 'px';
+
+    const Z = 1.2, HD = 1.4, TR = 1.2, U = Z + 5 * HD + 4 * TR;
+    NAV = {
+      intro: 0,
+      profil: A.p1.s + A.p1.len * .88,
+      experiences: A.p2.s + A.p2.len * .5,
+      competences: A.p3.s + A.p3.len * .5,
+      projets: A.walk.s + A.walk.len * (Z + .6) / U,
+      contact: total,
+    };
+    const ids = { intro: 'intro-a', profil: 'profil', experiences: 'experiences', competences: 'competences', projets: 'projets', contact: 'contact' };
+    Object.entries(NAV).forEach(([k, v]) => { document.getElementById(ids[k]).style.top = v + 'px'; });
+
+    // noms de projets trop longs (ex. « Maïeutique ») : on réduit jusqu'à ce que ça tienne
+    cards.forEach(c => {
+      const h = c.querySelector('h3'); h.style.fontSize = '';
+      let fs = parseFloat(getComputedStyle(h).fontSize);
+      while (h.scrollWidth > h.clientWidth + 1 && fs > 20) { fs -= 2; h.style.fontSize = fs + 'px'; }
+    });
+    last = -1;
+  }
+
+  const seg = (y, a) => clamp((y - A[a].s) / A[a].len);
+  const at = L => { const p = qpath.getPointAtLength(clamp(L, 0, Lt)); return [p.x, p.y]; };
+  const navLinks = $$('#nav a');
+  const introEl = $('#intro'), introTitle = $('#introTitle'), outroEl = $('#outro');
+  const BLACK = [11, 11, 11], YEL = [255, 230, 0], WHITE = [255, 255, 255];
+
+  function walkState(u) {
+    const Z = 1.2, HD = 1.4, TR = 1.2, N = 5, U = Z + N * HD + (N - 1) * TR;
+    let x = u * U, L = Ls[0], b = 1, cur = 0, ka = 0, kb = 0, ta = 0;
+    const st = new Array(N).fill(-1);
+    if (x < Z) { const t = x / Z; b = eio(t); st[0] = -(1 - ss(clamp((t - .5) / .5))); }
+    else {
+      x -= Z;
+      for (let k = 0; k < N; k++) {
+        if (x < HD || k === N - 1) { L = Ls[k]; cur = k; ka = kb = k; st[k] = 0; break; }
+        x -= HD;
+        if (x < TR) {
+          const t = x / TR; L = lerp(Ls[k], Ls[k + 1], eio(t)); cur = k; ka = k; kb = k + 1; ta = eio(t);
+          st[k] = ss(clamp(t / .45)); st[k + 1] = -(1 - ss(clamp((t - .55) / .45))); break;
+        }
+        x -= TR;
+      }
+      for (let i = 0; i < cur; i++) st[i] = 1;
+    }
+    return { L, b, st, anchor: lerpP(ANCH[ka], ANCH[kb], ta) };
+  }
+
+  let last = -1;
+  function render(y) {
+    y = clamp(y, 0, maxScroll);
+    let P, s, a = 0, pieRot = 0, Lp = 0, st = [-1, -1, -1, -1, -1], showPie = false, showSvg = true, kStroke = 1;
+    const introCore = [I[0] - s0 * BBC[0], I[1] - s0 * BBC[1]];
+    const camFrom = (anchor, focus, sc) => [anchor[0] - sc * focus[0], anchor[1] - sc * focus[1]];
+
+    if (y < A.dive.s) { P = introCore; s = s0; }
+    else if (y < A.dive.e) {
+      const t = seg(y, 'dive');
+      s = expl(s0, sEnd, Math.pow(t, 1.5));
+      P = lerpP(introCore, C, eout(clamp(t * 1.2)));
+      a = 480 * Math.pow(t, 1.15);
+    }
+    else if (y < A.dezoom.s) { P = C; s = sEnd; a = 480; showPie = true; showSvg = false; }
+    else if (y < A.dezoom.e) {
+      // l'écran est noir (cœur du Q plein écran) : on dézoome sans camembert
+      const e = ss(seg(y, 'dezoom'));
+      s = expl(sEnd, s0, e); P = lerpP(C, introCore, e); a = 480 + 240 * e;
+    }
+    else if (y < A.walk.e) {
+      const w = walkState(seg(y, 'walk'));
+      const q = at(w.L);
+      s = expl(s0, sw, w.b);
+      P = camFrom(lerpP(I, w.anchor, w.b), lerpP(BBC, q, w.b), s);
+      Lp = w.L; st = w.st;
+    }
+    else {
+      // le Q dézoome et se range comme première lettre de « Quentin Levis »
+      const t = seg(y, 'outro'), e = eio(clamp(t / .75));
+      const q = at(Ls[4]);
+      s = expl(sw, s3, e);
+      P = camFrom(lerpP(ANCH[4], O3, e), lerpP(q, [0, 0], e), s);
+      Lp = lerp(Ls[4], Lt, e); st = [1, 1, 1, 1, ss(clamp(t / .3))];
+      kStroke = lerp(1, KOUT, e);
+    }
+
+    // rotation du camembert (Trivial Pursuit)
+    if (y < A.rot1.s) pieRot = 0;
+    else if (y < A.rot1.e) pieRot = -120 * eio(seg(y, 'rot1'));
+    else if (y < A.rot2.s) pieRot = -120;
+    else if (y < A.rot2.e) pieRot = -120 - 120 * eio(seg(y, 'rot2'));
+    else pieRot = -240;
+
+    // caméra du Q
+    svg.style.visibility = showSvg ? 'visible' : 'hidden';
+    cam.setAttribute('transform', `translate(${P[0].toFixed(2)} ${P[1].toFixed(2)}) rotate(${a.toFixed(3)}) scale(${s.toFixed(5)})`);
+
+    // camembert collé au cœur du Q
+    piecam.style.visibility = showPie ? 'visible' : 'hidden';
+    if (showPie) pie.style.transform = `rotate(${pieRot}deg)`;
+
+    // fermeture au noir après la part verte (iris qui se referme depuis le centre)
+    const tc = seg(y, 'close');
+    const irisOn = y >= A.close.s && y < A.dezoom.s;
+    iris.style.visibility = irisOn ? 'visible' : 'hidden';
+    if (irisOn) iris.style.clipPath = `circle(${(eio(clamp((tc - .25) / .75)) * Math.hypot(W, H) * .52).toFixed(1)}px at 50% 50%)`;
+    const exitK = eio(clamp(tc / .6));
+
+    // contenu des parts : arrivée haut / bas + parallaxe
+    const acts = ['p1', 'p2', 'p3'], nextL = ['rot1', 'rot2', 'close'], prevL = [null, 'rot1', 'rot2'];
+    skyOn = false;
+    if (y > A.dive.s && y < A.close.e) wedges.forEach((w, k) => {
+      const act = A[acts[k]];
+      const es = k === 0 ? act.s : act.s - .35 * A[prevL[k]].len;
+      const el = k === 0 ? .4 * act.len : .35 * A[prevL[k]].len + .3 * act.len;
+      const e = eout(clamp((y - es) / el));
+      const h = clamp((y - es) / (act.e - es + A[nextL[k]].len));
+      const off = (1 - e) * H;
+      if (k > 0) {
+        // révélation en cascade (élévation + bascule 3D), compteurs qui défilent
+        const fade = k === 2 ? 1 - exitK : 1;
+        w.rv.forEach(n => {
+          const i = +n.dataset.r, r = eout(clamp((e * 1.8 - i * .11) / .7)); n._r = r;
+          n.style.opacity = (r * fade).toFixed(3);
+          n.style.transform = `translate3d(0,${((1 - r) * 60 + (.5 - h) * (k === 1 ? 10 + i * 4 : 16)).toFixed(1)}px,0) rotateX(${((1 - r) * -28).toFixed(1)}deg)`;
+        });
+        w.counts.forEach(c => { const r = c.closest('[data-r]')._r ?? 1; c.textContent = Math.round(+c.dataset.count * r); });
+        if (k === 2 && SK === 'theatre') { window.CVTheatre.render(e, clamp((y - es) / (act.e - es)), exitK); return; }
+        if (k === 2) {
+          renderSky(e, h, exitK);
+          // le tampon s'imprime : il tombe de haut, tourne et claque
+          const st = $('#stamp'), r = st._r;
+          st.style.transform = `scale(${(1 + Math.pow(1 - r, 2) * 2.2).toFixed(3)}) rotate(${(-12 + (1 - r) * 40).toFixed(1)}deg)`;
+        }
+        return;
+      }
+      w.top.style.transform = `translate3d(0,${(-off + (.5 - h) * 50).toFixed(1)}px,0)`;
+      w.bot.style.transform = `translate3d(0,${(off + (.5 - h) * 120).toFixed(1)}px,0)`;
+      w.tk.forEach(n => { const dd = +n.dataset.d; n.style.transform = `translate3d(0,${(-(1 - e) * dd * H * .25 + (.5 - h) * dd * 20).toFixed(1)}px,0)`; });
+      w.bk.forEach(n => { const dd = +n.dataset.d; n.style.transform = `translate3d(0,${((1 - e) * dd * H * .25 + (.5 - h) * dd * 30).toFixed(1)}px,0)`; });
+      {
+        const ct = ss(clamp((y - (act.s + .4 * act.len)) / (.45 * act.len)));
+        w.el.style.setProperty('--bg', mix(BLACK, YEL, ct));
+        w.el.style.setProperty('--fg', mix(WHITE, BLACK, ss(clamp((ct - .3) / .35))));
+        // traits gras : chacun glisse à sa vitesse le long de sa diagonale et ondule avec le scroll
+        bars.forEach((b, i) => {
+          const sp = +b.dataset.sp, dx = (.5 - h) * sp * W * .45, dy = Math.sin(h * Math.PI * 2 + i * 1.3) * 26 * Math.abs(sp);
+          const k2 = b.classList.contains('ink') ? .25 : 1; // les traits noirs bougent dans leur colonne
+          b.style.transform = `translate3d(${(dx * k2).toFixed(1)}px,${(dy + off * sp * .15).toFixed(1)}px,0) rotate(-14deg)`;
+        });
+        photo.style.transform = `translate3d(0,${(off * .9 + (.5 - h) * 50).toFixed(1)}px,0) rotate(${(3 + (.5 - h) * 7).toFixed(2)}deg)`;
+      }
+    });
+
+    // intro
+    const ti = seg(y, 'dive');
+    introEl.style.opacity = 1 - ss(clamp(ti / .22));
+    introEl.style.visibility = ti > .22 ? 'hidden' : 'visible';
+    introTitle.style.transform = `translate3d(${-ti * W * .35}px, ${mobile ? 0 : '-50%'}, 0)`;
+
+    // progression le long du Q
+    const inWalk = y >= A.walk.s;
+    qprog.style.opacity = inWalk ? 1 : 0;
+    qprog.style.strokeDashoffset = Lt - Lp;
+    qtailProg.style.opacity = inWalk && Lp >= Lt - TAIL_OUT ? 1 : 0;
+
+    // cœur noir du Q : invisible au début et à la fin, il n'existe que pour plonger dans le noir
+    const coreR = y < A.dive.s ? 0
+      : y < A.dive.e ? R0 * ss(clamp(seg(y, 'dive') / .35))
+      : y < A.dezoom.s ? R0
+      : y < A.dezoom.e ? R0 * (1 - ss(clamp((seg(y, 'dezoom') - .55) / .45))) : 0;
+    qcore.setAttribute('r', coreR.toFixed(2));
+    qpath.style.strokeWidth = qtailIn.style.strokeWidth = 26 * kStroke;
+    qprog.style.strokeWidth = qtailProg.style.strokeWidth = 11 * kStroke;
+    const outT = seg(y, 'outro');
+    traveler.style.display = inWalk && outT < .45 ? '' : 'none';
+    if (inWalk) { const tp = at(Lp); traveler.setAttribute('cx', tp[0]); traveler.setAttribute('cy', tp[1]); traveler.setAttribute('r', 10 * s0 / s * 1.6); }
+    stopsG.style.opacity = y >= A.outro.s ? 1 - ss(clamp(outT / .45))
+      : y >= A.dezoom.e ? 1 : y >= A.dezoom.s ? ss(clamp((seg(y, 'dezoom') - .75) / .25)) : 0;
+    stopEls.forEach((c, i) => c.classList.toggle('on', inWalk && Lp >= Ls[i] - 1));
+
+    // cartes projets
+    cards.forEach((c, i) => {
+      const v = st[i], o = 1 - Math.abs(v);
+      c.style.visibility = o > .01 ? 'visible' : 'hidden';
+      c.style.opacity = o;
+      c.style.transform = `translate3d(${mobile ? 0 : v * -30}px,${(-v * 110).toFixed(1)}px,0)${mobile ? '' : ' translateY(-50%)'}`;
+    });
+
+    // outro : les lettres sortent du Q une à une, puis le contact
+    outroEl.style.visibility = outT > .3 ? 'visible' : 'hidden';
+    wls.forEach((l, i) => {
+      const o = ss(clamp((outT - .5 - i * .022) / .22));
+      l.style.opacity = o.toFixed(3);
+      l.style.transform = `translate3d(${(-(1 - o) * 60).toFixed(1)}px,${((1 - o) * 18).toFixed(1)}px,0) rotate(${((1 - o) * -12).toFixed(1)}deg)`;
+    });
+    const oo = ss(clamp((outT - .74) / .24));
+    contact2.style.opacity = oo; contact2.style.transform = `translate3d(0,${((1 - oo) * 30).toFixed(1)}px,0)`;
+
+    // nav + mini Q
+    miniFg.style.strokeDashoffset = Lt * (1 - y / maxScroll);
+    const cur = y >= A.outro.s + A.outro.len * .3 ? 'contact'
+      : y >= A.dezoom.s + A.dezoom.len * .5 ? 'projets'
+      : y >= A.rot2.s + A.rot2.len * .5 ? 'competences'
+      : y >= A.rot1.s + A.rot1.len * .5 ? 'experiences'
+      : y >= A.dive.s + A.dive.len * .6 ? 'profil' : 'intro';
+    navLinks.forEach(a => { const on = a.dataset.t === cur; a.classList.toggle('on', on); on ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'); });
+  }
+
+  /* ================= scroll ================= */
+  let lenis = null;
+  const scrollY = () => lenis ? lenis.scroll : window.scrollY;
+  function goTo(target) {
+    const dist = Math.abs(target - scrollY());
+    if (lenis) lenis.scrollTo(target, { duration: clamp(dist / (H * 7), 1.1, 5), easing: eio });
+    else window.scrollTo({ top: target, behavior: RM ? 'auto' : 'smooth' });
+  }
+  navLinks.forEach(a => a.addEventListener('click', e => {
+    e.preventDefault(); goTo(NAV[a.dataset.t]);
+    history.replaceState(null, '', a.getAttribute('href'));
+  }));
+  $('#mini').addEventListener('click', () => goTo(0));
+
+  let prevY = 0;
+  function loop(t) {
+    if (lenis) lenis.raf(t);
+    const y = scrollY();
+    vel = lerp(vel, y - prevY, .2); prevY = y;
+    if (Math.abs(y - last) > .05) { render(y); last = y; }
+    else if (skyOn && !window.SKILLS3D && Math.abs(vel) > .05) drawTrails(); // les traînées retombent après l'arrêt
+    if (skyOn && window.SKILLS3D) window.SKILLS3D.frame(t);
+    requestAnimationFrame(loop);
+  }
+
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { layout(); render(scrollY()); }, 120); });
+
+  function start() {
+    layout();
+    if (!RM && window.Lenis) { lenis = new Lenis({ lerp: .085, smoothWheel: true, wheelMultiplier: .9 }); if (!loaded) lenis.stop(); }
+    const h = location.hash.replace('#', '');
+    const key = { 'intro-a': 'intro', profil: 'profil', experiences: 'experiences', competences: 'competences', projets: 'projets', contact: 'contact' }[h];
+    if (key) window.scrollTo(0, NAV[key]);
+    render(window.scrollY);
+    requestAnimationFrame(loop);
+    // le mot « Quentin Levis » se mesure avec la vraie police : on recalcule une fois chargée
+    document.fonts?.ready.then(() => { layout(); render(scrollY()); });
+  }
+  if (document.readyState === 'complete') start(); else addEventListener('load', start);
+})();
+</script>
+<script type="module">
+  // Scène 3D de la section compétences (version choisie par le script principal)
+  const v = document.documentElement.dataset.sk3d;
+  if (v) {
+    try {
+      const { create } = await import('/cv/skills3d.js');
+      window.SKILLS3D = await create(v, document.getElementById('sky'), window.CV_SKILLS);
+    } catch (err) {
+      console.error('3D indisponible, retour aux constellations 2D', err);
+      delete document.documentElement.dataset.sk3d;
+    }
+  }
+  window.__sk3dDone?.();
+</script>
+</body>
+</html>
