@@ -785,7 +785,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   if (!['2d', 'theatre', 'mode7'].includes(SK)) document.documentElement.dataset.sk3d = SK;
   if (SK === 'theatre') $('#h-skills').textContent = 'En scène';
   const P3 = { mode7: 600, theatre: 1000, galaxie: 620, planetarium: 380, solaire: 380, '2d': 170 }[SK]; // plus de scroll = animation plus lente
-  const ACTS = [['intro', 35], ['dive', 120], ['p1', 230], ['rot1', 100], ['p2', 170], ['rot2', 100], ['p3', P3], ['close', SK === 'mode7' ? 20 : 80], ['dezoom', 130], ['walk', 620], ['outro', 110]];
+  const ACTS = [['intro', 35], ['dive', 120], ['p1', 230], ['rot1', 100], ['p2', 170], ['rot2', 100], ['p3', P3], ['close', SK === 'mode7' ? 20 : 80], ['dezoom', 130], ['walk', 400], ['outro', 110]];
   const A = {};
   let W, H, mobile, C, I, s0, sEnd, d, R, pieC, sw, anchorW, ANCH, s3, O3, total, maxScroll, NAV = {};
   const KOUT = 1.6, RB = REND + 13 * KOUT;            // trait épaissi quand le Q devient une lettre
@@ -1006,7 +1006,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
     total = acc * vh; maxScroll = total;
     track.style.height = total + H + 'px';
 
-    const Z = 1.2, HD = 1.4, TR = 1.2, U = Z + 5 * HD + 4 * TR;
+    const Z = .8, HD = .9, TR = 1.2, U = Z + 5 * HD + 4 * TR;
     NAV = {
       intro: 0,
       profil: A.p1.s + A.p1.len * .88,
@@ -1034,7 +1034,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   const BLACK = [11, 11, 11], YEL = [255, 230, 0], WHITE = [255, 255, 255];
 
   function walkState(u) {
-    const Z = 1.2, HD = 1.4, TR = 1.2, N = 5, U = Z + N * HD + (N - 1) * TR;
+    const Z = .8, HD = .9, TR = 1.2, N = 5, U = Z + N * HD + (N - 1) * TR;
     let x = u * U, L = Ls[0], b = 1, cur = 0, ka = 0, kb = 0, ta = 0;
     const st = new Array(N).fill(-1);
     if (x < Z) { const t = x / Z; b = 1; st[0] = -(1 - ss(clamp(t / .6))); }
@@ -1224,7 +1224,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   let STOPS = [], tw = null;
   function computeStops() {
     const es = A.p3.s - .35 * A.rot2.len, yh = t => es + t * (A.p3.e - es);
-    const Z = 1.2, HD = 1.4, TR = 1.2, U = Z + 5 * HD + 4 * TR;
+    const Z = .8, HD = .9, TR = 1.2, U = Z + 5 * HD + 4 * TR;
     STOPS = [0, A.p1.s + A.p1.len * .88, A.p2.s + A.p2.len * .55];
     if (SK === 'theatre') [.056, .215, .305, .418, .518, .618, .718, .818, .975].forEach(t => STOPS.push(yh(t)));
     else if (SK === 'mode7') {
