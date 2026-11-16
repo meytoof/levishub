@@ -1237,12 +1237,13 @@ html[data-sk="theatre"] .stamp svg{filter:none}
     STOPS.sort((a, b) => a - b);
   }
   function tweenTo(target) {
-    const from = window.scrollY, dist = Math.abs(target - from), dur = clamp(dist / H * .3, .9, 5) * 1000, t0 = performance.now();
+    const from = window.scrollY, dist = Math.abs(target - from), dur = clamp(dist / H * .62, 1.6, 8) * 1000, t0 = performance.now();
+    const soft = k => -(Math.cos(Math.PI * k) - 1) / 2; // courbe sinusoïdale : départ et arrivée tout en douceur
     const me = tw = { target };
     const stepF = now => {
       if (tw !== me) return;
       const k = clamp((now - t0) / dur);
-      window.scrollTo(0, from + (target - from) * eio(k));
+      window.scrollTo(0, from + (target - from) * soft(k));
       if (k < 1) requestAnimationFrame(stepF); else { tw = null; updateStepUI(); }
     };
     requestAnimationFrame(stepF); updateStepUI(target);
