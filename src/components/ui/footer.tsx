@@ -6,10 +6,12 @@ import gsap from "gsap";
 import { LineReveal } from "@/components/ui/line-reveal";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 
-function HoverLink({ href, children, external = false }: {
+function HoverLink({ href, children, external = false, staticPage = false }: {
   href: string;
   children: React.ReactNode;
   external?: boolean;
+  /** page statique hors de l'app Next (ex. /cv) : lien classique, rechargement complet, même onglet */
+  staticPage?: boolean;
 }) {
   const underlineRef = useRef<HTMLSpanElement>(null);
 
@@ -35,6 +37,18 @@ function HoverLink({ href, children, external = false }: {
       />
     </span>
   );
+
+  if (staticPage) {
+    return (
+      <a
+        href={href}
+        data-cursor="link"
+        className="block text-neutral-400 hover:text-white transition-colors duration-200"
+      >
+        {inner}
+      </a>
+    );
+  }
 
   if (external) {
     return (
@@ -194,6 +208,9 @@ export function Footer() {
               </HoverLink>
               <HoverLink href="/contact">
                 Nous contacter
+              </HoverLink>
+              <HoverLink href="/cv" staticPage>
+                Le CV interactif de Quentin ↗
               </HoverLink>
             </div>
           </div>
