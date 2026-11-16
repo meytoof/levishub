@@ -210,7 +210,7 @@ export function Footer() {
                 Nous contacter
               </HoverLink>
               <HoverLink href="/cv" staticPage>
-                Le CV interactif de Quentin ↗
+                CV Interactif
               </HoverLink>
             </div>
           </div>
