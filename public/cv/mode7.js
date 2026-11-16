@@ -104,11 +104,13 @@
         const bottom = base0 + (lines.length - 1) * lh + size * .3;
         const box = mobile ? { x: W / 2, y: bottom + H * .19, w: W * .82, h: H * .22 }
           : { x: W * .62, y: bottom + H * .22, w: Math.min(620, W * .46), h: H * .3 };
+        if (!pts.length) pts.push([W / 2, H / 2]); // police pas encore chargée : un point de repli, recalculé ensuite
         return { o, c, idx, pts, holes, gap, size, box };
       }
 
       function layout() {
         W = host.clientWidth || innerWidth; H = host.clientHeight || innerHeight; mobile = W < 760;
+        if (W < 2 || H < 2) { P = null; return; } // fenêtre pas encore dimensionnée (onglet en arrière-plan) : on réessaiera au redimensionnement
         DPR = Math.min(devicePixelRatio || 1, 2);
         cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); cv.style.width = W + 'px'; cv.style.height = H + 'px';
         words = ORDER.map(layoutWord);
@@ -194,6 +196,7 @@
 
       function draw(t) {
         const { e, h, x } = state;
+        if (!P) { if (innerWidth > 1) layout(); if (!P) return; }
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
         ctx.clearRect(0, 0, W, H);
         cv.style.opacity = h < T.spin ? clamp(e * 1.5).toFixed(3) : 1; // fondu d'entrée sur le canevas entier (pas de traits semi-transparents qui se chevauchent)

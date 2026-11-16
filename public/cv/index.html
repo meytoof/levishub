@@ -500,12 +500,12 @@ html[data-sk="theatre"] .stamp svg{filter:none}
               <div data-r="3"><b><em data-count="3">0</em></b><span>devs coordonnés en Agile</span></div>
               <div data-r="4"><b><em data-count="70">0</em><small>&nbsp;%</small></b><span>de front, à la demande de l'équipe</span></div>
             </div>
-            <p class="story" data-r="4">J'ai repensé le back-end de <b>Tolteam</b> pour en faire une boutique internationale, conçu la <b>carte de géolocalisation de Dompro</b> qui oriente chaque visiteur vers l'un des 210 adhérents, et mis en place la CI/CD testée de l'équipe. Remarqué pour mon sens de l'interface, j'ai vu mon poste évoluer vers <b>70&nbsp;% de front</b>.</p>
+            <p class="story" data-r="4">J'ai reconstruit le back-end de <b>Tolteam</b> pour en faire une boutique internationale, conçu la <b>carte de géolocalisation de Dompro</b> qui oriente chaque visiteur vers l'un des 210 adhérents, et mis en place la CI/CD testée de l'équipe. Remarqué pour mon sens de l'interface, j'ai vu mon poste évoluer vers <b>70&nbsp;% de front</b>.</p>
             <div class="cases">
               <article class="case" data-r="5">
                 <p class="ctag">Cas 01 · Tolteam</p>
                 <h3>Du vitrine à l'e-commerce</h3>
-                <p>Back-end entièrement repensé pour transformer le site vitrine en boutique, traductions FR/EN avec le composant Translation de Symfony.</p>
+                <p>Back-end entièrement reconstruit pour transformer le site vitrine en boutique, traductions FR/EN avec le composant Translation de Symfony.</p>
                 <ul><li>Symfony</li><li>Translation</li><li>E-commerce</li></ul>
               </article>
               <article class="case" data-r="6">
@@ -521,12 +521,12 @@ html[data-sk="theatre"] .stamp svg{filter:none}
               </article>
               <article class="case" data-r="7">
                 <p class="ctag">Cas 03 · Qualité</p>
-                <h3>Livrer sans casser</h3>
+                <h3>Qualité &amp; intégration continue</h3>
                 <p>Pipeline CI/CD GitLab mise en place de A à Z : tests unitaires et fonctionnels PHPUnit, Docker. Chaque livraison est vérifiée avant la production.</p>
                 <ul><li>Git</li><li>GitLab CI</li><li>PHPUnit</li><li>Docker</li></ul>
               </article>
             </div>
-            <p class="now" data-r="8"><span>Travail d'équipe réalisé dans le cadre de mon salariat chez Pégase-Market.</span><span><b>Aujourd'hui →</b> freelance LevisWeb depuis 2023 · LevisHub (Next.js 15, Prisma, Stripe)<em class="opt"> · Avant : stage Optimistik, 2020</em></span></p>
+            <p class="now" data-r="8"><span>Projet réalisé en équipe, en tant que salarié de Pégase-Market.</span><span><b>Aujourd'hui →</b> freelance LevisWeb depuis 2023 · LevisHub (Next.js 15, Prisma, Stripe)<em class="opt"> · Avant : stage Optimistik, 2020</em></span></p>
           </div>
         </div>
       </section>
@@ -601,6 +601,8 @@ html[data-sk="theatre"] .stamp svg{filter:none}
       <div>
         <div class="links">
           <a href="mailto:quentinlevis@gmail.com">quentinlevis@gmail.com</a>
+          <a href="https://www.linkedin.com/in/quentin-levis-4b17131a0/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://levisweb.net" target="_blank" rel="noopener">levisweb.net ↗</a>
           <a href="https://gitlab.com/quentinle" target="_blank" rel="noopener">gitlab.com/quentinle ↗</a>
         </div>
         <p class="where">Lyon · mobile Ardennes, Grand Est · ouvert au full remote</p>
@@ -654,7 +656,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ================= projets ================= */
-  const TEAM = "Travail d'équipe réalisé dans le cadre de mon salariat chez Pégase-Market.";
+  const TEAM = "Projet réalisé en équipe, en tant que salarié de Pégase-Market.";
   const PROJECTS = [
     { name: 'Dompro', url: 'https://www.dompro.fr/', host: 'dompro.fr', c: '#D71A21', kind: 'Plateforme B2B',
       txt: 'Catalogue, gestion clients et commandes pour un réseau de plus de 210 points de vente partenaires.',
@@ -928,7 +930,10 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   }
   // versions 3D à comparer (?v=solaire | planetarium | galaxie) : le module s'enregistre dans window.SKILLS3D
   window.CV_SKILLS = { CONSTS, USE, showStory };
-  if (SK === 'mode7' && window.CVMode7) { window.SKILLS3D = window.CVMode7.create($('#sky'), window.CV_SKILLS); $('#h-skills').textContent = 'Compétences'; }
+  if (SK === 'mode7' && window.CVMode7) {
+    try { window.SKILLS3D = window.CVMode7.create($('#sky'), window.CV_SKILLS); } catch (err) { console.error('Mode 7 indisponible', err); }
+    $('#h-skills').textContent = 'Compétences';
+  }
   function renderSky(e, h, x) {
     skyH = h; skyOn = e > .001;
     if (window.SKILLS3D) {
@@ -1056,6 +1061,7 @@ html[data-sk="theatre"] .stamp svg{filter:none}
 
   let last = -1;
   function render(y) {
+    if (!(W > 1 && H > 1)) return; // fenêtre pas encore dimensionnée : on attend le redimensionnement
     y = clamp(y, 0, maxScroll);
     let P, s, a = 0, pieRot = 0, Lp = 0, st = [-1, -1, -1, -1, -1], showPie = false, showSvg = true, kStroke = 1;
     const introCore = [I[0] - s0 * BBC[0], I[1] - s0 * BBC[1]];
@@ -1283,8 +1289,10 @@ html[data-sk="theatre"] .stamp svg{filter:none}
   }));
   $('#mini').addEventListener('click', () => goTo(0));
 
-  let prevY = 0;
+  try { history.scrollRestoration = 'manual'; } catch (_) { /* navigateur ancien */ }
+  let prevY = 0, saveTick = 0;
   function loop(t) {
+    if (++saveTick % 30 === 0 && loaded) { try { sessionStorage.setItem('cv-pos', (window.scrollY / maxScroll).toFixed(5)); } catch (_) { /* stockage indisponible */ } }
     if (lenis) lenis.raf(t);
     const y = scrollY();
     vel = lerp(vel, y - prevY, .2); prevY = y;
@@ -1304,6 +1312,10 @@ html[data-sk="theatre"] .stamp svg{filter:none}
     const h = location.hash.replace('#', '');
     const key = { 'intro-a': 'intro', profil: 'profil', experiences: 'experiences', competences: 'competences', projets: 'projets', contact: 'contact' }[h];
     if (key) window.scrollTo(0, NAV[key]);
+    else {
+      // retour sur la page (onglet rouvert, bouton précédent…) : on reprend là où on s'était arrêté
+      try { const saved = parseFloat(sessionStorage.getItem('cv-pos')); if (saved > 0) window.scrollTo(0, saved * maxScroll); } catch (_) { /* stockage indisponible */ }
+    }
     render(window.scrollY);
     requestAnimationFrame(loop);
     // le mot « Quentin Levis » se mesure avec la vraie police : on recalcule une fois chargée
